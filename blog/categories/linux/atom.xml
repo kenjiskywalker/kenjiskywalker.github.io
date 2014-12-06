@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:52:04+09:00</updated>
+  <updated>2014-12-07T05:57:57+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -84,7 +84,7 @@ exec /etc/rc.d/rc $RUNLEVEL
 
 <h1>Original Author:</h1>
 
-<h1>Miquel van Smoorenburg, <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#109;&#x69;&#x71;&#117;&#x65;&#x6c;&#x73;&#64;&#100;&#114;&#x69;&#x6e;&#107;&#101;&#x6c;&#x2e;&#x6e;&#108;&#x2e;&#109;&#117;&#103;&#x6e;&#x65;&#x74;&#46;&#x6f;&#114;&#103;">&#109;&#105;&#x71;&#117;&#x65;&#x6c;&#x73;&#64;&#x64;&#x72;&#x69;&#x6e;&#107;&#101;&#108;&#46;&#x6e;&#x6c;&#46;&#109;&#x75;&#103;&#110;&#x65;&#x74;&#46;&#111;&#x72;&#x67;</a></h1>
+<h1>Miquel van Smoorenburg, <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#109;&#x69;&#x71;&#x75;&#101;&#x6c;&#x73;&#x40;&#100;&#x72;&#105;&#110;&#107;&#x65;&#x6c;&#x2e;&#x6e;&#x6c;&#x2e;&#109;&#x75;&#103;&#x6e;&#101;&#116;&#x2e;&#x6f;&#114;&#x67;">&#x6d;&#x69;&#x71;&#x75;&#x65;&#108;&#x73;&#64;&#100;&#x72;&#105;&#x6e;&#x6b;&#101;&#x6c;&#46;&#x6e;&#x6c;&#x2e;&#x6d;&#117;&#103;&#110;&#x65;&#x74;&#x2e;&#x6f;&#x72;&#103;</a></h1>
 
 <p>#</p>
 

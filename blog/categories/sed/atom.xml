@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sed | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/sed/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:52:04+09:00</updated>
+  <updated>2014-12-07T05:57:57+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -65,7 +65,7 @@ to the extent permitted by law.</p>
 
 <p>GNU sed home page: <a href="http://www.gnu.org/software/sed/">http://www.gnu.org/software/sed/</a>.
 General help using GNU software: <a href="http://www.gnu.org/gethelp/">http://www.gnu.org/gethelp/</a>.
-E-mail bug reports to: <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#98;&#117;&#x67;&#x2d;&#x67;&#110;&#x75;&#x2d;&#117;&#x74;&#105;&#108;&#115;&#64;&#103;&#x6e;&#117;&#46;&#x6f;&#114;&#103;">&#x62;&#x75;&#x67;&#45;&#x67;&#x6e;&#x75;&#45;&#117;&#116;&#x69;&#x6c;&#x73;&#64;&#103;&#x6e;&#x75;&#46;&#x6f;&#114;&#103;</a>.
+E-mail bug reports to: <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#98;&#117;&#x67;&#45;&#x67;&#x6e;&#x75;&#x2d;&#x75;&#x74;&#x69;&#x6c;&#115;&#x40;&#103;&#110;&#x75;&#46;&#x6f;&#114;&#x67;">&#98;&#x75;&#103;&#x2d;&#103;&#110;&#117;&#45;&#x75;&#x74;&#105;&#x6c;&#x73;&#x40;&#x67;&#110;&#117;&#46;&#111;&#x72;&#x67;</a>.
 Be sure to include the word <code>sed'' somewhere in the</code>Subject:'' field.
 ['-']#
 ```</p>
