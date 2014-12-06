@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sql | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/sql/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[tweets.zipを読みこませるSQLを書いた時のメモ]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/08/sql-create-howto/"/>
+    <updated>2013-04-08T01:19:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/08/sql-create-howto</id>
+    <content type="html"><![CDATA[<p><a href="http://atnd.org/events/38091">MySQL Casual Talks vol.4</a>で話してみて<br/>
+ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて<br/>
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。</p>
+
+<p>再来週のオレが今のオレよりもう少し有意義な情報を持ち合わせているようにしたい。</p>
+
+<p>この前<a href="http://blog.kenjiskywalker.org/blog/2013/04/04/tweets_zip_big_data/">tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編)</a>というのを書いて<br/>
+ホッテントリー入ったねとか、何回もブクマ数数えたでしょ？とか<br/>
+コンテンツ力高いとか、正直中身ないでしょアレとか。色々言われたんだけど<br/>
+SQLをはじめて作成するにあたって勉強になったので、その時のメモ</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/data-type-defaults.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.1 データタイプ概要 :: 10.1.4 データタイプデフォルト値</a></h4>
+
+<p>TEXTタイプでは<code>NOT NULL</code>が使えない</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/numeric-types.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.2. 数値タイプ</a></h4>
+
+<p>必要な数値タイプのバイト数の参考</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/storage-requirements.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.5 データタイプが必要とする記憶容量</a></h4>
+
+<p>VARCHAR(255)が1バイトで、VARCHAR(256)で2バイト
+utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とかはutf8mb4</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/char.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.4 文字列タイプ :: 10.4.1 CHAR と VARCHAR タイプ</a></h4>
+
+<p>参考程度</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1-olh/ja/datetime.html">MySQL 5.1 リファレンスマニュアル (オンラインヘルプ) :: 6 データ型 :: 6.3 日付と時刻型 :: 6.3.1 DATETIME、DATE、そして TIMESTAMP 型</a></h4>
+
+<p>日付と時刻を入れる時の適切なタイプについての確認</p>
+
+<p><code>
+CREATE TABLE tweets (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tweet_id` BIGINT UNSIGNED,
+  `in_reply_to_status_id` BIGINT UNSIGNED,
+  `in_reply_to_user_id` BIGINT UNSIGNED,
+  `retweeted_status_id` BIGINT UNSIGNED,
+  `retweeted_status_user_id` BIGINT UNSIGNED,
+  `timestamp` TIMESTAMP DEFAULT 0,
+  `source` VARCHAR(255),
+  `text` VARCHAR(140),
+  `expanded_urls` VARCHAR(255),
+  PRIMARY KEY (id) )
+ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
+</code></p>
+
+<ul>
+<li><code>UNSIGED</code> = 符号なしで正の値のみを扱う</li>
+<li><code>VARCHAR(140)</code> = VARCHAR(n)は文字数。Twitterは140文字制限なので140決め打ちでイケる</li>
+<li><code>VARCHAR(255)</code> = マルチバイト文字列が入らず、255文字以内であれば1byteで済むので(255)</li>
+<li><code>TIMESTAMP</code> = <code>2013-03-13 08:52:14 +0000</code>を<code>2013-03-13 08:52:14 +0900</code>としても型自体が<code>YYY-MM-DD HH:MM:SS</code>しかサポートしていない為、その後のGMTの指定は破棄されたことを確認</li>
+</ul>
+
+
+<p>ジャンパーソンみたいにMySQLのオフィシャルのリファレンスぺら読みしただけで<br/>
+全部の内容を記憶できる能力あったら便利っぽい。</p>
+]]></content>
+  </entry>
+  
+</feed>

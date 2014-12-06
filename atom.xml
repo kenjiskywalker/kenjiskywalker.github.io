@@ -1,110 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
-
-  
-  <meta name="description" content="なんかもうちょっと読んでた気がするけどな&#8230; kenjiskywalkerの本棚 - 2014年11月 (1作品) & Premium (アンド プレミアム) 2015年 1月号読了日：11月24日 powered by booklog ">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://kenjiskywalker.github.com/kenjiskywalker/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:kenjiskywalker.github.com/kenjiskywalker" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="http://d.hatena.ne.jp/kenjiskywalker/">Old Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2014-12-07T05:21:00+09:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>なんかもうちょっと読んでた気がするけどな&#8230;</p>
+  <entry>
+    <title type="html"><![CDATA[2014/11読んだ本]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book/"/>
+    <updated>2014-12-07T05:21:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book</id>
+    <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がするけどな&#8230;</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年11月 (1作品)</div>
 
@@ -114,42 +28,15 @@
 
 <div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-07T01:49:00+09:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.adventar.org/calendars/681">俺の子連れおすすめスポット Advent Calendar 2014</a></p>
+  <entry>
+    <title type="html"><![CDATA[俺の子連れおすすめスポット - 新宿御苑]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/jyoen/"/>
+    <updated>2014-12-07T01:49:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/jyoen</id>
+    <content type="html"><![CDATA[<p><a href="http://www.adventar.org/calendars/681">俺の子連れおすすめスポット Advent Calendar 2014</a></p>
 
 <p><a href="http://www.env.go.jp/garden/shinjukugyoen/">http://www.env.go.jp/garden/shinjukugyoen/</a></p>
 
@@ -169,42 +56,15 @@
 <p>ということで新宿御苑、お散歩やピクニックにおすすめです。</p>
 
 <blockquote><p>駐車場もあるんですね。初めて知った</p></blockquote>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-02T23:30:00+09:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Rails v4.1.2<br/>
+  <entry>
+    <title type="html"><![CDATA[capistrano3を利用してRails4をdeployしunicornを使う]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/02/capistrano3-rails4-unicorn/"/>
+    <updated>2014-12-02T23:30:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/02/capistrano3-rails4-unicorn</id>
+    <content type="html"><![CDATA[<blockquote><p>Rails v4.1.2<br/>
 capistrano v3.3.3</p></blockquote>
 
 <h2>TL;DR</h2>
@@ -454,42 +314,15 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 当たり前だけど上手くいかない時は手を動かすよりドキュメントとコードを読んだ方が早い.</p>
 
 <p>以上簡単なメモです.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-17T14:08:00+09:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
+  <entry>
+    <title type="html"><![CDATA[Ansible Vaultで暗号化されたファイルをCircleCIで利用する]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/17/ansible-vault-circleci/"/>
+    <updated>2014-11-17T14:08:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/17/ansible-vault-circleci</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>CircleCIのEnvironment variablesを利用して<br/>
 ファイルにdecryptのパスワードを記入する</p>
@@ -530,42 +363,15 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 
 
 <p>他に良いプラクティスあれば教えてください。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-13T21:11:00+09:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>参考</h3>
+  <entry>
+    <title type="html"><![CDATA[CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/13/circleci-docker-ansible-serverspec/"/>
+    <updated>2014-11-13T21:11:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/13/circleci-docker-ansible-serverspec</id>
+    <content type="html"><![CDATA[<h3>参考</h3>
 
 <p><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-niokeruyun-yong-zi-dong-hua">KAIZEN platform Inc. における運用自動化 - Speaker Deck</a><br/>
 <a href="https://circleci.com/docs/docker">Continous Integration and Delivery with Docker - CircleCI</a></p>
@@ -654,42 +460,15 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 <p>以上、メモです。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/10/shellscript-old-style/">シェルスクリプトで外部コマンドを利用する場合の注意点</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-10T15:37:00+09:00" pubdate data-updated="true">Nov 10<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
+  <entry>
+    <title type="html"><![CDATA[シェルスクリプトで外部コマンドを利用する場合の注意点]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/10/shellscript-old-style/"/>
+    <updated>2014-11-10T15:37:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/10/shellscript-old-style</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>シェルスクリプトでbackquoteを見つけたら<br/>
 オールドスタイルおじさんを探し、矯正させよう</p>
@@ -731,44 +510,17 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 <blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
 
 
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/02/201410-book/">2014/10読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-02T01:59:00+09:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>太平記、いよいよ尊氏がのし上がってきた。</p>
+  <entry>
+    <title type="html"><![CDATA[2014/10読んだ本]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/02/201410-book/"/>
+    <updated>2014-11-02T01:59:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/02/201410-book</id>
+    <content type="html"><![CDATA[<p>太平記、いよいよ尊氏がのし上がってきた。</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年10月 (7作品)</div>
 
@@ -798,42 +550,15 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/26/server-infra-webdb-book/">「サーバ/インフラ徹底攻略」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-26T18:05:00+09:00" pubdate data-updated="true">Oct 26<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank" title="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL.jpg" width="354" height="500" alt="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)" /></a></p>
+  <entry>
+    <title type="html"><![CDATA[「サーバ/インフラ徹底攻略」を読んだ]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/26/server-infra-webdb-book/"/>
+    <updated>2014-10-26T18:05:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/26/server-infra-webdb-book</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank" title="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL.jpg" width="354" height="500" alt="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)" /></a></p>
 
 <p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
 
@@ -989,42 +714,15 @@ Immutable Infrastructureをどのように実践するかの具体的な内容�
 <p>職人がサーバひとつひとつ温もりを持って構築している職場を改善したい人や、<br/>
 大企業でメンテナンス作業がどう行われているのか知りたいエンジニア、<br/>
 インフラのコード化、インフラのCI、AWSなどざざっと把握してみたい人には良いと思う.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/25/osx-fig-docker-access-container/">OS Xでfigを利用してDockerのコンテナを操作する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Docker v1.3<br/>
+  <entry>
+    <title type="html"><![CDATA[OS Xでfigを利用してDockerのコンテナを操作する]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/25/osx-fig-docker-access-container/"/>
+    <updated>2014-10-25T21:38:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/25/osx-fig-docker-access-container</id>
+    <content type="html"><![CDATA[<blockquote><p>Docker v1.3<br/>
 fig 1.0.0</p></blockquote>
 
 <h2>TL;DR</h2>
@@ -1090,7 +788,7 @@ DockerはOS Xに対応していて</p>
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>とのことです.わかりやすい.</p>
@@ -1285,7 +983,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>です.</p>
@@ -1298,42 +996,15 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <li><a href="http://blog.docker.com/2014/10/fig-1-0-boot2docker-compatibility-and-more/">Fig 1.0: boot2docker compatibility and more | Docker Blog</a></li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/24/ansible-vagrant/">Ansibleを利用してRailsが動くVagrantfileを作成する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-24T05:56:00+09:00" pubdate data-updated="true">Oct 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
+  <entry>
+    <title type="html"><![CDATA[Ansibleを利用してRailsが動くVagrantfileを作成する]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/24/ansible-vagrant/"/>
+    <updated>2014-10-24T05:56:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/24/ansible-vagrant</id>
+    <content type="html"><![CDATA[<p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
 
 <h2>TL;DR</h2>
 
@@ -1502,202 +1173,621 @@ ansibleが実行されます.</p>
 <li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[#isucon 4の予選に出た]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/06/isucon4/"/>
+    <updated>2014-10-06T13:46:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/06/isucon4</id>
+    <content type="html"><![CDATA[<p>ISUCON4に参加してきました。</p>
+
+<ul>
+<li><a href="http://isucon.net/archives/40576269.html">ISUCON4 本戦出場者決定のお知らせと本選出場者の利用言語比率</a></li>
+</ul>
+
+
+<p>上記の結果本戦出場にはたどり着けませんでした。<br/>
+もし次回ISUCONがあれば、AMI提出の確認は全員で行いたいと思います。</p>
+
+<blockquote><p>競技終了前に、全員でレギュレーション音読<br/>
+競技終了後に、全員でAMI提出指差し確認実施</p></blockquote>
+
+<h3>やったこと</h3>
+
+<ul>
+<li>とくになし</li>
+</ul>
+
+
+<h3>振り返り</h3>
+
+<p>チームとして前進した気がする。</p>
+
+<ul>
+<li>走りだす前に全体つかむことができてよかった</li>
+<li>実装前にその実装が可能かどうか確認することができてよかった</li>
+<li>再起動を終了1時間前に実施できたのはよかった</li>
+<li>全体のアクセスの統計とレスポンスタイムが遅いアクセスの割合を出した</li>
+<li>335さんとひさいちが読んでコード書いててくれたのでここオンメモリやろ〜ヤジってればよかった</li>
+<li>コンテキストスイッチ気にしすぎた。それよりもindexの改善はオレの役割だった</li>
+</ul>
+
+
+<p>4になって、事前に準備できることはしておかないといけない<br/>
+リアル競技になってきた感が強い。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://hisaichi5518.hatenablog.jp/entry/2014/09/30/001034">#isucon 4の予選に出た - パルカワ2</a></li>
+<li><a href="http://soh335.hatenablog.com/entry/2014/09/30/003912">#isucon 4 の予選に参加した- @soh335 memo</a></li>
+</ul>
+
+
+<p>運営の方、お疲れ様でした！<br/>
+データホテルチームがんばれ〜</p>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[2014/09読んだ本]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/01/201409-book/"/>
+    <updated>2014-10-01T00:00:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/01/201409-book</id>
+    <content type="html"><![CDATA[<p>Akamaiの本が面白かった。<br/>
+BGP繋ぎこんで終わりの世界だと思っていたので<br/>
+目からうろこだった。</p>
+
+<p>初速思考、<a href="http://shibayu36.hatenablog.com/entry/2014/09/15/102509">しばゆー君の記事</a>で面白そうだなと思って読んだ。<br/>
+正直手を抜いていたところがあったので、<br/>
+そうだよな〜、ちゃんとやるべきだよな〜って思って<br/>
+メモを取るようにした。あと、覚えておいた方がいいもの<br/>
+調べておいた方がいいものを御座なりにしないよう心がけ始めた。<br/>
+まずは手を動かす、細かいことでも取り敢えずやりきる習慣を身につけたいものだ。</p>
+
+<p>あとは、これからアプリケーション周りのコードを書くつもりなので<br/>
+プログラミング周りの有名な2冊をささっと読んだ。</p>
+
+<p>新しい環境は既にAnsibleが入っていたので困らない限りはAnsible使って行ってみたい。<br/>
+<a href="http://mozaic.fm/post/95128341833/7-rest">mozaic.fm #7</a>がとても面白かったので例の書籍を今更読んでみた。</p>
+
+<p>Go、ちゃんとやりたいけどまず仕事で使いそうなRailsを学習しているので<br/>
+10月はそこをカチっとやっていく。あと瞬間英作文の復習を合間にやっていけたらいいな。</p>
+
+<p>宇宙博の帰りに宇宙兄弟の最新刊が当日発売されているの知って<br/>
+ちょっとテンション上がった。</p>
+
+<p>幕張メッセ、大ホールとかすっからかんで面白かった。<br/>
+<a href="https://flic.kr/p/pkXS8j">レッドブルのこれ</a>かっこよかった。</p>
+
+<p>カミさんがこれ本物？レプリカって書いてないよ？レプリカより本物が良い。<br/>
+って言ってて本物志向だった。</p>
+
+<p>あとJAXAのTシャツ着て行ったらJAXAの美人広報さんに見つかって<br/>
+チラチラTシャツ見られながらすごい熱心に<br/>
+海中から引き上げられたH2ロケットの説明を色々話してくれて<br/>
+めちゃくちゃJAXA好きみたいになってて結構恥ずかしかった。</p>
+
+<p>とても面白かった。</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年09月 (9作品)</div>
 
 
-    </article>
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MALTGDY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Ef9h7qfpL._SL75_.jpg" width="47" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MALTGDY" target="_blank">入門Ansible</a><br /><a href="http://booklog.jp/author/%E8%8B%A5%E5%B1%B1%E5%8F%B2%E9%83%8E" target="_blank">若山史郎</a><br />読了日：09月06日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774142042" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51qo6pgjaSL._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774142042" target="_blank">Webを支える技術 -HTTP、URI、HTML、そしてREST (WEB+DB PRESS plus)</a><br /><a href="http://booklog.jp/author/%E5%B1%B1%E6%9C%AC%E9%99%BD%E5%B9%B3" target="_blank">山本陽平</a><br />読了日：09月06日<br /><img src="http://booklog.jp/images/rank/5.gif" width="59" height="12" alt="評価5" /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774166278" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61gSqezYgPL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774166278" target="_blank">WEB+DB PRESS Vol.82</a><br /><a href="http://booklog.jp/author/%E5%B1%B1%E5%8F%A3%E5%BE%B9" target="_blank">山口徹</a><br />読了日：09月06日<br /><img src="http://booklog.jp/images/rank/5.gif" width="59" height="12" alt="評価5" /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MIFE3BC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51T4L8K2yLL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MIFE3BC" target="_blank">アカマイ　知られざるインターネットの巨人 (角川ＥＰＵＢ選書)</a><br /><a href="http://booklog.jp/author/%E5%B0%8F%E5%B7%9D%E6%99%83%E9%80%9A" target="_blank">小川晃通</a><br />読了日：09月10日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4534050887" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41R-WuPO9yL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4534050887" target="_blank">初速思考 30代で一気に突き抜ける人の集中戦略</a><br /><a href="http://booklog.jp/author/%E9%87%91%E7%94%B0%E5%8D%9A%E4%B9%8B" target="_blank">金田博之</a><br />読了日：09月10日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4798111112" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Y4DWH4N3L._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4798111112" target="_blank">オブジェクト指向入門 第2版 原則・コンセプト (IT Architect’Archive クラシックモダン・コンピューティング)</a><br /><a href="http://booklog.jp/author/%E3%83%90%E3%83%BC%E3%83%88%E3%83%A9%E3%83%B3%E3%83%89%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC" target="_blank">バートランド・メイヤー</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00JEYPPOE" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51LZpcbh3LL._SL75_.jpg" width="59" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00JEYPPOE" target="_blank">Code Complete 第2版 上　完全なプログラミングを目指して</a><br /><a href="http://booklog.jp/author/%E3%82%B9%E3%83%86%E3%82%A3%E3%83%BC%E3%83%96%E3%83%BB%E3%83%9E%E3%82%B3%E3%83%8D%E3%83%AB" target="_blank">スティーブ・マコネル</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4274066428" target="_blank"><img src="http://ecx.images-amazon.com/images/I/4151YFZ27NL._SL75_.jpg" width="57" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4274066428" target="_blank">プログラミングRuby 第2版 言語編</a><br /><a href="http://booklog.jp/author/Dave+Thomas" target="_blank">Dave Thomas</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063883515" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61UN%2BOSffyL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063883515" target="_blank">宇宙兄弟(24) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E5%B0%8F%E5%B1%B1%E5%AE%99%E5%93%89" target="_blank">小山宙哉</a><br />読了日：09月22日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+
+
+]]></content>
+  </entry>
   
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
+  <entry>
+    <title type="html"><![CDATA[sensuのmackerel用のmetrics handlerをつくった #mackerelio]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/25/sensu-mackerel-handler/"/>
+    <updated>2014-09-25T14:38:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/25/sensu-mackerel-handler</id>
+    <content type="html"><![CDATA[<p><a href="http://mackerelio.connpass.com/event/8458/">Mackerel Meetup #2 Tokyo</a>に参加してきました。</p>
+
+<p>美味しいサバ料理頂いたりピザ頂いたりビール頂いたりして最高でした。<br/>
+個人的には監視はSensuかnagiosかに任せて、<br/>
+メトリクス周りをmackerelに任せたいなという構想があったりなかったりしています。</p>
+
+<p>mackerelがDataDogsを超えて全世界で使われるようになったら<br/>
+面白そうですよね。</p>
+
+<p>個人的にほしい機能は監視の充実より先にメトリクス周りの整備をしてほしいです。</p>
+
+<p>@fujiwaraさんが、n分前と現在の差分データを取得できると良いとおっしゃっていて<br/>
+それあったら便利だな〜、と便乗していました(もちろんZabbixは可能です)。</p>
+
+<p>使うか使わないかはわかりませんが、Sensuのhandlerで<br/>
+mackerelを指定できるようプラグインを作成しました。</p>
+
+<p>hostの登録は別でしないといけませんが(plugin側で担保しても良いかも)<br/>
+既にSensuを利用している方は、こちらのhandlerを入れてもらえれば<br/>
+mackerelへmetricsを送信することが可能です。</p>
+
+<p>どうぞご利用ください。</p>
+
+<ul>
+<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.rb">mackerel-metrics.rb</a></li>
+<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.json">mackerel-metrics.json</a></li>
+</ul>
+
+
+<p><a href="https://github.com/sensu/sensu-community-plugins/pull/777">pull requst</a>中です。<br/>
+777番目なのでめでたいです。</p>
+
+<blockquote><p>はてな社の方へ<br/>
+headerが雑なのでプロモーションも兼ねて編集して頂いた方がいいかもしれないです</p></blockquote>
+]]></content>
+  </entry>
   
-    <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
-      </li>
-    
-  </ul>
-</section>
+  <entry>
+    <title type="html"><![CDATA[Sensu Casual Talks #1 に行ってきた #sensucasual]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/17/sensu-casual/"/>
+    <updated>2014-09-17T23:13:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/17/sensu-casual</id>
+    <content type="html"><![CDATA[<p><a href="http://www.zusaar.com/event/7607003">Sensu Casual Talks #1</a>にいってきた。</p>
 
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" /></p>
+
+<p><a href="https://twitter.com/timwata">@timwata</a>さんのGraphiteのスケールの話が興味深かった。<br/>
+3000台ぐらいのクライアントをSensuとGraphiteで見てるの<br/>
+相当貴重な知見だと思う。</p>
+
+<p>自分が話してきたのは特にどうということもなくて<br/>
+Chefを使えばOfficial cookbookと自分で何個かcookbookを書くことで<br/>
+比較的簡単に(※1)導入、運用ができるという話をしてきた。</p>
+
+<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="http://kenjiskywalker.github.com/kenjiskywalker//speakerdeck.com/assets/embed.js"></script>
+
+
+<p></p>
+
+<p>cookbookはここにまとめてある。</p>
+
+<p><a href="https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks">https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks</a></p>
+
+<p>Sensu、スケールしていくとどこがボトルネックになるか<br/>
+みたいな話はユースケースが増えていくとコツみたいなのが<br/>
+見えてくると思う。だけどnagiosで困っていないのにわざわざ<br/>
+sensuに乗り換えるのは無駄だと思う。</p>
+
+<p>KAIZEN社は日本のウェッブ業界でも最先端の会社なので<br/>
+定期的に現状を確認しに行きたいと思う。</p>
+
+<p>Tシャツありがとうございました。<br/>
+開催して頂いた@glidenote氏、ありがとうございました！</p>
+
+<iframe src="http://kenjiskywalker.github.com/kenjiskywalker//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+
+
+<blockquote><p>※1… 個人差があります</p></blockquote>
+]]></content>
+  </entry>
   
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
+  <entry>
+    <title type="html"><![CDATA[Consulでkey/valueを叩く]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-key-value/"/>
+    <updated>2014-09-09T23:09:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-key-value</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Consulでkey/valueを叩く</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 540,
+</span><span class='line'>    "ModifyIndex": 540,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFyYmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+
+
+<h3>delete</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>true%                                                                                                  ['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+
+
+<h3>再帰もいける</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 555,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFyYmFy"
+</span><span class='line'>  },
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+
+
+<h3>flags</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 559,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": null
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT 'barbar' -s 'http://127.0.0.1:8500/v1/kv/foofoo?flags=1' | jq .
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 560,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 1,
+</span><span class='line'>    "Value": null
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+
+
+<h3>階層化とdecode</h3>
+
+<blockquote><p>BSD の base64 コマンドだと<br/>
+-dがdebugで-Dがdecodeだった</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
+</span><span class='line'>true
+</span><span class='line'>['x']%
+</span><span class='line'>['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
+</span><span class='line'>{
+</span><span class='line'>  "CreateIndex": 565,
+</span><span class='line'>  "ModifyIndex": 568,
+</span><span class='line'>  "LockIndex": 0,
+</span><span class='line'>  "Key": "foo/bar/baz",
+</span><span class='line'>  "Flags": 0,
+</span><span class='line'>  "Value": "YmF6YmF6YmF6"
+</span><span class='line'>}
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
+</span><span class='line'>bazbazbaz
+</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+  <entry>
+    <title type="html"><![CDATA[Consulでnodeの増減時に特定のスクリプトを実行させる]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-event-handle-watches/"/>
+    <updated>2014-09-09T22:21:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-event-handle-watches</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
 
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
+<p>ConsulでSerfのEvent Handlerのようなものを試したメモ</p>
 
+<h2>main</h2>
 
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
+<p>Consulの<a href="https://www.hashicorp.com/blog/consul-0-4.html">0.4</a>から<code>Watches</code>という機能が追加されて<br/>
+Serfのevent handlerのようなことができるようになった。</p>
 
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
+<p>昨日つくった<a href="https://github.com/kenjiskywalker/consul-test">consul-test</a>に</p>
 
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
-</section>
+<ul>
+<li>node01/config.json</li>
+</ul>
 
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "node_name": "node01",
+</span><span class='line'>  "data_dir": "./node01/",
+</span><span class='line'>  "bind_addr": "127.0.0.1",
+</span><span class='line'>  "client_addr": "127.0.0.1",
+</span><span class='line'>  "ui_dir": "./dist/",
+</span><span class='line'>  "watches": [
+</span><span class='line'>    {
+</span><span class='line'>      "type": "nodes",
+</span><span class='line'>      "handler": "./node01/hosts_update.rb"
+</span><span class='line'>    }
+</span><span class='line'>  ]
+</span><span class='line'>}</span></pre></td></tr></table></div></figure>
 
 
+<p>watchesの設定を追加してみた。</p>
 
+<p><code>hosts_update.rb</code>でやっていることはシンプルで<br/>
+nodesに変化があった場合に、標準入力でnodesの情報を取得し、<br/>
+同ディレクトリに<code>_hosts</code>ファイルを生成して、<br/>
+nodeの名前とそのAddressを<br/>
+hostsファイルに似せて出力するようにしている。</p>
+
+<blockquote><p>Consulには<code>SERF_EVENT</code>のような<br/>
+管理しているnodeの変化の状態をSTDINで受け取る方法はないのだろうか</p></blockquote>
+
+<h2>雑談</h2>
+
+<p>このような簡単なスクリプトはGoで書いてもいいかもしれないけど<br/>
+バイナリだけ置いてあるような状態の時に<br/>
+<em>作成者を全面的に信用する</em>みたいな部活っぽい対応になりそう。<br/>
+簡易スクリプトをGoで書いたらバイナリとそのソースファイルを<br/>
+同ディレクトリに置いておくとかが良いんだろうか。</p>
+]]></content>
+  </entry>
   
-</aside>
+  <entry>
+    <title type="html"><![CDATA[Consul Clusterを手元に構築する簡単なスクリプトかいた]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/08/consul-test-tool/"/>
+    <updated>2014-09-08T21:01:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/08/consul-test-tool</id>
+    <content type="html"><![CDATA[<h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+<p>READMEのとおりですが</p>
 
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
+</span><span class='line'>node01  127.0.0.1:8301  alive   server  0.4.0  2
+</span><span class='line'>node02  127.0.0.2:8301  alive   server  0.4.0  2
+</span><span class='line'>node03  127.0.0.3:8301  alive   server  0.4.0  2
+</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></pre></td></tr></table></div></figure>
+
+
+<p>上記構成のConsul Clusterを<br/>
+OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
+よかったらご利用ください。</p>
+
+<h3>あわせてよみたい</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/06/06/consul-dns-round-robin/">ConsulのDNSラウンドロビンの検証</a></p>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[ssコマンドの使えそうなもののメモ]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/06/ss-command/"/>
+    <updated>2014-09-06T23:11:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/06/ss-command</id>
+    <content type="html"><![CDATA[<p><code>$ss -lt</code>と<code>$ss -ltp</code>は使える。<br/>
+<code>-i</code>は面白いけど本当に確認するなら<code>ngrep</code>か<code>tcpdump</code>だろうな</p>
+
+<h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
+</span></pre></td></tr></table></div></figure>
 
 
+<h2>セッションを開いているホスト名を名前解決する</h2>
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
+</span></pre></td></tr></table></div></figure>
 
 
+<h2>TCPのセッションのみ表示</h2>
 
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
+</span></pre></td></tr></table></div></figure>
 
 
 
 
-</body>
-</html>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>UDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
+</span></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>TCPとUDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
+</span></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>UNIX Domainのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
+</span></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>特定のセッションの状態のものを抽出</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートを表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
+</span></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートのプロセス名を表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
+</span></pre></td></tr></table></div></figure>
+
+
+<p>コマンド名自体が短いからササッと確認するのには良さそう</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[hubot-atというhubot pluginをつくった]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/04/hubot-at/"/>
+    <updated>2014-09-04T14:22:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/04/hubot-at</id>
+    <content type="html"><![CDATA[<p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
+hubotに持ってきました。</p>
+
+<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
+
+<p>というように</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></pre></td></tr></table></div></figure>
+
+
+<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
+
+<p>元々taiyohさんが</p>
+
+<ul>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&#8217;s memorandum</a></li>
+</ul>
+
+
+<p>にて書いてくれていたので、それを踏襲しています。<br/>
+ありがとうございます。</p>
+
+<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2014/07読んだ本]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/08/31/201408-book/"/>
+    <updated>2014-08-31T16:06:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/08/31/201408-book</id>
+    <content type="html"><![CDATA[<p>booklogというサービス、デザインと使い勝手が本当に良い。</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年08月 (4作品)</div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063951413" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q59350wWL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063951413" target="_blank">進撃の巨人(14) (講談社コミックス)</a><br /><a href="http://booklog.jp/author/%E8%AB%AB%E5%B1%B1%E5%89%B5" target="_blank">諫山創</a><br />読了日：08月09日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4041013992" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51qjvPhcfgL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4041013992" target="_blank">多重人格探偵サイコ (20) (カドカワコミックス・エース)</a><br /><a href="http://booklog.jp/author/%E7%94%B0%E5%B3%B6%E6%98%AD%E5%AE%87" target="_blank">田島昭宇</a><br />読了日：08月09日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4053031737" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41OmvQ2%2BeZL._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4053031737" target="_blank">成川の「なぜ」がわかる英文法の授業 (大学受験Nシリーズ)</a><br /><a href="http://booklog.jp/author/%E6%88%90%E5%B7%9D%E5%8D%9A%E5%BA%B7" target="_blank">成川博康</a><br />読了日：08月17日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774165786" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51XYWUokftL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774165786" target="_blank">フロントエンドエンジニア養成読本 [HTML、CSS、JavaScriptの基本から現場で役立つ技術まで満載! ] (Software Design plus)</a><br /><a href="http://booklog.jp/author/%E6%96%89%E8%97%A4%E7%A5%90%E4%B9%9F" target="_blank">斉藤祐也</a><br />読了日：08月17日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+
+<p></p>
+
+<p>この前<br/>
+<a href="http://blog.kenjiskywalker.org/blog/2014/06/09/github-add-color-to-recently-not-update-file/">GitHubで最近更新されていないプロジェクトを簡単に見分けるChrome Extentionつくった</a><br/>
+で<br/>
+JavaScriptやってみたけど基本的なこと全然理解していなかったので<br/>
+本読んだ。JavaScriptとか目に見えて変わるものは面白い。</p>
+]]></content>
+  </entry>
+  
+</feed>

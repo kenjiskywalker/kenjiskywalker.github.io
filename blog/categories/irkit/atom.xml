@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: irkit | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/irkit/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[IRKitのファームウェアをアップデートしてWi-Fiに繋がるようになった]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/04/20/irkit-firmware-update/"/>
+    <updated>2014-04-20T00:05:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/04/20/irkit-firmware-update</id>
+    <content type="html"><![CDATA[<p>IRKitの初期ロットを利用していたので、モールス信号で<br/>
+設定がとばせなくなっていたのでファームウェアのアップデートをした。<br/>
+やり方はGitHubのページの通りに行えば問題ない。</p>
+
+<p><a href="https://github.com/irkit/device">https://github.com/irkit/device</a></p>
+
+<p>ファームウェアをアップデートしても赤点滅から先に進まなくて<br/>
+参ったなーと思ったのだが、Wi-Fiのアクセスポイントに<a href="https://www.planex.co.jp/product/wireless/mzk-sa300d/">MZK-SA300D</a>を利用していて<br/>
+こいつがたまにgの回線だけ見えなくなる場合があったので<br/>
+アクセスポイントを再起動して、無事接続できた。</p>
+
+<blockquote><p>AppleTV -> 古いREGZA -> JVCのTH-BC2</p></blockquote>
+
+<p>という形式でリビングで音楽流したりしていて、<br/>
+REGZAとTH-BC2をIRKitで操作できるようになった。<br/>
+操作がiPhoneだけで完結するようになったので大変便利になった。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="新しくグループとかつくる時に
+アラートメールの送り先の設定項目多くて毎回忘れるのでメモ ユーザつくる
+ユーザのメディアにアラート通知先登録する
+ユーザグループつくる
+ユーザグループにユーザ入れる
+ホストつくる
+ホストグループつくる
+ホストグループにホスト入れる &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kenjiskywalker.github.com/kenjiskywalker/blog/page/18/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kenjiskywalker.github.com/kenjiskywalker" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="http://d.hatena.ne.jp/kenjiskywalker/">Old Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/zabbix-action-setting/">ZABBIXでアラートメールを受け取るためにする設定メモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T01:53:00+09:00" pubdate data-updated="true">Mar 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新しくグループとかつくる時に<br/>
+アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
+
+<ol>
+<li>ユーザつくる</li>
+<li>ユーザのメディアにアラート通知先登録する</li>
+<li>ユーザグループつくる</li>
+<li>ユーザグループにユーザ入れる</li>
+<li>ホストつくる</li>
+<li>ホストグループつくる</li>
+<li>ホストグループにホスト入れる</li>
+<li>アクションのコンディションのホストグループにホストグループを指定</li>
+<li>アクションのオペレーションにユーザグループを指定</li>
+</ol>
+
+
+<p>で、大丈夫のはず。</p>
+
+<p>コピーとかでやるとコンディションとか通知先とか変え忘れるので<br/>
+新規でちゃんとつくった方が確実だしなんか通知こねー！とかなるので<br/>
+ちゃんと確認しないといけない。</p>
+
+<p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/znc-limechat-iphone/">ZNCでLimeChatをIRCクライアントにしてiPhoneだけBuffer効かせる設定とim.kayacの設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T00:36:00+09:00" pubdate data-updated="true">Mar 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>環境<br/>
+ZNC vresion 1.0<br/>
+LimeChat version 2.33<br/>
+ZNC Packages from epel repository<br/>
+- znc-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-devel-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-modperl-1.0-0.1.alpha1.el6.x86_64</p></blockquote>
+
+<p>出先で、im.kayacの通知が来てて見ると<br/>
+「kenjiskywalkerマジでクソ、サーバさわんな」みたいなことが話されてて<br/>
+解脱〜、みたいな状況になった場合、iPhoneで直近の会話だけ<br/>
+みたい場合があるので、その設定をした。</p>
+
+<h4>参考:</h4>
+
+<blockquote><p><a href="http://blog.handlena.me/entry/2013/01/20/185717">ZNCってひとつのアカウントで複数サーバーに接続できるよね？ - handlename&#8217;s blog</a><br/>
+<a href="http://soh335.hatenablog.com/entry/2013/01/29/170500">znc 内で keepbuffer on と off なものを作る - soh335 memo</a><br/>
+<a href="http://blog.64p.org/entry/20120703/1341288920">znc で im.kayac をつかうための NotifyImKayacSimple.pm をかいた - tokuhirom&#8217;s blog.</a></p></blockquote>
+
+<h2>NotifyImKayacSimpleの設定</h2>
+
+<p><a href="http://d.hatena.ne.jp/sugyan/20120320/1332254901">特定のキーワードをim.kayac.comに通知するZNCモジュール書いた - すぎゃーんメモ</a><br/>
+このすぎゃーんさんのメモの&#8217;-fPIC&#8217;の設定を有効にした記憶がある。あまり覚えてない。</p>
+
+<p><code>~/.znc/modules/NotifyImkayacSimple.pm</code>に置いて
+<em>LoadModule = modperl</em>して、<br/>
+<em>NotifyImkayacSimple username=username keyword=key1,key2</em>で通知が来ると思う。</p>
+
+<p>設定書いて間違っていればzncが起動しないので、その辺で確認できると思う。<br/>
+デバッグモードを有効にするのもアリだと思う。</p>
+
+<h2>zncの設定</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>// WARNING
+</span><span class='line'>//
+</span><span class='line'>// Do NOT edit this file while ZNC is running!
+</span><span class='line'>// Use webadmin or *admin instead.
+</span><span class='line'>//
+</span><span class='line'>// Buf if you feel risky, you might want to read help on /znc saveconfig and /znc rehash.
+</span><span class='line'>// Also check http://en.znc.in/wiki/Configuration
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>&lt;Listener listener0&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>&lt;/Listener&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User hotoke&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>    LoadModule = modperl
+</span><span class='line'>    AutoClearChanBuffer = false
+</span><span class='line'>
+</span><span class='line'>    &lt;Network default&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=涅槃,解脱,成仏
+</span><span class='line'>        Server = hoge.example.com
+</span><span class='line'>        Buffer = 100
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #buddha&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network freenode&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=灌仏会
+</span><span class='line'>        Server = irc.freenode.net 6667
+</span><span class='line'>        Buffer = 1
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #isucon&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #monitoring-casual&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network perl&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=解脱
+</span><span class='line'>        Server = irc.perl.org 6667
+</span><span class='line'>        Buffer = 10
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #ark&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #dbi-ja&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #prepan&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User limechat&gt;
+</span><span class='line'>
+</span><span class='line'>     AutoClearChanBuffer = true
+</span><span class='line'>     Buffer = 500
+</span><span class='line'>
+</span><span class='line'>    &lt;Network znc&gt;
+</span><span class='line'>        ...
+</span><span class='line'>        Server = 127.0.0.1 +6669 [zncのパスワード]
+</span><span class='line'>
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで設定している。</p>
+
+<p>Userひとつで複数のNetworkに入れる。</p>
+
+<blockquote><p>PC => loginname: limechat/znc<br/>
+iPhone => loginname: hotoke/default, hotoke/freenode, hotoke/perl</p></blockquote>
+
+<p>みたいな感じにして、PC側は<em>AutoClearChanBuffer</em>を有効にして<br/>
+既読にしたものは消していって、iPhoneで接続する方は<br/>
+毎回過去の履歴が見れるようになる。</p>
+
+<p>これで出先で社内IRCで椅子がとんできても大丈夫なようになる。<br/>
+仏像彫刻教室情報お待ちしております。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/09/monitoringcasualvol3/">#monitoringcasual Vol3 に参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T15:44:00+09:00" pubdate data-updated="true">Mar 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="http://www.zusaar.com/event/521056">Monitoring Casual Talk #3</a>に参加してきました。</h2>
+
+<p>会場をご提供頂いた株式会社paperboy&amp;co.さま<br/>
+@ume3_さん、@tnmtさん、@lamanotramaさん、ありがとうございました。</p>
+
+<p>会場へ向かう途中で、fujiwaraさんとsongmuさんが<br/>
+今日はmizzyさんいないからイケるかもしれないとか物騒なこと言ってて怖かったです。</p>
+
+<p>セルリアンタワー、曜日の夜にBARになるところがすごくて<br/>
+入り口にイケイケのおねーさんいたりして華やかや〜！！！ってなっていました。</p>
+
+<h2>発表内容</h2>
+
+<p><a href="http://www.slideshare.net/KenjiNaito/monitoringcasual-vol3">発表資料</a>はこんな感じです。<br/>
+出発する30分前につくったのでそんなに大したものではないです。<br/>
+一枚目は 「<em>RDSのメトリクスをCloudWatchからfluentdへ、slow_logを添えて</em>」<br/>
+って書いてあります。<br/>
+フレンチっぽくしたかったんですけどただの読めない文字になってました。<br/>
+あと何枚目かに素敵な妖精が映ってるかもしれないですけど気のせいです。</p>
+
+<p>こんなんあったらいいなーって思ったら、素晴らしいプロダクトがたくさんあるので<br/>
+すぐにできて良いですね。という感じで5分ぐらいで話したんですけど<br/>
+みんな普通にライトニングじゃない時間トークしてて、<br/>
+何でか一番時間きっかりしてたのに手抜いた感じがしてて切なかったです。</p>
+
+<p>もにかじ中にお前ZABBIXのスクリーン消したろ？って社内IRCで声かけられて<br/>
+は〜申し訳ないです〜とか言いながらZABBIXのスクリーンつくりなおしてました。<br/>
+ZABBIXのスクリーン、業が深いので手作業でやらないようにしたいですね。</p>
+
+<h2>fluentdのプラグインをつくりました。</h2>
+
+<p><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch-lite">fluent-plugin-cloudwatch-lite</a><br/>
+<a href="https://rubygems.org/gems/fluent-plugin-rds-slowlog">fluent-plugin-rds-slowlog</a></p>
+
+<p><strong>fluent-plugin-cloudwatch-lite</strong> は、RDSのメトリクスをZABBIXで取得したかったので<br/>
+fluentdに120秒前と60秒前のデータを取ってくるものです。<br/>
+元々<a href="https://github.com/yunomu/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a>があって<br/>
+それを参考につくらせてもらいました。<br/>
+自分でThread書くとか多分無理だったので本当にありがたいです。</p>
+
+<p><strong>fluent-plugin-rds-slowlog</strong> は、<br/>
+RDSのslow_logをファイルで保存したかったので書きました。<br/>
+最初シェルスクリプトでやってたんですけど、<br/>
+fujiwaraさんからfluentdでやれば？って言われて<br/>
+ほんとっスねってなって書きました。fluentdのplugin簡単に書けてすごいです。</p>
+
+<p>簡単に書けるからこそ、つくるならちゃんとしたものつくりたいなーって思いながら<br/>
+自信ないので、色々書いていくようになれば自信つくのかなーとか思ったりしてます。</p>
+
+<h2>もにかじ</h2>
+
+<p>もにかじ、次回ははてなさんらしいので超楽しみです。<br/>
+なんだったら鴨川でビールキメたりしたいですが、<br/>
+多分カミさんに物理的に抹消されるので厳しいです。</p>
+
+<p>もし次回参加できたら、次はこんなことで悩んでるんですけど<br/>
+みなさんどうしてます？みたいな感じで行きたいです。(前も言ってた気がする)</p>
+
+<h2>fujiwaraさん</h2>
+
+<p><a href="http://dl.dropbox.com/u/224433/monitoring_casual_3/index.html#1">『いつもと違う』を検知したい</a></p>
+
+<p>ハンパない</p>
+
+<h2>Perlのひとたち</h2>
+
+<p>Perl使ってる若者みんなスルーしてるけど、Perlおじさんたち<br/>
+disに対するアンサーソングみたいなのみんなキメてて怖かった。</p>
+
+<p>Twitter見たらまだ話してる人いて本当に物騒だなって思った。</p>
+
+<h2>ひとりじゃない</h2>
+
+<p>監視とかモニタリングとかってあんまりおもしろい話ないし<br/>
+すごい地道な作業が多いけど、みんなで集まって<br/>
+どうやって問題に対して解決してるかとか、<br/>
+こういう課題があるんだけどどうだとか、このツールどうだとか<br/>
+ワイワイ話したりするの楽しいなーって思いました。</p>
+
+<p>Twitter芸人として技術力ないけどコンテンツ力があるとか<br/>
+言われないように頑張って生きたい。</p>
+
+<p>頑張るのに疲れたらインターネットから解脱して仏像彫りたい</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/">EC2でEphemeral DiskをRAID0で構築した状態でブートする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T21:26:00+09:00" pubdate data-updated="true">Mar 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div><script src='https://gist.github.com/5081937.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなスクリプトを置いておいて</p>
+
+<p><code>/etc/rc.local</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>sh ec2-raid0.sh</span></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<em>rc.local</em>に一行書いておけば<br/>
+エフェメラルディスク2つをRAID0としてマウントする。<br/>
+なんで<strong>md127</strong>なのかは、AWSさんに聞いてほしい。<br/>
+<strong>md0</strong>でつくっても必ず、再起動後に<strong>md127</strong>として起動してくる。</p>
+
+<p>きっと神の意思なんだと思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/27/chef-variables-same-cookbook/">Chefのtemplateにrecipeからデータを渡すvariablesについて</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
+異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
+
+<p>@fujiwaraさん++</p>
+
+<blockquote><p>検証環境<br/>
+Chef v11.4.0</p></blockquote>
+
+<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
+結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
+
+<p>当初、この課題に対する解決方法として、<br/>
+複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
+実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
+複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
+最初に読み込まれた <em>role</em> は認識されなかった。</p>
+
+<h2>variablesを利用したレシピをみていこう</h2>
+
+<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>recipe内で<br/>
+<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
+また、わかりづらいのだが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
+</span><span class='line'>  :port =&gt; port  
+</span><span class='line'>})  </span></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>このように <em>port</em> 、この場合でいえば &#8220;6379&#8221; 、 &#8220;6380&#8221; の値を<br/>
+<strong>@port</strong> に代入している。</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>template内で、代入された <strong>@port</strong> を利用する</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>上記内容の結果、出力ファイルとして</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>期待した通り、複数のvalueを受け取り<br/>
+それぞれ異なったファイルに出力されることが確認できた。</p>
+
+<p>もう少しエレガントな方法があるように思うので<br/>
+他の方法などがあれば、是非是非コメントを頂きたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/25/music-20130225/">週末買った音楽</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T03:24:00+09:00" pubdate data-updated="true">Feb 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://bleep.com/release/34461">Iradelphic / Clark</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/34461.jpg" alt="https://bleep.com/media/images/r/g/34461.jpg" /></p>
+
+<h2><a href="https://bleep.com/release/36554">Quarantine / Laurel Halo</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/36554.jpg" alt="https://bleep.com/media/images/r/g/36554.jpg" /></p>
+
+<h2><a href="https://bleep.com/release/37690">Ancient Future / Willits + Sakamoto</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/37690.jpg" alt="https://bleep.com/media/images/r/g/37690.jpg" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/25/get-cloudwatch-rds-ec2/">RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T01:10:00+09:00" pubdate data-updated="true">Feb 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_rds.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じで適当に叩いたら良い感じに取ってきてくれます。<br/>
+デフォルトの<em>metirc_name</em>パターンはコメントアウトに書いてます。</p>
+
+<p>start_timeとかperiodいじると返ってくるデータパターンが変わってくるので<br/>
+色々遊んでみてください。</p>
+
+<p>ついでにEC2のデータもとってくれるようなの書いてみたんですが<br/>
+デフォルトで手に入るメトリクス少ないので<br/>
+CloudWatchでデータ取るなら自分でメトリクスつくらないとダメですね。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_ec2.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Enjoy CloudWatch API!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/20/zabbix-proxy/">ZABBIX PROXY ver.1.8の設定メモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-20T00:25:00+09:00" pubdate data-updated="true">Feb 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>OctopressでGsitすごいカジュアルに載せられるけど<br/>
+ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。</p>
+
+<p><a href="https://github.com/kenjiskywalker/memo/blob/master/software/ZABBIX/zabbix-proxy.md">ZABBIX PROXYのメモ</a></p>
+
+<p>普通にproxyインストールするまではよかったんだけど<br/>
+その後にproxy先のZABBIXで設定するのしらなくてずっと</p>
+
+<p><code>Sending list of active checks to [IP ADDORESS] failed: host [n01] not found</code></p>
+
+<p>ZABBIXのオフィシャルのドキュメントがあったら<br/>
+本当にそういうドキュメント探すセンスがないっぽい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/15/rds-tarinai/">AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T13:21:00+09:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
+
+<p>こんなエラーが出た。</p>
+
+<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
+must exist in availability zones with sufficient capacity for
+VPC and provisioned IOPS for db.m1.small,<br/>
+so 1 more must be created in other availability zones;
+choose from these availability zones: ap-northeast-1c.</p></blockquote>
+
+<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
+<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
+
+<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
+Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
+缶コーヒーでもおごってあげたい気持ちになりました。</p>
+
+<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/14/otona/">大人</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-14T21:24:00+09:00" pubdate data-updated="true">Feb 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>大人とは〜みたいなの昔よく考えてて<br/>
+「子供は自分の意見を言うだけの人」<br/>
+「大人は自分の意見と相手の意見をすり合わせられる人」<br/>
+っていうことを考えてた。</p>
+
+<p>最近とくに自分の足りないところとか考えてて<br/>
+何かの事象が起こった時に感情的に支配されて、<br/>
+それは勝手に自分がその対象にとらわれてしまっていて<br/>
+そうすると、俯瞰でものが見れなくなって<br/>
+ちゃんとした判断が行えなくなるみたいなの思ってる。</p>
+
+<p>そういう話は<a href="http://www.amazon.co.jp/gp/product/4192422115/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=247&amp;creative=1211&amp;creativeASIN=4192422115&amp;linkCode=as2&amp;tag=13nightcrows-22" title="">不動智神妙録</a>に載ってて<br/>
+例えば、電車が来た時に降りる人がまだいるのに急いで自分の席を確保する人とか<br/>
+その人がいないところでその人の悪口言ってる人とか<br/>
+なんでそういうことするのかなーって思うんだけど、<br/>
+そういうことする人の気が知れん！ってなると、もうそこで<br/>
+理解することを止めちゃって、憎悪の対象になっちゃって<br/>
+結局とらわれることになるのかなって思う。</p>
+
+<p>例えばの話だけど、なんでそういうことするのかなーって思った時に<br/>
+その事象の背景にどんなことがあるのかっていうのを考えると<br/>
+その瞬間の出来事にとらわれることはないのかなって思う。</p>
+
+<p>まだ降りる人がいるのに自分の席確保しようと急いで乗っちゃう人、<br/>
+今まで南米の貧しい町にずっと住んでて、自分でどうにかしないと<br/>
+生きていけないようなサバイブしてきた人なのでは？とか考えると</p>
+
+<p>その町ではゆずりあってなんかいたらメシがなくなるとか<br/>
+電車の座席ひとつで生きるか死ぬかみたいなことまで発展するような<br/>
+そんな世界でどうにか生きてきた場合、多分ゆずりあいとかむずかしいと思う。</p>
+
+<p>本当はそういう事象が発生した時に<br/>
+走馬灯みたいにその人のバックグラウンドみたいなのが<br/>
+一瞬で見れれば、あーそっか、そういう背景があるのか！<br/>
+みたいになれば納得できると思う。<br/>
+まぁ背景みて余計にイライラするかもしれないけど</p>
+
+<p>取り敢えず起こった事象だけを見てあーだこーだ言うことは少なくなると思う。</p>
+
+<p>その発生した事象の背景まで想像して、なるべく理解しようとつとめて<br/>
+ものごとを客観視できれば、色々と見えてくるものもあるだろうし<br/>
+もしかしたらその対象が人だったりしたら、何かアドバイスとかできるかもしれない。</p>
+
+<p>大人っていうのは、自分の意見を通すことに政治力磨くこととか、<br/>
+争いに勝つとか、よく金を稼ぐとか、そういうことじゃなくて<br/>
+ある事象に対してよく理解して、みんながなるべくしあわせになれるように<br/>
+ものごとをすすめられる人だと思う。</p>
+
+<p>ここまで読んでもしかして&#8230;って思った人、勘がいいですね！<br/>
+そう！残念！大人ではなく解脱の話でした！</p>
+
+<p>ｳｪｰｲ</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/19/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/17/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<br>
+<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
+はろーもしもし。<br>
+ぼくは元気でやっています。<br>
+みんなは元気ですか。<br>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kenjiskywalker',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Coderwall</h1>
+  <ul id="cw_badges">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+
+  <script type="text/javascript">
+    var coderwall = (function(){
+      function render(options, badges){
+        var fragment = '',
+            t = $(options.target)[0],
+            height = 65,
+            width = 65,
+            index;
+
+        for (index in badges) {
+          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
+          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
+          fragment += '</a>';
+        }
+
+        t.innerHTML = fragment;
+      }
+      return {
+        showBadges: function(options){
+          $.ajax({
+              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
+            , type: 'jsonp'
+            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
+            , success: function(res) {
+                render(options, res.data.badges);
+            }
+          });
+        }
+      };
+    })();
+
+    $.domReady(function(){
+      if (!window.jXHR){
+        var jxhr = document.createElement('script');
+        jxhr.type = 'text/javascript';
+        jxhr.src = '/javascripts/libs/jXHR.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(jxhr, s);
+      }
+      if (!window.$){
+        var b = document.createElement('script');
+        b.type = 'text/javascript';
+        b.src = '/javascripts/ender.js';
+        var sc = document.getElementsByTagName('script')[0];
+        sc.parentNode.insertBefore(jxhr, s);
+      }
+      coderwall.showBadges({
+        user: 'kenjiskywalker',
+        target: '#cw_badges'
+      });
+    });
+  </script>
+  <style type="text/css">
+    .cw_badge img {
+      padding: 5px;
+      border: 0 none !important;
+      -moz-box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      -o-box-shadow: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

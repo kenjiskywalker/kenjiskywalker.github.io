@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bot | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/bot/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[imayaro-bot]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/19/imayaro-bot/"/>
+    <updated>2013-09-19T15:55:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/19/imayaro-bot</id>
+    <content type="html"><![CDATA[<p><a href="http://d.hatena.ne.jp/sugyan/20130207/1360168005">げんきだしてbot / すぎゃーんメモ</a></p>
+
+<p>類似品つくらせてもらいました。</p>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> いますぐやりましょう！</p>&mdash; imayaro_bot (@imayaro_bot) <a href="https://twitter.com/imayaro_bot/statuses/380513922539081728">September 19, 2013</a></blockquote>
+
+
+<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<ul>
+<li><a href="https://github.com/kenjiskywalker/imayaro-bot">https://github.com/kenjiskywalker/imayaro-bot</a></li>
+<li><a href="https://twitter.com/imayaro_bot">https://twitter.com/imayaro_bot</a></li>
+</ul>
+
+
+<p>やりたいことを今やろう！って気概になると思います。</p>
+]]></content>
+  </entry>
+  
+</feed>

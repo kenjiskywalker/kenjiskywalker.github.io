@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: serverspec | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/serverspec/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[testing #chef cookbook by #serverspec #devops]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/13/serverspec-chef-cookbook/"/>
+    <updated>2013-07-13T13:04:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/13/serverspec-chef-cookbook</id>
+    <content type="html"><![CDATA[<p>serverspec use chef json file and cookbooks.<br/>
+serverspec take run_list of <code>host.json</code>,<br/>
+serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
+
+<hr />
+
+<h1>tools</h1>
+
+<ul>
+<li><a href="http://serverspec.org/">serverspec</a></li>
+<li><a href="http://www.opscode.com/chef/">chef</a></li>
+</ul>
+
+
+<p>The configurations, please read at each document.</p>
+
+<hr />
+
+<h1>howto</h1>
+
+<ul>
+<li><h2>chef cookbooks</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/recipes/default.rb</code>
+<code>/root/chef/cookbooks/{bar}/recipes/default.rb</code><br/>
+...</p></li>
+<li><h2>serverspec file</h2>
+
+<p><code>/root/Rakefile</code><br/>
+<code>/root/spec/spec_helper.rb</code><br/>
+<code>/root/spec/{host_a}/host_a_mysql_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_a}/host_a_redis_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_b}/host_b_redis_spec.rb</code>   # host b specific test</p></li>
+<li><h2>test file</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/spec/default_spec.rb</code><br/>
+<code>/root/chef/cookbooks/{bar}/spec/default_spec.rb</code></p></li>
+</ul>
+
+
+<p> exp)<br/>
+ <code>/root/chef/cookbooks/redis/spec/setting_spec.rb</code><br/>
+ <code>/root/chef/cookbooks/redis/spec/process_spec.rb</code></p>
+
+<h2><code>spec_helper.rb</code></h2>
+
+<p><a href="http://serverspec.org/advanced_tips.html">Reference</a></p>
+
+<p><div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<h2><code>Rakefile</code></h2>
+
+<p><div><script src='https://gist.github.com/6118553.js?file=Rakefile'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>this Rakefile read <code>/root/chef/json/*.json</code> and <code>/root/chef/spec/host_name/*_spec.rb</code></p>
+
+<p>Please match it with your environment.</p>
+
+<p>```
+json_files = Dir::glob("./json/*.json")</p>
+
+<p>Chef::Config[:cookbook_path] = './cookbook/'
+Chef::Config[:role_path]     = './json/'
+```</p>
+
+<p>serverspec tests it look run_list of <code>host.json</code></p>
+
+<p>exp</p>
+
+<p><code>/root/chef/cookbooks/postfix/spec/default_spec.rb</code></p>
+
+<p>```
+require "/root/chef/spec/spec_helper"</p>
+
+<p>describe package('postfix') do</p>
+
+<pre><code>it { should be_installed }
+</code></pre>
+
+<p>end</p>
+
+<p>describe service('postfix') do</p>
+
+<pre><code>it { should be_enabled }
+it { should be_running }
+</code></pre>
+
+<p>end</p>
+
+<p>describe port(25) do</p>
+
+<pre><code>it { should be_listening }
+</code></pre>
+
+<p>end</p>
+
+<h1>log file</h1>
+
+<p>describe file('/var/log/maillog') do</p>
+
+<pre><code>it { should be_file }
+</code></pre>
+
+<p>end</p>
+
+<p>describe file('/etc/postfix/main.cf') do</p>
+
+<pre><code>it { should be_file }
+</code></pre>
+
+<p>end</p>
+
+<p>describe file('/etc/postfix/master.cf') do</p>
+
+<pre><code>it { should be_file }
+</code></pre>
+
+<p>end
+```</p>
+
+<p><img src="http://gifzo.net/BIpiApSbg1E.gif" alt="http://gifzo.net/BIpiApSbg1E.gif" /></p>
+
+<hr />
+
+<p>英語でちゃんと書こうと思ったけど<br/>
+取り敢えず出してあとでブラッシュアップする感じにしようと思った。<br/>
+<code>Rakefile</code>いじくるだけで<code>chef</code>の<code>host.json</code>のrun_list見て<br/>
+そのcookbookのspecディレクトリ見てテスト回してくれる。<br/>
+roleとかも考慮されてるし、一括で入れられないテストについては<br/>
+<code>/root/chef/spec/hostname/hoge_spec.rb</code>に入れればよしなに読み込んでくれる。<br/>
+便利っぽい。</p>
+
+<p>便利アピール海外にもしようと思ったら全然英語書けなくて頑張ろうって思った</p>
+]]></content>
+  </entry>
+  
+</feed>

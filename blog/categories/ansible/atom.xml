@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ansible | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/ansible/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ansible Vaultで暗号化されたファイルをCircleCIで利用する]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/17/ansible-vault-circleci/"/>
+    <updated>2014-11-17T14:08:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/17/ansible-vault-circleci</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>CircleCIのEnvironment variablesを利用して<br/>
+ファイルにdecryptのパスワードを記入する</p>
+
+<h2>設定</h2>
+
+<ul>
+<li><a href="https://circleci.com/docs/environment-variables">Environment variables - CircleCI</a></li>
+<li><a href="http://docs.ansible.com/playbooks_vault.html">Vault - Ansible</a></li>
+</ul>
+
+
+<p>CircleCIの環境変数に値を設定する機能を利用し、<br/>
+テスト実行前にその環境変数に設定したVault用の<br/>
+パスワードをファイルに出力しておき、ansible実行時には<br/>
+そのファイルを見に行くようにする。</p>
+
+<ul>
+<li>circle.yml</li>
+</ul>
+
+
+<p>```
+machine:
+  services:</p>
+
+<pre><code>- docker
+</code></pre>
+
+<p>dependencies:
+  pre:</p>
+
+<pre><code>- if [[ -e docker_ansible_image.tar ]]; then cat docker_ansible_image.tar | docker import - kenjiskywalker/dockerfile-centos-ansible ; docker load --input docker_ansible_image.tar ; else docker build . ; docker save -o docker_ansible_image.tar kenjiskywalker/dockerfile-centos-ansible ; fi
+- echo "${ANSIBLE_VAULT}" &gt; $(pwd)/ansible/vault.txt
+</code></pre>
+
+<p>  cache_directories:</p>
+
+<pre><code>- "docker_ansible_image.tar"
+</code></pre>
+
+<p>test:
+  post:</p>
+
+<pre><code>- docker run -v $(pwd)/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml  --vault-password-file /ansible/vault.txt -i /ansible/inventory_localhost -c local
+</code></pre>
+
+<p>```</p>
+
+<p>他に良いプラクティスあれば教えてください。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ansibleを利用してRailsが動くVagrantfileを作成する]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/24/ansible-vagrant/"/>
+    <updated>2014-10-24T05:56:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/24/ansible-vagrant</id>
+    <content type="html"><![CDATA[<p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
+
+<h2>TL;DR</h2>
+
+<p>Ansibleを利用したからって複雑な処理がシンプルになるわけではない</p>
+
+<h3>1st</h3>
+
+<p>対象のサーバに何か設定をする必要はないので<br/>
+このように少量のコードでやりたいことが実現できる。</p>
+
+<p>```
+['-']%
+['-']% cat hosts
+ansible.example.com
+['-']%
+['-']% ansible -m ping -i hosts ansible.example.com
+ansible.example.com | success >> {</p>
+
+<pre><code>"changed": false,
+"ping": "pong"
+</code></pre>
+
+<p>}</p>
+
+<p>['-']%
+['-']% cat playbook.yml
+- hosts: all</p>
+
+<p>  tasks:
+  - name: Install dstat</p>
+
+<pre><code>yum: name=dstat
+</code></pre>
+
+<p>['-']%
+['-']%
+['-']% ansible-playbook -i hosts playbook.yml</p>
+
+<p>PLAY [all] ********************************************************************</p>
+
+<p>GATHERING FACTS ***************************************************************
+ok: [ansible.example.com]</p>
+
+<p>TASK: [Install dstat] *********************************************************
+ok: [ansible.example.com]</p>
+
+<p>PLAY RECAP ********************************************************************
+ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0</p>
+
+<p>['-']%
+```</p>
+
+<p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br/>
+各社独自で工夫してるんだろうな...</p>
+
+<h2>Role</h2>
+
+<p>1.2から使える機能とのこと、詳しくは<br/>
+<a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements</a>を読んでもらいたい.<br/>
+Chefを利用している人は馴染みがあるというか<br/>
+そういう構成なのか、とすんなりと理解できると思う.</p>
+
+<p>Chefでいうcookbookの構成に近いというか<br/>
+Chefを意識したつくりになっている気がする.<br/>
+ある程度の規模になったらRoleを利用しないとつらいと思う.</p>
+
+<h2>Railsの環境をAsibleで用意してみる</h2>
+
+<p><a href="https://github.com/kenjiskywalker/ansible">https://github.com/kenjiskywalker/ansible</a></p>
+
+<p>```
+['-']% tree .
+.
+├── dev.yml
+└── roles</p>
+
+<pre><code>├── mysql
+│   └── tasks
+│       └── main.yml
+├── rails
+│   └── tasks
+│       └── main.yml
+└── ruby
+    ├── files
+    ├── handlers
+    ├── tasks
+    │   ├── main.yml
+    │   ├── rbenv.yml
+    │   ├── ruby-build.yml
+    │   └── ruby-install.yml
+    └── templates
+        └── rbenv.sh.j2
+</code></pre>
+
+<p>10 directories, 8 files
+```</p>
+
+<h3>軽く書いてみて気がついたこと</h3>
+
+<ul>
+<li><code>command</code>がコマンドだけで<code>shell</code>がパイプも使えるとか気が付かなくてハマった</li>
+<li><code>ohai</code>がいないので<code>apt</code>や<code>yum</code>など、ディストリビューションのパッケージ管理ツールを<code>package</code>みたいにラッピングしてくれない</li>
+<li><code>register</code>の概念が面白かった</li>
+</ul>
+
+
+<p>```
+- name: check Rails installed
+  shell: rails -v | cut -f 2 -d ' '
+  register: rails_installed
+  ignore_errors: yes
+  tags:</p>
+
+<pre><code>- ruby
+- ruby:install
+- install
+</code></pre>
+
+<ul>
+<li>name: gem install rails -v 
+command: gem install rails -v 
+when: rails_installed.stdout != rails_version
+tags:
+
+<ul>
+<li>rails</li>
+<li>install
+```</li>
+</ul>
+</li>
+</ul>
+
+
+<p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br/>
+<code>rails_installed</code>という変数に格納し、その変数を利用して<br/>
+条件分岐などを行うことができる.</p>
+
+<h3>Vagrantfile</h3>
+
+<p>```
+VAGRANTFILE_API_VERSION = "2"</p>
+
+<p>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "centos65"
+  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
+  config.vm.define :"dev" do |dev|</p>
+
+<pre><code>dev.vm.network :private_network, ip: '192.168.77.11'
+</code></pre>
+
+<p>  end
+  config.vm.provision "ansible" do |ansible|</p>
+
+<pre><code>ansible.playbook = "./ansible/dev.yml"
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br/>
+READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br/>
+ansibleが実行されます.</p>
+
+<p><code>
+$ vagrant provision
+</code></p>
+
+<p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br/>
+プロビジョニングすることが可能です。</p>
+
+<h3>Chefの闇はAnsibleで光を得るのか</h3>
+
+<ul>
+<li>構成や管理方法が複雑であれば何を使ってもあまり変わらない</li>
+<li>新しく覚える時間が許されるなら両方試してみれば良いのでは</li>
+<li>上から下に実行されるだけ(ruby_blockとか使わなくていい)のは良い</li>
+</ul>
+
+
+<h3>個人的感想</h3>
+
+<ul>
+<li>Ansible縛りでなければ<a href="https://github.com/ryotarai/itamae">Itamae</a>試したかった</li>
+<li>まだちょっとしかさわってないので知見があればシェアさせて頂きます</li>
+</ul>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements - Ansible</a></li>
+<li><a href="http://docs.ansible.com/playbooks_best_practices.html">Best Practices - Ansible</a></li>
+<li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

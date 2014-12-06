@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: supervisor | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/supervisor/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[supervisorでログのディレクトリをSIGUSR2を使って開き直す]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/"/>
+    <updated>2013-12-04T20:04:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/04/supervisor-sigusr2-reopen-logdir</id>
+    <content type="html"><![CDATA[<ul>
+<li>supervisorをインストール</li>
+</ul>
+
+
+<p><code>
+$ sudo yum -y install python-setuptools
+$ sudo easy_install supervisor
+$ echo_supervisord_conf &gt; /etc/supervisord.conf
+</code></p>
+
+<ul>
+<li>テストスクリプト(/root/while.sh)を置く</li>
+</ul>
+
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>while true ; do date ; sleep 1 ; done
+```</p>
+
+<ul>
+<li>/etc/supervisord.conf</li>
+</ul>
+
+
+<p><code>
+[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+[supervisord]
+logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)
+loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+minprocs=200                 ; (min. avail process descriptors;default 200)
+childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+[program:hello]
+priority = 100
+command = sh /root/while.sh
+redirect_stderr = true
+</code></p>
+
+<ul>
+<li>supervisorを走らせる</li>
+</ul>
+
+
+<p><code>
+$ mkdir /var/log/supervisor
+$ supervisord -c /etc/supervisord.conf
+</code></p>
+
+<ul>
+<li>ログが出力されているのか確認</li>
+</ul>
+
+
+<p><code>
+$ tail -f /var/log/supervisor/hello-std*
+==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
+Wed Dec  4 10:32:17 UTC 2013
+Wed Dec  4 10:32:18 UTC 2013
+Wed Dec  4 10:32:19 UTC 2013
+Wed Dec  4 10:32:20 UTC 2013
+</code></p>
+
+<ul>
+<li>状態を確認するためにプロセスを監視しておく</li>
+</ul>
+
+
+<p><code>
+$ strace -e trace=open -p `pgrep supervisor`
+</code></p>
+
+<ul>
+<li>/var/log/supervisor/を移動する</li>
+</ul>
+
+
+<p><code>
+$ mv /var/log/supervisor /var/log/supervisor_old
+</code></p>
+
+<p>tailで流しているログが流れ続けているか確認する。<br/>
+ログが止まっていたりしたらがんばってください。</p>
+
+<ul>
+<li>別のディレクトリを作成してsymlinkしてみる</li>
+</ul>
+
+
+<p><code>
+$ mkdir /var/log/supervisor_new
+$ ln -s /var/log/supervisor_new /var/log/supervisor
+$ ls -la /var/log/supervisor
+</code></p>
+
+<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
+
+<ul>
+<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
+</ul>
+
+
+<p>出力され続けていることを確認</p>
+
+<p><code>
+$ ls -la /var/log/supervisor_old
+</code></p>
+
+<p><code>SIGUSR2</code>を発行</p>
+
+<p><code>
+$ kill -SIGUSR2 `pgrep supervisor`
+</code></p>
+
+<p>こんな感じでシグナルがやってきて</p>
+
+<p><code>
+$ strace -e trace=open -p `pgrep supervisor`
+Process 22859 attached - interrupt to quit
+--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
+open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
+open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5
+</code></p>
+
+<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
+
+<p><code>
+$ tail -f /var/log/supervisor/hello-std*
+Wed Dec  4 10:03:42 UTC 2013
+Wed Dec  4 10:03:43 UTC 2013
+Wed Dec  4 10:03:44 UTC 2013
+Wed Dec  4 10:03:45 UTC 2013
+Wed Dec  4 10:03:46 UTC 2013
+Wed Dec  4 10:03:47 UTC 2013
+</code></p>
+
+<p>学ぶことは多い。</p>
+]]></content>
+  </entry>
+  
+</feed>

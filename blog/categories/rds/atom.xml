@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rds | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/rds/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/25/get-cloudwatch-rds-ec2/"/>
+    <updated>2013-02-25T01:10:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/25/get-cloudwatch-rds-ec2</id>
+    <content type="html"><![CDATA[<p>CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。</p>
+
+<p><div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_rds.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>こんな感じで適当に叩いたら良い感じに取ってきてくれます。<br/>
+デフォルトの<em>metirc_name</em>パターンはコメントアウトに書いてます。</p>
+
+<p>start_timeとかperiodいじると返ってくるデータパターンが変わってくるので<br/>
+色々遊んでみてください。</p>
+
+<p>ついでにEC2のデータもとってくれるようなの書いてみたんですが<br/>
+デフォルトで手に入るメトリクス少ないので<br/>
+CloudWatchでデータ取るなら自分でメトリクスつくらないとダメですね。</p>
+
+<p><div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_ec2.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>Enjoy CloudWatch API!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/15/rds-tarinai/"/>
+    <updated>2013-02-15T13:21:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/15/rds-tarinai</id>
+    <content type="html"><![CDATA[<p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
+
+<p>こんなエラーが出た。</p>
+
+<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
+must exist in availability zones with sufficient capacity for
+VPC and provisioned IOPS for db.m1.small,<br/>
+so 1 more must be created in other availability zones;
+choose from these availability zones: ap-northeast-1c.</p></blockquote>
+
+<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
+<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
+
+<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
+Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
+缶コーヒーでもおごってあげたい気持ちになりました。</p>
+
+<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
+]]></content>
+  </entry>
+  
+</feed>

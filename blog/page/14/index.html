@@ -1,0 +1,1193 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="@kenjiskywalker DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー&mdash; con_mame (@con_mame) August 19, 2013 AWSで悩みがあったら大体@ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kenjiskywalker.github.com/kenjiskywalker/blog/page/14/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:kenjiskywalker.github.com/kenjiskywalker" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="http://d.hatena.ne.jp/kenjiskywalker/">Old Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/20/ebs-terminate-remove/">EC2をTerminateした時にEBSも削除してほしい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-20T19:35:00+09:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー</p>&mdash; con_mame (@con_mame) <a href="https://twitter.com/con_mame/statuses/369439049037017089">August 19, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>AWSで悩みがあったら大体@con_mameさんが解決してくれるんだ。<br/>
+お会いしたらbeerをおごりたい。</p>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/08/14/aws-vpc-autoscaling/">先日のAuto Scalingの検証時</a>に、インスタンスがTerminateされても<br/>
+利用されたEBSがうんちみたいに残ってしまうことがあった。</p>
+
+<p>残したくない場合は、AMI作成時に</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" alt="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" /></p>
+
+<p>上記のように<code>DeleteOnTermination</code>を有効化すれば良い。<br/>
+Auto Scalingで<code>DeleteOnTermination</code>を有効化したAMIを指定すれば<br/>
+EC2のインスタンスがTerminateされた時に、同時にEBSボリュームも削除してくれる。</p>
+
+<p>便利だ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/18/mini-keyboad/">便利キーボード情報です</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-18T19:41:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>外出時、iPad miniとかで対応する必要がある場合</p>
+
+<p><a href="http://www.amazon.co.jp/gp/product/B005LKIR72/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B005LKIR72&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005LKIR72&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B005LKIR72" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>これあればまず困らない。</p>
+
+<p>サーバで軽く作業したい場合</p>
+
+<p><a href="http://www.amazon.co.jp/gp/product/B004CR61QY/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B004CR61QY&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B004CR61QY&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B004CR61QY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>これがあればマウスとかいらないのでまず困らない。</p>
+
+<p>おすすめの品です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/18/emperor/">「終戦のエンペラー」みた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-18T19:26:00+09:00" pubdate data-updated="true">Aug 18<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.emperor-movie.jp/">http://www.emperor-movie.jp/</a></p>
+
+<p>面白かった。アヤのところいらないだろって思ったら<br/>
+<a href="http://www.emperor-movie.jp/production.html">おじいちゃんが&#8221;情熱的な愛のエピソードがあるといいね&#8221;ってと言って</a><br/>
+ってあったから、それは仕方ないなって思った。</p>
+
+<p><a href="http://ja.wikipedia.org/wiki/%E5%AE%AE%E5%9F%8E%E4%BA%8B%E4%BB%B6">宮城事件</a>とか知らない人多いと思うし<br/>
+一度「<a href="https://itunes.apple.com/jp/movie/ri-bennoichiban-zhangi-ri/id531114508">日本のいちばん長い日</a>」見ておくと良いと思う。<br/>
+当時の狂気な感じが伝わってくる凄みのある映画だ。</p>
+
+<p>あと多分、現代の日本人の家行ってもああいう感じでお茶出てこないと思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/14/aws-vpc-autoscaling/">AWSのVPCでAuto Scalingを試した記録</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-14T17:41:00+09:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1><a href="http://aws.amazon.com/jp/autoscaling/">Auto Scaling</a></h1>
+
+<p>ELBにぶら下がっているVPC内のEC2のインスタンスのCPU使用率が<br/>
+n%以上になったらインスタンス増やして負荷を分散する。</p>
+
+<p>普段AWSはGUIでしか操作していない為<br/>
+GUIが用意されていないAuto Scaling(以後:AS)を使うのは不安だった。<br/>
+全体像が掴めればそんなに困ることはない感じだ。</p>
+
+<p>大抵AWSの設定でハマるのはregionの指定のところだろう。<br/>
+これはマニュアルやコマンドのhelpはregionの省略を止めるべきだと思う。</p>
+
+<h1>設定する必要のある項目</h1>
+
+<h3>LaunchConfig</h3>
+
+<ol>
+<li>起動するAMIの指定</li>
+<li>そのAMIを利用して起動するインスタンスタイプの指定</li>
+<li>適応するセキュリティグループ名(VPCに適用するセキュリティグループ名)</li>
+<li>対象のリージョン</li>
+</ol>
+
+
+<h3>AutoScalingGroup</h3>
+
+<ol>
+<li>ぶら下がるELBの指定</li>
+<li>立ち上がった後のインスタンスの状態の確認方法(今回はELB)</li>
+<li>HelthCheckが走るまで待機する時間
+
+<blockquote><p>これを60秒とか短めに設定するとインスタンスが立ち上がる前にチェックが走って<br/>
+間に合わなくてターミネイトされて起動してターミネイトされてという地獄みたいな状態になった</p></blockquote></li>
+<li>立ち上げるインスタンスを配置する予定のアベイラビリティゾーン</li>
+<li>Auto Scalingで立ち上げる最小インスタンス</li>
+<li>Auto Scalingで立ち上げる最大インスタンス</li>
+<li>立ち上げるVPCのサブネット</li>
+<li>対象のリージョン</li>
+</ol>
+
+
+<h3>ScalingPolicyを設定する</h3>
+
+<blockquote><p>これはスケールアウト(インスタンス増加)とスケールイン(インスタンス減少)<br/>
+の2つのパターンを作成する</p></blockquote>
+
+<ol>
+<li>何台増加(減少)させるかの指定</li>
+<li>typeがよくわからない</li>
+<li>次にスケールするまでの待機時間(cooldown)</li>
+<li>対象のリージョン</li>
+</ol>
+
+
+<h3>CloudWatch</h3>
+
+<ol>
+<li>アラートの設定</li>
+</ol>
+
+
+<blockquote><p>CPUUtilization が n分間 m% の使用率以上(以下)であったらアラートを発行<br/>
+という設定を行う。このアラートがスケールアウト(スケールイン)のトリガーとなる</p></blockquote>
+
+<h1>設定していく</h1>
+
+<h3>LaunchConfig</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># 作成
+</span><span class='line'>$ as-create-launch-config ExampleLaunchSetting --image-id ami-XXXXXXXX --instance-type m1.small --region ap-northeast-1 --group sg-XXXXXXXX
+</span><span class='line'>
+</span><span class='line'># 削除
+</span><span class='line'>$ as-delete-launch-config ExampleLaunchSetting --region ap-northeast-1
+</span><span class='line'>
+</span><span class='line'># 確認
+</span><span class='line'>$ as-describe-launch-configs --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>--image-id</code> ASで利用するAMI</li>
+<li><code>--instance-type</code> ASで起動するEC2のインスタンスサイズ</li>
+<li><code>--group</code> 起動するインスタンスに適用するSecurityGroup</li>
+</ul>
+
+
+<h1>AutoScalingGroup</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># 作成
+</span><span class='line'>$ as-create-auto-scaling-group ExampleScaleOutGroup --launch-configuration ExampleLaunchSetting --load-balancers example-vpc-elb --health-check-type ELB  --grace-period 300 --availability-zones ap-northeast-1b,ap-northeast-1c --min-size 1 --max-size 2 --desired-capacity 1 --vpc-zone-identifier subnet-XXXXXXXb,subnet-XXXXXXXc --region ap-northeast-1
+</span><span class='line'>
+</span><span class='line'># 削除
+</span><span class='line'>$ as-delete-auto-scaling-group ExampleScaleOutGroup (--force-delete) --region ap-northeast-1
+</span><span class='line'>
+</span><span class='line'># 確認
+</span><span class='line'>$ as-describe-auto-scaling-groups --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>--launch-configuration</code> 上記で作成した起動設定</li>
+<li><code>--load-balancers</code> ELB配下にぶら下げるので対象のELBを指定</li>
+<li><code>--health-check-type</code> ELB以外のチェック方法調べてない</li>
+<li><code>--grace-period</code> ヘルスチェックをはじめるまでの時間
+
+<blockquote><p>これを60秒とか短めに設定するとインスタンスが立ち上がる前にチェックが走って
+ターミネイトされて起動してターミネイトされてという地獄みたいな状態になった</p></blockquote></li>
+<li><code>--availability-zones</code> ASで起動させるインスタンスを置くAZを指定(複数可)</li>
+<li><code>--min-size</code> ASの最小インスタンス数</li>
+<li><code>--max-size</code> ASの最大インスタンス数</li>
+<li><code>--desired-capacity</code> よくわかってない</li>
+<li><code>--vpc-zone-identifier</code> VPCにアサインされているサブネットの指定(複数可)</li>
+</ul>
+
+
+<p>この時点で設定に問題がなければインスタンスが起動してくる。<br/>
+インスタンスが起動しない、もしくは起動した後すぐにTerminateされるとしたら<br/>
+設定に誤りがあるか、<code>--grace-period</code>の閾値が厳しいのかのどちらかだろう。</p>
+
+<h2>Auto Scaleの状態の確認</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ as-describe-scaling-activities --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<p>このコマンドで設定したASの状態が理解できる。<br/>
+いわばASの動作ログというところだ。<br/>
+AutoScalingGroupでVPCの設定が足りなかったのに気付けた。</p>
+
+<blockquote><p>ACTIVITY  XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX  2013-08-13T10:56:45Z  ExampleScaleOutGroup  Failed  VPC security groups may not be used for a non-VPC launch. Launching EC2 instance failed.<br/>
+こんな感じのエラーが出てた</p></blockquote>
+
+<h2>Auto Scaleによって立ち上がったインスタンスの状態の確認</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ as-describe-auto-scaling-instances --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<h2>ASの最大インスタンス数と最小インスタンス数の変更</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ as-update-auto-scaling-group --min-size 2 --max-size 4 --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<p>オンラインでカジュアルに変更できる</p>
+
+<h3>ScalingPolicy</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># 作成
+</span><span class='line'>$ as-put-scaling-policy ScaleUpPolicy   --auto-scaling-group ExampleScaleOutGroup --adjustment=1  --type ChangeInCapacity --cooldown 300 --region ap-northeast-1 
+</span><span class='line'>$ as-put-scaling-policy ScaleDownPolicy --auto-scaling-group ExampleScaleOutGroup --adjustment=-1 --type ChangeInCapacity --cooldown 300 --region ap-northeast-1
+</span><span class='line'>
+</span><span class='line'># ScalingPolicyの確認
+</span><span class='line'>$ as-describe-policies  --region ap-northeast-1</span></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>--auto-scaling-group</code> AutoScalingGroupの指定</li>
+<li><code>--adjustment</code> トリガーにかかった際に増やす(減らす)数</li>
+<li><code>--type</code> 調べていない</li>
+<li><code>--cooldown</code> トリガーにかかった際に、連続してインスタンスの増減が発生しないように<br/>
+アイドル(クールダウン)の時間を設ける。</li>
+</ul>
+
+
+<h1>CloudWatchの設定</h1>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/AS1.png" alt="https://dl.dropboxusercontent.com/u/5390179/AS1.png" /></p>
+
+<p><code>Create Alarm</code> => <code>EC2 Aggregated by Auto Scaling Group</code> => AutoScalingGroupの選択<br/>
+今回はトリガー対象が<code>CPUUtilization</code>なのでそれを選択</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/AS2.png" alt="https://dl.dropboxusercontent.com/u/5390179/AS2.png" /></p>
+
+<p>名前をつける。<br/>
+<code>何分間の間 + CPU使用率が + n%以上(以下)</code>だったら<br/>
+という閾値を設定。画像は５分間の間CPU使用率が50%以上であれば。という設定</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/AS3.png" alt="https://dl.dropboxusercontent.com/u/5390179/AS3.png" /></p>
+
+<p>最後にその閾値に引っかかったら、<code>AutoScalingGroup</code>の<code>ScalingPolicy</code>を選択して<br/>
+インスタンスの増減を行う。インスタンスの増減が行われたら通知もしてほしいので、<br/>
+合わせて通知の設定も行った方がいいでしょう。</p>
+
+<h1>まとめ</h1>
+
+<ol>
+<li>ASのグループのCPU使用率が5分間50%以上を継続していた場合はインスタンスをひとつ増やす</li>
+<li>更に継続して10分間CPU使用率が50%以上を継続していた場合はインスタンスをひとつ増やす</li>
+<li>CPU使用率が5分間20%以下を継続していた場合はインスタンスをひとつ減らす</li>
+<li>CPU使用率が10分間20%以下を継続していた場合はインスタンスをひとつ減らす</li>
+</ol>
+
+
+<p>という設定を行い、期待した動作を確認することができた。</p>
+
+<p>CPUの負荷を与えるには<code>stress</code>コマンドを利用すると便利だ。</p>
+
+<p>以上、検証結果をまとめてはみたものの、やはり色々と設定箇所が多いので<br/>
+取っ付きづらい印象はあると思う。</p>
+
+<h2>全体を理解する</h2>
+
+<ul>
+<li><p>LaunchConfig<br/>
+起動するインスタンスの設定</p></li>
+<li><p>AutoScalingGroup<br/>
+インスタンスの増減や対象のELB、VPCなど<br/>
+インスタンスの環境の設定。
+<code>LaunchConfig</code>を参照する。</p></li>
+<li><p>ScalingPolicy<br/>
+インスタンスを何台増やす、減らすなど
+インスタンスを操作するのかを設定。
+<code>AutoScalingGroup</code>を参照する。</p></li>
+<li><p>CloudWatch<br/>
+Alarmに<code>ScalingPolicy</code>を設定することで<br/>
+AutoScalingGroupのメトリクス内容を見て<br/>
+<code>ScalingPolicy</code>を発動させる。</p></li>
+</ul>
+
+
+<p>上記のような関係性を理解して検証をすると<br/>
+全体像を把握しやすくなるのではないでしょうか。</p>
+
+<p>取り敢えずのメモとして、また、これからAutoScalingを試す人向けに<br/>
+多少力添えできればと思い書いてみました。</p>
+
+<p>熟練者様のご指摘お待ちしております。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/13/obon/">お盆とは</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-13T23:19:00+09:00" pubdate data-updated="true">Aug 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="http://ja.wikipedia.org/wiki/%E3%81%8A%E7%9B%86">お盆</a></h2>
+
+<blockquote><p>一般に仏教の行事と認識されているが、仏教の教義で説明できない部分も多い。<br/>
+古神道における先祖供養の儀式や神事を、江戸幕府が庶民に強いた檀家制度により<br/>
+仏教式で行う事も強制し、仏教行事の「盂蘭盆」（うらぼん）が習合して<br/>
+現在の形が出来たとされる</p></blockquote>
+
+<h2><a href="http://ja.wikipedia.org/wiki/%E5%8F%A4%E7%A5%9E%E9%81%93">古神道</a></h2>
+
+<blockquote><ol>
+<li>仏教、儒教、道教、渡来以前の日本の宗教。原始神道。</li>
+<li>江戸時代の復古神道の流れを汲み、幕末から明治にかけて成立した神道系新宗教運動。<br/>
+仏教、儒教、道教、渡来以前の日本の宗教を理想としている。
+通常はこちらを古神道という。<br/>
+神道天行居や出雲大社教、神理教、古神道仙法教などの教団が存在している。
+大本などに影響を与えた。</li>
+</ol>
+</blockquote>
+
+<h2><a href="http://ja.wikipedia.org/wiki/%E7%9B%82%E8%98%AD%E7%9B%86">盂蘭盆</a></h2>
+
+<blockquote><p>盂蘭盆会（うらぼんえ、ullambana、उल्लम्बन）とは、安居（あんご）の最後の日、<br/>
+旧暦7月15日を盂蘭盆（ullambana）とよんで、父母や祖霊を供養し、<br/>
+倒懸（とうけん）の苦を救うという行事である。<br/>
+これは『盂蘭盆経』（西晋、竺法護訳）『報恩奉盆経』（東晋、失訳）などに説かれる<br/>
+目連尊者の餓鬼道に堕ちた亡母への供養の伝説による。</p></blockquote>
+
+<p><a href="http://www.choutin.com/obon/sitteru-iware.htm">お盆のいわれと由来</a></p>
+
+<p>［盂蘭盆会・うらぼんえ］とは<br/>
+インドのサンスクリット語のウラバンナ（逆さ吊り）を漢字で音写したもので、 転じて<br/>
+「逆さまに釣り下げられるような苦しみにあっている人を救う法要」という意味です。</p>
+
+<h2><a href="http://ja.wikipedia.org/wiki/%E7%9B%82%E8%98%AD%E7%9B%86">目連伝説</a></h2>
+
+<blockquote><p>この行事は本来インドのものではなく、仏教が中国に伝播する間に起こってきたものであろう。<br/>
+現在、この「盂蘭盆会」のよりどころとしている『盂蘭盆経』は、<br/>
+『父母恩重経』や『善悪因果経』などと共に、中国で成立した偽経であると考えられている。<br/>
+したがって、本来的には安居の終った日に人々が衆僧に飲食などの供養をした行事が転じて、<br/>
+祖先の霊を供養し、さらに餓鬼に施す行法（施餓鬼）となっていき、それに、<br/>
+儒教の孝の倫理の影響を受けて成立した、目連尊者の亡母の救いのための<br/>
+衆僧供養という伝説が付加されたのであろう。</p></blockquote>
+
+<p>大乗仏教の意味の分からない話ばかりだ。<br/>
+シッダールダが脇から生まれたとか、甘茶の雨が降ったのだの<br/>
+四万六千日の日に通えば四万六千日毎日通ったのと同じ効能があるだの。</p>
+
+<blockquote><p>「夏の修行が終った7月15日に僧侶を招き、<br/>
+多くの供物をささげて供養すれば母を救うことが出来るであろう」</p></blockquote>
+
+<p>仏像をつくるな、崇拝するな。と願ったシッダールダの想いは叶わず<br/>
+大乗仏教のおかげで現在もこんな感じによくわからない由来とか効能を持ちながら<br/>
+世界中でありがたがられたりしてる。</p>
+
+<p>由来がよくわからないお盆(盂蘭盆会)だけど、先祖供養は良いことだと思う。<br/>
+じーさんばーさんの墓参りに行きたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/12/mv-mysql-slave-server/">MySQLのスレーブサーバを別サーバに移設する時に注意すること</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-12T19:20:00+09:00" pubdate data-updated="true">Aug 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>移設元のスレーブサーバのMySQLが停止できる場合<br/>
+移設先のスレーブサーバで</p>
+
+<ul>
+<li>CREATE DATABASEして</li>
+<li>master.infoからreplユーザ作成して</li>
+<li>dumpファイルをバックアップサーバから持ってきて〜</li>
+</ul>
+
+
+<p>などの作業を行わなくても<code>SLAVE STOP</code>し<br/>
+MySQLを落とし変更が走らない状態にして<br/>
+MySQLのディレクトリを移設先に<code>rsync</code>で渡した方が手間も処理速度も遥かに速い。<br/>
+ただし、移設先でMySQLを起動して<code>SLAVE START</code>をすると</p>
+
+<blockquote><p>Could not find target log during relay log initialization rellay.log</p></blockquote>
+
+<p>このようにrelay_logが見つからないよ。というエラーが発生する。</p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.1/en/slave-logs-relaylog.html">16.2.2.1. The Slave Relay Log / MySQL 5.1 Reference Manual </a></p>
+
+<p>上記のようにホスト名が変わった場合にrelay_logのindexを修正する必要がある。<br/>
+これでレプリケーションが再開できるはずだ。</p>
+
+<p>オペレーションの手間も少なく効率的なので、移設元のスレーブサーバの<br/>
+MySQLが一時的に停止可能であれば、<code>rsync</code>でデータを持っていくのが<br/>
+効率的ではないでしょうか。</p>
+
+<p>移設先のサーバの利用可能なメモリ容量により<br/>
+<code>innodb_buffer_pool_size</code>などのチューニングが必要になるので<br/>
+設定ファイルなどは注意したい。</p>
+
+<p>また、スレーブサーバの増設などの場合は、<code>server-id</code>の変更漏れにも<br/>
+気を付けたい。取り敢えず移設でも<code>server-id</code>変えておくのが吉だ。</p>
+
+<p>毎回同じようなハマり方をする自分の為への戒めも兼ねた戒メモ</p>
+
+<h2>追記(2013/08/13)</h2>
+
+<blockquote class="twitter-tweet"><p>relay_logとか暗黙のデフォルトでホスト名が使われるところは明示的に指定しておいたほうがハマりにくいですよ / “MySQLのスレーブサーバを別サーバに移設する時に注意すること - さよならインターネット” <a href="http://t.co/IVPKvyxXWi">http://t.co/IVPKvyxXWi</a></p>&mdash; Ryuta Kamizono (@kamipo) <a href="https://twitter.com/kamipo/statuses/366906226359009280">August 12, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>kamipoさんのこちらの<a href="https://github.com/kamipo/etcfiles/blob/master/etc/my.cnf#L57">my.cnf</a>が参考になる。<br/>
+kamipoさん、ありがとうございます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://apatheia.info/blog/2013/08/10/immutable-infrastructure/">Immutable Infrastracture について / apatheia.info</a><br/>
+こちらのエントリーを読んでふと思いついたので書きました。</p>
+
+<p><a href="http://www.isejingu.or.jp/shikinensengu/">式年遷宮 / 伊勢神宮</a></p>
+
+<p>今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、<br/>
+このシステム、今のインターネットのインフラストラクチャの<br/>
+モデルとして結構参考になるのではないだろうか。</p>
+
+<p>さすがに20年間無停止で動いているサーバは<br/>
+その存在自体が重要文化財になってしまうが、例えば、１つのシステムを<br/>
+ロードバランサ、スイッチ、サーバ、ミドルウェア、ログ集約サーバなど<br/>
+完全に冗長化しておき、１週間毎に冗長化されたシステム、A、Bをそれぞれ入れ替える。</p>
+
+<p>このアーキテクチャを採用した場合、<br/>
+アプリケーションの大規模な改修が発生した場合にも<br/>
+スタンバイ側となっているインフラストラクチャ側で<br/>
+スナップショットのようなものを取得しておき、テストを行い、<br/>
+スナップショット時に戻れば、実サービスと同じ環境でテストが行える。</p>
+
+<p>アクティブ側となっているインフラストラクチャのハードに<br/>
+何かしらの問題が発生した場合、スタンバイ側のインフラストラクチャへ<br/>
+切り替えることにより、対障害性能を向上することが可能になる。</p>
+
+<p>また、アクティブスタンバイ化されたシステムは、なかなかどうして<br/>
+テスト時と同じ結果になってくれず、サービスダウンした際に<br/>
+フェイルオーバーしないことがよくある。</p>
+
+<p>しかし、この式年遷宮インフラストラクチャを採用すれば<br/>
+定期的に切り替えが発生するので、切り替え時にエラーが発生した場合にも<br/>
+発見が早くなり、結果的にシステムそのもののテストという側面を持ち、<br/>
+障害発生時に高確率でフェイルオーバーが成功するのではないだろうか。</p>
+
+<p>問題となるのは、切り替えそのものの正確性の確保、一つのシステムを冗長化するコスト、<br/>
+切り替え前、切り替え前後の監視対象の切り替え、切り替え時のログの欠落をなくす工夫、<br/>
+切り替え時にサービスに影響を及ぼさない工夫など、実現する為には様々な困難はある。</p>
+
+<p>とはいえ、機械を利用し利便性を向上してきた我々は<br/>
+やはりその機械を運用するというそのものについても利便性を求め<br/>
+職人の技、秘伝のタレなど閉鎖的な情報に頼ること無く、また、運用担当者が<br/>
+毎日深い眠りに就けるよう、日々楽をする為の努力をしていきたいものであります。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/03/art-of-readable-code/">リーダブルコード読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-03T14:18:00+09:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/4873115655/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4873115655&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4873115655&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=4873115655" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>本読むより人のコード読んだ方が勉強なるけど<br/>
+こういう所作の話全然知らないから面白かった。</p>
+
+<h3>自分メモ</h3>
+
+<ul>
+<li>ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い</li>
+<li>汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う<br/>
+hosts,status,get,list,この辺汎用的な名前付けがちなのでわかりやすいようにする</li>
+<li>スコープが小さければx,yとか使っても良いけど目視で追い切れないところで使うと追う手間が発生する</li>
+<li>コメントで補う前にコードや変数名をよしなにできないか考える</li>
+<li>ループロジックは簡潔に、かつそれぞれのメソッドがわかりやすいように</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/31/serverspec-attribute/">Serverspecでchefのjsonを読み込む</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T09:48:00+09:00" pubdate data-updated="true">Jul 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>2013/12/25 update</p></blockquote>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a>の続きみたいなものですが<br/>
+Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって<br/>
+テスト対象が変化する場合があるかと思います。<br/>
+その場合、<a href="http://serverspec.org/">serverspec</a>にはpropertyの機能があるのでそれを利用します。</p>
+
+<h2>spec/spec_helper.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p><code>set_property</code>の項目を追加します。</p>
+
+<h2>nodes/host.json</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=nodes_host.json'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じでこのMySQLはSlaveですみたいなフラグがあって</p>
+
+<h2>cookbooks/mysql/templates/default/my.cnf.erb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_templates_default_my.cnf.erb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなテンプレートがあったら</p>
+
+<h2>cookbooks/mysql/spec/is_slave_spec.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_spec_is_slave_spec.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>このように<code>property["mysql"]["is_slave"]</code>として値を利用することができます。</p>
+
+<blockquote><p>specファイル、<code>if ~ end</code>で囲ってるのがモサいので、良案をお待ちしております</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/30/miyako-osusume/">2013年 宮古島で最高の夏情報</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-30T23:13:00+09:00" pubdate data-updated="true">Jul 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近宮古島行ってきたのでおすすめ情報載せますね。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/miyako-soba.png" alt="https://dl.dropboxusercontent.com/u/5390179/miyako-soba.png" /></p>
+
+<h1>レンタカー</h1>
+
+<p>島１周するのに２時間もあれば周れるので、レンタカーおすすめします。<br/>
+伊良部島行きたい場合はレンタカーに確認しておいた方が良いです。<br/>
+沖縄本島と比べると日差しが全然違うので<br/>
+歩いてとか移動するとだいぶつらいと思う。</p>
+
+<p>お金あるなら毎回タクシーでも良いかもしれない。<br/>
+１人ツール・ド・宮古島やるなら夏避けないと無理っぽい。<br/>
+信号はほとんどないので優雅なドライブできておすすめです。</p>
+
+<h1>宿泊先</h1>
+
+<p>東急リゾートとか海の近くも良いけど<br/>
+メシ屋が大量にある平良付近をおすすめします。</p>
+
+<p>海の近くが良いとか思うかもしれないですが、<br/>
+海岸自体はどれも小さくて、色んなところにあるので<br/>
+朝起きたら海を見たい or ホテルで引きこもりメインの旅行<br/>
+でなければ、利便性とかお店がたくさんある繁華街のホテルをおすすめします。</p>
+
+<h1>飯屋</h1>
+
+<h2><a href="http://www.churashima.net/gourmet/soba_museum/miyako/kikuei.html">菊栄食堂</a></h2>
+
+<p>ベーシックな宮古そばが500円で食べれるのでおすすめ。<br/>
+バックパッカーみたいな人が悩んで肉そば頼んでて<br/>
+肉、めちゃめちゃ乗っかってエッ！？ってなってた。</p>
+
+<p>宮古島の人に聞いたら、宮古島の人は安くてたくさん食べたいんだって言ってた。</p>
+
+<h2><a href="http://tabelog.com/okinawa/A4705/A470503/47008385/">ハイサイ居酒屋</a></h2>
+
+<p>食べ飲み放題3000円っていうのがあって<br/>
+いやー、これで食べ飲み放題3000円かーって言ってたべてて<br/>
+肉ばっかりだったからサラダとかあります？って聞いて<br/>
+あとで出すよ！って言われて待ってたら<br/>
+餃子１２個乗っかったサラダ出てきて、？？？ってなって<br/>
+え、これもですか？って聞いたら足りない？まだ出すよ？って言われて<br/>
+大丈夫です。って言った。宮古島の質量を実感した夕飯だった。</p>
+
+<p>シークワーサーサワーが絶品だった。<br/>
+ここ以外のお店でもシークワーサーサワー飲んだけど<br/>
+多分都内の沖縄料理屋の方が質が良いと思う。</p>
+
+<p>最終日シークワーサーサワー飲みたくてまた行った。</p>
+
+<h2><a href="http://park20.wakwak.com/~chanoma/index.htm">まなつスパイスカフェ茶音間</a></h2>
+
+<p>オシャレ系カレー屋さん。スパイス効いてて美味しい。</p>
+
+<h2><a href="http://miyako-kihachi.com/">宮古牛喜八</a></h2>
+
+<p>店員さんが面白い。閉店の時間だったけどボクシング最後まで見てた。<br/>
+厚切りタンが美味い。</p>
+
+<h2><a href="http://www.dougsburger.com/">DOUG&#8217;S BURGER</a></h2>
+
+<p>ダグズ・バーガー美味い。オニオンリングも美味い。コーヒーも美味かった。<br/>
+元ライブドア社長の照井さんのご兄弟が経営されてるらしい。<br/>
+ダグ氏、ずっとアメリカ人だと思ってた。</p>
+
+<h2><a href="http://www.ritou.com/spot/view-miyako-m117.html">二枚屋</a></h2>
+
+<p>2000円で飲み食べ放題。バイキング形式で近くでとれるカツオが並んでたりした。<br/>
+安くたらふく呑んで食う。ザ・宮古島スタイルのお店だった。</p>
+
+<h2><a href="https://sites.google.com/site/nemamangofarm/">亜熱帯工房 宮古島</a></h2>
+
+<p>マンゴーつくってるところでマンゴージュース飲める。めちゃ美味い。<br/>
+マンゴーのピクルスが絶品だった。</p>
+
+<h2>マリンスポーツ</h2>
+
+<p>シュノーケル、ツアーとか使わないでも吉野海岸行けば<br/>
+市が運営してる海の家で道具借りれて、目の前珊瑚だらけで魚いっぱいいるらしい。</p>
+
+<h2>やたら離島すすめてくるヤツ</h2>
+
+<p>の気持ちわかった。海、大体貸し切り状態だったし<br/>
+信号ほとんどなかったし、普段人がたくさんいるところでイライラしたり<br/>
+インターネットとかでせかせかしてる意味何なんだろうとか<br/>
+人にとっての幸せって何なんだろうとか考えるヤツの気持ちもわかった。</p>
+
+<h2>現地のヤンキーっぽい女の子のおすすめのお店</h2>
+
+<p>居酒屋しか知らないらしくて穴場とか知らないって言ってた。<br/>
+ひとつおすすめされたお店行ったけど都内にあるような普通の店だった。</p>
+
+<p>かわいい現地の女の子に声かけまくるの<br/>
+カミさんに怒られるから気を付けた方がいい。</p>
+
+<h2>最高の夏</h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/saiko-natsu.png" alt="https://dl.dropboxusercontent.com/u/5390179/saiko-natsu.png" /></p>
+
+<p>アイツらと行った宮古島の思い出、最高の夏</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/15/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/13/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<br>
+<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
+はろーもしもし。<br>
+ぼくは元気でやっています。<br>
+みんなは元気ですか。<br>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kenjiskywalker',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Coderwall</h1>
+  <ul id="cw_badges">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+
+  <script type="text/javascript">
+    var coderwall = (function(){
+      function render(options, badges){
+        var fragment = '',
+            t = $(options.target)[0],
+            height = 65,
+            width = 65,
+            index;
+
+        for (index in badges) {
+          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
+          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
+          fragment += '</a>';
+        }
+
+        t.innerHTML = fragment;
+      }
+      return {
+        showBadges: function(options){
+          $.ajax({
+              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
+            , type: 'jsonp'
+            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
+            , success: function(res) {
+                render(options, res.data.badges);
+            }
+          });
+        }
+      };
+    })();
+
+    $.domReady(function(){
+      if (!window.jXHR){
+        var jxhr = document.createElement('script');
+        jxhr.type = 'text/javascript';
+        jxhr.src = '/javascripts/libs/jXHR.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(jxhr, s);
+      }
+      if (!window.$){
+        var b = document.createElement('script');
+        b.type = 'text/javascript';
+        b.src = '/javascripts/ender.js';
+        var sc = document.getElementsByTagName('script')[0];
+        sc.parentNode.insertBefore(jxhr, s);
+      }
+      coderwall.showBadges({
+        user: 'kenjiskywalker',
+        target: '#cw_badges'
+      });
+    });
+  </script>
+  <style type="text/css">
+    .cw_badge img {
+      padding: 5px;
+      border: 0 none !important;
+      -moz-box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      -o-box-shadow: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

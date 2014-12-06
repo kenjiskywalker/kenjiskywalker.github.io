@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: chefspec | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/chefspec/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[chefspecを利用したcookbookの動作テスト]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/26/chefspec/"/>
+    <updated>2013-03-26T16:34:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/26/chefspec</id>
+    <content type="html"><![CDATA[<blockquote><p>chefspec 1.0.0.rc1</p></blockquote>
+
+<p>Chefのcookbookのテストどうしたらいいんだろうって悩んでいたのですが<br/>
+chefspecが良さそうだったので試してみました。</p>
+
+<p>テストしたいことは</p>
+
+<ul>
+<li>cookbookのrecipeに書いてあることが期待通り実行されるか</li>
+<li>ホスト名やプラットフォーム別のrecipeが期待通り実行されるか</li>
+</ul>
+
+
+<p>この2点です。</p>
+
+<p>下記のようなcookbookがあるとして</p>
+
+<p><code>cookbook/yum/recipe/default.rb</code></p>
+
+<p>```
+template "/etc/yum.conf" do
+  source "yum.conf.erb"
+  owner  "root"
+  mode   0644
+end</p>
+
+<p>file "/etc/yum/exclude.conf" do
+  owner "root"
+  mode  0644
+  only_if { node[:platform_version].to_i == 5}
+end</p>
+
+<p>file "/etc/yum/installonlypkgs.conf" do
+  owner "root"
+  mode  0644
+  only_if { node[:platform_version].to_i >= 6 }
+end
+```</p>
+
+<p><code>cookbook/yum/recipe/default.rb</code></p>
+
+<p>```
+[main]
+cachedir=/var/cache/yum/$basearch/$releasever
+keepcache=0
+debuglevel=2
+logfile=/var/log/yum.log
+exactarch=1
+obsoletes=1
+gpgcheck=1
+plugins=1
+installonly_limit=3</p>
+
+<h1>This is the default, if you make this bigger yum won't see if the metadata</h1>
+
+<h1>is newer on the remote and so you'll "gain" the bandwidth of not having to</h1>
+
+<h1>download the new metadata and "pay" for it by yum not having correct</h1>
+
+<h1>information.</h1>
+
+<h1>It is esp. important, to have correct metadata, for distributions like</h1>
+
+<h1>Fedora which don't keep old packages around. If you don't like this checking</h1>
+
+<h1>interupting your command line usage, it's much better to have something</h1>
+
+<h1>manually check the metadata once an hour (yum-updatesd will do this).</h1>
+
+<h1>metadata_expire=90m</h1>
+
+<h1>PUT YOUR REPOS HERE OR IN separate files named file.repo</h1>
+
+<h1>in /etc/yum.repos.d</h1>
+
+<p>&lt;% if node[:platform_version].to_i == 5 %>
+include=/etc/yum/exclude.conf
+&lt;% elsif node[:platform_version].to_i >= 6 %>
+include=/etc/yum/installonlypkgs.conf
+&lt;% end %>
+```</p>
+
+<h4>platform_versionが <strong>5</strong> のときは</h4>
+
+<ul>
+<li><em>/etc/yum/exclude.conf</em>をつくる</li>
+<li><em>/etc/yum.conf</em>に<em>"include=/etc/yum/exclude.conf"</em>の設定を追加</li>
+</ul>
+
+
+<h4>platform_versionが <strong>6</strong> のときは</h4>
+
+<ul>
+<li><em>/etc/yum/installonlypkgs.conf</em>をつくる</li>
+<li><em>/etc/yum.conf</em>に<em>"include=/etc/yum/installonlypkgs.conf"</em>の設定を追加</li>
+</ul>
+
+
+<p>という動作をテストします。</p>
+
+<h2>Specファイルの書き方</h2>
+
+<p><code>
+$ gem install chefspec -v1.0.0.rc1
+</code></p>
+
+<blockquote><p>v1.0.0じゃないとChef v11では動かなかった https://github.com/acrmp/chefspec/issues/109</p></blockquote>
+
+<p>使い方は<a href="https://github.com/acrmp/chefspec/blob/master/README.md">README</a>を読めば大体わかります。<br/>
+Specファイルは <code>cookbook/*/spec/default_spec.rb</code> というファイルとして置きます。</p>
+
+<p><code>cookbook/yum/spec/default_spec.rb</code></p>
+
+<p>```
+require 'chefspec'</p>
+
+<h1>mock versions: https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/</h1>
+
+<h1>5.8 or 6.2</h1>
+
+<p>describe 'yum::defaults platform version 5' do
+  chef_run = ChefSpec::ChefRunner.new(platform:'centos', version:'5.8')
+  chef_run.converge 'yum::default'
+  it 'platform_version 5 yum include' do</p>
+
+<pre><code>expect(chef_run).to create_file_with_content '/etc/yum.conf' , 'include=/etc/yum/exclude.conf'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>describe 'yum::defaults platform version 6' do
+  chef_run = ChefSpec::ChefRunner.new(platform:'centos', version:'6.2')
+  chef_run.converge 'yum::default'
+  it 'platform_version 6 yum include' do</p>
+
+<pre><code>expect(chef_run).to create_file_with_content '/etc/yum.conf' , 'include=/etc/yum/installonlypkgs.conf'
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>chefspecはモックデータとしてfauxhaiのplatformsから、テストデータを引っ張ってきます。<br/>
+なので、CentOS系であれば</p>
+
+<ul>
+<li><a href="https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/centos">https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/centos</a></li>
+</ul>
+
+
+<p>この中から近いバージョンを選ぶ感じになるかと思います。</p>
+
+<p>このデータを利用することで<br/>
+プラットフォーム毎のテストを行うことができてだいぶ捗る印象があります。</p>
+
+<p>また、<em>create_file_with_content</em>で作成されるファイルと、その中にかかれてほしい文字列<br/>
+をテストすることができてなかなか良い感じっぽいです。</p>
+
+<h2>Rakeでテスト回す</h2>
+
+<p><code>Rakefile</code>
+```
+task :default => [:chefspec]
+begin
+  require 'rspec/core/rake_task'</p>
+
+<pre><code>RSpec::Core::RakeTask.new(:chefspec) do |spec|
+  spec.pattern = 'cookbooks/*/spec/default_spec.rb'
+  spec.rspec_opts = ['-cfs']
+</code></pre>
+
+<p>  end
+rescue LoadError => e
+end
+```</p>
+
+<p>Rakefileを上記な感じで記述して</p>
+
+<p>```
+$ rake
+/Users/kenjiskywalker/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec cookbooks/ntp/spec/default_spec.rb cookbooks/yum/spec/default_spec.rb -cfs
+Compiling Cookbooks...
+Compiling Cookbooks...</p>
+
+<p>ntp::defaults
+Compiling Cookbooks...
+  should ntp package install
+Compiling Cookbooks...
+  should ntp.conf setting</p>
+
+<p>yum::defaults platform version 5
+  platform_version 5 yum include</p>
+
+<p>yum::defaults platform version 6
+  platform_version 6 yum include</p>
+
+<p>Finished in 0.15855 seconds
+```</p>
+
+<p>みたいな感じで一発でテストを通すことができて便利っぽいです。<br/>
+以上、簡単なchefspec情報でした。</p>
+]]></content>
+  </entry>
+  
+</feed>

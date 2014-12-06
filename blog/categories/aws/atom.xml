@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: aws | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Route53を利用したフェイルオーバーシステムの作成]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/route53-healthcheck-failover/"/>
+    <updated>2014-06-06T00:04:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/route53-healthcheck-failover</id>
+    <content type="html"><![CDATA[<p>AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。</p>
+
+<h2>TL;DR</h2>
+
+<p>同一のレコードをPrimaryとSecondaryで作成し<br/>
+Primary、SecondaryそれぞれでHealth Check to Associateを設定する。<br/>
+PrimaryのHealth Checkが失敗した場合、Secondaryに遷移する。<br/>
+SecondaryもダメだったらPrimaryに変わる。<br/>
+両方同じタイミングでダメになったらPrimaryのまま。</p>
+
+<h2>手順</h2>
+
+<h3>Health Checkの設定</h3>
+
+<h5>1. <em>Health Checks</em> にてヘルスチェック対象のホスト・サービスを設定</h5>
+
+<h3>Health Checkを利用するレコードの作成</h3>
+
+<h5>2-1. <em>Hosted Zones</em> にてフェイルオーバーを行いたいDNSを設定</h5>
+
+<h5>2-2. <em>Create Record Set</em> にてレコードの作成(Primary)</h5>
+
+<h5>2-3. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
+
+<h5>2-4. <em>Failover Record Type</em> にて <em>Primary</em> を選択</h5>
+
+<h5>2-5. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
+
+<h5>2-6. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
+
+<h5>2-7. <em>Create Record Set</em> にてレコードの作成(Secondary)</h5>
+
+<h5>2-8. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
+
+<h5>2-9. <em>Failover Record Type</em> にて <em>Secondary</em> を選択</h5>
+
+<h5>2-10. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
+
+<h5>2-11. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
+
+<p>２つの同じレコードを作成し、応答するレコードをそれぞれ<br/>
+Primary, Secondaryと指定することでフェイルオーバーする仕組み。</p>
+
+<blockquote><p>www.example.com:80</p>
+
+<p>  => Primary
+   hoge01.example.com:80 (health check http://hoge01.example.com)</p>
+
+<p>  => Secondary
+   hoge02.example.com:80 (health check http://hoge02.example.com)</p></blockquote>
+
+<p>こんな構成で <em>http://www.example.com</em> へのアクセスは通常だと<br/>
+<em>hoge01</em> へアクセスが行くようになっていて、 <em>hoge01</em> の<br/>
+レスポンスに異常があった場合に <em>hoge02</em> へ行くようになる。</p>
+
+<p>試しに ヘルスチェックを <em>tcp:24224</em> にしても問題なく認識したので<br/>
+fluentdの集約サーバを冗長構成にしておいて</p>
+
+<blockquote><p>log.example.com:24224</p>
+
+<p>  => Primary
+   hoge01.example.com (health check tcp://hoge01.example.com:24224)</p>
+
+<p>  => Secondary
+   hoge02.example.com (health check tcp://hoge02.example.com:24224)</p></blockquote>
+
+<p>通常は <em>hoge01</em> にて集約し、メンテナンスなど<br/>
+行いたい場合に <em>hoge01</em> のfluentdを落としたら、自動的に<br/>
+レコードが切り替わり、 <em>hoge02</em> の方へログが流れていくような構成が組めたりする。<br/>
+<em>hoge01</em> のfluentd を立ち上げるとPrimaryが正常になったことが認識され<br/>
+レコードは元の <em>hoge01</em> へ向き直る。</p>
+
+<p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/"/>
+    <updated>2014-05-12T18:13:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk</id>
+    <content type="html"><![CDATA[<p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
+存在しない場合は無視されるので、下記のように4本など<br/>
+事前に指定しておくのが良いかと思います。</p>
+
+<ul>
+<li>create-launch-configuration</li>
+</ul>
+
+
+<p>```
+$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \</p>
+
+<pre><code>              --image-id AMI \
+              --instance-type m1.small \
+              --key-name KEYNAME \
+              --security-groups sg-00000000 sg-00000001 \
+              --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
+                                         {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
+                                         {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
+                                         {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
+                                       ]'
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>aws autoscaling --region REGION describe-launch-configurations</li>
+</ul>
+
+
+<p>```
+{</p>
+
+<pre><code>"LaunchConfigurations": [
+    {
+        "UserData": null,
+        "EbsOptimized": false,
+        "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
+        "InstanceMonitoring": {
+            "Enabled": true
+        },
+        "ImageId": "AMI",
+        "CreatedTime": "2014-01-01T01:00:00.000Z",
+        "BlockDeviceMappings": [
+            {
+                "DeviceName": "/dev/sdd",
+                "VirtualName": "ephemeral2"
+            },
+            {
+                "DeviceName": "/dev/sdb",
+                "VirtualName": "ephemeral0"
+            },
+            {
+                "DeviceName": "/dev/sde",
+                "VirtualName": "ephemeral3"
+            },
+            {
+                "DeviceName": "/dev/sdc",
+                "VirtualName": "ephemeral1"
+            }
+        ],
+        "KeyName": "KEYNAME",
+        "SecurityGroups": [
+            "sg-00000000",
+            "sg-00000001"
+        ],
+        "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
+        "KernelId": null,
+        "RamdiskId": null,
+        "InstanceType": "m1.small"
+    }
+]
+</code></pre>
+
+<p>}
+```</p>
+
+<p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/09/autoscaling-tag/"/>
+    <updated>2014-05-09T18:00:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/09/autoscaling-tag</id>
+    <content type="html"><![CDATA[<p><a href="http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html">【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ</a></p>
+
+<p>こちらの便利機能が追加されたので早速設定してみました。</p>
+
+<h2><a href="http://docs.aws.amazon.com/cli/latest/reference/autoscaling/create-or-update-tags.html">AWS CLI - create-or-update-tags</a></h2>
+
+<blockquote><p>--tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
+
+<p>```
+aws --region REGION autoscaling create-or-update-tags \</p>
+
+<pre><code>--tags ResourceId=AUTOSCALINGGROUP_NAME, \
+       ResourceType=auto-scaling-group, \
+       Key=KEY, \
+       Value=VALUE, \
+       PropagateAtLaunch=true
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>ResourceId</li>
+</ul>
+
+
+<p>tagを設定するAutoScalingGroupの名前を指定</p>
+
+<ul>
+<li>ResourceType</li>
+</ul>
+
+
+<p>他に何の設定があるのかは不明ですが<code>auto-scaling-group</code>を指定しておけば問題ないかと</p>
+
+<ul>
+<li>Key</li>
+</ul>
+
+
+<p>tagのKey名</p>
+
+<ul>
+<li>Value</li>
+</ul>
+
+
+<p>tagのValue名</p>
+
+<ul>
+<li>PropagateAtLaunch</li>
+</ul>
+
+
+<p>設定したtagをAutoScalingGroupによって起動されたEC2インスタンスにも適用させるかどうか</p>
+
+<p>上記の設定を行うことで、AutoScalingGroupにて起動されたEC2インスタンスへ<br/>
+タグが適用されるようになります。大変便利ですね。ありがとうございます。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Instance Store-BackedのAMIをつくる]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/18/instance-store-backed-ami/"/>
+    <updated>2014-03-18T23:04:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/18/instance-store-backed-ami</id>
+    <content type="html"><![CDATA[<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
+
+<p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
+気を付けなければいけない点が何点かあったのでシェアさせて頂きます。</p>
+
+<blockquote><p>ec2-api-tools 1.6.12.0<br/>
+ec2-bundle-vol 1.4.0.9 20071010<br/>
+ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
+
+<ul>
+<li>AMIをつくる元のインスタンスにて</li>
+</ul>
+
+
+<p><code>
+[ec2-user ~]$ mkdir /tmp/cert
+[ec2-user ~]$ cd /tmp/cert
+</code></p>
+
+<ul>
+<li>手元からファイルを送る</li>
+</ul>
+
+
+<p><code>
+$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
+</code></p>
+
+<ul>
+<li>image元となるデータを作成</li>
+</ul>
+
+
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
+所々ファイルが消えます。</p>
+
+<p><code>
+[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
+-k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+-c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+-u your_aws_account_id -r x86_64 -e /tmp/cert
+</code></p>
+
+<ul>
+<li>S3にAMIの元となるデータをアップロードします</li>
+</ul>
+
+
+<p>AMIを作成するregionと合わせないとエラーになります。<br/>
+<code>--region</code>ではなく<code>--location</code></p>
+
+<p><code>
+[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
+-m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
+--location us-west-2
+</code></p>
+
+<ul>
+<li>AMIにregisterします</li>
+</ul>
+
+
+<p><code>
+[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
+-n AMI_name -O your_access_key_id -W your_secret_access_key \
+--region us-west-2
+</code></p>
+
+<p>以上です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[EC2のインスタンスが立ち上がってきた時にEphemeral Diskを束ねてRAID0にするスクリプト]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/02/24/ec2-start-raid0-script/"/>
+    <updated>2014-02-24T18:15:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/02/24/ec2-start-raid0-script</id>
+    <content type="html"><![CDATA[<p>Ephemeral Diskが8本ある場合は条件を増やせば良い。</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin:/usr/local/bin</p>
+
+<p>if [[ `test -e /dev/xvdc ; echo \$?` -eq 0 ]] ; then</p>
+
+<pre><code>if [[ \`test -e /dev/xvde ; echo \$?\` -eq 0 ]] ; then
+
+    # RAID用のファイルをつくる(ephemeral x4バージョン)
+    umount /media/ephemeral0
+    yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[bcde]
+    mkfs.ext4 /dev/md127
+    mount /dev/md127 /media/ephemeral0
+else
+
+    # RAID用のファイルをつくる(ephemeral x2バージョン)
+    umount /media/ephemeral0
+    yes | mdadm --create /dev/md127 --level=0 --raid-devices=2 /dev/xvd[bc]
+    mkfs.ext4 /dev/md127
+    mount /dev/md127 /media/ephemeral0
+fi
+</code></pre>
+
+<p>fi
+```</p>
+
+<p>このスクリプトを<code>rc.local</code>とか<code>/etc/rc3.d/S~</code>とかに置いておけば<br/>
+起動時にRAID0として束ねて立ち上がってくれる。</p>
+
+<blockquote><p>このクールなアイデアは自分発のものではない</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

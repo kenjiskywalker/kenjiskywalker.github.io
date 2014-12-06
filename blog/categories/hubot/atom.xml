@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: hubot | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/hubot/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[hubot-atというhubot pluginをつくった]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/04/hubot-at/"/>
+    <updated>2014-09-04T14:22:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/04/hubot-at</id>
+    <content type="html"><![CDATA[<p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
+hubotに持ってきました。</p>
+
+<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
+
+<p>というように</p>
+
+<p>```</p>
+
+<blockquote><p>hubot at HH:MM message
+```</p></blockquote>
+
+<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
+
+<p>元々taiyohさんが</p>
+
+<ul>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh's memorandum</a></li>
+</ul>
+
+
+<p>にて書いてくれていたので、それを踏襲しています。<br/>
+ありがとうございます。</p>
+
+<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
+]]></content>
+  </entry>
+  
+</feed>

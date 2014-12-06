@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: twitter | さよならインターネット]]></title>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/twitter/atom.xml" rel="self"/>
+  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
+  <updated>2014-12-07T05:52:04+09:00</updated>
+  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[retrobot]]></title>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/01/26/retro-bot/"/>
+    <updated>2014-01-26T03:00:00+09:00</updated>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/01/26/retro-bot</id>
+    <content type="html"><![CDATA[<p>mirakuiさんの「<a href="http://blog.mirakui.com/entry/2014/01/25/174428">1年前の自分と暮らす - 昼メシ物語</a> 」<br/>
+という記事を参考に<a href="https://twitter.com/_kenjiskywalker">@_kenjiskywalker</a>をつくりました。<br/>
+retweet機能はオフにさせてもらってます。</p>
+
+<p>去年の自分がPOSTしてるのSF感があって面白いですね。<br/>
+マリオカートのゴースト以来の衝撃です。</p>
+
+<p>mirakuiさんありがとうございます。</p>
+]]></content>
+  </entry>
+  
+</feed>
