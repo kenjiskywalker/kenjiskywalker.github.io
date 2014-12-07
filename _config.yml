@@ -64,7 +64,6 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-<<<<<<< HEAD
 github_user: kenjiskywalker
 github_repo_count: 5
 github_show_profile_link: disable
@@ -76,15 +75,6 @@ twitter_tweet_count: 4
 twitter_show_replies: true
 twitter_follow_button: false
 twitter_show_follower_count: false
-=======
-github_user:
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
-
-# Twitter
-twitter_user:
->>>>>>> octopress/master
 twitter_tweet_button: true
 
 # Google +1
