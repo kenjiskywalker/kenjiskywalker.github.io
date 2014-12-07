@@ -20,7 +20,7 @@ categories: blog
 
 「だめだ。もうやってらねー」って時は、空の tab を表示すればすぐ般若心経を唱えられる。最高。解脱したい。
 
-{% vimeo 59482395 %}
+<iframe src="//player.vimeo.com/video/59482395" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/59482395">渓流般若心経</a> from <a href="http://vimeo.com/user16420998">kenjiskywalker</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
 > 音が出ます。時間が経過すると般若心経が流れ出します。苦手な方は視聴を控えてください。
 

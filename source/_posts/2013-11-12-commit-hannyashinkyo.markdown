@@ -34,7 +34,7 @@ categories: blog
 open http://www.kenjiskywalker.org/hannyashinkyoo.html
 ```
 
-{% vimeo 79205431 %}
+<iframe src="//player.vimeo.com/video/79205431" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/79205431">commit般若心経</a> from <a href="http://vimeo.com/user16420998">kenjiskywalker</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
 ## 合わせて読みたい
 

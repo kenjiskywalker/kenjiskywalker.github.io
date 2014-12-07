@@ -21,7 +21,7 @@ keywords: mysqlcasual
 
 ## 発表内容
 
-{% slideshare 18994012 %}
+<iframe src="//www.slideshare.net/slideshow/embed_code/18994012" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/KenjiNaito/mysql-casual-4" title="mysql casual #4" target="_blank">mysql casual #4</a> </strong> from <strong><a href="//www.slideshare.net/KenjiNaito" target="_blank">kenjis skywalker</a></strong> </div>
 
 順番が@saisa6153さんの次という並び順でよかった。  
 カジュアルにSQLを勉強するには〜的な話が続けられて最高だった。  

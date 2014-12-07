@@ -13,7 +13,7 @@ keywords: perlcasual
   
 今回お声がけして頂いたyusukebe氏に感謝を。  
   
-{% slideshare 17854785 %}
+<iframe src="//www.slideshare.net/slideshow/embed_code/17854785" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/KenjiNaito/oss-community-perl-community-1" title="OSS Community初心者が Perl Communityから 学んだ1年" target="_blank">OSS Community初心者が Perl Communityから 学んだ1年</a> </strong> from <strong><a href="//www.slideshare.net/KenjiNaito" target="_blank">kenjis skywalker</a></strong> </div>
   
 #### 追記: 03/30 12:00  
 社内シーパン王サーの@mix3氏から、抜けてるぜ？ってご指摘を頂いて  
