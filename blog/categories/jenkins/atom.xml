@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jenkins | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/jenkins/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -25,13 +25,11 @@
 誰でも見れちゃうので悲しい感じになる。<br/>
 ということでVPNを貼って内部で接続しに行く。</p>
 
-<p>```
-+--------+             +-----+
+<pre><code>+--------+             +-----+
 | sakura | --- vpn --- | MBA |
 +--------+             +-----+
-[10.9.0.1]             [10.9.0.6]</p>
-
-<p>```</p>
+[10.9.0.1]             [10.9.0.6]
+</code></pre>
 
 <p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
 
@@ -42,9 +40,8 @@
 </ul>
 
 
-<p><code>
-JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"
-</code></p>
+<pre><code>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"
+</code></pre>
 
 <p>として、自分自身のアクセスだけ許可</p>
 
@@ -55,22 +52,18 @@ JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpL
 </ul>
 
 
-<p>```
-server {</p>
+<pre><code>server {
+    listen 80;
+    server_name jenkins.kenjiskywalker.org;
+    root /home/skywalker/www;
 
-<pre><code>listen 80;
-server_name jenkins.kenjiskywalker.org;
-root /home/skywalker/www;
-
-location /{
-    proxy_pass http://localhost:8080;
-    allow 10.9.0.0/16;
-    deny all;
+    location /{
+        proxy_pass http://localhost:8080;
+        allow 10.9.0.0/16;
+        deny all;
+    }
 }
 </code></pre>
-
-<p>}
-```</p>
 
 <p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
 

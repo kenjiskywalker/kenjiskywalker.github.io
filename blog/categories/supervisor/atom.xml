@@ -4,7 +4,7 @@
   <title><![CDATA[Category: supervisor | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/supervisor/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -23,31 +23,26 @@
 </ul>
 
 
-<p><code>
-$ sudo yum -y install python-setuptools
+<pre><code>$ sudo yum -y install python-setuptools
 $ sudo easy_install supervisor
 $ echo_supervisord_conf &gt; /etc/supervisord.conf
-</code></p>
+</code></pre>
 
 <ul>
 <li>テストスクリプト(/root/while.sh)を置く</li>
 </ul>
 
 
-<p>```</p>
-
-<h1>!/bin/bash</h1>
-
-<p>while true ; do date ; sleep 1 ; done
-```</p>
+<pre><code>#!/bin/bash
+while true ; do date ; sleep 1 ; done
+</code></pre>
 
 <ul>
 <li>/etc/supervisord.conf</li>
 </ul>
 
 
-<p><code>
-[unix_http_server]
+<pre><code>[unix_http_server]
 file=/tmp/supervisor.sock   ; (the path to the socket file)
 [supervisord]
 logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
@@ -67,49 +62,45 @@ serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
 priority = 100
 command = sh /root/while.sh
 redirect_stderr = true
-</code></p>
+</code></pre>
 
 <ul>
 <li>supervisorを走らせる</li>
 </ul>
 
 
-<p><code>
-$ mkdir /var/log/supervisor
+<pre><code>$ mkdir /var/log/supervisor
 $ supervisord -c /etc/supervisord.conf
-</code></p>
+</code></pre>
 
 <ul>
 <li>ログが出力されているのか確認</li>
 </ul>
 
 
-<p><code>
-$ tail -f /var/log/supervisor/hello-std*
+<pre><code>$ tail -f /var/log/supervisor/hello-std*
 ==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
 Wed Dec  4 10:32:17 UTC 2013
 Wed Dec  4 10:32:18 UTC 2013
 Wed Dec  4 10:32:19 UTC 2013
 Wed Dec  4 10:32:20 UTC 2013
-</code></p>
+</code></pre>
 
 <ul>
 <li>状態を確認するためにプロセスを監視しておく</li>
 </ul>
 
 
-<p><code>
-$ strace -e trace=open -p `pgrep supervisor`
-</code></p>
+<pre><code>$ strace -e trace=open -p `pgrep supervisor`
+</code></pre>
 
 <ul>
 <li>/var/log/supervisor/を移動する</li>
 </ul>
 
 
-<p><code>
-$ mv /var/log/supervisor /var/log/supervisor_old
-</code></p>
+<pre><code>$ mv /var/log/supervisor /var/log/supervisor_old
+</code></pre>
 
 <p>tailで流しているログが流れ続けているか確認する。<br/>
 ログが止まっていたりしたらがんばってください。</p>
@@ -119,11 +110,10 @@ $ mv /var/log/supervisor /var/log/supervisor_old
 </ul>
 
 
-<p><code>
-$ mkdir /var/log/supervisor_new
+<pre><code>$ mkdir /var/log/supervisor_new
 $ ln -s /var/log/supervisor_new /var/log/supervisor
 $ ls -la /var/log/supervisor
-</code></p>
+</code></pre>
 
 <h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
 
@@ -134,37 +124,33 @@ $ ls -la /var/log/supervisor
 
 <p>出力され続けていることを確認</p>
 
-<p><code>
-$ ls -la /var/log/supervisor_old
-</code></p>
+<pre><code>$ ls -la /var/log/supervisor_old
+</code></pre>
 
 <p><code>SIGUSR2</code>を発行</p>
 
-<p><code>
-$ kill -SIGUSR2 `pgrep supervisor`
-</code></p>
+<pre><code>$ kill -SIGUSR2 `pgrep supervisor`
+</code></pre>
 
 <p>こんな感じでシグナルがやってきて</p>
 
-<p><code>
-$ strace -e trace=open -p `pgrep supervisor`
+<pre><code>$ strace -e trace=open -p `pgrep supervisor`
 Process 22859 attached - interrupt to quit
 --- SIGUSR2 (User defined signal 2) @ 0 (0) ---
 open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
 open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5
-</code></p>
+</code></pre>
 
 <p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
 
-<p><code>
-$ tail -f /var/log/supervisor/hello-std*
+<pre><code>$ tail -f /var/log/supervisor/hello-std*
 Wed Dec  4 10:03:42 UTC 2013
 Wed Dec  4 10:03:43 UTC 2013
 Wed Dec  4 10:03:44 UTC 2013
 Wed Dec  4 10:03:45 UTC 2013
 Wed Dec  4 10:03:46 UTC 2013
 Wed Dec  4 10:03:47 UTC 2013
-</code></p>
+</code></pre>
 
 <p>学ぶことは多い。</p>
 ]]></content>

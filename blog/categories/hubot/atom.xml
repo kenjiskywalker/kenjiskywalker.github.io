@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hubot | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/hubot/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -27,17 +27,15 @@ hubotに持ってきました。</p>
 
 <p>というように</p>
 
-<p>```</p>
-
-<blockquote><p>hubot at HH:MM message
-```</p></blockquote>
+<pre><code>&gt; hubot at HH:MM message
+</code></pre>
 
 <p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
 
 <p>元々taiyohさんが</p>
 
 <ul>
-<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh's memorandum</a></li>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
 </ul>
 
 

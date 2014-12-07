@@ -4,7 +4,7 @@
   <title><![CDATA[Category: redis-sentinel | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/redis-sentinel/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -41,19 +41,18 @@ update: 2013/03/22</p></blockquote>
 
 <p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
 
-<p>```
-sentinel monitor check_one 192.168.2.100 6379 2
+<pre><code>sentinel monitor check_one 192.168.2.100 6379 2
 sentinel down-after-milliseconds check_one 5000
 sentinel failover-timeout check_one 50000
 sentinel can-failover check_one yes
-sentinel parallel-syncs check_one 1</p>
+sentinel parallel-syncs check_one 1
 
-<p>daemonize yes
+daemonize yes
 pidfile /var/run/redis-sentinel.pid
 loglevel notice
 logfile /var/log/redis-sentinel.log
 port 26379
-```</p>
+</code></pre>
 
 <p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
 

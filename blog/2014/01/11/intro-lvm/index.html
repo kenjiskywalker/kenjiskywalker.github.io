@@ -9,9 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="LVM入門 Jan 11th, 2014 LVMについては、きちんと学習したことがなかったので
+  <meta name="description" content="LVM入門 LVMについては、きちんと学習したことがなかったので
 今回改めて学習した内容をまとめました。 参考 redhat カスタマーポータル - Red Hat Enterprise Linux 6 論理ボリュームマネージャの管理
-it-資格.jp - &hellip;">
+it-資格.jp - LPIC対策
+Pantora &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +97,7 @@ it-資格.jp - &hellip;">
   
 
 
-<time datetime="2014-01-11T11:39:00+09:00" pubdate data-updated="true">Jan 11<span>th</span>, 2014</time>
+<time datetime="2014-01-11T11:39:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -127,7 +128,18 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 
 <h2>検証環境</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>- ルートパーティション
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- ルートパーティション
 </span><span class='line'>/dev/xvda1 16GB 
 </span><span class='line'>
 </span><span class='line'>- 元々存在していたと仮定するディスク
@@ -137,12 +149,63 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>/dev/xvdc  16GB EBS
 </span><span class='line'>/dev/xvdd  16GB EBS
 </span><span class='line'>/dev/xvde  16GB EBS
-</span><span class='line'>/dev/xvdf  16GB EBS</span></pre></td></tr></table></div></figure>
+</span><span class='line'>/dev/xvdf  16GB EBS</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# fdisk -l
 </span><span class='line'>
 </span><span class='line'>Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
@@ -192,14 +255,115 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
 </span><span class='line'>Disk identifier: 0x00000000
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>PV</h2>
 
 <h3>PVの作成(pvcreate)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# fdisk /dev/xvdb
 </span><span class='line'>Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
 </span><span class='line'>Building a new DOS disklabel with disk identifier 0x64007579.
@@ -299,12 +463,36 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>[root@lvm-test-server ~]# pvdisplay -C
 </span><span class='line'>  PV         VG   Fmt  Attr PSize  PFree
 </span><span class='line'>  /dev/sdb1       lvm2 a--  63.99g 63.99g
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <p>パーティションではなくディスク全体をPVにすることも可能</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/xvdb
 </span><span class='line'>  Physical volume "/dev/xvdb" successfully created
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -327,24 +515,63 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Allocated PE          0
 </span><span class='line'>  PV UUID               99H0KX-HZSK-IYfI-j1Mn-KjLf-UlIz-ZNRANd
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>PVの削除(pvremove)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/xvdb
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/xvdb
 </span><span class='line'>  Labels on physical volume "/dev/xvdb" successfully wiped
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# pvdisplay
 </span><span class='line'>[root@lvm-test-server ~]#
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>VG</h2>
 
 <h3>VGの作成(vgcreate)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/xvdb
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/xvdb
 </span><span class='line'>  Volume group "vgrp0" successfully created
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# vgdisplay -c
@@ -376,26 +603,99 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
 </span><span class='line'>  VG UUID               spCzJn-CU9u-Fim0-Zonl-Lr0v-8ADc-elBfk5
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>VGの削除(vgremove)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgremove vgrp0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgremove vgrp0
 </span><span class='line'>  Volume group "vgrp0" successfully removed
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# vgdisplay
 </span><span class='line'>  No volume groups found
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]#
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>パーティション毎にPVを複数作成してVGにまとめる(vgcreate)</h3>
 
 <h4>パーティション毎にPVを作成する</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# fdisk /dev/xvdb
 </span><span class='line'>Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
 </span><span class='line'>Building a new DOS disklabel with disk identifier 0x7224e6ea.
@@ -459,12 +759,39 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Allocated PE          0
 </span><span class='line'>  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>複数のPVをVGにまとめる</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/sdb1 /dev/sdb2
 </span><span class='line'>  Volume group "vgrp0" successfully created
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -490,12 +817,71 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
 </span><span class='line'>  VG UUID               HMii83-udZK-dNPR-7O7p-ybOC-8XeX-9eITD0
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>既存のVGにPVを追加(vgextend)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# vgremove vgrp0
 </span><span class='line'>  Volume group "vgrp0" successfully removed
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -553,12 +939,84 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
 </span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>既存のVGからPVを切り離す(vgreduce)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/sdb2
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/sdb2
 </span><span class='line'>  PV /dev/sdb2 belongs to Volume Group vgrp0 so please use vgreduce first.
 </span><span class='line'>  (If you are certain you need pvremove, then confirm by using --force twice.)
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -629,14 +1087,58 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Allocated PE          0
 </span><span class='line'>  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>LV</h2>
 
 <h3>LVの作成</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate vgrp0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate vgrp0
 </span><span class='line'>  Please specify either size or extents
 </span><span class='line'>  Run `lvcreate --help' for more information.
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -679,12 +1181,45 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  - currently set to     256
 </span><span class='line'>  Block device           253:0
 </span><span class='line'>
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>LVをmountする</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# mkfs.ext4 /dev/vgrp0/lvol0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# mkfs.ext4 /dev/vgrp0/lvol0
 </span><span class='line'>mke2fs 1.42.3 (14-May-2012)
 </span><span class='line'>Filesystem label=
 </span><span class='line'>OS type: Linux
@@ -716,12 +1251,67 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>tmpfs                 1.9G     0  1.9G   0% /dev/shm
 </span><span class='line'>/dev/mapper/vgrp0-lvol0
 </span><span class='line'>                      9.9G  151M  9.2G   2% /mnt
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>LVを拡張する(lvextend)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate -L 10G vgrp0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate -L 10G vgrp0
 </span><span class='line'>  Logical volume "lvol1" created
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]#
@@ -775,12 +1365,26 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>/dev/mapper/vgrp0-lvol0
 </span><span class='line'>                      9.9G  151M  9.2G   2% /mnt
 </span><span class='line'>[root@lvm-test-server ~]#
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <p>ext3の場合は<code>ext2online /dev/testvg/LVName</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0
 </span><span class='line'>resize2fs 1.42.3 (14-May-2012)
 </span><span class='line'>Filesystem at /dev/vgrp0/lvol0 is mounted on /mnt; on-line resizing required
 </span><span class='line'>old_desc_blocks = 1, new_desc_blocks = 2
@@ -793,12 +1397,86 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>tmpfs                 1.9G     0  1.9G   0% /dev/shm
 </span><span class='line'>/dev/mapper/vgrp0-lvol0
 </span><span class='line'>                       20G  156M   19G   1% /mnt
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>LVを減少(lvextend)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# umount /mnt
 </span><span class='line'>[root@lvm-test-server ~]#
 </span><span class='line'>[root@lvm-test-server ~]# df
@@ -871,7 +1549,7 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 </span><span class='line'>  Block device           253:0
 </span><span class='line'>
 </span><span class='line'>[root@lvm-test-server ~]#
-</span><span class='line'>[root@lvm-test-server ~]#</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -907,7 +1585,7 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
   
 
 
-<time datetime="2014-01-11T11:39:00+09:00" pubdate data-updated="true">Jan 11<span>th</span>, 2014</time>
+<time datetime="2014-01-11T11:39:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -945,13 +1623,6 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -981,7 +1652,7 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -1005,77 +1676,6 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

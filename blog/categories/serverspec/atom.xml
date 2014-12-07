@@ -4,7 +4,7 @@
   <title><![CDATA[Category: serverspec | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/serverspec/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -43,7 +43,7 @@ serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
 
 <p><code>/root/chef/cookbooks/{foo}/recipes/default.rb</code>
 <code>/root/chef/cookbooks/{bar}/recipes/default.rb</code><br/>
-...</p></li>
+&hellip;</p></li>
 <li><h2>serverspec file</h2>
 
 <p><code>/root/Rakefile</code><br/>
@@ -80,12 +80,11 @@ serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
 
 <p>Please match it with your environment.</p>
 
-<p>```
-json_files = Dir::glob("./json/*.json")</p>
+<pre><code>json_files = Dir::glob("./json/*.json")
 
-<p>Chef::Config[:cookbook_path] = './cookbook/'
+Chef::Config[:cookbook_path] = './cookbook/'
 Chef::Config[:role_path]     = './json/'
-```</p>
+</code></pre>
 
 <p>serverspec tests it look run_list of <code>host.json</code></p>
 
@@ -93,54 +92,34 @@ Chef::Config[:role_path]     = './json/'
 
 <p><code>/root/chef/cookbooks/postfix/spec/default_spec.rb</code></p>
 
-<p>```
-require "/root/chef/spec/spec_helper"</p>
+<pre><code>require "/root/chef/spec/spec_helper"
 
-<p>describe package('postfix') do</p>
+describe package('postfix') do
+    it { should be_installed }
+end
 
-<pre><code>it { should be_installed }
+describe service('postfix') do
+    it { should be_enabled }
+    it { should be_running }
+end
+
+describe port(25) do
+    it { should be_listening }
+end
+
+# log file
+describe file('/var/log/maillog') do
+    it { should be_file }
+end
+
+describe file('/etc/postfix/main.cf') do
+    it { should be_file }
+end
+
+describe file('/etc/postfix/master.cf') do
+    it { should be_file }
+end
 </code></pre>
-
-<p>end</p>
-
-<p>describe service('postfix') do</p>
-
-<pre><code>it { should be_enabled }
-it { should be_running }
-</code></pre>
-
-<p>end</p>
-
-<p>describe port(25) do</p>
-
-<pre><code>it { should be_listening }
-</code></pre>
-
-<p>end</p>
-
-<h1>log file</h1>
-
-<p>describe file('/var/log/maillog') do</p>
-
-<pre><code>it { should be_file }
-</code></pre>
-
-<p>end</p>
-
-<p>describe file('/etc/postfix/main.cf') do</p>
-
-<pre><code>it { should be_file }
-</code></pre>
-
-<p>end</p>
-
-<p>describe file('/etc/postfix/master.cf') do</p>
-
-<pre><code>it { should be_file }
-</code></pre>
-
-<p>end
-```</p>
 
 <p><img src="http://gifzo.net/BIpiApSbg1E.gif" alt="http://gifzo.net/BIpiApSbg1E.gif" /></p>
 

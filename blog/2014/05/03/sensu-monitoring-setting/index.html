@@ -9,8 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Sensuの監視の設定 May 3rd, 2014 Sensu導入と初期設定についての続きのエントリーになります。 pluginの書き方 http://sensuapp.org/docs/0.12/checks
-http://sensuapp.org/docs/0.12/ &hellip;">
+  <meta name="description" content="Sensuの監視の設定 Sensu導入と初期設定についての続きのエントリーになります。 pluginの書き方 http://sensuapp.org/docs/0.12/checks
+http://sensuapp.org/docs/0.12/adding_a_check &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,7 +95,7 @@ http://sensuapp.org/docs/0.12/ &hellip;">
   
 
 
-<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true">May 3<span>rd</span>, 2014</time>
+<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -147,7 +147,26 @@ http://sensuapp.org/docs/0.12/ &hellip;">
 
 <h2>checks</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "checks": {
 </span><span class='line'>    "check_cpu": {
 </span><span class='line'>      "command": "/etc/sensu/plugins/check-cpu.rb -w 90 -c 100",
@@ -165,11 +184,11 @@ http://sensuapp.org/docs/0.12/ &hellip;">
 </span><span class='line'>      "handlers": ["hipchat", "mailer"]
 </span><span class='line'>    }
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
-<li>&#8220;check_cpu&#8221;, &#8220;check_cpu_nervous&#8221;</li>
+<li>&ldquo;check_cpu&rdquo;, &ldquo;check_cpu_nervous&rdquo;</li>
 </ul>
 
 
@@ -181,7 +200,7 @@ Sensuは設定内容のjsonがdeep_mergeされるので、ここはユニーク�
 設定ファイルを作成したのに上手く認識されない。ということがよくあります。</p>
 
 <ul>
-<li>&#8220;commnand&#8221;</li>
+<li>&ldquo;commnand&rdquo;</li>
 </ul>
 
 
@@ -190,14 +209,14 @@ Rubyでなくとも、シェルスクリプトやGo、pythonなど何を利用�
 nagios pluginと設定を合わせている為、nagiosのpluginを利用することが可能です。</p>
 
 <ul>
-<li>&#8220;interval&#8221;</li>
+<li>&ldquo;interval&rdquo;</li>
 </ul>
 
 
 <p>コマンドを実行する間隔です。</p>
 
 <ul>
-<li>&#8220;occurrences&#8221;</li>
+<li>&ldquo;occurrences&rdquo;</li>
 </ul>
 
 
@@ -207,7 +226,7 @@ nagios pluginと設定を合わせている為、nagiosのpluginを利用する�
 アラートの条件を満たしたら通知が行われます。</p>
 
 <ul>
-<li>&#8220;subscribers&#8221;</li>
+<li>&ldquo;subscribers&rdquo;</li>
 </ul>
 
 
@@ -217,7 +236,7 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 監視コマンドが実行されるようになります。</p>
 
 <ul>
-<li>&#8220;handlers&#8221;</li>
+<li>&ldquo;handlers&rdquo;</li>
 </ul>
 
 
@@ -230,7 +249,21 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "handlers": {
 </span><span class='line'>    "hipchat": {
 </span><span class='line'>      "type": "pipe",
@@ -243,7 +276,7 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </span><span class='line'>    "room": "ROOM_NAME",
 </span><span class='line'>    "from": "FROM_NAME"
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -251,7 +284,22 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "handlers": {
 </span><span class='line'>    "mailer": {
 </span><span class='line'>      "type": "pipe",
@@ -265,7 +313,7 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </span><span class='line'>    "smtp_port": "25",
 </span><span class='line'>    "smtp_domain": "example.com"
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上記のような設定を行います。</p>
@@ -280,7 +328,18 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "checks": {
 </span><span class='line'>    "metrics_cpu_pcnt-usage": {
 </span><span class='line'>      "type": "metric",
@@ -290,11 +349,11 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </span><span class='line'>      "handlers": ["graphite"]
 </span><span class='line'>    }
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
-<li>&#8220;command&#8221;</li>
+<li>&ldquo;command&rdquo;</li>
 </ul>
 
 
@@ -308,7 +367,19 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "handlers": {
 </span><span class='line'>    "graphite": {
 </span><span class='line'>      "type": "tcp",
@@ -319,14 +390,14 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 </span><span class='line'>      "mutator": "only_check_output"
 </span><span class='line'>    }
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上記graphiteの設定は、<em>pipe</em>、<em>tcp</em>や<em>udp</em>などを利用し<br/>
 handlerへ渡すことが可能なので、それを利用した設定内容になります。</p>
 
 <ul>
-<li>&#8220;mutator&#8221;: &#8220;only_check_output&#8221;</li>
+<li>&ldquo;mutator&rdquo;: &ldquo;only_check_output&rdquo;</li>
 </ul>
 
 
@@ -343,24 +414,31 @@ handlerへ渡すことが可能なので、それを利用した設定内容に�
 <blockquote><p><em>/etc/sensu/conf.d/</em>ディレクトリ配下であれば<br/>
 clientの設定のファイル名に決まりはありません。</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "client": {
 </span><span class='line'>    "name": "client_name",
 </span><span class='line'>    "address": "192.0.2.10",
 </span><span class='line'>    "subscriptions": ["all", "admin", "foo"]
 </span><span class='line'>  }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
-<li>&#8220;name&#8221;</li>
+<li>&ldquo;name&rdquo;</li>
 </ul>
 
 
 <p>Sensu clientの名前です。</p>
 
 <ul>
-<li>&#8220;address&#8221;</li>
+<li>&ldquo;address&rdquo;</li>
 </ul>
 
 
@@ -369,7 +447,7 @@ IPアドレスでもDNS名でも何でも良いです。誤っていたからと
 Sensu serverと接続できなくなるということはありません。</p>
 
 <ul>
-<li>&#8220;subscriptions&#8221;</li>
+<li>&ldquo;subscriptions&rdquo;</li>
 </ul>
 
 
@@ -412,7 +490,7 @@ Sensu serverと接続できなくなるということはありません。</p>
   
 
 
-<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true">May 3<span>rd</span>, 2014</time>
+<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -450,13 +528,6 @@ Sensu serverと接続できなくなるということはありません。</p>
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -486,7 +557,7 @@ Sensu serverと接続できなくなるということはありません。</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -510,77 +581,6 @@ Sensu serverと接続できなくなるということはありません。</p>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

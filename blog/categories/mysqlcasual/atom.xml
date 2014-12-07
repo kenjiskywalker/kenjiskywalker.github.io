@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysqlcasual | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/mysqlcasual/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -29,7 +29,10 @@
 
 <h2>発表内容</h2>
 
-<p><iframe src="http://www.slideshare.net/slideshow/embed_code/18994012 " width="595" height="446" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen></iframe> </p>
+<iframe src="//www.slideshare.net/slideshow/embed_code/18994012" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+
+
+<p> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/KenjiNaito/mysql-casual-4" title="mysql casual #4" target="_blank">mysql casual #4</a> </strong> from <strong><a href="//www.slideshare.net/KenjiNaito" target="_blank">kenjis skywalker</a></strong> </div></p>
 
 <p>順番が@saisa6153さんの次という並び順でよかった。<br/>
 カジュアルにSQLを勉強するには〜的な話が続けられて最高だった。</p>
@@ -102,7 +105,7 @@
 <blockquote class="twitter-tweet"><p>@<a href="https://twitter.com/kenjiskywalker">kenjiskywalker</a> 会場の人たちが帰り支度し始めた時に物凄い速さで締切ドアをこじ開けながら会場を出ていったけんじさんの姿を僕は見逃しませんでした。</p>&mdash; id:shim0mura (@shim0mura) <a href="https://twitter.com/shim0mura/status/324519587951566849">April 17, 2013</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>この人なんだかんだで最前列に陣取ってて面白かった</p>

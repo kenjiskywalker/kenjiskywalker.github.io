@@ -9,9 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編) Apr 4th, 2013 Twitterの過去ログが落とせるようになったので
+  <meta name="description" content="tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編) Twitterの過去ログが落とせるようになったので
 SQLに学ぶには丁度いいや。ということで
-カジュアルにOSX上でhomebrewを使ってMySQLに入れてみました。 MySQL ver.5.6 ( &hellip;">
+カジュアルにOSX上でhomebrewを使ってMySQLに入れてみました。 MySQL ver.5.6 (homebrew &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@ SQLに学ぶには丁度いいや。ということで
   
 
 
-<time datetime="2013-04-04T23:59:00+09:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time>
+<time datetime="2013-04-04T23:59:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -130,8 +130,10 @@ OS /   OSX 10.8.3</p></blockquote>
 
 <p>そして、<code>tweets.csv</code>が目的のファイルで、中身を開くと</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id","in_reply_to_status_id","in_reply_to_user_id","retweeted_status_id","retweeted_status_user_id","timestamp","source","text","expanded_urls"
-</span><span class='line'>"311761607619391489","","","","","2013-03-13 08:52:14 +0000","&lt;a href=""http://sites.google.com/site/yorufukurou/"" rel=""nofollow""&gt;YoruFukurou&lt;/a&gt;","さよならインターネット"</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id","in_reply_to_status_id","in_reply_to_user_id","retweeted_status_id","retweeted_status_user_id","timestamp","source","text","expanded_urls"
+</span><span class='line'>"311761607619391489","","","","","2013-03-13 08:52:14 +0000","&lt;a href=""http://sites.google.com/site/yorufukurou/"" rel=""nofollow""&gt;YoruFukurou&lt;/a&gt;","さよならインターネット"</span></code></pre></td></tr></table></div></figure>
 
 
 <p>こんな感じのCSVファイルになっていることがわかります。</p>
@@ -142,7 +144,17 @@ OS /   OSX 10.8.3</p></blockquote>
 
 <h3>データベースをつくる</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; CREATE DATABASE tw DEFAULT CHARACTER SET utf8;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; CREATE DATABASE tw DEFAULT CHARACTER SET utf8;
 </span><span class='line'>Query OK, 1 row affected (0.01 sec)
 </span><span class='line'>
 </span><span class='line'>mysql&gt; use tw
@@ -151,7 +163,7 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>mysql&gt; SHOW TABLE STATUS;
 </span><span class='line'>Empty set (0.00 sec)
 </span><span class='line'>
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>CSVに対応したテーブルをつくる</h3>
@@ -160,7 +172,20 @@ OS /   OSX 10.8.3</p></blockquote>
 
 <p><code>tweets_csv_to_sql.sql</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
 </span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 </span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
 </span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
@@ -172,17 +197,34 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>  `text` VARCHAR(140),
 </span><span class='line'>  `expanded_urls` VARCHAR(255),
 </span><span class='line'>  PRIMARY KEY (id) )
-</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>いれる</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root tw &lt; tweets_csv_to_sql.sql</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql -u root tw &lt; tweets_csv_to_sql.sql</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>確認する</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; DESC tweets;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; DESC tweets;
 </span><span class='line'>+--------------------------+---------------------+------+-----+---------------------+----------------+
 </span><span class='line'>| Field                    | Type                | Null | Key | Default             | Extra          |
 </span><span class='line'>+--------------------------+---------------------+------+-----+---------------------+----------------+
@@ -197,14 +239,24 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>| text                     | varchar(140)        | YES  |     | NULL                |                |
 </span><span class='line'>| expanded_urls            | varchar(255)        | YES  |     | NULL                |                |
 </span><span class='line'>+--------------------------+---------------------+------+-----+---------------------+----------------+
-</span><span class='line'>10 rows in set (0.01 sec)</span></pre></td></tr></table></div></figure>
+</span><span class='line'>10 rows in set (0.01 sec)</span></code></pre></td></tr></table></div></figure>
 
 
 <p>今回は空データとかがあるので楽するためにNULLを許可するようにしています。</p>
 
 <h3>CSVファイルを読みこませる</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
 </span><span class='line'>mysql&gt; LOAD DATA INFILE '/Users/kenjiskywalker/Downloads/tweets/tweets.csv' INTO TABLE tweets FIELDS \
 </span><span class='line'>TERMINATED BY "," \
 </span><span class='line'>ENCLOSED BY '"' \
@@ -213,7 +265,7 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>(tweet_id, in_reply_to_status_id, in_reply_to_user_id, retweeted_status_id, retweeted_status_user_id, timestamp, source, text, expanded_urls);
 </span><span class='line'>Query OK, 23315 rows affected, 65535 warnings (0.61 sec)
 </span><span class='line'>Records: 23315  Deleted: 0  Skipped: 0  Warnings: 126199
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p><a href="http://dev.mysql.com/doc/refman/5.1/ja/load-data.html">12.2.5. LOAD DATA INFILE 構文 / MySQL 5.1 リファレンスマニュアル :: 12 SQL ステートメント構文 :: 12.2 データ取り扱いステートメント</a><br/>
@@ -244,13 +296,24 @@ OS /   OSX 10.8.3</p></blockquote>
 
 <h3>上手く読み込んでくれない場合</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>ERROR 1366 (HY000): Incorrect integer value: '' for column 'in_reply_to_user_id' at row 1</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ERROR 1366 (HY000): Incorrect integer value: '' for column 'in_reply_to_user_id' at row 1</span></code></pre></td></tr></table></div></figure>
 
 
 <p>みたいにエラーになる場合、<em>Strict Mode</em>が有効になっている可能性が高い。<br/>
-個人的にここにハマってすごい時間使った&#8230;</p>
+個人的にここにハマってすごい時間使った&hellip;</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
 </span><span class='line'>mysql&gt; SELECT @@SESSION.sql_mode;
 </span><span class='line'>+---------------------+
 </span><span class='line'>| @@SESSION.sql_mode  |
@@ -259,12 +322,22 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>+---------------------+
 </span><span class='line'>1 row in set (0.00 sec)
 </span><span class='line'>
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>こんな感じで有効になってる場合は、<code>my.cnf</code>などを確認してみた方がいい。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
 </span><span class='line'>mysql&gt; SELECT @@GLOBAL.sql_mode;
 </span><span class='line'>+------------------------+
 </span><span class='line'>| @@GLOBAL.sql_mode      |
@@ -273,12 +346,26 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>+------------------------+
 </span><span class='line'>1 row in set (0.00 sec)
 </span><span class='line'>
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>これならWarningsになるだけでデータは入ってくれる。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
 </span><span class='line'>mysql&gt; SHOW WARNINGS LIMIT 5;
 </span><span class='line'>+---------+------+----------------------------------------------------------------------------+
 </span><span class='line'>| Level   | Code | Message                                                                    |
@@ -291,12 +378,23 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>+---------+------+----------------------------------------------------------------------------+
 </span><span class='line'>5 rows in set (0.00 sec)
 </span><span class='line'>
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>とうことでめでたくデータベースの中にツウィートが入った</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt;
 </span><span class='line'>mysql&gt; SELECT COUNT(*) FROM tweets;
 </span><span class='line'>+----------+
 </span><span class='line'>| COUNT(*) |
@@ -306,12 +404,23 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>1 row in set (0.01 sec)
 </span><span class='line'>
 </span><span class='line'>mysql&gt;
-</span><span class='line'>mysql&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>入ってるっぽい</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='text'><span class='line'>mysql&gt; SELECT text FROM tweets WHERE text LIKE &#39;%カミさん%&#39; LIMIT 3;
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>mysql&gt; SELECT text FROM tweets WHERE text LIKE &#39;%カミさん%&#39; LIMIT 3;
 </span><span class='line'>+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </span><span class='line'>| text                                                                                                                                                                                                         |
 </span><span class='line'>+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -322,13 +431,13 @@ OS /   OSX 10.8.3</p></blockquote>
 </span><span class='line'>3 rows in set (0.00 sec)
 </span><span class='line'>
 </span><span class='line'>mysql&gt;
-</span></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>貴重なカミさん情報だ</p>
 
 <p><a href="http://www.amazon.co.jp/gp/product/4873112818/ref=as_li_tf_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4873112818&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4873112818&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=4873112818" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /><br/>
-今これ読んでる。MySQL 4.11とかだいぶ古い感じしてる&#8230;</p>
+今これ読んでる。MySQL 4.11とかだいぶ古い感じしてる&hellip;</p>
 </div>
 
 
@@ -361,12 +470,12 @@ OS /   OSX 10.8.3</p></blockquote>
   
 
 
-<time datetime="2013-04-04T23:59:00+09:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time>
+<time datetime="2013-04-04T23:59:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/sql/'>SQL</a>, <a class='category' href='/blog/categories/tweets-zip/'>tweets_zip</a>
+    <a class='category' href='/blog/categories/sql/'>sql</a>, <a class='category' href='/blog/categories/tweets-zip/'>tweets_zip</a>
   
 </span>
 
@@ -399,13 +508,6 @@ OS /   OSX 10.8.3</p></blockquote>
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -435,7 +537,7 @@ OS /   OSX 10.8.3</p></blockquote>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -459,77 +561,6 @@ OS /   OSX 10.8.3</p></blockquote>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

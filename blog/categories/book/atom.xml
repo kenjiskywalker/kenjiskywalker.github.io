@@ -4,7 +4,7 @@
   <title><![CDATA[Category: book | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/book/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -18,7 +18,7 @@
     <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book/"/>
     <updated>2014-12-07T05:21:00+09:00</updated>
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book</id>
-    <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がするけどな...</p>
+    <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がするけどな&hellip;</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年11月 (1作品)</div>
 
@@ -87,20 +87,19 @@
 
 <h2>もくじ</h2>
 
-<p>```
-巻頭企画
+<pre><code>巻頭企画
 ［入門］コードによるインフラ構築
-サーバ構成管理の自動化を実現する</p>
+サーバ構成管理の自動化を実現する
 
-<p>第1章：ChefとVagrantによるインフラのコード化
+第1章：ChefとVagrantによるインフラのコード化
 設定の一元管理で作業を省力化する……伊藤 直也
 第2章：Serverspecによるテスト駆動インフラ構築
 設定変更の反映を確実なものにする……伊藤 直也
 特集1
 Amazon Web Services最新活用
-レイヤ別比較，構築の定石，構成管理の自動化</p>
+レイヤ別比較，構築の定石，構成管理の自動化
 
-<p>第1章：Amazon Web Servicesレイヤ別比較
+第1章：Amazon Web Servicesレイヤ別比較
 各サービスの特徴を理解し，うまく使い分ける……片山 暁雄，平山 毅
 第2章：EC2とVPCによるシステム構築
 セキュアで可用性を高めたインフラの作り方……舟崎 健治，吉荒 祐一
@@ -110,9 +109,9 @@ Amazon Web Services最新活用
 テンプレートの作成からミドルウェア構築設定まで……安川 健太
 特集2
 テスト駆動インフラ＆CI最前線
-Infrastructure as Codeがもたらすワークフローの刷新</p>
+Infrastructure as Codeがもたらすワークフローの刷新
 
-<p>第1章：インフラのテストとその重要性
+第1章：インフラのテストとその重要性
 「インフラのコード化」による開発手法の応用……宮下 剛輔
 第2章：テスト駆動インフラの実践
 VirtualBox，Vagrant，Puppet，Serverspecによるテスト自動化……宮下 剛輔
@@ -122,9 +121,9 @@ GitHub，Wercker，DigitalOceanによる継続的テスト……宮下 剛輔
 GitHub Flowをベースとしたワークフロー変革……宮下 剛輔
 特集3
 実践Immutable Infrastructure
-使い捨てサーバによる運用の変革</p>
+使い捨てサーバによる運用の変革
 
-<p>第1章：Immutable Infrastructureとは何か
+第1章：Immutable Infrastructureとは何か
 不変なサーバ，Blue-green Deploymentとそれらの利点……田中 慎司
 第2章：Immutable Infrastructureで利用するツール／サービス
 比較・整理と，システム全体での組み合わせ……田中 慎司
@@ -134,9 +133,9 @@ Docker+HAProxy，Amazon EC2+ELB……田中 慎司
 Apache Mesosでリソース管理の自動化……田中 慎司
 特集4
 ［詳解］nginx
-設定の柔軟性と優れたスケーラビリティ</p>
+設定の柔軟性と優れたスケーラビリティ
 
-<p>第1章：nginxの世界へようこそ
+第1章：nginxの世界へようこそ
 アーキテクチャ，用途，メリット，デメリット……久保 達彦
 第2章：はじめてのnginx
 インストール，起動と終了，基本設定……道井 俊介
@@ -150,9 +149,9 @@ Unicorn/RailsやPHP-FPMと連携させる……道井 俊介
 nginxを自由にカスタマイズするための基礎知識……久保 達彦
 特集5
 メンテナンス本格入門
-緊急対応，計画停止，メンテフリー化</p>
+緊急対応，計画停止，メンテフリー化
 
-<p>第1章：メンテナンスとは
+第1章：メンテナンスとは
 種類と手法を整理する……桑野 章弘
 第2章：計画メンテナンスの流れ
 事前準備，作業のチェック，振り返り……松浦 隼人
@@ -164,11 +163,11 @@ nginxを自由にカスタマイズするための基礎知識……久保 達�
 ダウンタイムを減らすリリース手法とアプリケーション設計……福永 亘，中村 俊之，松浦 隼人
 第6章：ガールフレンド（仮）とアメーバピグの事例
 現場でどう実践し，どう障害を切り抜けたか……福永 亘，杉山 仁則
-一般記事</p>
+一般記事
 
-<p>Dockerで軽量な仮想環境
+Dockerで軽量な仮想環境
 Linuxコンテナでインフラを瞬時に構築する……伊藤 直也
-```</p>
+</code></pre>
 
 <h2>感想</h2>
 

@@ -9,9 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="OS Xでfigを利用してDockerのコンテナを操作する Oct 25th, 2014 Docker v1.3
+  <meta name="description" content="OS Xでfigを利用してDockerのコンテナを操作する Docker v1.3
 fig 1.0.0 TL;DR OS XでDockerコンテナを操作するのが手間だったけどfigを使えば解決した.
-OS &hellip;">
+OS Xで本番環境と同じような環境をつくりたくてboot2docker + figを利用した &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@ OS &hellip;">
   
 
 
-<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2014</time>
+<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -128,7 +128,8 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 
 <p>OS Xでは、Docker containerにアクセスするまでに</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; boot2docker -&gt; docker container</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; boot2docker -&gt; docker container</span></code></pre></td></tr></table></div></figure>
 
 
 <p></p>
@@ -136,7 +137,8 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 <p>boot2dockerを一旦挟まなければならなかった.<br/>
 これをfigを利用することで、透過的に</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; docker container</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; docker container</span></code></pre></td></tr></table></div></figure>
 
 
 <p></p>
@@ -147,16 +149,21 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 
 <p>完全に勘違い！OS Xでも普通に<code>docker</code>コマンド使えます.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
 </span><span class='line'>$ boot2docker ssh
-</span><span class='line'>$ docker build .</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
 
 
 <p>などと操作しなくても<a href="https://github.com/docker/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a>の頃から<br/>
 DockerはOS Xに対応していて</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
-</span><span class='line'>$ docker build .</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のようにログインせずともTiny Core Linuxのリモートクライアントとして<br/>
@@ -176,9 +183,12 @@ DockerはOS Xに対応していて</p>
 
 <h3>figを利用しない場合</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
 </span><span class='line'>$ docker build .
-</span><span class='line'>$ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のような操作で起動できる.</p>
@@ -188,7 +198,25 @@ DockerはOS Xに対応していて</p>
 <p>とあるRailsのアプリケーションがあった時に、そのアプリケーションを<br/>
 Docker containerで透過的に操作する為にどのようなことが必要なのかの例</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
 </span><span class='line'>├── Gemfile
 </span><span class='line'>├── Gemfile.lock
 </span><span class='line'>├── README.rdoc
@@ -205,12 +233,32 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 </span><span class='line'>├── public
 </span><span class='line'>├── test
 </span><span class='line'>├── tmp
-</span><span class='line'>└── vendor</span></pre></td></tr></table></div></figure>
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
 
 
 <p>このようにRailsアプリケーションのディレクトリに</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
 </span><span class='line'>├── Dockerfile
 </span><span class='line'>├── Gemfile
 </span><span class='line'>├── Gemfile.lock
@@ -229,7 +277,7 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 </span><span class='line'>├── public
 </span><span class='line'>├── test
 </span><span class='line'>├── tmp
-</span><span class='line'>└── vendor</span></pre></td></tr></table></div></figure>
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>Dockerfile</code>と<code>fig.yml</code>を置く</p>
@@ -242,7 +290,17 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 <p>日本に住む人々は魂をRedHatに引かれてUbuntuを利用しにくいので<br/>
 CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsqliteも入っている)</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
 </span><span class='line'>
 </span><span class='line'>WORKDIR /tmp
 </span><span class='line'>ADD Gemfile Gemfile
@@ -251,7 +309,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </span><span class='line'>
 </span><span class='line'>RUN mkdir /myapp
 </span><span class='line'>WORKDIR /myapp
-</span><span class='line'>ADD . /myapp</span></pre></td></tr></table></div></figure>
+</span><span class='line'>ADD . /myapp</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -259,28 +317,42 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>web:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>web:
 </span><span class='line'>  build: .
 </span><span class='line'>  command: bundle exec rackup -p 3000
 </span><span class='line'>  volumes:
 </span><span class='line'>    - .:/myapp
 </span><span class='line'>  ports:
-</span><span class='line'>    - "3000:3000"</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    - "3000:3000"</span></code></pre></td></tr></table></div></figure>
 
 
 <p>この状態で</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
-</span><span class='line'>$ fig up</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ fig up</span></code></pre></td></tr></table></div></figure>
 
 
 <p>とコマンドを発行し</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker ip
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker ip
 </span><span class='line'>
 </span><span class='line'>The VM's Host only interface IP address is: 192.168.59.103
 </span><span class='line'>
-</span><span class='line'>$</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
 
 
 <p>で利用しているIPアドレスを確認して</p>
@@ -299,11 +371,16 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
 </span><span class='line'>  adapter: sqlite3
 </span><span class='line'>  database: db/development.sqlite3
 </span><span class='line'>  pool: 5
-</span><span class='line'>  timeout: 5000</span></pre></td></tr></table></div></figure>
+</span><span class='line'>  timeout: 5000</span></code></pre></td></tr></table></div></figure>
 
 
 <p>しかし、裏側にMySQLを利用する場合は</p>
@@ -313,7 +390,25 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>db:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>db:
 </span><span class='line'>  image: mysql
 </span><span class='line'>  environment:
 </span><span class='line'>    MYSQL_ROOT_PASSWORD: "pass"
@@ -330,7 +425,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </span><span class='line'>  links:
 </span><span class='line'>    - db
 </span><span class='line'>  environment:
-</span><span class='line'>    DB_HOST: db</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    DB_HOST: db</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -338,14 +433,22 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
 </span><span class='line'>  adapter: mysql2
 </span><span class='line'>  encoding: utf8
 </span><span class='line'>  pool: 5
 </span><span class='line'>  database: mysql
 </span><span class='line'>  username: root
 </span><span class='line'>  password: 'pass'
-</span><span class='line'>  host: &lt;%= ENV['DB_HOST'] %&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>  host: &lt;%= ENV['DB_HOST'] %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>このようにデータベースサーバ用コンテナの設定をRails側に記載しなければならない.</p>
@@ -409,7 +512,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
   
 
 
-<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true">Oct 25<span>th</span>, 2014</time>
+<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -447,13 +550,6 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -483,7 +579,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -507,77 +603,6 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

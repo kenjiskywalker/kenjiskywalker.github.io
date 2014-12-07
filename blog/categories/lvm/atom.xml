@@ -4,7 +4,7 @@
   <title><![CDATA[Category: lvm | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/lvm/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -42,92 +42,90 @@ LV = VGの中から指定したディスクサイズを仮想ディスクとし�
 
 <h2>検証環境</h2>
 
-<p>```
-- ルートパーティション
-/dev/xvda1 16GB</p>
+<pre><code>- ルートパーティション
+/dev/xvda1 16GB 
 
-<ul>
-<li><p>元々存在していたと仮定するディスク
-/dev/xvdb  64GB EBS</p></li>
-<li><p>RAID0用のディスク
+- 元々存在していたと仮定するディスク
+/dev/xvdb  64GB EBS
+
+- RAID0用のディスク
 /dev/xvdc  16GB EBS
 /dev/xvdd  16GB EBS
 /dev/xvde  16GB EBS
 /dev/xvdf  16GB EBS
-```</p></li>
-</ul>
+</code></pre>
 
+<pre><code>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]# fdisk -l
 
-<p>```
-[root@lvm-test-server ~]#
-[root@lvm-test-server ~]# fdisk -l</p>
-
-<p>Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
+Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
 255 heads, 63 sectors/track, 2088 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>Disk /dev/xvde: 17.2 GB, 17179869184 bytes
+
+Disk /dev/xvde: 17.2 GB, 17179869184 bytes
 255 heads, 63 sectors/track, 2088 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>Disk /dev/xvdd: 17.2 GB, 17179869184 bytes
+
+Disk /dev/xvdd: 17.2 GB, 17179869184 bytes
 255 heads, 63 sectors/track, 2088 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>Disk /dev/xvdc: 17.2 GB, 17179869184 bytes
+
+Disk /dev/xvdc: 17.2 GB, 17179869184 bytes
 255 heads, 63 sectors/track, 2088 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+
+Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
 255 heads, 63 sectors/track, 8354 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>Disk /dev/xvdf: 17.2 GB, 17179869184 bytes
+
+Disk /dev/xvdf: 17.2 GB, 17179869184 bytes
 255 heads, 63 sectors/track, 2088 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x00000000</p>
+Disk identifier: 0x00000000
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h2>PV</h2>
 
 <h3>PVの作成(pvcreate)</h3>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# fdisk /dev/xvdb
 Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
 Building a new DOS disklabel with disk identifier 0x64007579.
 Changes will remain in memory only, until you decide to write them.
-After that, of course, the previous content won't be recoverable.</p>
+After that, of course, the previous content won't be recoverable.
 
-<p>Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)</p>
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 
-<p>WARNING: DOS-compatible mode is deprecated. It's strongly recommended to</p>
+WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+         switch off the mode (command 'c') and change display units to
+         sectors (command 'u').
 
-<pre><code>     switch off the mode (command 'c') and change display units to
-     sectors (command 'u').
-</code></pre>
-
-<p>Command (m for help): n
+Command (m for help): n
 Command action
    e   extended
    p   primary partition (1-4)
@@ -136,13 +134,13 @@ Partition number (1-4): 1
 First cylinder (1-8354, default 1):
 Using default value 1
 Last cylinder, +cylinders or +size{K,M,G} (1-8354, default 8354):
-Using default value 8354</p>
+Using default value 8354
 
-<p>Command (m for help): t
+Command (m for help): t
 Selected partition 1
-Hex code (type L to list codes): L</p>
+Hex code (type L to list codes): L
 
-<p> 0  Empty           24  NEC DOS         81  Minix / old Lin bf  Solaris
+ 0  Empty           24  NEC DOS         81  Minix / old Lin bf  Solaris
  1  FAT12           39  Plan 9          82  Linux swap / So c1  DRDOS/sec (FAT-
  2  XENIX root      3c  PartitionMagic  83  Linux           c4  DRDOS/sec (FAT-
  3  XENIX usr       40  Venix 80286     84  OS/2 hidden C:  c6  DRDOS/sec (FAT-
@@ -168,26 +166,24 @@ Hex code (type L to list codes): L</p>
 1c  Hidden W95 FAT3 80  Old Minix       be  Solaris boot    ff  BBT
 1e  Hidden W95 FAT1
 Hex code (type L to list codes): 8e
-Changed system type of partition 1 to 8e (Linux LVM)</p>
+Changed system type of partition 1 to 8e (Linux LVM)
 
-<p>Command (m for help): p</p>
+Command (m for help): p
 
-<p>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
 255 heads, 63 sectors/track, 8354 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x64007579</p>
+Disk identifier: 0x64007579
 
-<pre><code>Device Boot      Start         End      Blocks   Id  System
-</code></pre>
+    Device Boot      Start         End      Blocks   Id  System
+/dev/xvdb1               1        8354    67103473+  8e  Linux LVM
 
-<p>/dev/xvdb1               1        8354    67103473+  8e  Linux LVM</p>
+Command (m for help): w
+The partition table has been altered!
 
-<p>Command (m for help): w
-The partition table has been altered!</p>
-
-<p>Calling ioctl() to re-read partition table.
+Calling ioctl() to re-read partition table.
 Syncing disks.
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# pvdisplay
@@ -207,9 +203,9 @@ Syncing disks.
   Total PE              0
   Free PE               0
   Allocated PE          0
-  PV UUID               gyJLPn-FMuy-0b9h-yeYN-6AB2-OFTj-pQLh5W</p>
+  PV UUID               gyJLPn-FMuy-0b9h-yeYN-6AB2-OFTj-pQLh5W
 
-<p>[root@lvm-test-server ~]# pvdisplay -c
+[root@lvm-test-server ~]# pvdisplay -c
   "/dev/sdb1" is a new physical volume of "63.99 GiB"
   /dev/sdb1:#orphans_lvm2:134206947:-1:8:8:-1:0:0:0:0:gyJLPn-FMuy-0b9h-yeYN-6AB2-OFTj-pQLh5W
 [root@lvm-test-server ~]#
@@ -217,12 +213,11 @@ Syncing disks.
   PV         VG   Fmt  Attr PSize  PFree
   /dev/sdb1       lvm2 a--  63.99g 63.99g
 [root@lvm-test-server ~]#
-```</p>
+</code></pre>
 
 <p>パーティションではなくディスク全体をPVにすることも可能</p>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# pvcreate /dev/xvdb
   Physical volume "/dev/xvdb" successfully created
 [root@lvm-test-server ~]#
@@ -243,28 +238,26 @@ Syncing disks.
   Total PE              0
   Free PE               0
   Allocated PE          0
-  PV UUID               99H0KX-HZSK-IYfI-j1Mn-KjLf-UlIz-ZNRANd</p>
+  PV UUID               99H0KX-HZSK-IYfI-j1Mn-KjLf-UlIz-ZNRANd
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h3>PVの削除(pvremove)</h3>
 
-<p><code>
-[root@lvm-test-server ~]# pvremove /dev/xvdb
+<pre><code>[root@lvm-test-server ~]# pvremove /dev/xvdb
   Labels on physical volume "/dev/xvdb" successfully wiped
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# pvdisplay
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
-</code></p>
+</code></pre>
 
 <h2>VG</h2>
 
 <h3>VGの作成(vgcreate)</h3>
 
-<p>```
-[root@lvm-test-server ~]# vgcreate vgrp0 /dev/xvdb
+<pre><code>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/xvdb
   Volume group "vgrp0" successfully created
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# vgdisplay -c
@@ -294,15 +287,14 @@ Syncing disks.
   Total PE              16383
   Alloc PE / Size       0 / 0
   Free  PE / Size       16383 / 64.00 GiB
-  VG UUID               spCzJn-CU9u-Fim0-Zonl-Lr0v-8ADc-elBfk5</p>
+  VG UUID               spCzJn-CU9u-Fim0-Zonl-Lr0v-8ADc-elBfk5
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h3>VGの削除(vgremove)</h3>
 
-<p><code>
-[root@lvm-test-server ~]# vgremove vgrp0
+<pre><code>[root@lvm-test-server ~]# vgremove vgrp0
   Volume group "vgrp0" successfully removed
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# vgdisplay
@@ -310,49 +302,44 @@ Syncing disks.
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
-</code></p>
+</code></pre>
 
 <h3>パーティション毎にPVを複数作成してVGにまとめる(vgcreate)</h3>
 
 <h4>パーティション毎にPVを作成する</h4>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# fdisk /dev/xvdb
 Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
 Building a new DOS disklabel with disk identifier 0x7224e6ea.
 Changes will remain in memory only, until you decide to write them.
-After that, of course, the previous content won't be recoverable.</p>
+After that, of course, the previous content won't be recoverable.
 
-<p>Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)</p>
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 
-<p>WARNING: DOS-compatible mode is deprecated. It's strongly recommended to</p>
+WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+         switch off the mode (command 'c') and change display units to
+         sectors (command 'u').
 
-<pre><code>     switch off the mode (command 'c') and change display units to
-     sectors (command 'u').
-</code></pre>
+...
 
-<p>...</p>
+Command (m for help): p
 
-<p>Command (m for help): p</p>
-
-<p>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
 255 heads, 63 sectors/track, 8354 cylinders
 Units = cylinders of 16065 * 512 = 8225280 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disk identifier: 0x7224e6ea</p>
+Disk identifier: 0x7224e6ea
 
-<pre><code>Device Boot      Start         End      Blocks   Id  System
-</code></pre>
+    Device Boot      Start         End      Blocks   Id  System
+/dev/xvdb1               1        3917    31463271   8e  Linux LVM
+/dev/xvdb2            3918        8354    35640202+  8e  Linux LVM
 
-<p>/dev/xvdb1               1        3917    31463271   8e  Linux LVM
-/dev/xvdb2            3918        8354    35640202+  8e  Linux LVM</p>
+Command (m for help): w
+The partition table has been altered!
 
-<p>Command (m for help): w
-The partition table has been altered!</p>
-
-<p>Calling ioctl() to re-read partition table.
+Calling ioctl() to re-read partition table.
 Syncing disks.
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
@@ -371,9 +358,9 @@ Syncing disks.
   Total PE              0
   Free PE               0
   Allocated PE          0
-  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa</p>
+  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
 
-<p>  "/dev/sdb2" is a new physical volume of "33.99 GiB"
+  "/dev/sdb2" is a new physical volume of "33.99 GiB"
   --- NEW Physical volume ---
   PV Name               /dev/sdb2
   VG Name
@@ -383,15 +370,14 @@ Syncing disks.
   Total PE              0
   Free PE               0
   Allocated PE          0
-  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ</p>
+  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h4>複数のPVをVGにまとめる</h4>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# vgcreate vgrp0 /dev/sdb1 /dev/sdb2
   Volume group "vgrp0" successfully created
 [root@lvm-test-server ~]#
@@ -415,15 +401,14 @@ Syncing disks.
   Total PE              16381
   Alloc PE / Size       0 / 0
   Free  PE / Size       16381 / 63.99 GiB
-  VG UUID               HMii83-udZK-dNPR-7O7p-ybOC-8XeX-9eITD0</p>
+  VG UUID               HMii83-udZK-dNPR-7O7p-ybOC-8XeX-9eITD0
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h3>既存のVGにPVを追加(vgextend)</h3>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# vgremove vgrp0
   Volume group "vgrp0" successfully removed
 [root@lvm-test-server ~]#
@@ -453,9 +438,9 @@ Syncing disks.
   Total PE              7681
   Alloc PE / Size       0 / 0
   Free  PE / Size       7681 / 30.00 GiB
-  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m</p>
+  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# vgextend vgrp0 /dev/sdb2
   Volume group "vgrp0" successfully extended
 [root@lvm-test-server ~]#
@@ -479,15 +464,14 @@ Syncing disks.
   Total PE              16381
   Alloc PE / Size       0 / 0
   Free  PE / Size       16381 / 63.99 GiB
-  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m</p>
+  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h3>既存のVGからPVを切り離す(vgreduce)</h3>
 
-<p>```
-[root@lvm-test-server ~]# pvremove /dev/sdb2
+<pre><code>[root@lvm-test-server ~]# pvremove /dev/sdb2
   PV /dev/sdb2 belongs to Volume Group vgrp0 so please use vgreduce first.
   (If you are certain you need pvremove, then confirm by using --force twice.)
 [root@lvm-test-server ~]#
@@ -515,9 +499,9 @@ Syncing disks.
   Total PE              7681
   Alloc PE / Size       0 / 0
   Free  PE / Size       7681 / 30.00 GiB
-  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m</p>
+  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# pvdisplay
   --- Physical volume ---
   PV Name               /dev/sdb1
@@ -528,9 +512,9 @@ Syncing disks.
   Total PE              7681
   Free PE               7681
   Allocated PE          0
-  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa</p>
+  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
 
-<p>  "/dev/sdb2" is a new physical volume of "33.99 GiB"
+  "/dev/sdb2" is a new physical volume of "33.99 GiB"
   --- NEW Physical volume ---
   PV Name               /dev/sdb2
   VG Name
@@ -540,9 +524,9 @@ Syncing disks.
   Total PE              0
   Free PE               0
   Allocated PE          0
-  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ</p>
+  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# pvremove /dev/sdb2
   Labels on physical volume "/dev/sdb2" successfully wiped
 [root@lvm-test-server ~]#
@@ -556,34 +540,33 @@ Syncing disks.
   Total PE              7681
   Free PE               7681
   Allocated PE          0
-  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa</p>
+  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h2>LV</h2>
 
 <h3>LVの作成</h3>
 
-<p><code>``
-[root@lvm-test-server ~]# lvcreate vgrp0
+<pre><code>[root@lvm-test-server ~]# lvcreate vgrp0
   Please specify either size or extents
-  Run</code>lvcreate --help' for more information.
-[root@lvm-test-server ~]#</p>
+  Run `lvcreate --help' for more information.
+[root@lvm-test-server ~]#
 
-<p>サイズ指定しないと怒られる</p>
+サイズ指定しないと怒られる
 
-<p>[root@lvm-test-server ~]# lvcreate -L 10G -n vgrp0
+[root@lvm-test-server ~]# lvcreate -L 10G -n vgrp0
   Logical volume "lvol0" created
-[root@lvm-test-server ~]#</p>
+[root@lvm-test-server ~]#
 
-<p>100%使い切る場合にはこれ</p>
+100%使い切る場合にはこれ
 
-<p>[root@lvm-test-server ~]# lvcreate -l 100%FREE -n vgrp0
+[root@lvm-test-server ~]# lvcreate -l 100%FREE -n vgrp0
   Logical volume "lvol0" created
-[root@lvm-test-server ~]#</p>
+[root@lvm-test-server ~]#
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# lvdisplay -c
   /dev/vgrp0/lvol0:vgrp0:3:1:-1:0:20971520:2560:-1:0:-1:253:0
 [root@lvm-test-server ~]#
@@ -607,15 +590,14 @@ Syncing disks.
   Allocation             inherit
   Read ahead sectors     auto
   - currently set to     256
-  Block device           253:0</p>
+  Block device           253:0
 
-<p>[root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <h3>LVをmountする</h3>
 
-<p>```
-[root@lvm-test-server ~]# mkfs.ext4 /dev/vgrp0/lvol0
+<pre><code>[root@lvm-test-server ~]# mkfs.ext4 /dev/vgrp0/lvol0
 mke2fs 1.42.3 (14-May-2012)
 Filesystem label=
 OS type: Linux
@@ -629,17 +611,15 @@ Maximum filesystem blocks=2684354560
 80 block groups
 32768 blocks per group, 32768 fragments per group
 8192 inodes per group
-Superblock backups stored on blocks:</p>
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
 
-<pre><code>    32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
-</code></pre>
-
-<p>Allocating group tables: done
+Allocating group tables: done
 Writing inode tables: done
 Creating journal (32768 blocks): done
-Writing superblocks and filesystem accounting information: done</p>
+Writing superblocks and filesystem accounting information: done
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# mount /dev/vgrp0/lvol0 /mnt
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
@@ -647,18 +627,14 @@ Writing superblocks and filesystem accounting information: done</p>
 Filesystem            Size  Used Avail Use% Mounted on
 /dev/xvda1             16G  2.9G   13G  19% /
 tmpfs                 1.9G     0  1.9G   0% /dev/shm
-/dev/mapper/vgrp0-lvol0</p>
-
-<pre><code>                  9.9G  151M  9.2G   2% /mnt
+/dev/mapper/vgrp0-lvol0
+                      9.9G  151M  9.2G   2% /mnt
+[root@lvm-test-server ~]#
 </code></pre>
-
-<p>[root@lvm-test-server ~]#
-```</p>
 
 <h3>LVを拡張する(lvextend)</h3>
 
-<p>```
-[root@lvm-test-server ~]# lvcreate -L 10G vgrp0
+<pre><code>[root@lvm-test-server ~]# lvcreate -L 10G vgrp0
   Logical volume "lvol1" created
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
@@ -679,9 +655,9 @@ tmpfs                 1.9G     0  1.9G   0% /dev/shm
   Allocation             inherit
   Read ahead sectors     auto
   - currently set to     256
-  Block device           253:0</p>
+  Block device           253:0
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# lvextend -L +10G /dev/vgrp0/lvol0
   Extending logical volume lvol0 to 20.00 GiB
   Logical volume lvol0 successfully resized
@@ -702,48 +678,40 @@ tmpfs                 1.9G     0  1.9G   0% /dev/shm
   Allocation             inherit
   Read ahead sectors     auto
   - currently set to     256
-  Block device           253:0</p>
+  Block device           253:0
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# df -h
 Filesystem            Size  Used Avail Use% Mounted on
 /dev/xvda1             16G  2.9G   13G  19% /
 tmpfs                 1.9G     0  1.9G   0% /dev/shm
-/dev/mapper/vgrp0-lvol0</p>
-
-<pre><code>                  9.9G  151M  9.2G   2% /mnt
-</code></pre>
-
-<p>[root@lvm-test-server ~]#
+/dev/mapper/vgrp0-lvol0
+                      9.9G  151M  9.2G   2% /mnt
 [root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 
 <p>ext3の場合は<code>ext2online /dev/testvg/LVName</code></p>
 
-<p>```
-[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0
+<pre><code>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0
 resize2fs 1.42.3 (14-May-2012)
 Filesystem at /dev/vgrp0/lvol0 is mounted on /mnt; on-line resizing required
 old_desc_blocks = 1, new_desc_blocks = 2
-The filesystem on /dev/vgrp0/lvol0 is now 5242880 blocks long.</p>
+The filesystem on /dev/vgrp0/lvol0 is now 5242880 blocks long.
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# df -h
 Filesystem            Size  Used Avail Use% Mounted on
 /dev/xvda1             16G  2.9G   13G  19% /
 tmpfs                 1.9G     0  1.9G   0% /dev/shm
-/dev/mapper/vgrp0-lvol0</p>
-
-<pre><code>                   20G  156M   19G   1% /mnt
+/dev/mapper/vgrp0-lvol0
+                       20G  156M   19G   1% /mnt
+[root@lvm-test-server ~]#
 </code></pre>
-
-<p>[root@lvm-test-server ~]#
-```</p>
 
 <h3>LVを減少(lvextend)</h3>
 
-<p>```
-[root@lvm-test-server ~]#
+<pre><code>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# umount /mnt
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# df
@@ -754,9 +722,9 @@ tmpfs                  1922292         0   1922292   0% /dev/shm
 [root@lvm-test-server ~]#
 [root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0 10G
 resize2fs 1.42.3 (14-May-2012)
-Please run 'e2fsck -f /dev/vgrp0/lvol0' first.</p>
+Please run 'e2fsck -f /dev/vgrp0/lvol0' first.
 
-<p>[root@lvm-test-server ~]# e2fsck -f /dev/vgrp0/lvol0
+[root@lvm-test-server ~]# e2fsck -f /dev/vgrp0/lvol0
 e2fsck 1.42.3 (14-May-2012)
 Pass 1: Checking inodes, blocks, and sizes
 Pass 2: Checking directory structure
@@ -768,9 +736,9 @@ Pass 5: Checking group summary information
 [root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0 10G
 resize2fs 1.42.3 (14-May-2012)
 Resizing the filesystem on /dev/vgrp0/lvol0 to 2621440 (4k) blocks.
-The filesystem on /dev/vgrp0/lvol0 is now 2621440 blocks long.</p>
+The filesystem on /dev/vgrp0/lvol0 is now 2621440 blocks long.
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# lvdisplay
   --- Logical volume ---
   LV Path                /dev/vgrp0/lvol0
@@ -787,9 +755,9 @@ The filesystem on /dev/vgrp0/lvol0 is now 2621440 blocks long.</p>
   Allocation             inherit
   Read ahead sectors     auto
   - currently set to     256
-  Block device           253:0</p>
+  Block device           253:0
 
-<p>[root@lvm-test-server ~]#
+[root@lvm-test-server ~]#
 [root@lvm-test-server ~]# lvreduce -L -10G /dev/vgrp0/lvol0
   WARNING: Reducing active logical volume to 10.00 GiB
   THIS MAY DESTROY YOUR DATA (filesystem etc.)
@@ -813,11 +781,11 @@ Do you really want to reduce lvol0? [y/n]: y
   Allocation             inherit
   Read ahead sectors     auto
   - currently set to     256
-  Block device           253:0</p>
+  Block device           253:0
 
-<p>[root@lvm-test-server ~]#
 [root@lvm-test-server ~]#
-```</p>
+[root@lvm-test-server ~]#
+</code></pre>
 ]]></content>
   </entry>
   

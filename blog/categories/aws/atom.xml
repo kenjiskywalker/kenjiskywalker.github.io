@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -64,14 +64,14 @@ Primary, Secondaryと指定することでフェイルオーバーする仕組�
 <blockquote><p>www.example.com:80</p>
 
 <p>  => Primary
-   hoge01.example.com:80 (health check http://hoge01.example.com)</p>
+   hoge01.example.com:80 (health check <a href="http://hoge01.example.com">http://hoge01.example.com</a>)</p>
 
 <p>  => Secondary
-   hoge02.example.com:80 (health check http://hoge02.example.com)</p></blockquote>
+   hoge02.example.com:80 (health check <a href="http://hoge02.example.com">http://hoge02.example.com</a>)</p></blockquote>
 
-<p>こんな構成で <em>http://www.example.com</em> へのアクセスは通常だと<br/>
-<em>hoge01</em> へアクセスが行くようになっていて、 <em>hoge01</em> の<br/>
-レスポンスに異常があった場合に <em>hoge02</em> へ行くようになる。</p>
+<p>こんな構成で <em><a href="http://www.example.com_">http://www.example.com_</a> へのアクセスは通常だと<br/>
+</em>hoge01<em> へアクセスが行くようになっていて、 </em>hoge01<em> の<br/>
+レスポンスに異常があった場合に </em>hoge02_ へ行くようになる。</p>
 
 <p>試しに ヘルスチェックを <em>tcp:24224</em> にしても問題なく認識したので<br/>
 fluentdの集約サーバを冗長構成にしておいて</p>
@@ -108,73 +108,65 @@ fluentdの集約サーバを冗長構成にしておいて</p>
 </ul>
 
 
-<p>```
-$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \</p>
-
-<pre><code>              --image-id AMI \
-              --instance-type m1.small \
-              --key-name KEYNAME \
-              --security-groups sg-00000000 sg-00000001 \
-              --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
-                                         {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
-                                         {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
-                                         {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
-                                       ]'
+<pre><code>$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \
+                  --image-id AMI \
+                  --instance-type m1.small \
+                  --key-name KEYNAME \
+                  --security-groups sg-00000000 sg-00000001 \
+                  --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
+                                             {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
+                                             {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
+                                             {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
+                                           ]'
 </code></pre>
 
-<p>```</p>
-
 <ul>
-<li>aws autoscaling --region REGION describe-launch-configurations</li>
+<li>aws autoscaling &ndash;region REGION describe-launch-configurations</li>
 </ul>
 
 
-<p>```
-{</p>
-
-<pre><code>"LaunchConfigurations": [
-    {
-        "UserData": null,
-        "EbsOptimized": false,
-        "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
-        "InstanceMonitoring": {
-            "Enabled": true
-        },
-        "ImageId": "AMI",
-        "CreatedTime": "2014-01-01T01:00:00.000Z",
-        "BlockDeviceMappings": [
-            {
-                "DeviceName": "/dev/sdd",
-                "VirtualName": "ephemeral2"
+<pre><code>{
+    "LaunchConfigurations": [
+        {
+            "UserData": null,
+            "EbsOptimized": false,
+            "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
+            "InstanceMonitoring": {
+                "Enabled": true
             },
-            {
-                "DeviceName": "/dev/sdb",
-                "VirtualName": "ephemeral0"
-            },
-            {
-                "DeviceName": "/dev/sde",
-                "VirtualName": "ephemeral3"
-            },
-            {
-                "DeviceName": "/dev/sdc",
-                "VirtualName": "ephemeral1"
-            }
-        ],
-        "KeyName": "KEYNAME",
-        "SecurityGroups": [
-            "sg-00000000",
-            "sg-00000001"
-        ],
-        "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
-        "KernelId": null,
-        "RamdiskId": null,
-        "InstanceType": "m1.small"
-    }
-]
+            "ImageId": "AMI",
+            "CreatedTime": "2014-01-01T01:00:00.000Z",
+            "BlockDeviceMappings": [
+                {
+                    "DeviceName": "/dev/sdd",
+                    "VirtualName": "ephemeral2"
+                },
+                {
+                    "DeviceName": "/dev/sdb",
+                    "VirtualName": "ephemeral0"
+                },
+                {
+                    "DeviceName": "/dev/sde",
+                    "VirtualName": "ephemeral3"
+                },
+                {
+                    "DeviceName": "/dev/sdc",
+                    "VirtualName": "ephemeral1"
+                }
+            ],
+            "KeyName": "KEYNAME",
+            "SecurityGroups": [
+                "sg-00000000",
+                "sg-00000001"
+            ],
+            "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
+            "KernelId": null,
+            "RamdiskId": null,
+            "InstanceType": "m1.small"
+        }
+    ]
+}
 </code></pre>
-
-<p>}
-```</p>
 
 <p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
 ]]></content>
@@ -191,19 +183,15 @@ $ aws autoscaling --region REGION create-launch-configuration --launch-configura
 
 <h2><a href="http://docs.aws.amazon.com/cli/latest/reference/autoscaling/create-or-update-tags.html">AWS CLI - create-or-update-tags</a></h2>
 
-<blockquote><p>--tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
+<blockquote><p>&ndash;tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
 
-<p>```
-aws --region REGION autoscaling create-or-update-tags \</p>
-
-<pre><code>--tags ResourceId=AUTOSCALINGGROUP_NAME, \
-       ResourceType=auto-scaling-group, \
-       Key=KEY, \
-       Value=VALUE, \
-       PropagateAtLaunch=true
+<pre><code>aws --region REGION autoscaling create-or-update-tags \
+    --tags ResourceId=AUTOSCALINGGROUP_NAME, \
+           ResourceType=auto-scaling-group, \
+           Key=KEY, \
+           Value=VALUE, \
+           PropagateAtLaunch=true
 </code></pre>
-
-<p>```</p>
 
 <ul>
 <li>ResourceId</li>
@@ -264,20 +252,18 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
 </ul>
 
 
-<p><code>
-[ec2-user ~]$ mkdir /tmp/cert
+<pre><code>[ec2-user ~]$ mkdir /tmp/cert
 [ec2-user ~]$ cd /tmp/cert
-</code></p>
+</code></pre>
 
 <ul>
 <li>手元からファイルを送る</li>
 </ul>
 
 
-<p><code>
-$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+<pre><code>$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
 ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
-</code></p>
+</code></pre>
 
 <ul>
 <li>image元となるデータを作成</li>
@@ -287,12 +273,11 @@ ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
 <p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
 所々ファイルが消えます。</p>
 
-<p><code>
-[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
+<pre><code>[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
 -k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
 -c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
 -u your_aws_account_id -r x86_64 -e /tmp/cert
-</code></p>
+</code></pre>
 
 <ul>
 <li>S3にAMIの元となるデータをアップロードします</li>
@@ -302,22 +287,20 @@ ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
 <p>AMIを作成するregionと合わせないとエラーになります。<br/>
 <code>--region</code>ではなく<code>--location</code></p>
 
-<p><code>
-[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
+<pre><code>[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
 -m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
 --location us-west-2
-</code></p>
+</code></pre>
 
 <ul>
 <li>AMIにregisterします</li>
 </ul>
 
 
-<p><code>
-[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
+<pre><code>[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
 -n AMI_name -O your_access_key_id -W your_secret_access_key \
 --region us-west-2
-</code></p>
+</code></pre>
 
 <p>以上です。</p>
 ]]></content>
@@ -330,33 +313,28 @@ ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/02/24/ec2-start-raid0-script</id>
     <content type="html"><![CDATA[<p>Ephemeral Diskが8本ある場合は条件を増やせば良い。</p>
 
-<p>```</p>
+<pre><code>#!/bin/bash
 
-<h1>!/bin/bash</h1>
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin:/usr/local/bin
 
-<p>PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin:/usr/local/bin</p>
+if [[ \`test -e /dev/xvdc ; echo \$?\` -eq 0 ]] ; then
+    if [[ \`test -e /dev/xvde ; echo \$?\` -eq 0 ]] ; then
 
-<p>if [[ `test -e /dev/xvdc ; echo \$?` -eq 0 ]] ; then</p>
+        # RAID用のファイルをつくる(ephemeral x4バージョン)
+        umount /media/ephemeral0
+        yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[bcde]
+        mkfs.ext4 /dev/md127
+        mount /dev/md127 /media/ephemeral0
+    else
 
-<pre><code>if [[ \`test -e /dev/xvde ; echo \$?\` -eq 0 ]] ; then
-
-    # RAID用のファイルをつくる(ephemeral x4バージョン)
-    umount /media/ephemeral0
-    yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[bcde]
-    mkfs.ext4 /dev/md127
-    mount /dev/md127 /media/ephemeral0
-else
-
-    # RAID用のファイルをつくる(ephemeral x2バージョン)
-    umount /media/ephemeral0
-    yes | mdadm --create /dev/md127 --level=0 --raid-devices=2 /dev/xvd[bc]
-    mkfs.ext4 /dev/md127
-    mount /dev/md127 /media/ephemeral0
+        # RAID用のファイルをつくる(ephemeral x2バージョン)
+        umount /media/ephemeral0
+        yes | mdadm --create /dev/md127 --level=0 --raid-devices=2 /dev/xvd[bc]
+        mkfs.ext4 /dev/md127
+        mount /dev/md127 /media/ephemeral0
+    fi
 fi
 </code></pre>
-
-<p>fi
-```</p>
 
 <p>このスクリプトを<code>rc.local</code>とか<code>/etc/rc3.d/S~</code>とかに置いておけば<br/>
 起動時にRAID0として束ねて立ち上がってくれる。</p>

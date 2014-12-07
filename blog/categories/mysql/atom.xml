@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -60,7 +60,7 @@ MySQLが一時的に停止可能であれば、<code>rsync</code>でデータを
 <blockquote class="twitter-tweet"><p>relay_logとか暗黙のデフォルトでホスト名が使われるところは明示的に指定しておいたほうがハマりにくいですよ / “MySQLのスレーブサーバを別サーバに移設する時に注意すること - さよならインターネット” <a href="http://t.co/IVPKvyxXWi">http://t.co/IVPKvyxXWi</a></p>&mdash; Ryuta Kamizono (@kamipo) <a href="https://twitter.com/kamipo/statuses/366906226359009280">August 12, 2013</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>kamipoさんのこちらの<a href="https://github.com/kamipo/etcfiles/blob/master/etc/my.cnf#L57">my.cnf</a>が参考になる。<br/>

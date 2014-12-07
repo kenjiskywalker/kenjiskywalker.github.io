@@ -4,7 +4,7 @@
   <title><![CDATA[Category: redis | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/redis/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -69,35 +69,29 @@ desynchronization between Sentinel instances easily.</p></blockquote>
 
 <h2>Sentinelの設定、および起動方法</h2>
 
-<p>```
-$ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
-[28498] 25 Jan 01:28:24.447 * Max number of open files set to 10032</p>
-
-<pre><code>            _._                                                  
-       _.-``__ ''-._                                             
-  _.-``    `.  `_.  ''-._           Redis 2.6.9 (00000000/0) 64 bit
-</code></pre>
-
-<p>  .-<code>.-```.  ```\/    _.,_ ''-._                                   
+<pre><code>$ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
+[28498] 25 Jan 01:28:24.447 * Max number of open files set to 10032
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.6.9 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
  (    '      ,       .-`  | `,    )     Running in sentinel mode
- |`-._`-...-` __...-.</code>-.<em>|'<code>_.-'|     Port: 26379
- |   </code>-.</em>   <code>._    /     _.-'    |     PID: 28498
- </code>-.<em>    <code>-._ </code>-./  </em>.-'    <em>.-'                                 <br/>
- |<code>-._</code>-.</em>    <code>-.__.-'    _.-'_.-'|                                  
- |   </code>-.<em><code>-._        _.-'_.-'    |           http://redis.io        
- </code>-.</em>    <code>-._</code>-.<strong>.-'<em>.-'    </em>.-'                                 <br/>
- |<code>-._</code>-.<em>    <code>-.__.-'    _.-'_.-'|                                  
- |   </code>-.</em><code>-._        _.-'_.-'    |                                  
- </code>-._    <code>-._</code>-.</strong>.-'<em>.-'    </em>.-'</p>
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 26379
+ |    `-._   `._    /     _.-'    |     PID: 28498
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
 
-<pre><code>  `-._    `-.__.-'    _.-'                                       
-      `-._        _.-'                                           
-          `-.__.-'                                               
-</code></pre>
-
-<p>[28498] 25 Jan 01:28:24.451 * +slave slave 192.168.2.102:6379 192.168.2.102 6379 @ mymaster 192.168.2.101 6379
+[28498] 25 Jan 01:28:24.451 * +slave slave 192.168.2.102:6379 192.168.2.102 6379 @ mymaster 192.168.2.101 6379
 [28498] 25 Jan 01:28:25.358 * +sentinel sentinel 192.168.2.101:26379 192.168.2.101 26379 @ mymaster 192.168.2.101 6379
-```</p>
+</code></pre>
 
 <p>こんな感じで起動します。</p>
 
@@ -105,13 +99,12 @@ $ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
 
 <p>参考: <a href="http://download.redis.io/redis-stable/sentinel.conf">http://download.redis.io/redis-stable/sentinel.conf</a></p>
 
-<p><code>
-sentinel monitor mymaster 127.0.0.1 6379 2
+<pre><code>sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 60000
 sentinel failover-timeout mymaster 900000
 sentinel can-failover mymaster yes
 sentinel parallel-syncs mymaster 1
-</code></p>
+</code></pre>
 
 <p>オフィシャルの設定ファイルを参考に。</p>
 
@@ -196,9 +189,9 @@ During this time Sentinel Rule #14 still applies: if a valid slave promotion is 
 <p>フェイルオーバーを開始してから、レスポンスが返ってくるまでの<br/>
 待ち時間。詳細はやはりドキュメントを読んでほしい。</p>
 
-<blockquote><p>検証時に "10 milliseconds" などストイックな設定を行なってみたが
-タイムアウトに引っかかり、レプリケーションが開始することはなかった...
-こちらもやはり "5000 milliseconds" ぐらいが安全であった</p></blockquote>
+<blockquote><p>検証時に &ldquo;10 milliseconds&rdquo; などストイックな設定を行なってみたが
+タイムアウトに引っかかり、レプリケーションが開始することはなかった&hellip;
+こちらもやはり &ldquo;5000 milliseconds&rdquo; ぐらいが安全であった</p></blockquote>
 
 <ul>
 <li><code>sentinel can-failover mymaster yes</code></li>
@@ -223,8 +216,7 @@ During this time Sentinel Rule #14 still applies: if a valid slave promotion is 
 
 <h3>Slave(192.168.2.102)</h3>
 
-<p><code>
-$ echo "slaveof 192.168.2.101 6379" | redis-cli -h 192.168.2.102
+<pre><code>$ echo "slaveof 192.168.2.101 6379" | redis-cli -h 192.168.2.102
 OK
 $
 $ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
@@ -238,17 +230,16 @@ slave_priority:100
 slave_read_only:1
 connected_slaves:0
 $
-</code></p>
+</code></pre>
 
 <h3>Master(192.168.2.101)</h3>
 
-<p><code>
-$ redis-cli -h 192.168.2.101 info | grep -E 'mas|sla'
+<pre><code>$ redis-cli -h 192.168.2.101 info | grep -E 'mas|sla'
 role:master
 connected_slaves:1
 slave0:192.168.2.102,6379,online
 $
-</code></p>
+</code></pre>
 
 <h3>レプリケーションの情報</h3>
 
@@ -261,19 +252,18 @@ MasterのPort番号情報</p></li>
 Masterの状態の情報</p></li>
 <li><p><code>master_last_io_seconds_ago</code><br/>
 Slaveは10秒間隔でMasterへ<em>PING</em>を送信している。<br/>
-その"正常な"データを受信してからの経過時間の情報</p></li>
+その&#8221;正常な&#8221;データを受信してからの経過時間の情報</p></li>
 </ul>
 
 
 <p><code>monitor</code>コマンドで確認することができる。</p>
 
-<p><code>
-$ redis-cli -h 192.168.2.102 monitor
+<pre><code>$ redis-cli -h 192.168.2.102 monitor
 OK
 1359037270.075903 [0 192.168.2.101:6379] "PING"
 1359037280.274001 [0 192.168.2.101:6379] "PING"
 1359037290.464774 [0 192.168.2.101:6379] "PING"
-</code></p>
+</code></pre>
 
 <ul>
 <li><code>master_sync_in_progress</code><br/>
@@ -286,12 +276,11 @@ SYNC中であれば <em>1</em> のフラグが立ち、状況の詳細が表示�
 
 <h4>Masterが落ちていた場合の状態</h4>
 
-<p><code>
-master_link_status:down
+<pre><code>master_link_status:down
 master_last_io_seconds_ago:-1
 master_sync_in_progress:0
 master_link_down_since_seconds:N
-</code></p>
+</code></pre>
 
 <p><em>PING</em>の間隔が10秒間隔なので、疎通チェックも10秒間隔かと思うが<br/>
 そうではない(もう少し調べる)。</p>
@@ -302,8 +291,7 @@ master_link_down_since_seconds:N
 
 <p><code>101.slave(Master) &lt;= 102.6379(Slave) &lt;= 102.6380(Slave)</code></p>
 
-<p><code>
-$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
+<pre><code>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
 role:slave
 master_host:192.168.2.101
 master_port:6379
@@ -315,7 +303,7 @@ slave_read_only:1
 connected_slaves:1
 slave0:192.168.2.102,6380,online
 $
-</code></p>
+</code></pre>
 
 <blockquote><p>また、MasterとSlaveの接続が切れた場合も<br/>
 Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
@@ -353,123 +341,106 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
 
 <p>上記内容のRedisのセットがあるとします。</p>
 
-<p>```
-[hoge@example ~]#
+<pre><code>[hoge@example ~]# 
 [hoge@example ~]# redis-cli -p 6379 info | grep role -3
-latest_fork_usec:340</p>
+latest_fork_usec:340
 
-<h1>Replication</h1>
-
-<p>role:master
+# Replication
+role:master
 connected_slaves:1
-slave0:127.0.0.1,6380,online</p>
+slave0:127.0.0.1,6380,online
 
-<p>[hoge@example ~]# redis-cli -p 6380 info | grep role -3
-latest_fork_usec:336</p>
+[hoge@example ~]# redis-cli -p 6380 info | grep role -3
+latest_fork_usec:336
 
-<h1>Replication</h1>
-
-<p>role:slave
+# Replication
+role:slave
 master_host:127.0.0.1
 master_port:6379
 master_link_status:up
-[hoge@example ~]#</p>
-
-<p>```</p>
+[hoge@example ~]# 
+</code></pre>
 
 <p><code>sentinel.conf</code>はソースファイルから拾ってくるのでも良いし<br/>
 参考サイトからコピペするでも良いかと。</p>
 
-<p>```
-[hoge@example ~]# cat /etc/sentinel.conf
+<pre><code>[hoge@example ~]# cat /etc/sentinel.conf 
 sentinel monitor mymaster 127.0.0.1 6379 1
 sentinel down-after-milliseconds mymaster 10000
 sentinel failover-timeout mymaster 50000
 sentinel can-failover mymaster yes
 sentinel parallel-syncs mymaster 1
-[hoge@example ~]#
-[hoge@example ~]#
+[hoge@example ~]# 
+[hoge@example ~]# 
 [hoge@example ~]# redis-server /etc/sentinel.conf --sentinel
-[8373] 15 Jan 19:44:27.071 * Max number of open files set to 10032</p>
-
-<pre><code>            _._                                                  
-       _.-``__ ''-._                                             
-  _.-``    `.  `_.  ''-._           Redis 2.6.8 (00000000/0) 64 bit
-</code></pre>
-
-<p>  .-<code>.-```.  ```\/    _.,_ ''-._                                   
+[8373] 15 Jan 19:44:27.071 * Max number of open files set to 10032
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.6.8 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
  (    '      ,       .-`  | `,    )     Running in sentinel mode
- |`-._`-...-` __...-.</code>-.<em>|'<code>_.-'|     Port: 26379
- |   </code>-.</em>   <code>._    /     _.-'    |     PID: 8373
- </code>-.<em>    <code>-._ </code>-./  </em>.-'    <em>.-'                                 <br/>
- |<code>-._</code>-.</em>    <code>-.__.-'    _.-'_.-'|                                  
- |   </code>-.<em><code>-._        _.-'_.-'    |           http://redis.io        
- </code>-.</em>    <code>-._</code>-.<strong>.-'<em>.-'    </em>.-'                                 <br/>
- |<code>-._</code>-.<em>    <code>-.__.-'    _.-'_.-'|                                  
- |   </code>-.</em><code>-._        _.-'_.-'    |                                  
- </code>-._    <code>-._</code>-.</strong>.-'<em>.-'    </em>.-'</p>
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 26379
+ |    `-._   `._    /     _.-'    |     PID: 8373
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
 
-<pre><code>  `-._    `-.__.-'    _.-'                                       
-      `-._        _.-'                                           
-          `-.__.-'                                               
+[8373] 15 Jan 19:44:27.078 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+
+ --- 動きました --
 </code></pre>
 
-<p>[8373] 15 Jan 19:44:27.078 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379</p>
+<pre><code> ...
 
-<p> --- 動きました --
-```</p>
-
-<p>```
- ...</p>
-
-<p>  ＿人人人人人人人人人＿
+  ＿人人人人人人人人人＿
   ＞  Master突然の死  ＜
-  ￣Y<sup>Y<sup>Y<sup>Y<sup>Y<sup>Y<sup>Y<sup>Y￣</sup></sup></sup></sup></sup></sup></sup></p>
+  ￣Y^Y^Y^Y^Y^Y^Y^Y￣
+</code></pre>
 
-<p>```</p>
+<pre><code> ...
 
-<p>```
- ...</p>
-
-<p>[8373] 15 Jan 19:45:41.854 # +sdown master mymaster 127.0.0.1 6379 6380 @ mymaster 127.0.0.1 6379
+[8373] 15 Jan 19:45:41.854 # +sdown master mymaster 127.0.0.1 6379 6380 @ mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:41.854 # +odown master mymaster 127.0.0.1 6379 #quorum 1/1
 [8373] 15 Jan 19:45:41.855 # +failover-triggered master mymaster 127.0.0.1 6379
-[8373] 15 Jan 19:45:41.855 # +failover-state-wait-start master mymaster 127.0.0.1 6379 #starting in 6893 milliseconds</p>
+[8373] 15 Jan 19:45:41.855 # +failover-state-wait-start master mymaster 127.0.0.1 6379 #starting in 6893 milliseconds
 
-<p>ログがゴニョゴニョ出てきて</p>
+ログがゴニョゴニョ出てきて
 
-<p>[8373] 15 Jan 19:45:48.750 # +failover-state-select-slave master mymaster 127.0.0.1 6379
+[8373] 15 Jan 19:45:48.750 # +failover-state-select-slave master mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:48.851 # +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:48.852 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:48.953 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:48.954 # +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:48.954 # +failover-state-reconf-slaves master mymaster 127.0.0.1 6379
 [8373] 15 Jan 19:45:49.054 # +failover-end master mymaster 127.0.0.1 6379
-[8373] 15 Jan 19:45:49.054 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380</p>
+[8373] 15 Jan 19:45:49.054 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
 
-<p>マスター変わったよーというログが出ていますね</p>
-
-<p>```</p>
+マスター変わったよーというログが出ていますね
+</code></pre>
 
 <p>Redisのレプリケーションの状況を確認</p>
 
-<p>```
-[hoge@example ~]#
+<pre><code>[hoge@example ~]# 
 [hoge@example ~]# redis-cli -p 6379 info | grep role -3
 Could not connect to Redis at 127.0.0.1:6379: Connection refused
-[hoge@example ~]#
+[hoge@example ~]# 
 [hoge@example ~]# redis-cli -p 6380 info | grep role -3
-latest_fork_usec:336</p>
+latest_fork_usec:336
 
-<h1>Replication</h1>
+# Replication
+role:master
+connected_slaves:0
 
-<p>role:master
-connected_slaves:0</p>
-
-<h1>CPU</h1>
-
-<p>[hoge@example ~]#
-```</p>
+# CPU
+[hoge@example ~]# 
+</code></pre>
 
 <p><code>6380 PortのRedis</code>がMasterになっていますね。</p>
 

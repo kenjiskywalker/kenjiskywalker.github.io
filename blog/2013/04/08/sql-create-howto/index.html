@@ -9,9 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="tweets.zipを読みこませるSQLを書いた時のメモ Apr 8th, 2013 MySQL Casual Talks vol.4で話してみて
+  <meta name="description" content="tweets.zipを読みこませるSQLを書いた時のメモ MySQL Casual Talks vol.4で話してみて
 ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて
-今色々勉強しだしてるけど、 &hellip;">
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@
   
 
 
-<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true">Apr 8<span>th</span>, 2013</time>
+<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -135,7 +135,20 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
 
 <p>日付と時刻を入れる時の適切なタイプについての確認</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
 </span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 </span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
 </span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
@@ -147,7 +160,7 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
 </span><span class='line'>  `text` VARCHAR(140),
 </span><span class='line'>  `expanded_urls` VARCHAR(255),
 </span><span class='line'>  PRIMARY KEY (id) )
-</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -192,7 +205,7 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
   
 
 
-<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true">Apr 8<span>th</span>, 2013</time>
+<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -230,13 +243,6 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -266,7 +272,7 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -290,77 +296,6 @@ utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とか
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ec2 | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/ec2/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -26,9 +26,8 @@
 
 <p><code>/etc/rc.local</code></p>
 
-<p><code>
-sh ec2-raid0.sh
-</code></p>
+<pre><code>sh ec2-raid0.sh
+</code></pre>
 
 <p>こんな感じで<em>rc.local</em>に一行書いておけば<br/>
 エフェメラルディスク2つをRAID0としてマウントする。<br/>

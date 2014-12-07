@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shellscript | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/shellscript/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -25,34 +25,28 @@
 
 <blockquote><p>GNU Bash-2.05 manual</p></blockquote>
 
-<p>```</p>
-
-<pre><code>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
-   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
-   a backslash terminates the command substitution.  When using the $(command) form,  all  
-   characters between the parentheses make up the command; none are treated specially.
+<pre><code>       When the old-style backquote form of substitution is used, backslash retains its  lit-  
+       eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
+       a backslash terminates the command substitution.  When using the $(command) form,  all  
+       characters between the parentheses make up the command; none are treated specially.
 </code></pre>
 
-<p>```</p>
+<pre><code class="bash">#!/bin/bash
 
-<p>```bash</p>
+#!/bin/bash
 
-<h1>!/bin/bash</h1>
+a=`echo '\'`
+echo ${a} # \
 
-<h1>!/bin/bash</h1>
+b=`echo "\\"`
+echo ${b} # unexpected EOF while looking for matching `"'
 
-<p>a=<code>echo '\'</code>
-echo ${a} # \</p>
+c=$(echo '\')
+echo ${c} # \
 
-<p>b=<code>echo "\\"</code>
-echo ${b} # unexpected EOF while looking for matching `"'</p>
-
-<p>c=$(echo '\')
-echo ${c} # \</p>
-
-<p>d=$(echo "\")
+d=$(echo "\\")
 echo ${d} # \
-```</p>
+</code></pre>
 
 <h2>参考</h2>
 
@@ -63,7 +57,7 @@ echo ${d} # \
 <blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ]]></content>
   </entry>

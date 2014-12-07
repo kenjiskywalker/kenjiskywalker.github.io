@@ -4,7 +4,7 @@
   <title><![CDATA[Category: howto | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -18,14 +18,12 @@
     <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/04/gmail-noname/"/>
     <updated>2014-06-04T02:56:00+09:00</updated>
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/04/gmail-noname</id>
-    <content type="html"><![CDATA[<p>```</p>
+    <content type="html"><![CDATA[<pre><code>#!/bin/bash
 
-<h1>!/bin/bash</h1>
+FOO=`command`
 
-<p>FOO=<code>command</code></p>
-
-<p>echo ${FOO} | mail -s "foo command dayo" foo@example.com
-```</p>
+echo ${FOO} | mail -s "foo command dayo" foo@example.com
+</code></pre>
 
 <p>のようなスクリプトを作成した時に、送信先である<br/>
 Gmailで受信すると本文にコマンドの結果が出力されるのではなく<br/>
@@ -46,14 +44,12 @@ IRCに色付けたりターミナルの文字列に色付けたりするぐら�
 <p>hogemさんが書いてくれたように<code>\</code>を除外するとかして<br/>
 Escape Sequenceとして認識させないようにして上手くいった。</p>
 
-<p>```</p>
+<pre><code>#!/bin/bash
 
-<h1>!/bin/bash</h1>
+FOO=`command`
 
-<p>FOO=<code>command</code></p>
-
-<p>echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com
-```</p>
+echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com
+</code></pre>
 
 <p>こちらからは以上です。</p>
 ]]></content>
@@ -92,21 +88,17 @@ SSSを使いたかったけどDebian系はフォローしてなかったので<a
 
 <h4>サーバにて</h4>
 
-<p>```</p>
-
-<h1>apt-get install nut</h1>
-
-<p>```</p>
+<pre><code># apt-get install nut
+</code></pre>
 
 <p>nut-clientとnut-serverがインストールされる。</p>
 
-<p>```
-$ lsusb | grep -i omron
+<pre><code>$ lsusb | grep -i omron
 Bus 002 Device 006: ID 0590:0080 Omron Corp.
 $
-$ lsusb -v -s 002:006</p>
+$ lsusb -v -s 002:006
 
-<p>Bus 002 Device 006: ID 0590:0080 Omron Corp.
+Bus 002 Device 006: ID 0590:0080 Omron Corp.
 Couldn't open device, some information will be missing
 Device Descriptor:
   bLength                18
@@ -123,107 +115,90 @@ Device Descriptor:
   iProduct                1
   iSerial                 0
   bNumConfigurations      1
-  Configuration Descriptor:</p>
-
-<pre><code>bLength                 9
-bDescriptorType         2
-wTotalLength           34
-bNumInterfaces          1
-bConfigurationValue     1
-iConfiguration          0
-bmAttributes         0xe0
-  Self Powered
-  Remote Wakeup
-MaxPower              100mA
-Interface Descriptor:
-  bLength                 9
-  bDescriptorType         4
-  bInterfaceNumber        0
-  bAlternateSetting       0
-  bNumEndpoints           1
-  bInterfaceClass         3 Human Interface Device
-  bInterfaceSubClass      0 No Subclass
-  bInterfaceProtocol      0 None
-  iInterface              0
-    HID Device Descriptor:
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength           34
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xe0
+      Self Powered
+      Remote Wakeup
+    MaxPower              100mA
+    Interface Descriptor:
       bLength                 9
-      bDescriptorType        33
-      bcdHID               1.11
-      bCountryCode            0 Not supported
-      bNumDescriptors         1
-      bDescriptorType        34 Report
-      wDescriptorLength      27
-     Report Descriptors:
-       ** UNAVAILABLE **
-  Endpoint Descriptor:
-    bLength                 7
-    bDescriptorType         5
-    bEndpointAddress     0x81  EP 1 IN
-    bmAttributes            3
-      Transfer Type            Interrupt
-      Synch Type               None
-      Usage Type               Data
-    wMaxPacketSize     0x0008  1x 8 bytes
-    bInterval              10
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 No Subclass
+      bInterfaceProtocol      0 None
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.11
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      27
+         Report Descriptors:
+           ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval              10
+$
 </code></pre>
 
-<p>$
-```
-idVendorとidProductをメモしておく</p>
+<p>idVendorとidProductをメモしておく</p>
 
-<p>```</p>
-
-<h1>diff -C0 /lib/udev/rules.d/.52-nut-usbups.rules /lib/udev/rules.d/52-nut-usbups.rules</h1>
-
-<p>*** /lib/udev/rules.d/.52-nut-usbups.rules      2014-02-01 22:23:17.624993312 +0900
---- /lib/udev/rules.d/52-nut-usbups.rules       2014-02-02 00:27:37.540750650 +0900</p>
-
-<hr />
-
-<p><strong>* 205 </strong>**
+<pre><code># diff -C0 /lib/udev/rules.d/.52-nut-usbups.rules /lib/udev/rules.d/52-nut-usbups.rules
+*** /lib/udev/rules.d/.52-nut-usbups.rules      2014-02-01 22:23:17.624993312 +0900
+--- /lib/udev/rules.d/52-nut-usbups.rules       2014-02-02 00:27:37.540750650 +0900
+***************
+*** 205 ****
 --- 206,208 ----
 + # omron UPS BY35S - blazer_usb
 + ATTR{idVendor}=="0590", ATTR{idProduct}=="0080", MODE="664", GROUP="nut"
 +
-```</p>
+</code></pre>
 
 <p>メモした内容を<code>/lib/udev/rules.d/52-nut-usbups.rules</code>に追記する。</p>
 
 <h4>nut.conf</h4>
 
-<p><code>
-MODE=standalone
-</code></p>
+<pre><code>MODE=standalone
+</code></pre>
 
 <h4>ups.conf</h4>
 
-<p>```
-[ups]</p>
-
-<pre><code> driver    = blazer_usb
- port      = auto
- vendorid  = 0590
- productid = 0080
- subdriver = ippon
+<pre><code>[ups]
+     driver    = blazer_usb
+     port      = auto
+     vendorid  = 0590
+     productid = 0080
+     subdriver = ippon
 </code></pre>
-
-<p>```</p>
 
 <h4>upsd.users</h4>
 
-<p>```</p>
-
-<pre><code>    [upsmon]
-            password  = pass
-            upsmon master
+<pre><code>        [upsmon]
+                password  = pass
+                upsmon master
 </code></pre>
-
-<p>```</p>
 
 <h4>upsmon.conf</h4>
 
-<p><code>
-RUN_AS_USER root
+<pre><code>RUN_AS_USER root
 MONITOR ups@localhost 1 upsmon pass master
 MINSUPPLIES 1
 SHUTDOWNCMD "/sbin/shutdown -h +0"
@@ -246,77 +221,61 @@ NOTIFYFLAG NOPARENT     SYSLOG+WALL+EXEC
 RBWARNTIME 43200
 NOCOMMWARNTIME 300
 FINALDELAY 5
-</code></p>
+</code></pre>
 
 <h4>notifycmd</h4>
 
 <p>vmのシャットダウンはfujiwaraさんのを丸コピ</p>
 
-<p>```</p>
+<pre><code>#!/bin/bash
+#
+# NUT NOTIFYCMD script
 
-<h1>!/bin/bash</h1>
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
-<p>#</p>
+LANG=C
+export LANG
 
-<h1>NUT NOTIFYCMD script</h1>
+trap "exit 0" SIGTERM
 
-<p>PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin</p>
+if [ "$NOTIFYTYPE" = "ONLINE" ]
+then
+        echo $0: power restored | wall
+        # Cause all instances of this script to exit.
+        killall -s SIGTERM `basename $0`
+fi
 
-<p>LANG=C
-export LANG</p>
+if [ "$NOTIFYTYPE" = "ONBATT" ]
+then
+        echo $0: 5 minutes till system powers down... | wall
+        # Loop with one second interval to allow SIGTERM reception.
+        let "n = 300"
+        while [ $n -ne 0 ]
+        do
+                sleep 1
+                let "n--"
+        done
 
-<p>trap "exit 0" SIGTERM</p>
+        echo $0: vm shutdown | wall
+        VM=`/usr/bin/virsh list --all | grep 'running$' | awk '{print $2}'`
+        for v in $VM
+        do
+            echo $0: shutdown virtual machine $v | wall
+            virsh shutdown $v
+        done
 
-<p>if [ "$NOTIFYTYPE" = "ONLINE" ]
-then</p>
-
-<pre><code>    echo $0: power restored | wall
-    # Cause all instances of this script to exit.
-    killall -s SIGTERM `basename $0`
+        echo $0: commencing shutdown | wall
+        upsmon -c fsd
+fi
 </code></pre>
-
-<p>fi</p>
-
-<p>if [ "$NOTIFYTYPE" = "ONBATT" ]
-then</p>
-
-<pre><code>    echo $0: 5 minutes till system powers down... | wall
-    # Loop with one second interval to allow SIGTERM reception.
-    let "n = 300"
-    while [ $n -ne 0 ]
-    do
-            sleep 1
-            let "n--"
-    done
-
-    echo $0: vm shutdown | wall
-    VM=`/usr/bin/virsh list --all | grep 'running$' | awk '{print $2}'`
-    for v in $VM
-    do
-        echo $0: shutdown virtual machine $v | wall
-        virsh shutdown $v
-    done
-
-    echo $0: commencing shutdown | wall
-    upsmon -c fsd
-</code></pre>
-
-<p>fi
-```</p>
 
 <h4>nut start</h4>
 
-<p>```</p>
-
-<h1>/etc/init.d/nut-client start</h1>
-
-<h1>/etc/init.d/nut-server start</h1>
-
-<p>#</p>
-
-<h1>upsc ups</h1>
-
-<p>battery.voltage: 13.50
+<pre><code># /etc/init.d/nut-client start
+# /etc/init.d/nut-server start
+#
+# upsc ups
+battery.voltage: 13.50
 battery.voltage.high: -1.08
 battery.voltage.low: -0.87
 device.type: ups
@@ -342,13 +301,11 @@ ups.temperature: 37.5
 ups.type: offline / line interactive
 ups.vendorid: 0590
 #
-#</p>
-
-<h1>upsc ups ups.status</h1>
-
-<p>OL BYPASS
 #
-```</p>
+# upsc ups ups.status
+OL BYPASS
+#
+</code></pre>
 
 <p>nut-serverも動かさないといけないのに気付かなくてハマってた。</p>
 
@@ -421,79 +378,63 @@ Vyattaを導入した。その際のメモ。</p>
 
 <h3>/etc/network/interfaces</h3>
 
-<p>```
-auto lo
-iface lo inet loopback</p>
+<pre><code>auto lo
+iface lo inet loopback
 
-<p>iface eth0 inet manual
-iface eth1 inet manual</p>
+iface eth0 inet manual
+iface eth1 inet manual
 
-<p>auto br0
-iface br0 inet static</p>
+auto br0
+iface br0 inet static
+        address 192.168.0.3
+        network 192.168.0.0
+        netmask 255.255.255.0
+        broadcast 192.168.0.255
+        gateway 192.168.0.1
+        bridge_ports eth0
+        bridge_stp off
+        bridge_fd 0
+        bridge_maxwait 0
+        dns-nameservers 192.168.0.1
 
-<pre><code>    address 192.168.0.3
-    network 192.168.0.0
-    netmask 255.255.255.0
-    broadcast 192.168.0.255
-    gateway 192.168.0.1
-    bridge_ports eth0
-    bridge_stp off
-    bridge_fd 0
-    bridge_maxwait 0
-    dns-nameservers 192.168.0.1
+auto br1
+iface br1 inet static
+        address 0.0.0.0
+        bridge_ports eth1
+        bridge_stp off
+        bridge_fd 0
+        bridge_maxwait 0
 </code></pre>
-
-<p>auto br1
-iface br1 inet static</p>
-
-<pre><code>    address 0.0.0.0
-    bridge_ports eth1
-    bridge_stp off
-    bridge_fd 0
-    bridge_maxwait 0
-</code></pre>
-
-<p>```</p>
 
 <p>気が付いたらvnetがアサインされていた。
 ここらへんまだ理解していない。</p>
 
 <h3>brctl show</h3>
 
-<p>```
-bridge name     bridge id               STP enabled     interfaces
+<pre><code>bridge name     bridge id               STP enabled     interfaces
 br0             8000.20cf30ea8178       no              eth0
-br0             8000.XXXXXXXXXXXX       no              eth0</p>
-
-<pre><code>                                                    vnet0
-                                                    vnet1
-                                                    vnet2
+br0             8000.XXXXXXXXXXXX       no              eth0
+                                                        vnet0
+                                                        vnet1
+                                                        vnet2
+br1             8000.XXXXXXXXXXXX       no              eth1
+                                                        vnet3
+lxcbr0          8000.000000000000       no
 </code></pre>
-
-<p>br1             8000.XXXXXXXXXXXX       no              eth1</p>
-
-<pre><code>                                                    vnet3
-</code></pre>
-
-<p>lxcbr0          8000.000000000000       no
-```</p>
 
 <h3>VyattaのISOファイルを落としてくる</h3>
 
-<p><code>
-$ curl -O http://www.vyatta.com/downloads/vc6.6/vyatta-livecd_VC6.6R1_amd64.iso
-</code></p>
+<pre><code>$ curl -O http://www.vyatta.com/downloads/vc6.6/vyatta-livecd_VC6.6R1_amd64.iso
+</code></pre>
 
 <h3>Vyatta用のディスクイメージを作成する</h3>
 
-<p><code>
-$ qemu-img create -f raw /var/lib/libvirt/images/vyatta01-2G.img 2G
-</code></p>
+<pre><code>$ qemu-img create -f raw /var/lib/libvirt/images/vyatta01-2G.img 2G
+</code></pre>
 
 <h3>KVMでインストールする</h3>
 
-<p><code>
-$ virt-install  --connect qemu:///system  \
+<pre><code>$ virt-install  --connect qemu:///system  \
 --name vyatta01 \
 --ram 512  \
 --vcpus=1  \
@@ -501,7 +442,7 @@ $ virt-install  --connect qemu:///system  \
 --nographics  \
 --network=bridge:br0 --network=bridge:br1 \
 --cdrom=/tmp/vyatta-livecd_VC6.6R1_amd64.iso
-</code></p>
+</code></pre>
 
 <p>Install Default setting</p>
 
@@ -511,23 +452,23 @@ $ virt-install  --connect qemu:///system  \
 </ul>
 
 
-<p>```</p>
+<pre><code>
+$ virsh console Vyatta01
 
-<p>$ virsh console Vyatta01</p>
 
-<p>boot:</p>
+boot:
 
-<p>Welcome to Vyatta - vyatta ttyS0</p>
+Welcome to Vyatta - vyatta ttyS0
 
-<p>vyatta login: vyatta
+vyatta login: vyatta
 Password:
 Linux vyatta 3.3.8-1-amd64-vyatta #1 SMP Wed Mar 13 10:35:28 PDT 2013 x86_64
 Welcome to Vyatta.
 This system is open-source software. The exact distribution terms for
 each module comprising the full system are described in the individual
-files in /usr/share/doc/*/copyright.</p>
+files in /usr/share/doc/*/copyright.
 
-<p>vyatta@vyatta:~$ install image
+vyatta@vyatta:~$ install image
 Welcome to the Vyatta install program.  This script
 will walk you through the process of installing the
 Vyatta image to a local hard drive.
@@ -537,28 +478,26 @@ Looking for pre-existing RAID groups...none found.
 The Vyatta image will require a minimum 1000MB root.
 Would you like me to try to partition a drive automatically
 or would you rather partition it manually with parted?  If
-you have already setup your partitions, you may skip this step</p>
+you have already setup your partitions, you may skip this step
 
-<p>Partition (Auto/Parted/Skip) [Auto]:
-```</p>
+Partition (Auto/Parted/Skip) [Auto]:
+</code></pre>
 
 <p>のようにインストールがはじまります。<br/>
 基本的にチュートリアルに乗って行けば問題ないかと。</p>
 
 <p>新しいパスワードを設定して、再起動</p>
 
-<p>```
-This will destroy all data on /dev/sda.
-Continue? (Yes/No) [No]: yes</p>
+<pre><code>This will destroy all data on /dev/sda.
+Continue? (Yes/No) [No]: yes
 
-<p>Enter password for administrator account
+Enter password for administrator account
 Enter vyatta password:
 Retype vyatta password:
-```</p>
+</code></pre>
 
-<p><code>
-vyatta@vyatta:~$ reboot now
-</code></p>
+<pre><code>vyatta@vyatta:~$ reboot now
+</code></pre>
 
 <h2>vyattaの設定</h2>
 
@@ -578,55 +517,36 @@ vyatta@vyatta:~$ reboot now
 
 <h3>Vyattaの内部IPを設定</h3>
 
-<p>```</p>
-
-<h1>set interfaces ethernet eth0 address 192.168.0.1/24</h1>
-
-<p>```</p>
+<pre><code># set interfaces ethernet eth0 address 192.168.0.1/24
+</code></pre>
 
 <h3>SSHの許可</h3>
 
-<p>```</p>
-
-<h1>set service ssh listen-address 192.168.0.1</h1>
-
-<p>```</p>
+<pre><code># set service ssh listen-address 192.168.0.1
+</code></pre>
 
 <h3>ISPと接続</h3>
 
-<p>```</p>
-
-<h1>set interfaces ethernet eth0 pppoe 0 user-id XXXXX@YYY.ZZZ</h1>
-
-<h1>set interfaces ethernet eth0 pppoe 0 password XXXXX</h1>
-
-<h1>set interfaces ethernet eth0 pppoe 0 default-route auto</h1>
-
-<h1>commit</h1>
-
-<h1>save</h1>
-
-<p>```</p>
+<pre><code># set interfaces ethernet eth0 pppoe 0 user-id XXXXX@YYY.ZZZ
+# set interfaces ethernet eth0 pppoe 0 password XXXXX
+# set interfaces ethernet eth0 pppoe 0 default-route auto
+# commit
+# save
+</code></pre>
 
 <p>この時点で外部との接続が可能</p>
 
-<p><code>
-$ ping 8.8.8.8
-</code></p>
+<pre><code>$ ping 8.8.8.8 
+</code></pre>
 
 <p>などで pppoe0 => internet の疎通確認を行う</p>
 
 <h3>マスカレードの設定</h3>
 
-<p>```</p>
-
-<h1>set nat source rule 1 source address 192.168.0.0/24</h1>
-
-<h1>set nat source rule 1 outbound-interface pppoe0</h1>
-
-<h1>set nat source rule 1 translation address masquerade</h1>
-
-<p>```</p>
+<pre><code># set nat source rule 1 source address 192.168.0.0/24
+# set nat source rule 1 outbound-interface pppoe0
+# set nat source rule 1 translation address masquerade
+</code></pre>
 
 <p>試しにクライアントPCを</p>
 
@@ -648,17 +568,11 @@ $ ping 8.8.8.8
 <p>DHCPで192.168.0.200から192.168.0.250までの<br/>
 IPアドレスを割り振るように設定。</p>
 
-<p>```</p>
-
-<h1>set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 start 192.168.0.200 stop 192.168.0.250</h1>
-
-<h1>set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 default-router 192.168.0.1</h1>
-
-<h1>set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER</h1>
-
-<h1>set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER</h1>
-
-<p>```</p>
+<pre><code># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 start 192.168.0.200 stop 192.168.0.250
+# set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 default-router 192.168.0.1
+# set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER
+# set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER
+</code></pre>
 
 <p>ここでハマったのが、PLANEXでもDHCPを振っていたせいで<br/>
 DHCPでIPを付与されたクライアントPCのGATEWAYが<br/>
@@ -673,34 +587,31 @@ PLANEXを見に行ってしまっていていた。</p>
 
 <p>画像が永遠に読み込めない不具合があるので下記設定を導入</p>
 
-<p>```
-set policy route PPPOE-IN rule 10 destination address 0.0.0.0/0
+<pre><code>set policy route PPPOE-IN rule 10 destination address 0.0.0.0/0
 set policy route PPPOE-IN rule 10 protocol tcp
 set policy route PPPOE-IN rule 10 tcp flags 'SYN,!ACK,!FIN,!RST'
-set policy route PPPOE-IN rule 10 set tcp-mss 1360</p>
+set policy route PPPOE-IN rule 10 set tcp-mss 1360
 
-<p>set interfaces ethernet eth0 policy route PPPOE-IN
-```</p>
+set interfaces ethernet eth0 policy route PPPOE-IN
+</code></pre>
 
 <h3>ポートフォワーディング</h3>
 
 <p>外部からアクセスできるようにフォワードする</p>
 
-<p><code>
-set nat destination rule 1000 inbound-interface pppoe0
+<pre><code>set nat destination rule 1000 inbound-interface pppoe0
 set nat destination rule 1000 destination port 22
 set nat destination rule 1000 protocol tcp
 set nat destination rule 1000 translation port 22
 set nat destination rule 1000 translation address 192.168.0.11
-</code></p>
+</code></pre>
 
-<p><code>
-set nat destination rule 1001 inbound-interface pppoe0
+<pre><code>set nat destination rule 1001 inbound-interface pppoe0
 set nat destination rule 1001 destination port 60000-61000
 set nat destination rule 1001 protocol tcp_udp
 set nat destination rule 1001 translation port 60000-61000
 set nat destination rule 1001 translation address 192.168.0.12
-</code></p>
+</code></pre>
 
 <p>こんな感じでつらつらと設定していく</p>
 
@@ -740,9 +651,8 @@ AirPlay毎日できて最高です。</p>
 
 <p>このようなスクリプトを</p>
 
-<p><code>
-*/1 * * * * root /root/set_eip.sh 2&gt; /dev/null
-</code></p>
+<pre><code>*/1 * * * * root /root/set_eip.sh 2&gt; /dev/null
+</code></pre>
 
 <p>と噛ましておけば、EIPが付与されていないインスタンスを発見し次第<br/>
 強制的にEIPをアサインすることができます。</p>

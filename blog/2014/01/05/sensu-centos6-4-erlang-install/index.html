@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="CentOS 6.5でChefからSensuをインストールしようとするとRabbitMQでコケる回避策 Jan 5th, 2014 date : 2014/01/05
+  <meta name="description" content="CentOS 6.5でChefからSensuをインストールしようとするとRabbitMQでコケる回避策 date : 2014/01/05
 OS : CentOS 6.5
 Sensu : sensu-0.12.3-1.x86_64
-sensu-chef : 0.8.0 &hellip;">
+sensu-chef : 0.8.0 === (2014/01/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,7 +97,7 @@ sensu-chef : 0.8.0 &hellip;">
   
 
 
-<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true">Jan 5<span>th</span>, 2014</time>
+<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -119,7 +119,7 @@ sensu-chef : 0.8.0</p></blockquote>
 
 <p>ドラクエ氏によると、この解決策だと6.4は別のエラーがでるとのこと。</p>
 
-<p>================================</p>
+<hr />
 
 <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> centos?</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419716838642032641">January 5, 2014</a></blockquote>
 
@@ -168,29 +168,47 @@ sensu-chef : 0.8.0</p></blockquote>
 <p>このSensuのリポジトリは<a href="http://community.opscode.com/cookbooks/sensu">opscode</a>に上がっているので<br/>
 knifeで取ってきます。他にも必要なrecipeを合わせて持ってこれるので便利です。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>knife cookbook site vendor sensu -o cookbooks/</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>knife cookbook site vendor sensu -o cookbooks/</span></code></pre></td></tr></table></div></figure>
 
 
 <p>関係するrecipeがダウンロードされたことを確認してください。<br/>
 次にREADMEに書いてあるようにSSL証明書を作成します。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>cd ./cookbooks/sensu/examples/ssl/
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ./cookbooks/sensu/examples/ssl/
 </span><span class='line'>./ssl_certs.sh generate
 </span><span class='line'>knife data bag create sensu
-</span><span class='line'>knife data bag from file sensu ssl.json</span></pre></td></tr></table></div></figure>
+</span><span class='line'>knife data bag from file sensu ssl.json</span></code></pre></td></tr></table></div></figure>
 
 
 <p>などとSSLを作成しますが
 knifeが上手く動かない場合は</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ./data_bags/sensu
-</span><span class='line'>cp ./cookbooks/sensu/examples/ssl/ssl.json data_bags/sensu/</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ./data_bags/sensu
+</span><span class='line'>cp ./cookbooks/sensu/examples/ssl/ssl.json data_bags/sensu/</span></code></pre></td></tr></table></div></figure>
 
 
 <p>とすることで同じ結果を得られます。
 次に<code>run_list</code>を作成します。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "default_attributes": {
 </span><span class='line'>  },
 </span><span class='line'>  "override_attributes": {
@@ -200,12 +218,59 @@ knifeが上手く動かない場合は</p>
 </span><span class='line'>    "sensu::redis",
 </span><span class='line'>    "sensu::rabbitmq"
 </span><span class='line'>  ]
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <p>この状態でChefを廻します。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>Recipe: rabbitmq::default
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Recipe: rabbitmq::default
 </span><span class='line'>  * service[rabbitmq-server] action restart
 </span><span class='line'>================================================================================
 </span><span class='line'>Error executing action `restart` on resource 'service[rabbitmq-server]'
@@ -251,12 +316,27 @@ knifeが上手く動かない場合は</p>
 </span><span class='line'>  startup_type :automatic
 </span><span class='line'>  cookbook_name :rabbitmq
 </span><span class='line'>  recipe_name "default"
-</span><span class='line'>end</span></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <p>と、このようにエラーになります。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>diff --git cookbooks/erlang/recipes/package.rb cookbooks/erlang/recipes/package.rb
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diff --git cookbooks/erlang/recipes/package.rb cookbooks/erlang/recipes/package.rb
 </span><span class='line'>index 19f9fce..6cec68f 100644
 </span><span class='line'>--- cookbooks/erlang/recipes/package.rb
 </span><span class='line'>+++ cookbooks/erlang/recipes/package.rb
@@ -270,14 +350,17 @@ knifeが上手く動かない場合は</p>
 </span><span class='line'>+    command "yum install -y erlang-R16B02"
 </span><span class='line'>+    not_if { File.exists? "/usr/bin/erl" }
 </span><span class='line'>+  end
-</span><span class='line'> end</span></pre></td></tr></table></div></figure>
+</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上記のようにバージョンを含めたパッケージの指定をすることで回避できました。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>package 'erlang' do
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package 'erlang' do
 </span><span class='line'>  version "R16B02"
-</span><span class='line'>end</span></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <p>この方法でイケるかと思ったのですがそんなバージョンはない。とエラーになりました。<br/>
@@ -314,7 +397,7 @@ knifeが上手く動かない場合は</p>
   
 
 
-<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true">Jan 5<span>th</span>, 2014</time>
+<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -352,13 +435,6 @@ knifeが上手く動かない場合は</p>
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -388,7 +464,7 @@ knifeが上手く動かない場合は</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -412,77 +488,6 @@ knifeが上手く動かない場合は</p>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

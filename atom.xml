@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -18,7 +18,7 @@
     <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book/"/>
     <updated>2014-12-07T05:21:00+09:00</updated>
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/201411-book</id>
-    <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がするけどな&#8230;</p>
+    <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がするけどな&hellip;</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年11月 (1作品)</div>
 
@@ -74,17 +74,28 @@ unicornの操作をできるようにするまでのメモ</p>
 
 <h3>手元のマシンでcap3をインストール</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install capistrano</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install capistrano</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Railsアプリケーションのあるパスに移動</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ cd app_name</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd app_name</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>cap install</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ cap install
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cap install
 </span><span class='line'>mkdir -p config/deploy
 </span><span class='line'>create config/deploy.rb
 </span><span class='line'>create config/deploy/staging.rb
@@ -92,7 +103,7 @@ unicornの操作をできるようにするまでのメモ</p>
 </span><span class='line'>mkdir -p lib/capistrano/tasks
 </span><span class='line'>create Capfile
 </span><span class='line'>Capified
-</span><span class='line'>$ </span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ </span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>app_name/config</code>配下にdeploy用の各種設定テンプレートが格納され、<br/>
@@ -105,7 +116,31 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 
 <p>汎用的な設定はここに書くのかな</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>lock '3.3.3'
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lock '3.3.3'
 </span><span class='line'>
 </span><span class='line'># 自分のアプリケーション名
 </span><span class='line'>set :application, 'app_name'
@@ -128,7 +163,7 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </span><span class='line'>}
 </span><span class='line'>
 </span><span class='line'># ここは cap install するとコメントアウトで入るのでそのコメントアウトを解除
-</span><span class='line'>set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')</span></pre></td></tr></table></div></figure>
+</span><span class='line'>set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>config/deploy/stage.rb</h3>
@@ -140,14 +175,22 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
 </span><span class='line'>set :rails_env, 'development'
 </span><span class='line'>
 </span><span class='line'># unicorn で利用する RACK_ENV の指定
 </span><span class='line'>set :unicorn_rack_env, 'development'
 </span><span class='line'>
 </span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'dev-web1', user: 'foo', roles: %w{web}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>server 'dev-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -155,14 +198,22 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
 </span><span class='line'>set :rails_env, 'staging'
 </span><span class='line'>
 </span><span class='line'># unicorn で利用する RACK_ENV の指定
 </span><span class='line'>set :unicorn_rack_env, 'staging'
 </span><span class='line'>
 </span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'stg-web1', user: 'foo', roles: %w{web}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>server 'stg-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -170,35 +221,78 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
 </span><span class='line'>set :rails_env, 'production'
 </span><span class='line'>
 </span><span class='line'># unicorn で利用する RACK_ENV の指定
 </span><span class='line'>set :unicorn_rack_env, 'production'
 </span><span class='line'>
 </span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'web1', user: 'foo', roles: %w{web}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>server 'web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Gemfile</h3>
 
 <p>capistranoで利用するgemを追加</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :staging, :production do
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :staging, :production do
 </span><span class='line'>  gem 'capistrano'
 </span><span class='line'>  gem 'capistrano-rails'
 </span><span class='line'>  gem 'capistrano-rbenv'
 </span><span class='line'>  gem 'capistrano-bundler'
 </span><span class='line'>  gem 'capistrano3-unicorn'
 </span><span class='line'>  gem 'unicorn'
-</span><span class='line'>end</span></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Capfile</h3>
 
 <p>consoleとbundlerとunicornを有効化</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># Load DSL and Setup Up Stages
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Load DSL and Setup Up Stages
 </span><span class='line'>require 'capistrano/setup'
 </span><span class='line'>
 </span><span class='line'># Includes default deployment tasks
@@ -224,7 +318,7 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </span><span class='line'># require 'capistrano/rails/migrations'
 </span><span class='line'>
 </span><span class='line'># Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
-</span><span class='line'>Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }</span></pre></td></tr></table></div></figure>
+</span><span class='line'>Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>config/unicorn/stage.rb</h3>
@@ -241,7 +335,54 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># paths
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># paths
 </span><span class='line'>app_path = "/home/foo/app_name"
 </span><span class='line'>working_directory "#{app_path}/current"
 </span><span class='line'>pid               "#{app_path}/current/tmp/pids/unicorn.pid"
@@ -287,24 +428,31 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 </span><span class='line'>  if defined?(ActiveRecord::Base)
 </span><span class='line'>    ActiveRecord::Base.establish_connection
 </span><span class='line'>  end
-</span><span class='line'>end</span></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>動作チェック</h2>
 
 <h3>deploy</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development deploy:check
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development deploy:check
 </span><span class='line'>$ bundle exec cap development deploy
 </span><span class='line'>$ bundle exec cap staging deploy
-</span><span class='line'>$ bundle exec cap production deploy</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ bundle exec cap production deploy</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>unicorn</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development unicorn:start
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development unicorn:start
 </span><span class='line'>$ bundle exec cap development unicorn:legacy_restart
-</span><span class='line'>$ bundle exec cap development unicorn:stop</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ bundle exec cap development unicorn:stop</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>学び</h3>
@@ -345,7 +493,22 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>machine:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
 </span><span class='line'>  services:
 </span><span class='line'>    - docker
 </span><span class='line'>
@@ -359,7 +522,7 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 </span><span class='line'>
 </span><span class='line'>test:
 </span><span class='line'>  post:
-</span><span class='line'>    - docker run -v $(pwd)/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml  --vault-password-file /ansible/vault.txt -i /ansible/inventory_localhost -c local</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    - docker run -v $(pwd)/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml  --vault-password-file /ansible/vault.txt -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
 
 
 <p>他に良いプラクティスあれば教えてください。</p>
@@ -388,10 +551,14 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 <code>cache_directories</code>を利用し、imageをexportしておき<br/>
 実行時にimportするようにすると多少速くなる。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
 </span><span class='line'>├── Dockerfile
 </span><span class='line'>├── ansible/
-</span><span class='line'>└── circle.yml</span></pre></td></tr></table></div></figure>
+</span><span class='line'>└── circle.yml</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -399,7 +566,8 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ansible</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ansible</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -407,7 +575,21 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>machine:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
 </span><span class='line'>  services:
 </span><span class='line'>    - docker
 </span><span class='line'>
@@ -420,7 +602,7 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 </span><span class='line'>
 </span><span class='line'>test:
 </span><span class='line'>  post:
-</span><span class='line'>    - docker run -v `pwd`/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    - docker run -v `pwd`/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
 
 
 <p>こんな感じの設定ファイルを置いておくと<code>ansible</code>ディレクトリをマウントし<br/>
@@ -448,7 +630,16 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>box: wercker-labs/docker
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>box: wercker-labs/docker
 </span><span class='line'>build:
 </span><span class='line'>  steps:
 </span><span class='line'>    - script:
@@ -456,7 +647,7 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 </span><span class='line'>        code: docker build .
 </span><span class='line'>    - script:
 </span><span class='line'>        name: docker run
-</span><span class='line'>        code: docker run -v `pwd`/ansible:/ansible dockerfile/ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></pre></td></tr></table></div></figure>
+</span><span class='line'>        code: docker run -v `pwd`/ansible:/ansible dockerfile/ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
 
 
 <p>以上、メモです。</p>
@@ -475,15 +666,34 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 <blockquote><p>GNU Bash-2.05 manual</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
 </span><span class='line'>   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
 </span><span class='line'>   a backslash terminates the command substitution.  When using the $(command) form,  all  
-</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></pre></td></tr></table></div></figure>
+</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
 </span><span class='line'>
 </span><span class='line'><span class="c">#!/bin/bash</span>
 </span><span class='line'>
@@ -498,7 +708,7 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 </span><span class='line'>
 </span><span class='line'><span class="nv">d</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;\\&quot;</span><span class="k">)</span>
 </span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">d</span><span class="k">}</span> <span class="c"># \</span>
-</span></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>参考</h2>
@@ -510,7 +720,7 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 <blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ]]></content>
   </entry>
@@ -571,7 +781,87 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 <h2>もくじ</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>巻頭企画
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>巻頭企画
 </span><span class='line'>［入門］コードによるインフラ構築
 </span><span class='line'>サーバ構成管理の自動化を実現する
 </span><span class='line'>
@@ -650,7 +940,7 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 </span><span class='line'>一般記事
 </span><span class='line'>
 </span><span class='line'>Dockerで軽量な仮想環境
-</span><span class='line'>Linuxコンテナでインフラを瞬時に構築する……伊藤 直也</span></pre></td></tr></table></div></figure>
+</span><span class='line'>Linuxコンテナでインフラを瞬時に構築する……伊藤 直也</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>感想</h2>
@@ -747,7 +1037,8 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 
 <p>OS Xでは、Docker containerにアクセスするまでに</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; boot2docker -&gt; docker container</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; boot2docker -&gt; docker container</span></code></pre></td></tr></table></div></figure>
 
 
 <p></p>
@@ -755,7 +1046,8 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 <p>boot2dockerを一旦挟まなければならなかった.<br/>
 これをfigを利用することで、透過的に</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; docker container</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; docker container</span></code></pre></td></tr></table></div></figure>
 
 
 <p></p>
@@ -766,16 +1058,21 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 
 <p>完全に勘違い！OS Xでも普通に<code>docker</code>コマンド使えます.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
 </span><span class='line'>$ boot2docker ssh
-</span><span class='line'>$ docker build .</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
 
 
 <p>などと操作しなくても<a href="https://github.com/docker/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a>の頃から<br/>
 DockerはOS Xに対応していて</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
-</span><span class='line'>$ docker build .</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のようにログインせずともTiny Core Linuxのリモートクライアントとして<br/>
@@ -788,16 +1085,19 @@ DockerはOS Xに対応していて</p>
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>とのことです.わかりやすい.</p>
 
 <h3>figを利用しない場合</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
 </span><span class='line'>$ docker build .
-</span><span class='line'>$ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のような操作で起動できる.</p>
@@ -807,7 +1107,25 @@ DockerはOS Xに対応していて</p>
 <p>とあるRailsのアプリケーションがあった時に、そのアプリケーションを<br/>
 Docker containerで透過的に操作する為にどのようなことが必要なのかの例</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
 </span><span class='line'>├── Gemfile
 </span><span class='line'>├── Gemfile.lock
 </span><span class='line'>├── README.rdoc
@@ -824,12 +1142,32 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 </span><span class='line'>├── public
 </span><span class='line'>├── test
 </span><span class='line'>├── tmp
-</span><span class='line'>└── vendor</span></pre></td></tr></table></div></figure>
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
 
 
 <p>このようにRailsアプリケーションのディレクトリに</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
 </span><span class='line'>├── Dockerfile
 </span><span class='line'>├── Gemfile
 </span><span class='line'>├── Gemfile.lock
@@ -848,7 +1186,7 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 </span><span class='line'>├── public
 </span><span class='line'>├── test
 </span><span class='line'>├── tmp
-</span><span class='line'>└── vendor</span></pre></td></tr></table></div></figure>
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>Dockerfile</code>と<code>fig.yml</code>を置く</p>
@@ -861,7 +1199,17 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 <p>日本に住む人々は魂をRedHatに引かれてUbuntuを利用しにくいので<br/>
 CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsqliteも入っている)</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
 </span><span class='line'>
 </span><span class='line'>WORKDIR /tmp
 </span><span class='line'>ADD Gemfile Gemfile
@@ -870,7 +1218,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </span><span class='line'>
 </span><span class='line'>RUN mkdir /myapp
 </span><span class='line'>WORKDIR /myapp
-</span><span class='line'>ADD . /myapp</span></pre></td></tr></table></div></figure>
+</span><span class='line'>ADD . /myapp</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -878,28 +1226,42 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>web:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>web:
 </span><span class='line'>  build: .
 </span><span class='line'>  command: bundle exec rackup -p 3000
 </span><span class='line'>  volumes:
 </span><span class='line'>    - .:/myapp
 </span><span class='line'>  ports:
-</span><span class='line'>    - "3000:3000"</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    - "3000:3000"</span></code></pre></td></tr></table></div></figure>
 
 
 <p>この状態で</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
-</span><span class='line'>$ fig up</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ fig up</span></code></pre></td></tr></table></div></figure>
 
 
 <p>とコマンドを発行し</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker ip
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker ip
 </span><span class='line'>
 </span><span class='line'>The VM's Host only interface IP address is: 192.168.59.103
 </span><span class='line'>
-</span><span class='line'>$</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
 
 
 <p>で利用しているIPアドレスを確認して</p>
@@ -918,11 +1280,16 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
 </span><span class='line'>  adapter: sqlite3
 </span><span class='line'>  database: db/development.sqlite3
 </span><span class='line'>  pool: 5
-</span><span class='line'>  timeout: 5000</span></pre></td></tr></table></div></figure>
+</span><span class='line'>  timeout: 5000</span></code></pre></td></tr></table></div></figure>
 
 
 <p>しかし、裏側にMySQLを利用する場合は</p>
@@ -932,7 +1299,25 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>db:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>db:
 </span><span class='line'>  image: mysql
 </span><span class='line'>  environment:
 </span><span class='line'>    MYSQL_ROOT_PASSWORD: "pass"
@@ -949,7 +1334,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </span><span class='line'>  links:
 </span><span class='line'>    - db
 </span><span class='line'>  environment:
-</span><span class='line'>    DB_HOST: db</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    DB_HOST: db</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -957,14 +1342,22 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
 </span><span class='line'>  adapter: mysql2
 </span><span class='line'>  encoding: utf8
 </span><span class='line'>  pool: 5
 </span><span class='line'>  database: mysql
 </span><span class='line'>  username: root
 </span><span class='line'>  password: 'pass'
-</span><span class='line'>  host: &lt;%= ENV['DB_HOST'] %&gt;</span></pre></td></tr></table></div></figure>
+</span><span class='line'>  host: &lt;%= ENV['DB_HOST'] %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>このようにデータベースサーバ用コンテナの設定をRails側に記載しなければならない.</p>
@@ -983,7 +1376,7 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>です.</p>
@@ -1015,7 +1408,40 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <p>対象のサーバに何か設定をする必要はないので<br/>
 このように少量のコードでやりたいことが実現できる。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
 </span><span class='line'>['-']% cat hosts
 </span><span class='line'>ansible.example.com
 </span><span class='line'>['-']%
@@ -1047,11 +1473,11 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 </span><span class='line'>PLAY RECAP ********************************************************************
 </span><span class='line'>ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0
 </span><span class='line'>
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br/>
-各社独自で工夫してるんだろうな&#8230;</p>
+各社独自で工夫してるんだろうな&hellip;</p>
 
 <h2>Role</h2>
 
@@ -1068,7 +1494,29 @@ Chefを意識したつくりになっている気がする.<br/>
 
 <p><a href="https://github.com/kenjiskywalker/ansible">https://github.com/kenjiskywalker/ansible</a></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% tree .
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% tree .
 </span><span class='line'>.
 </span><span class='line'>├── dev.yml
 </span><span class='line'>└── roles
@@ -1089,7 +1537,7 @@ Chefを意識したつくりになっている気がする.<br/>
 </span><span class='line'>        └── templates
 </span><span class='line'>            └── rbenv.sh.j2
 </span><span class='line'>
-</span><span class='line'>10 directories, 8 files</span></pre></td></tr></table></div></figure>
+</span><span class='line'>10 directories, 8 files</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>軽く書いてみて気がついたこと</h3>
@@ -1101,7 +1549,22 @@ Chefを意識したつくりになっている気がする.<br/>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>- name: check Rails installed
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check Rails installed
 </span><span class='line'>  shell: rails -v | cut -f 2 -d ' '
 </span><span class='line'>  register: rails_installed
 </span><span class='line'>  ignore_errors: yes
@@ -1115,7 +1578,7 @@ Chefを意識したつくりになっている気がする.<br/>
 </span><span class='line'>  when: rails_installed.stdout != rails_version
 </span><span class='line'>  tags:
 </span><span class='line'>    - rails
-</span><span class='line'>    - install</span></pre></td></tr></table></div></figure>
+</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br/>
@@ -1124,7 +1587,19 @@ Chefを意識したつくりになっている気がする.<br/>
 
 <h3>Vagrantfile</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
 </span><span class='line'>
 </span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 </span><span class='line'>  config.vm.box = "centos65"
@@ -1135,14 +1610,15 @@ Chefを意識したつくりになっている気がする.<br/>
 </span><span class='line'>  config.vm.provision "ansible" do |ansible|
 </span><span class='line'>    ansible.playbook = "./ansible/dev.yml"
 </span><span class='line'>  end
-</span><span class='line'>end</span></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br/>
 READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br/>
 ansibleが実行されます.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant provision</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant provision</span></code></pre></td></tr></table></div></figure>
 
 
 <p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br/>
@@ -1368,7 +1844,7 @@ headerが雑なのでプロモーションも兼ねて編集して頂いた方�
 Chefを使えばOfficial cookbookと自分で何個かcookbookを書くことで<br/>
 比較的簡単に(※1)導入、運用ができるという話をしてきた。</p>
 
-<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="http://kenjiskywalker.github.com/kenjiskywalker//speakerdeck.com/assets/embed.js"></script>
+<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
 
 
 <p></p>
@@ -1388,7 +1864,7 @@ sensuに乗り換えるのは無駄だと思う。</p>
 <p>Tシャツありがとうございました。<br/>
 開催して頂いた@glidenote氏、ありがとうございました！</p>
 
-<iframe src="http://kenjiskywalker.github.com/kenjiskywalker//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+<iframe src="//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
 
 
 <blockquote><p>※1… 個人差があります</p></blockquote>
@@ -1404,7 +1880,51 @@ sensuに乗り換えるのは無駄だと思う。</p>
 
 <p>Consulでkey/valueを叩く</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
 </span><span class='line'>true
 </span><span class='line'>['-']%
 </span><span class='line'>['-']%
@@ -1447,12 +1967,23 @@ sensuに乗り換えるのは無駄だと思う。</p>
 </span><span class='line'>  }
 </span><span class='line'>]
 </span><span class='line'>['-']%
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>delete</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
 </span><span class='line'>['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
 </span><span class='line'>['-']%
 </span><span class='line'>['-']%
@@ -1462,12 +1993,32 @@ sensuに乗り換えるのは無駄だと思う。</p>
 </span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
 </span><span class='line'>true%                                                                                                  ['-']%
 </span><span class='line'>['-']%
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>再帰もいける</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
 </span><span class='line'>[
 </span><span class='line'>  {
 </span><span class='line'>    "CreateIndex": 555,
@@ -1486,12 +2037,40 @@ sensuに乗り換えるのは無駄だと思う。</p>
 </span><span class='line'>    "Value": "YmFy"
 </span><span class='line'>  }
 </span><span class='line'>]
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>flags</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
 </span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
 </span><span class='line'>[
 </span><span class='line'>  {
@@ -1518,7 +2097,7 @@ sensuに乗り換えるのは無駄だと思う。</p>
 </span><span class='line'>    "Value": null
 </span><span class='line'>  }
 </span><span class='line'>]
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>階層化とdecode</h3>
@@ -1526,7 +2105,24 @@ sensuに乗り換えるのは無駄だと思う。</p>
 <blockquote><p>BSD の base64 コマンドだと<br/>
 -dがdebugで-Dがdecodeだった</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
 </span><span class='line'>true
 </span><span class='line'>['x']%
 </span><span class='line'>['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
@@ -1542,7 +2138,7 @@ sensuに乗り換えるのは無駄だと思う。</p>
 </span><span class='line'>['-']%
 </span><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
 </span><span class='line'>bazbazbaz
-</span><span class='line'>['-']%</span></pre></td></tr></table></div></figure>
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -1570,7 +2166,20 @@ Serfのevent handlerのようなことができるようになった。</p>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>  "node_name": "node01",
 </span><span class='line'>  "data_dir": "./node01/",
 </span><span class='line'>  "bind_addr": "127.0.0.1",
@@ -1582,7 +2191,7 @@ Serfのevent handlerのようなことができるようになった。</p>
 </span><span class='line'>      "handler": "./node01/hosts_update.rb"
 </span><span class='line'>    }
 </span><span class='line'>  ]
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <p>watchesの設定を追加してみた。</p>
@@ -1615,11 +2224,16 @@ hostsファイルに似せて出力するようにしている。</p>
 
 <p>READMEのとおりですが</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
 </span><span class='line'>node01  127.0.0.1:8301  alive   server  0.4.0  2
 </span><span class='line'>node02  127.0.0.2:8301  alive   server  0.4.0  2
 </span><span class='line'>node03  127.0.0.3:8301  alive   server  0.4.0  2
-</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></pre></td></tr></table></div></figure>
+</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></code></pre></td></tr></table></div></figure>
 
 
 <p>上記構成のConsul Clusterを<br/>
@@ -1642,80 +2256,93 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
 
 <h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>セッションを開いているホスト名を名前解決する</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>TCPのセッションのみ表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>UDPのセッションのみ表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>TCPとUDPのセッションのみ表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>UNIX Domainのセッションのみ表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>特定のセッションの状態のものを抽出</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>TCPでLISTENしているポートを表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>TCPでLISTENしているポートのプロセス名を表示</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
-</span></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>コマンド名自体が短いからササッと確認するのには良さそう</p>
@@ -1736,7 +2363,8 @@ hubotに持ってきました。</p>
 
 <p>というように</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></code></pre></td></tr></table></div></figure>
 
 
 <p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
@@ -1744,7 +2372,7 @@ hubotに持ってきました。</p>
 <p>元々taiyohさんが</p>
 
 <ul>
-<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&#8217;s memorandum</a></li>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
 </ul>
 
 

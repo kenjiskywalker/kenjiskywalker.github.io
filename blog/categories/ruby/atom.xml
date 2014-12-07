@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -22,8 +22,7 @@
     <content type="html"><![CDATA[<p>SensuでSSL使うプラグインでエラーが出ていた。<br/>
 その対処法を忘れないようにメモ。</p>
 
-<p>```
-$
+<pre><code>$
 $ /opt/sensu/embedded/bin/ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"
 "/opt/sensu/embedded/ssl/cert.pem"
 $
@@ -36,16 +35,16 @@ Resolving curl.haxx.se... 80.67.6.50, 2a00:1a28:1200:9::2
 Connecting to curl.haxx.se|80.67.6.50|:80... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 250283 (244K)
-Saving to: “/opt/sensu/embedded/ssl/cert.pem”</p>
+Saving to: “/opt/sensu/embedded/ssl/cert.pem”
 
-<p>100%[============================================================================================================================================>] 250,283      253K/s   in 1.0s</p>
+100%[============================================================================================================================================&gt;] 250,283      253K/s   in 1.0s
 
-<p>2014-04-24 08:10:11 (253 KB/s) - “/opt/sensu/embedded/ssl/cert.pem” saved [250283/250283]</p>
+2014-04-24 08:10:11 (253 KB/s) - “/opt/sensu/embedded/ssl/cert.pem” saved [250283/250283]
 
-<p>$ ls /opt/sensu/embedded/ssl/cert.pem
+$ ls /opt/sensu/embedded/ssl/cert.pem
 /opt/sensu/embedded/ssl/cert.pem
 $
-```</p>
+</code></pre>
 
 <p>以上です。</p>
 ]]></content>

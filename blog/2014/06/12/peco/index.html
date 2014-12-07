@@ -9,7 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Pecoを導入してzshのhistoryに使うようにした Jun 12th, 2014 TL;DR peco入れた。速い peco https://github.com/lestrrat/peco まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。 percol https &hellip;">
+  <meta name="description" content="Pecoを導入してzshのhistoryに使うようにした TL;DR peco入れた。速い peco https://github.com/lestrrat/peco まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。 percol https://github.com/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,7 +94,7 @@
   
 
 
-<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2014</time>
+<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -124,14 +124,30 @@
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ go get github.com/lestrrat/peco/cmd/peco/</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ go get github.com/lestrrat/peco/cmd/peco/</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>.zshrc</h2>
 
 <p>percolのものを流用させて頂きました。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>function peco-select-history() {
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function peco-select-history() {
 </span><span class='line'>    local tac
 </span><span class='line'>    if which tac &gt; /dev/null; then
 </span><span class='line'>        tac="tac"
@@ -145,20 +161,27 @@
 </span><span class='line'>    zle clear-screen
 </span><span class='line'>}
 </span><span class='line'>zle -N peco-select-history
-</span><span class='line'>bindkey '^r' peco-select-history</span></pre></td></tr></table></div></figure>
+</span><span class='line'>bindkey '^r' peco-select-history</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>~/.peco/config.json</h2>
 
 <p>C-c でキャンセルできるように</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>{
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
 </span><span class='line'>    "Keymap": {
 </span><span class='line'>        "C-p": "peco.SelectPrevious",
 </span><span class='line'>        "C-n": "peco.SelectNext",
 </span><span class='line'>        "C-c": "peco.Cancel"
 </span><span class='line'>    }
-</span><span class='line'>}</span></pre></td></tr></table></div></figure>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <p><img src="http://gifzo.net/BE8NmHmus2A.gif" alt="http://gifzo.net/BE8NmHmus2A.gif" /></p>
@@ -199,7 +222,7 @@
   
 
 
-<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2014</time>
+<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true"></time>
       
 
 
@@ -231,13 +254,6 @@
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -267,7 +283,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -291,77 +307,6 @@
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

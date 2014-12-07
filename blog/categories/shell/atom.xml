@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shell | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -25,37 +25,30 @@
 </ul>
 
 
-<p>```</p>
+<pre><code>#!/bin/bash
 
-<h1>!/bin/bash</h1>
+dir=`pwd`
+list=`find ${dir} -type f -perm 755`
 
-<p>dir=<code>pwd</code>
-list=<code>find ${dir} -type f -perm 755</code></p>
+# not = !
+# list=`find ${dir} -type f ! -perm 755`
 
-<h1>not = !</h1>
+for file in $list
+do
+    filename=`basename $file`
+    ext=${filename##*.}
+    ext_list=("${ext_list[@]}" ${ext})
+done
 
-<h1>list=<code>find ${dir} -type f ! -perm 755</code></h1>
-
-<p>for file in $list
-do</p>
-
-<pre><code>filename=`basename $file`
-ext=${filename##*.}
-ext_list=("${ext_list[@]}" ${ext})
+echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n
 </code></pre>
-
-<p>done</p>
-
-<p>echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n
-```</p>
 
 <p>などというスクリプトを作成しておいて<br/>
 確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
 
 <p><strong>/usr/local/Cellar</strong>で実行したら</p>
 
-<p><code>
-['-']% sh /tmp/ext-list.sh | tail -n10
+<pre><code>['-']% sh /tmp/ext-list.sh | tail -n10
    5 1
    5 6
    6 0
@@ -66,8 +59,8 @@ ext_list=("${ext_list[@]}" ${ext})
   27 result
   62 so
  116 la
-['-']%
-</code></p>
+['-']% 
+</code></pre>
 
 <p>こんな感じの結果になりました。</p>
 
@@ -78,45 +71,41 @@ ext_list=("${ext_list[@]}" ${ext})
 </ul>
 
 
-<p><code>
-['-']% basename /usr/local/bin/zsh
+<pre><code>['-']% basename /usr/local/bin/zsh
 zsh
 ['-']%
-</code></p>
+</code></pre>
 
 <ul>
 <li>dirname</li>
 </ul>
 
 
-<p><code>
-['-']% dirname /usr/local/bin/zsh
+<pre><code>['-']% dirname /usr/local/bin/zsh
 /usr/local/bin
 ['-']%
-</code></p>
+</code></pre>
 
 <ul>
 <li>シャープ</li>
 </ul>
 
 
-<p><code>
-['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+<pre><code>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
 ['-']%
 ['-']% echo ${hoge##*.}
 so
 ['-']% echo ${hoge#*.}
 0.2/lib/zsh/zutil.so
 ['-']%
-</code></p>
+</code></pre>
 
 <ul>
 <li>パーセント</li>
 </ul>
 
 
-<p><code>
-['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+<pre><code>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
 ['-']%
 ['-']% echo ${hoge%%.*}
 /usr/local/Cellar/zsh/5
@@ -124,7 +113,7 @@ so
 ['-']% echo ${hoge%.*}
 /usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
 ['-']%
-</code></p>
+</code></pre>
 ]]></content>
   </entry>
   

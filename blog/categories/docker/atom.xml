@@ -4,7 +4,7 @@
   <title><![CDATA[Category: docker | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -43,16 +43,14 @@ OS Xで本番環境と同じような環境をつくりたくてboot2docker + fi
 
 <p>OS Xでは、Docker containerにアクセスするまでに</p>
 
-<p><code>
-OS X -&gt; boot2docker -&gt; docker container
-</code></p>
+<pre><code>OS X -&gt; boot2docker -&gt; docker container
+</code></pre>
 
 <p>boot2dockerを一旦挟まなければならなかった.<br/>
 これをfigを利用することで、透過的に</p>
 
-<p><code>
-OS X -&gt; docker container
-</code></p>
+<pre><code>OS X -&gt; docker container
+</code></pre>
 
 <p>このようにアクセスしているかのようにラッピングができる</p>
 
@@ -60,19 +58,17 @@ OS X -&gt; docker container
 
 <p>完全に勘違い！OS Xでも普通に<code>docker</code>コマンド使えます.</p>
 
-<p><code>
-$ boot2docker up
+<pre><code>$ boot2docker up
 $ boot2docker ssh
 $ docker build .
-</code></p>
+</code></pre>
 
 <p>などと操作しなくても<a href="https://github.com/docker/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a>の頃から<br/>
 DockerはOS Xに対応していて</p>
 
-<p><code>
-$ boot2docker up
+<pre><code>$ boot2docker up
 $ docker build .
-</code></p>
+</code></pre>
 
 <p>のようにログインせずともTiny Core Linuxのリモートクライアントとして<br/>
 コマンドを発行できた.全然アップデート見てないことがバレた〜</p>
@@ -84,18 +80,17 @@ $ docker build .
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>とのことです.わかりやすい.</p>
 
 <h3>figを利用しない場合</h3>
 
-<p><code>
-$ boot2docker up
+<pre><code>$ boot2docker up
 $ docker build .
 $ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000
-</code></p>
+</code></pre>
 
 <p>のような操作で起動できる.</p>
 
@@ -104,8 +99,7 @@ $ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000
 <p>とあるRailsのアプリケーションがあった時に、そのアプリケーションを<br/>
 Docker containerで透過的に操作する為にどのようなことが必要なのかの例</p>
 
-<p><code>
-.
+<pre><code>.
 ├── Gemfile
 ├── Gemfile.lock
 ├── README.rdoc
@@ -123,12 +117,11 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 ├── test
 ├── tmp
 └── vendor
-</code></p>
+</code></pre>
 
 <p>このようにRailsアプリケーションのディレクトリに</p>
 
-<p><code>
-.
+<pre><code>.
 ├── Dockerfile
 ├── Gemfile
 ├── Gemfile.lock
@@ -148,7 +141,7 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 ├── test
 ├── tmp
 └── vendor
-</code></p>
+</code></pre>
 
 <p><code>Dockerfile</code>と<code>fig.yml</code>を置く</p>
 
@@ -160,56 +153,46 @@ Docker containerで透過的に操作する為にどのようなことが必要�
 <p>日本に住む人々は魂をRedHatに引かれてUbuntuを利用しにくいので<br/>
 CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsqliteも入っている)</p>
 
-<p>```
-FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213</p>
+<pre><code>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
 
-<p>WORKDIR /tmp
+WORKDIR /tmp
 ADD Gemfile Gemfile
 ADD Gemfile.lock Gemfile.lock
-RUN bundle install</p>
+RUN bundle install
 
-<p>RUN mkdir /myapp
+RUN mkdir /myapp
 WORKDIR /myapp
 ADD . /myapp
-```</p>
+</code></pre>
 
 <ul>
 <li>fig.yml</li>
 </ul>
 
 
-<p>```
-web:
+<pre><code>web:
   build: .
   command: bundle exec rackup -p 3000
-  volumes:</p>
-
-<pre><code>- .:/myapp
+  volumes:
+    - .:/myapp
+  ports:
+    - "3000:3000"
 </code></pre>
-
-<p>  ports:</p>
-
-<pre><code>- "3000:3000"
-</code></pre>
-
-<p>```</p>
 
 <p>この状態で</p>
 
-<p><code>
-$ boot2docker up
+<pre><code>$ boot2docker up
 $ fig up
-</code></p>
+</code></pre>
 
 <p>とコマンドを発行し</p>
 
-<p>```
-$ boot2docker ip</p>
+<pre><code>$ boot2docker ip
 
-<p>The VM's Host only interface IP address is: 192.168.59.103</p>
+The VM's Host only interface IP address is: 192.168.59.103
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <p>で利用しているIPアドレスを確認して</p>
 
@@ -227,13 +210,12 @@ $ boot2docker ip</p>
 </ul>
 
 
-<p><code>
-development: &amp;default
+<pre><code>development: &amp;default
   adapter: sqlite3
   database: db/development.sqlite3
   pool: 5
   timeout: 5000
-</code></p>
+</code></pre>
 
 <p>しかし、裏側にMySQLを利用する場合は</p>
 
@@ -242,51 +224,32 @@ development: &amp;default
 </ul>
 
 
-<p>```
-db:
+<pre><code>db:
   image: mysql
-  environment:</p>
+  environment:
+    MYSQL_ROOT_PASSWORD: "pass"
+  ports:
+    - "3306"
 
-<pre><code>MYSQL_ROOT_PASSWORD: "pass"
-</code></pre>
-
-<p>  ports:</p>
-
-<pre><code>- "3306"
-</code></pre>
-
-<p>web:
+web:
   build: .
   command: bundle exec rackup -p 3000
-  volumes:</p>
-
-<pre><code>- .:/myapp
+  volumes:
+    - .:/myapp
+  ports:
+    - "3000:3000"
+  links:
+    - db
+  environment:
+    DB_HOST: db
 </code></pre>
-
-<p>  ports:</p>
-
-<pre><code>- "3000:3000"
-</code></pre>
-
-<p>  links:</p>
-
-<pre><code>- db
-</code></pre>
-
-<p>  environment:</p>
-
-<pre><code>DB_HOST: db
-</code></pre>
-
-<p>```</p>
 
 <ul>
 <li>config/database.yml</li>
 </ul>
 
 
-<p><code>
-development: &amp;default
+<pre><code>development: &amp;default
   adapter: mysql2
   encoding: utf8
   pool: 5
@@ -294,7 +257,7 @@ development: &amp;default
   username: root
   password: 'pass'
   host: &lt;%= ENV['DB_HOST'] %&gt;
-</code></p>
+</code></pre>
 
 <p>このようにデータベースサーバ用コンテナの設定をRails側に記載しなければならない.</p>
 
@@ -312,7 +275,7 @@ development: &amp;default
 <blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
 
 
-<script async src="http://kenjiskywalker.github.com/kenjiskywalker//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>です.</p>

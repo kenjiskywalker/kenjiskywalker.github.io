@@ -4,7 +4,7 @@
   <title><![CDATA[Category: consul | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/consul/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -22,39 +22,32 @@
 
 <p>Consulでkey/valueを叩く</p>
 
-<p>```
-['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
+<pre><code>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
 true
 ['-']%
 ['-']%
 ['-']% curl -s http://127.0.0.1:8500/v1/kv/foo | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 538,
-"ModifyIndex": 538,
-"LockIndex": 0,
-"Key": "foo",
-"Flags": 0,
-"Value": "YmFy"
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
 ]
 ['-']%
 ['-']% curl -s http://127.0.0.2:8500/v1/kv/foo | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 538,
-"ModifyIndex": 538,
-"LockIndex": 0,
-"Key": "foo",
-"Flags": 0,
-"Value": "YmFy"
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
 ]
 ['-']%
 ['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
@@ -62,26 +55,22 @@ true
 ['-']%
 ['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 540,
-"ModifyIndex": 540,
-"LockIndex": 0,
-"Key": "foofoo",
-"Flags": 0,
-"Value": "YmFyYmFy"
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 540,
+    "ModifyIndex": 540,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": "YmFyYmFy"
+  }
 ]
 ['-']%
 ['-']%
-```</p>
+</code></pre>
 
 <h3>delete</h3>
 
-<p><code>
-['-']%
+<pre><code>['-']%
 ['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
 ['-']%
 ['-']%
@@ -92,56 +81,45 @@ true
 true%                                                                                                  ['-']%
 ['-']%
 ['-']%
-</code></p>
+</code></pre>
 
 <h3>再帰もいける</h3>
 
-<p>```
-['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
+<pre><code>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 555,
-"ModifyIndex": 555,
-"LockIndex": 0,
-"Key": "foofoo",
-"Flags": 0,
-"Value": "YmFyYmFy"
-</code></pre>
-
-<p>  },
-  {</p>
-
-<pre><code>"CreateIndex": 538,
-"ModifyIndex": 538,
-"LockIndex": 0,
-"Key": "foo",
-"Flags": 0,
-"Value": "YmFy"
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 555,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": "YmFyYmFy"
+  },
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
 ]
 ['-']%
-```</p>
+</code></pre>
 
 <h3>flags</h3>
 
-<p>```
-['-']%
+<pre><code>['-']%
 ['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 555,
-"ModifyIndex": 559,
-"LockIndex": 0,
-"Key": "foofoo",
-"Flags": 0,
-"Value": null
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 559,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": null
+  }
 ]
 ['-']%
 ['-']% curl -X PUT 'barbar' -s 'http://127.0.0.1:8500/v1/kv/foofoo?flags=1' | jq .
@@ -149,28 +127,24 @@ true
 ['-']%
 ['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
 [
-  {</p>
-
-<pre><code>"CreateIndex": 555,
-"ModifyIndex": 560,
-"LockIndex": 0,
-"Key": "foofoo",
-"Flags": 1,
-"Value": null
-</code></pre>
-
-<p>  }
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 560,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 1,
+    "Value": null
+  }
 ]
 ['-']%
-```</p>
+</code></pre>
 
 <h3>階層化とdecode</h3>
 
 <blockquote><p>BSD の base64 コマンドだと<br/>
 -dがdebugで-Dがdecodeだった</p></blockquote>
 
-<p><code>
-['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
+<pre><code>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
 true
 ['x']%
 ['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
@@ -187,7 +161,7 @@ true
 ['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
 bazbazbaz
 ['-']%
-</code></p>
+</code></pre>
 ]]></content>
   </entry>
   
@@ -212,24 +186,20 @@ Serfのevent handlerのようなことができるようになった。</p>
 </ul>
 
 
-<p>```
-{
+<pre><code>{
   "node_name": "node01",
   "data_dir": "./node01/",
   "bind_addr": "127.0.0.1",
   "client_addr": "127.0.0.1",
   "ui_dir": "./dist/",
-  "watches": [</p>
-
-<pre><code>{
-  "type": "nodes",
-  "handler": "./node01/hosts_update.rb"
+  "watches": [
+    {
+      "type": "nodes",
+      "handler": "./node01/hosts_update.rb"
+    }
+  ]
 }
 </code></pre>
-
-<p>  ]
-}
-```</p>
 
 <p>watchesの設定を追加してみた。</p>
 
@@ -261,13 +231,12 @@ hostsファイルに似せて出力するようにしている。</p>
 
 <p>READMEのとおりですが</p>
 
-<p><code>
-Node    Address         Status  Type    Build  Protocol
+<pre><code>Node    Address         Status  Type    Build  Protocol
 node01  127.0.0.1:8301  alive   server  0.4.0  2
 node02  127.0.0.2:8301  alive   server  0.4.0  2
 node03  127.0.0.3:8301  alive   server  0.4.0  2
 node04  127.0.0.4:8301  alive   client  0.4.0  2
-</code></p>
+</code></pre>
 
 <p>上記構成のConsul Clusterを<br/>
 OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
@@ -281,9 +250,9 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
   
   <entry>
     <title type="html"><![CDATA[ConsulのDNSラウンドロビンの検証]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin+%28nightskywalker%27s+conflicted+copy+2014-09-10%29/"/>
+    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin%20(nightskywalker's%20conflicted%20copy%202014-09-10)/"/>
     <updated>2014-06-06T01:13:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin (nightskywalker's conflicted copy 2014-09-10)</id>
+    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin (nightskywalker&#8217;s conflicted copy 2014-09-10)</id>
     <content type="html"><![CDATA[<p><a href="http://www.hashicorp.com/blog/consul.html">Consul - hashicorp</a> を利用しDNS Failoverを検証した</p>
 
 <blockquote><p>Consul v0.2.0</p></blockquote>
@@ -310,18 +279,16 @@ nodeとは別にserviceという概念があり、DNSラウンドロビンが行
 </ul>
 
 
-<p><code>
-$ ifconfig lo0 alias 127.0.0.2
+<pre><code>$ ifconfig lo0 alias 127.0.0.2
 $ ifconfig lo0 alias 127.0.0.3
-</code></p>
+</code></pre>
 
 <h2>設定ファイルのディレクトリの用意</h2>
 
-<p><code>
-$ mkdir ./node01
+<pre><code>$ mkdir ./node01
 $ mkdir ./node02
 $ mkdir ./node03
-</code></p>
+</code></pre>
 
 <h2>設定ファイルの作成</h2>
 
@@ -333,8 +300,7 @@ $ mkdir ./node03
 <p>Web UI用のデータは<a href="http://www.consul.io/intro/getting-started/ui.html">ここ</a>からダウンロードして<br/>
 <code>ui_dir</code>にて指定してディレクトリへ配置する。</p>
 
-<p><code>
-{
+<pre><code>{
   "node_name": "node01",
   "data_dir": "./node01/",
   "bind_addr": "127.0.0.1",
@@ -344,36 +310,31 @@ $ mkdir ./node03
   "bootstrap": true,
   "server": true
 }
-</code></p>
+</code></pre>
 
 <ul>
 <li>node01/check.json</li>
 </ul>
 
 
-<p>```
-{
-  "service": {</p>
-
-<pre><code>  "name": "echo",
-  "tags": ["master"],
-  "check": {
-      "script": "echo 'hello'",
-      "interval": "10s"
+<pre><code>{
+  "service": {
+      "name": "echo",
+      "tags": ["master"],
+      "check": {
+          "script": "echo 'hello'",
+          "interval": "10s"
+      }
   }
-</code></pre>
-
-<p>  }
 }
-```</p>
+</code></pre>
 
 <ul>
 <li>node02/config.json</li>
 </ul>
 
 
-<p><code>
-{
+<pre><code>{
   "node_name": "node02",
   "data_dir": "./node02/",
   "bind_addr": "127.0.0.2",
@@ -383,36 +344,31 @@ $ mkdir ./node03
   "bootstrap": true,
   "server": true
 }
-</code></p>
+</code></pre>
 
 <ul>
 <li>node02/check.json</li>
 </ul>
 
 
-<p>```
-{
-  "service": {</p>
-
-<pre><code>  "name": "echo",
-  "tags": ["slave"],
-  "check": {
-      "script": "echo 'hello'",
-      "interval": "10s"
+<pre><code>{
+  "service": {
+      "name": "echo",
+      "tags": ["slave"],
+      "check": {
+          "script": "echo 'hello'",
+          "interval": "10s"
+      }
   }
-</code></pre>
-
-<p>  }
 }
-```</p>
+</code></pre>
 
 <ul>
 <li>node03/config.json</li>
 </ul>
 
 
-<p><code>
-{
+<pre><code>{
   "node_name": "node03",
   "data_dir": "./node03/",
   "bind_addr": "127.0.0.3",
@@ -422,36 +378,31 @@ $ mkdir ./node03
   "bootstrap": true,
   "server": true
 }
-</code></p>
+</code></pre>
 
 <ul>
 <li>node03/check.json</li>
 </ul>
 
 
-<p>```
-{
-  "service": {</p>
-
-<pre><code>  "name": "echo",
-  "tags": ["slave"],
-  "check": {
-      "script": "echo 'hello'",
-      "interval": "10s"
+<pre><code>{
+  "service": {
+      "name": "echo",
+      "tags": ["slave"],
+      "check": {
+          "script": "echo 'hello'",
+          "interval": "10s"
+      }
   }
-</code></pre>
-
-<p>  }
 }
-```</p>
+</code></pre>
 
 <h2>nodeの起動</h2>
 
-<p><code>
-$ sudo consul agent -config-dir node01
+<pre><code>$ sudo consul agent -config-dir node01
 $ sudo consul agent -config-dir node02
 $ sudo consul agent -config-dir node03
-</code></p>
+</code></pre>
 
 <h2>名前解決をしてみる</h2>
 
@@ -460,153 +411,148 @@ $ sudo consul agent -config-dir node03
 </ul>
 
 
-<p>```
-$ dig @127.0.0.1 -p 8600 node01.node.foo. ANY</p>
+<pre><code>$ dig @127.0.0.1 -p 8600 node01.node.foo. ANY
 
-<p>; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @127.0.0.1 -p 8600 node01.node.foo. ANY
+; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @127.0.0.1 -p 8600 node01.node.foo. ANY
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
-;; WARNING: recursion requested but not available</p>
+;; WARNING: recursion requested but not available
 
-<p>;; QUESTION SECTION:
-;node01.node.foo.         IN      ANY</p>
+;; QUESTION SECTION:
+;node01.node.foo.         IN      ANY
 
-<p>;; ANSWER SECTION:
-node01.node.foo.  0       IN      A       127.0.0.1</p>
+;; ANSWER SECTION:
+node01.node.foo.  0       IN      A       127.0.0.1
 
-<p>;; Query time: 6 msec
+;; Query time: 6 msec
 ;; SERVER: 127.0.0.1#8600(127.0.0.1)
 ;; WHEN: Fri Jun  6 01:36:37 2014
-;; MSG SIZE  rcvd: 150</p>
+;; MSG SIZE  rcvd: 150
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <ul>
 <li>node02</li>
 </ul>
 
 
-<p>```
-$ dig @127.0.0.1 -p 8600 node02.node.foo. ANY</p>
+<pre><code>$ dig @127.0.0.1 -p 8600 node02.node.foo. ANY
 
-<p>; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @127.0.0.1 -p 8600 node02.node.foo. ANY
+; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @127.0.0.1 -p 8600 node02.node.foo. ANY
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
-;; WARNING: recursion requested but not available</p>
+;; WARNING: recursion requested but not available
 
-<p>;; QUESTION SECTION:
-;node02.node.foo.         IN      ANY</p>
+;; QUESTION SECTION:
+;node02.node.foo.         IN      ANY
 
-<p>;; ANSWER SECTION:
-node02.node.foo.  0       IN      A       127.0.0.2</p>
+;; ANSWER SECTION:
+node02.node.foo.  0       IN      A       127.0.0.2
 
-<p>;; Query time: 6 msec
+;; Query time: 6 msec
 ;; SERVER: 127.0.0.1#8600(127.0.0.1)
 ;; WHEN: Fri Jun  6 01:36:37 2014
-;; MSG SIZE  rcvd: 150</p>
+;; MSG SIZE  rcvd: 150
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <ul>
 <li>service</li>
 </ul>
 
 
-<p>```
-$ dig @127.0.0.1 -p 8600 echo.service.foo. ANY</p>
+<pre><code>$ dig @127.0.0.1 -p 8600 echo.service.foo. ANY
 
-<p>; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @127.0.0.1 -p 8600 echo.service.foo. ANY
+; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @127.0.0.1 -p 8600 echo.service.foo. ANY
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
-;; WARNING: recursion requested but not available</p>
+;; WARNING: recursion requested but not available
 
-<p>;; QUESTION SECTION:
-;echo.service.foo.         IN      ANY</p>
+;; QUESTION SECTION:
+;echo.service.foo.         IN      ANY
 
-<p>;; ANSWER SECTION:
+;; ANSWER SECTION:
 echo.service.foo.  0       IN      A       127.0.0.1
 echo.service.foo.  0       IN      A       127.0.0.2
-echo.service.foo.  0       IN      A       127.0.0.3</p>
+echo.service.foo.  0       IN      A       127.0.0.3
 
-<p>;; Query time: 6 msec
+;; Query time: 6 msec
 ;; SERVER: 127.0.0.1#8600(127.0.0.1)
 ;; WHEN: Fri Jun  6 01:36:37 2014
-;; MSG SIZE  rcvd: 150</p>
+;; MSG SIZE  rcvd: 150
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <ul>
 <li>service(master)</li>
 </ul>
 
 
-<p>```
-$ dig @127.0.0.1 -p 8600 master.echo.service.foo. ANY</p>
+<pre><code>$ dig @127.0.0.1 -p 8600 master.echo.service.foo. ANY
 
-<p>; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @127.0.0.1 -p 8600 master.echo.service.foo. ANY
+; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @127.0.0.1 -p 8600 master.echo.service.foo. ANY
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
-;; WARNING: recursion requested but not available</p>
+;; WARNING: recursion requested but not available
 
-<p>;; QUESTION SECTION:
-;master.echo.service.foo.         IN      ANY</p>
+;; QUESTION SECTION:
+;master.echo.service.foo.         IN      ANY
 
-<p>;; ANSWER SECTION:
-master.echo.service.foo.  0       IN      A       127.0.0.1</p>
+;; ANSWER SECTION:
+master.echo.service.foo.  0       IN      A       127.0.0.1
 
-<p>;; Query time: 6 msec
+;; Query time: 6 msec
 ;; SERVER: 127.0.0.1#8600(127.0.0.1)
 ;; WHEN: Fri Jun  6 01:36:37 2014
-;; MSG SIZE  rcvd: 150</p>
+;; MSG SIZE  rcvd: 150
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <ul>
 <li>service(slave)</li>
 </ul>
 
 
-<p>```
-$ dig @127.0.0.1 -p 8600 slave.echo.service.foo. ANY</p>
+<pre><code>$ dig @127.0.0.1 -p 8600 slave.echo.service.foo. ANY
 
-<p>; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @127.0.0.1 -p 8600 slave.echo.service.foo. ANY
+; &lt;&lt;&gt;&gt; DiG 9.8.3-P1 &lt;&lt;&gt;&gt; @127.0.0.1 -p 8600 slave.echo.service.foo. ANY
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 3750
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0
-;; WARNING: recursion requested but not available</p>
+;; WARNING: recursion requested but not available
 
-<p>;; QUESTION SECTION:
-;slave.echo.service.foo.         IN      ANY</p>
+;; QUESTION SECTION:
+;slave.echo.service.foo.         IN      ANY
 
-<p>;; ANSWER SECTION:
+;; ANSWER SECTION:
 slave.echo.service.foo.  0       IN      A       127.0.0.2
-slave.echo.service.foo.  0       IN      A       127.0.0.3</p>
+slave.echo.service.foo.  0       IN      A       127.0.0.3
 
-<p>;; Query time: 6 msec
+;; Query time: 6 msec
 ;; SERVER: 127.0.0.1#8600(127.0.0.1)
 ;; WHEN: Fri Jun  6 01:36:37 2014
-;; MSG SIZE  rcvd: 150</p>
+;; MSG SIZE  rcvd: 150
 
-<p>$
-```</p>
+$
+</code></pre>
 
 <h2>機能毎のメモ</h2>
 
@@ -616,7 +562,7 @@ slave.echo.service.foo.  0       IN      A       127.0.0.3</p>
 <li>nodeの名前は各nodeで設定される</li>
 <li>serviceは複数設定が可能。DNS Round Robinが行える</li>
 <li><em>tag</em> を設定することでサブドメインが利用可能になる</li>
-<li>不要なホスト消す (curl -H "Content-Type: application/json" -d '{"Datacenter": "DATACENTER", "Node": "NODENAME"}' http://localhost:8500/v1/catalog/deregister)</li>
+<li>不要なホスト消す (curl -H &ldquo;Content-Type: application/json&rdquo; -d &lsquo;{&ldquo;Datacenter&rdquo;: &ldquo;DATACENTER&rdquo;, &ldquo;Node&rdquo;: &ldquo;NODENAME&rdquo;}&rsquo; <a href="http://localhost:8500/v1/catalog/deregister">http://localhost:8500/v1/catalog/deregister</a>)</li>
 </ul>
 
 

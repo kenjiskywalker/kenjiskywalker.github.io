@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="自宅ルータをVyattaにして快適になった Sep 10th, 2013 市販のルータ兼無線アクセスポイント君が
+  <meta name="description" content="自宅ルータをVyattaにして快適になった 市販のルータ兼無線アクセスポイント君が
 2日に1回再起動しないとAirPlayできなくなってしまったので
 この際自宅のネットワーク環境を一新すべく
-Vyattaを導入した。その際のメモ。 参考URL &hellip;">
+Vyattaを導入した。その際のメモ。 参考URL 自宅ルータをVyattaに移行しました - IT &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,7 +97,7 @@ Vyattaを導入した。その際のメモ。 参考URL &hellip;">
   
 
 
-<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -155,7 +155,33 @@ Vyattaを導入した。その際のメモ。</p>
 
 <h3>/etc/network/interfaces</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>auto lo
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auto lo
 </span><span class='line'>iface lo inet loopback
 </span><span class='line'>
 </span><span class='line'>iface eth0 inet manual
@@ -180,7 +206,7 @@ Vyattaを導入した。その際のメモ。</p>
 </span><span class='line'>        bridge_ports eth1
 </span><span class='line'>        bridge_stp off
 </span><span class='line'>        bridge_fd 0
-</span><span class='line'>        bridge_maxwait 0</span></pre></td></tr></table></div></figure>
+</span><span class='line'>        bridge_maxwait 0</span></code></pre></td></tr></table></div></figure>
 
 
 <p>気が付いたらvnetがアサインされていた。
@@ -188,7 +214,16 @@ Vyattaを導入した。その際のメモ。</p>
 
 <h3>brctl show</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>bridge name     bridge id               STP enabled     interfaces
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bridge name     bridge id               STP enabled     interfaces
 </span><span class='line'>br0             8000.20cf30ea8178       no              eth0
 </span><span class='line'>br0             8000.XXXXXXXXXXXX       no              eth0
 </span><span class='line'>                                                        vnet0
@@ -196,29 +231,39 @@ Vyattaを導入した。その際のメモ。</p>
 </span><span class='line'>                                                        vnet2
 </span><span class='line'>br1             8000.XXXXXXXXXXXX       no              eth1
 </span><span class='line'>                                                        vnet3
-</span><span class='line'>lxcbr0          8000.000000000000       no</span></pre></td></tr></table></div></figure>
+</span><span class='line'>lxcbr0          8000.000000000000       no</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>VyattaのISOファイルを落としてくる</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -O http://www.vyatta.com/downloads/vc6.6/vyatta-livecd_VC6.6R1_amd64.iso</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -O http://www.vyatta.com/downloads/vc6.6/vyatta-livecd_VC6.6R1_amd64.iso</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Vyatta用のディスクイメージを作成する</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ qemu-img create -f raw /var/lib/libvirt/images/vyatta01-2G.img 2G</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ qemu-img create -f raw /var/lib/libvirt/images/vyatta01-2G.img 2G</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>KVMでインストールする</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ virt-install  --connect qemu:///system  \
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ virt-install  --connect qemu:///system  \
 </span><span class='line'>--name vyatta01 \
 </span><span class='line'>--ram 512  \
 </span><span class='line'>--vcpus=1  \
 </span><span class='line'>--disk path=/var/lib/libvirt/images/vyatta01-2G.img \
 </span><span class='line'>--nographics  \
 </span><span class='line'>--network=bridge:br0 --network=bridge:br1 \
-</span><span class='line'>--cdrom=/tmp/vyatta-livecd_VC6.6R1_amd64.iso</span></pre></td></tr></table></div></figure>
+</span><span class='line'>--cdrom=/tmp/vyatta-livecd_VC6.6R1_amd64.iso</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Install Default setting</p>
@@ -229,7 +274,36 @@ Vyattaを導入した。その際のメモ。</p>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
 </span><span class='line'>$ virsh console Vyatta01
 </span><span class='line'>
 </span><span class='line'>
@@ -257,7 +331,7 @@ Vyattaを導入した。その際のメモ。</p>
 </span><span class='line'>or would you rather partition it manually with parted?  If
 </span><span class='line'>you have already setup your partitions, you may skip this step
 </span><span class='line'>
-</span><span class='line'>Partition (Auto/Parted/Skip) [Auto]:</span></pre></td></tr></table></div></figure>
+</span><span class='line'>Partition (Auto/Parted/Skip) [Auto]:</span></code></pre></td></tr></table></div></figure>
 
 
 <p>のようにインストールがはじまります。<br/>
@@ -265,17 +339,24 @@ Vyattaを導入した。その際のメモ。</p>
 
 <p>新しいパスワードを設定して、再起動</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>This will destroy all data on /dev/sda.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>This will destroy all data on /dev/sda.
 </span><span class='line'>Continue? (Yes/No) [No]: yes
 </span><span class='line'>
 </span><span class='line'>Enter password for administrator account
 </span><span class='line'>Enter vyatta password:
-</span><span class='line'>Retype vyatta password:</span></pre></td></tr></table></div></figure>
+</span><span class='line'>Retype vyatta password:</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>vyatta@vyatta:~$ reboot now</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vyatta@vyatta:~$ reboot now</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>vyattaの設定</h2>
@@ -296,35 +377,46 @@ Vyattaを導入した。その際のメモ。</p>
 
 <h3>Vyattaの内部IPを設定</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 address 192.168.0.1/24</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 address 192.168.0.1/24</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>SSHの許可</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># set service ssh listen-address 192.168.0.1</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set service ssh listen-address 192.168.0.1</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>ISPと接続</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 pppoe 0 user-id XXXXX@YYY.ZZZ
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 pppoe 0 user-id XXXXX@YYY.ZZZ
 </span><span class='line'># set interfaces ethernet eth0 pppoe 0 password XXXXX
 </span><span class='line'># set interfaces ethernet eth0 pppoe 0 default-route auto
 </span><span class='line'># commit
-</span><span class='line'># save</span></pre></td></tr></table></div></figure>
+</span><span class='line'># save</span></code></pre></td></tr></table></div></figure>
 
 
 <p>この時点で外部との接続が可能</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ ping 8.8.8.8 </span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ping 8.8.8.8 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>などで pppoe0 => internet の疎通確認を行う</p>
 
 <h3>マスカレードの設定</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># set nat source rule 1 source address 192.168.0.0/24
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set nat source rule 1 source address 192.168.0.0/24
 </span><span class='line'># set nat source rule 1 outbound-interface pppoe0
-</span><span class='line'># set nat source rule 1 translation address masquerade</span></pre></td></tr></table></div></figure>
+</span><span class='line'># set nat source rule 1 translation address masquerade</span></code></pre></td></tr></table></div></figure>
 
 
 <p>試しにクライアントPCを</p>
@@ -347,10 +439,14 @@ Vyattaを導入した。その際のメモ。</p>
 <p>DHCPで192.168.0.200から192.168.0.250までの<br/>
 IPアドレスを割り振るように設定。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 start 192.168.0.200 stop 192.168.0.250
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 start 192.168.0.200 stop 192.168.0.250
 </span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 default-router 192.168.0.1
 </span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER
-</span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER</span></pre></td></tr></table></div></figure>
+</span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER</span></code></pre></td></tr></table></div></figure>
 
 
 <p>ここでハマったのが、PLANEXでもDHCPを振っていたせいで<br/>
@@ -366,32 +462,48 @@ PLANEXを見に行ってしまっていていた。</p>
 
 <p>画像が永遠に読み込めない不具合があるので下記設定を導入</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>set policy route PPPOE-IN rule 10 destination address 0.0.0.0/0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set policy route PPPOE-IN rule 10 destination address 0.0.0.0/0
 </span><span class='line'>set policy route PPPOE-IN rule 10 protocol tcp
 </span><span class='line'>set policy route PPPOE-IN rule 10 tcp flags 'SYN,!ACK,!FIN,!RST'
 </span><span class='line'>set policy route PPPOE-IN rule 10 set tcp-mss 1360
 </span><span class='line'>
-</span><span class='line'>set interfaces ethernet eth0 policy route PPPOE-IN</span></pre></td></tr></table></div></figure>
+</span><span class='line'>set interfaces ethernet eth0 policy route PPPOE-IN</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>ポートフォワーディング</h3>
 
 <p>外部からアクセスできるようにフォワードする</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1000 inbound-interface pppoe0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1000 inbound-interface pppoe0
 </span><span class='line'>set nat destination rule 1000 destination port 22
 </span><span class='line'>set nat destination rule 1000 protocol tcp
 </span><span class='line'>set nat destination rule 1000 translation port 22
-</span><span class='line'>set nat destination rule 1000 translation address 192.168.0.11</span></pre></td></tr></table></div></figure>
+</span><span class='line'>set nat destination rule 1000 translation address 192.168.0.11</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1001 inbound-interface pppoe0
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1001 inbound-interface pppoe0
 </span><span class='line'>set nat destination rule 1001 destination port 60000-61000
 </span><span class='line'>set nat destination rule 1001 protocol tcp_udp
 </span><span class='line'>set nat destination rule 1001 translation port 60000-61000
-</span><span class='line'>set nat destination rule 1001 translation address 192.168.0.12</span></pre></td></tr></table></div></figure>
+</span><span class='line'>set nat destination rule 1001 translation address 192.168.0.12</span></code></pre></td></tr></table></div></figure>
 
 
 <p>こんな感じでつらつらと設定していく</p>
@@ -440,7 +552,7 @@ AirPlay毎日できて最高です。</p>
   
 
 
-<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
+<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -478,13 +590,6 @@ AirPlay毎日できて最高です。</p>
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -514,7 +619,7 @@ AirPlay毎日できて最高です。</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -538,77 +643,6 @@ AirPlay毎日できて最高です。</p>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

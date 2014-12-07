@@ -94,7 +94,7 @@
   
 
 
-<time datetime="2013-01-24T16:13:00+09:00" pubdate data-updated="true">Jan 24<span>th</span>, 2013</time>
+<time datetime="2013-01-24T16:13:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -123,7 +123,29 @@
 
 <h2>Sentinelの設定、および起動方法</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
 </span><span class='line'>[28498] 25 Jan 01:28:24.447 * Max number of open files set to 10032
 </span><span class='line'>                _._                                                  
 </span><span class='line'>           _.-``__ ''-._                                             
@@ -144,7 +166,7 @@
 </span><span class='line'>              `-.__.-'                                               
 </span><span class='line'>
 </span><span class='line'>[28498] 25 Jan 01:28:24.451 * +slave slave 192.168.2.102:6379 192.168.2.102 6379 @ mymaster 192.168.2.101 6379
-</span><span class='line'>[28498] 25 Jan 01:28:25.358 * +sentinel sentinel 192.168.2.101:26379 192.168.2.101 26379 @ mymaster 192.168.2.101 6379</span></pre></td></tr></table></div></figure>
+</span><span class='line'>[28498] 25 Jan 01:28:25.358 * +sentinel sentinel 192.168.2.101:26379 192.168.2.101 26379 @ mymaster 192.168.2.101 6379</span></code></pre></td></tr></table></div></figure>
 
 
 <p>こんな感じで起動します。</p>
@@ -153,11 +175,16 @@
 
 <p>参考: <a href="http://download.redis.io/redis-stable/sentinel.conf">http://download.redis.io/redis-stable/sentinel.conf</a></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor mymaster 127.0.0.1 6379 2
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor mymaster 127.0.0.1 6379 2
 </span><span class='line'>sentinel down-after-milliseconds mymaster 60000
 </span><span class='line'>sentinel failover-timeout mymaster 900000
 </span><span class='line'>sentinel can-failover mymaster yes
-</span><span class='line'>sentinel parallel-syncs mymaster 1</span></pre></td></tr></table></div></figure>
+</span><span class='line'>sentinel parallel-syncs mymaster 1</span></code></pre></td></tr></table></div></figure>
 
 
 <p>オフィシャルの設定ファイルを参考に。</p>
@@ -243,9 +270,9 @@ During this time Sentinel Rule #14 still applies: if a valid slave promotion is 
 <p>フェイルオーバーを開始してから、レスポンスが返ってくるまでの<br/>
 待ち時間。詳細はやはりドキュメントを読んでほしい。</p>
 
-<blockquote><p>検証時に &#8220;10 milliseconds&#8221; などストイックな設定を行なってみたが
-タイムアウトに引っかかり、レプリケーションが開始することはなかった&#8230;
-こちらもやはり &#8220;5000 milliseconds&#8221; ぐらいが安全であった</p></blockquote>
+<blockquote><p>検証時に &ldquo;10 milliseconds&rdquo; などストイックな設定を行なってみたが
+タイムアウトに引っかかり、レプリケーションが開始することはなかった&hellip;
+こちらもやはり &ldquo;5000 milliseconds&rdquo; ぐらいが安全であった</p></blockquote>
 
 <ul>
 <li><code>sentinel can-failover mymaster yes</code></li>
@@ -270,7 +297,21 @@ During this time Sentinel Rule #14 still applies: if a valid slave promotion is 
 
 <h3>Slave(192.168.2.102)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ echo "slaveof 192.168.2.101 6379" | redis-cli -h 192.168.2.102
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo "slaveof 192.168.2.101 6379" | redis-cli -h 192.168.2.102
 </span><span class='line'>OK
 </span><span class='line'>$
 </span><span class='line'>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
@@ -283,16 +324,21 @@ During this time Sentinel Rule #14 still applies: if a valid slave promotion is 
 </span><span class='line'>slave_priority:100
 </span><span class='line'>slave_read_only:1
 </span><span class='line'>connected_slaves:0
-</span><span class='line'>$</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Master(192.168.2.101)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.101 info | grep -E 'mas|sla'
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.101 info | grep -E 'mas|sla'
 </span><span class='line'>role:master
 </span><span class='line'>connected_slaves:1
 </span><span class='line'>slave0:192.168.2.102,6379,online
-</span><span class='line'>$</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>レプリケーションの情報</h3>
@@ -312,11 +358,16 @@ Slaveは10秒間隔でMasterへ<em>PING</em>を送信している。<br/>
 
 <p><code>monitor</code>コマンドで確認することができる。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 monitor
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 monitor
 </span><span class='line'>OK
 </span><span class='line'>1359037270.075903 [0 192.168.2.101:6379] "PING"
 </span><span class='line'>1359037280.274001 [0 192.168.2.101:6379] "PING"
-</span><span class='line'>1359037290.464774 [0 192.168.2.101:6379] "PING"</span></pre></td></tr></table></div></figure>
+</span><span class='line'>1359037290.464774 [0 192.168.2.101:6379] "PING"</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -330,10 +381,14 @@ SYNC中であれば <em>1</em> のフラグが立ち、状況の詳細が表示�
 
 <h4>Masterが落ちていた場合の状態</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>master_link_status:down
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>master_link_status:down
 </span><span class='line'>master_last_io_seconds_ago:-1
 </span><span class='line'>master_sync_in_progress:0
-</span><span class='line'>master_link_down_since_seconds:N</span></pre></td></tr></table></div></figure>
+</span><span class='line'>master_link_down_since_seconds:N</span></code></pre></td></tr></table></div></figure>
 
 
 <p><em>PING</em>の間隔が10秒間隔なので、疎通チェックも10秒間隔かと思うが<br/>
@@ -345,7 +400,19 @@ SYNC中であれば <em>1</em> のフラグが立ち、状況の詳細が表示�
 
 <p><code>101.slave(Master) &lt;= 102.6379(Slave) &lt;= 102.6380(Slave)</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
 </span><span class='line'>role:slave
 </span><span class='line'>master_host:192.168.2.101
 </span><span class='line'>master_port:6379
@@ -356,7 +423,7 @@ SYNC中であれば <em>1</em> のフラグが立ち、状況の詳細が表示�
 </span><span class='line'>slave_read_only:1
 </span><span class='line'>connected_slaves:1
 </span><span class='line'>slave0:192.168.2.102,6380,online
-</span><span class='line'>$</span></pre></td></tr></table></div></figure>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
 
 
 <blockquote><p>また、MasterとSlaveの接続が切れた場合も<br/>
@@ -408,7 +475,7 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
   
 
 
-<time datetime="2013-01-24T16:13:00+09:00" pubdate data-updated="true">Jan 24<span>th</span>, 2013</time>
+<time datetime="2013-01-24T16:13:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -446,13 +513,6 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -482,7 +542,7 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -506,77 +566,6 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

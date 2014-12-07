@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sensu | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/sensu/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -72,7 +72,7 @@ headerが雑なのでプロモーションも兼ねて編集して頂いた方�
 Chefを使えばOfficial cookbookと自分で何個かcookbookを書くことで<br/>
 比較的簡単に(※1)導入、運用ができるという話をしてきた。</p>
 
-<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="http://kenjiskywalker.github.com/kenjiskywalker//speakerdeck.com/assets/embed.js"></script>
+<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
 
 
 <p></p>
@@ -92,7 +92,7 @@ sensuに乗り換えるのは無駄だと思う。</p>
 <p>Tシャツありがとうございました。<br/>
 開催して頂いた@glidenote氏、ありがとうございました！</p>
 
-<iframe src="http://kenjiskywalker.github.com/kenjiskywalker//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+<iframe src="//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
 
 
 <blockquote><p>※1… 個人差があります</p></blockquote>
@@ -120,52 +120,46 @@ SensuでFluentdの状態を監視する</p>
 
 <h3>監視設定(Monitoring Settings)</h3>
 
-<p>Sensu's Configuration Example<br/>
+<p>Sensu&rsquo;s Configuration Example<br/>
 Sensuの設定例</p>
 
 <p><code>check_fluentd_monitor_agent.json</code></p>
 
-<p>```
-{
-  "checks": {</p>
-
-<pre><code>"check_fluentd_monitor_agent_retry": {
-  "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
-  "interval": 60,
-  "occurrences": 3,
-  "subscribers": ["foo"],
-  "handlers": ["hipchat", "mailer"]
-},
-"check_fluentd_monitor_agent_buffer_total_queued_size": {
-  "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024000 -c 51200000 -m 'buffer_queue_length'",
-  "interval": 60,
-  "occurrences": 3,
-  "subscribers": ["foo"],
-  "handlers": ["hipchat", "mailer"]
+<pre><code>{
+  "checks": {
+    "check_fluentd_monitor_agent_retry": {
+      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
+      "interval": 60,
+      "occurrences": 3,
+      "subscribers": ["foo"],
+      "handlers": ["hipchat", "mailer"]
+    },
+    "check_fluentd_monitor_agent_buffer_total_queued_size": {
+      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024000 -c 51200000 -m 'buffer_queue_length'",
+      "interval": 60,
+      "occurrences": 3,
+      "subscribers": ["foo"],
+      "handlers": ["hipchat", "mailer"]
+    }
+  }
 }
 </code></pre>
-
-<p>  }
-}
-```</p>
 
 <ul>
 <li>アラート例(Example Alert)</li>
 </ul>
 
 
-<p><code>
-CheckFluentdMonitorAgent WARNING: plugin_id object:XXXXXXX retry_count 8
-</code></p>
+<pre><code>CheckFluentdMonitorAgent WARNING: plugin_id object:XXXXXXX retry_count 8
+</code></pre>
 
 <ul>
 <li>アラートが出ているプラグインの確認(Check the plug-in target)</li>
 </ul>
 
 
-<p><code>
-$ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX
-</code></p>
+<pre><code>$ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX
+</code></pre>
 
 <p>Thus, It is useful to grasp if Fluentd could not be temporarily connected to the another service.<br/>
 このように、Fluentdが他のサービスへ一時的に接続できなかった場合にアラートが来たりして便利です。</p>
@@ -177,7 +171,7 @@ $ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX
     <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/"/>
     <updated>2014-05-30T19:08:00+09:00</updated>
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent</id>
-    <content type="html"><![CDATA[<p>Colleagues said to me that I want to monitoring fluentd's state,<br/>
+    <content type="html"><![CDATA[<p>Colleagues said to me that I want to monitoring fluentd&rsquo;s state,<br/>
 Then I created this plugin.<br/>
 同僚がfluentdの状態を監視したいと言っていたので<br/>
 私はこのプラグインをつくりました。</p>
@@ -191,29 +185,25 @@ Then I created this plugin.<br/>
 <p>how to use.<br/>
 使い方</p>
 
-<p>```
-{
-  "checks": {</p>
-
-<pre><code>"check_fluentd_monitor_agent_retry": {
-  "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
-  "interval": 60,
-  "occurrences": 1,
-  "subscribers": ["foo"],
-  "handlers": ["hipchat", "mailer"]
-},
-"check_fluentd_monitor_agent_buffer_total_queued_size": {
-  "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024 -c 5120 -m 'buffer_queue_length'",
-  "interval": 60,
-  "occurrences": 1,
-  "subscribers": ["foo"],
-  "handlers": ["hipchat", "mailer"]
+<pre><code>{
+  "checks": {
+    "check_fluentd_monitor_agent_retry": {
+      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
+      "interval": 60,
+      "occurrences": 1,
+      "subscribers": ["foo"],
+      "handlers": ["hipchat", "mailer"]
+    },
+    "check_fluentd_monitor_agent_buffer_total_queued_size": {
+      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024 -c 5120 -m 'buffer_queue_length'",
+      "interval": 60,
+      "occurrences": 1,
+      "subscribers": ["foo"],
+      "handlers": ["hipchat", "mailer"]
+    }
+  }
 }
 </code></pre>
-
-<p>  }
-}
-```</p>
 
 <p>Please try it.<br/>
 よかったらご利用ください。</p>
@@ -232,33 +222,29 @@ Then I created this plugin.<br/>
 </ul>
 
 
-<p>```
-{
-  "checks": {</p>
-
-<pre><code>"check_hoge_one": {
-  "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
-  "interval": 60,
-  "subscribers": ["all"],
-  "handlers": ["hipchat", "mailer"]
-},
-"check_hoge_two": {
-  "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
-  "interval": 60,
-  "subscribers": ["all"],
-  "handlers": ["hipchat", "mailer"]
-},
-"check_hoge_three": {
-  "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
-  "interval": 60,
-  "subscribers": ["all"],
-  "handlers": ["hipchat", "mailer"]
+<pre><code>{
+  "checks": {
+    "check_hoge_one": {
+      "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
+      "interval": 60,
+      "subscribers": ["all"],
+      "handlers": ["hipchat", "mailer"]
+    },
+    "check_hoge_two": {
+      "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
+      "interval": 60,
+      "subscribers": ["all"],
+      "handlers": ["hipchat", "mailer"]
+    },
+    "check_hoge_three": {
+      "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
+      "interval": 60,
+      "subscribers": ["all"],
+      "handlers": ["hipchat", "mailer"]
+    }
+  }
 }
 </code></pre>
-
-<p>  }
-}
-```</p>
 ]]></content>
   </entry>
   

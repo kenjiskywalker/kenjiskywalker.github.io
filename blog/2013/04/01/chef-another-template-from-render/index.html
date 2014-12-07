@@ -9,7 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Chef 11からtemplateの中でtemplateを呼び出せるようになっていた Apr 1st, 2013 Opscode Chef 11 Release / OpsCode blog Long time contributor and past-MVP Andrea Campi &hellip;">
+  <meta name="description" content="Chef 11からtemplateの中でtemplateを呼び出せるようになっていた Opscode Chef 11 Release / OpsCode blog Long time contributor and past-MVP Andrea Campi added support for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,7 +94,7 @@
   
 
 
-<time datetime="2013-04-01T18:20:00+09:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time>
+<time datetime="2013-04-01T18:20:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
@@ -103,7 +103,7 @@
 
 <div class="entry-content"><p><a href="http://www.opscode.com/blog/2013/02/04/chef-11-released/">Opscode Chef 11 Release / OpsCode blog</a></p>
 
-<blockquote><p>Long time contributor and past-MVP Andrea Campi added support for partial templates. This is a significant feature if you have templates with large sections that change based on attributes. You can now render additional templates inside a template with &lt;%= render &#8216;other_template.erb&#8217; %>. This functionality expands the capability of the template reasource in a huge way.</p></blockquote>
+<blockquote><p>Long time contributor and past-MVP Andrea Campi added support for partial templates. This is a significant feature if you have templates with large sections that change based on attributes. You can now render additional templates inside a template with &lt;%= render &lsquo;other_template.erb&rsquo; %>. This functionality expands the capability of the template reasource in a huge way.</p></blockquote>
 
 <p>ということで、</p>
 
@@ -114,7 +114,8 @@
 
 <p>の中で</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= render 'homhom.conf.erb' %&gt;</span></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= render 'homhom.conf.erb' %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <p>と書くと</p>
@@ -158,7 +159,7 @@
   
 
 
-<time datetime="2013-04-01T18:20:00+09:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time>
+<time datetime="2013-04-01T18:20:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
@@ -196,13 +197,6 @@
 <aside class="sidebar">
   
     <section>
-<br>
-<img src="http://i.gyazo.com/f4529473847d09e4151fb136da45f022.png" width="120" height="120" /><h3><a href="http://twitter.com/kenjiskywalker">@kenjiskywalker</a></h3>
-はろーもしもし。<br>
-ぼくは元気でやっています。<br>
-みんなは元気ですか。<br>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -232,7 +226,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
@@ -256,77 +250,6 @@
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Coderwall</h1>
-  <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
-  </ul>
-
-  <script type="text/javascript">
-    var coderwall = (function(){
-      function render(options, badges){
-        var fragment = '',
-            t = $(options.target)[0],
-            height = 65,
-            width = 65,
-            index;
-
-        for (index in badges) {
-          fragment += '<a class="cw_badge"title="' + badges[index].description + '" href="http://coderwall.com/' + options.user + '">';
-          fragment +=   '<img alt="' + badges[index].description + '" height="' + width + '" width="' + height + '" src="' + badges[index].badge + '"/>';
-          fragment += '</a>';
-        }
-
-        t.innerHTML = fragment;
-      }
-      return {
-        showBadges: function(options){
-          $.ajax({
-              url: 'http://coderwall.com/' + options.user + '.json?callback=?'
-            , type: 'jsonp'
-            , error: function (err) { $(options.target + ' li.loading').addClass('error').text("Error loading feed"); }
-            , success: function(res) {
-                render(options, res.data.badges);
-            }
-          });
-        }
-      };
-    })();
-
-    $.domReady(function(){
-      if (!window.jXHR){
-        var jxhr = document.createElement('script');
-        jxhr.type = 'text/javascript';
-        jxhr.src = '/javascripts/libs/jXHR.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(jxhr, s);
-      }
-      if (!window.$){
-        var b = document.createElement('script');
-        b.type = 'text/javascript';
-        b.src = '/javascripts/ender.js';
-        var sc = document.getElementsByTagName('script')[0];
-        sc.parentNode.insertBefore(jxhr, s);
-      }
-      coderwall.showBadges({
-        user: 'kenjiskywalker',
-        target: '#cw_badges'
-      });
-    });
-  </script>
-  <style type="text/css">
-    .cw_badge img {
-      padding: 5px;
-      border: 0 none !important;
-      -moz-box-shadow: none !important;
-      -webkit-box-shadow: none !important;
-      -o-box-shadow: none !important;
-      box-shadow: none !important;
-    }
-  </style>
 </section>
 
 

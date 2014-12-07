@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vyatta | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/vyatta/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -23,22 +23,14 @@ VyattaでVPN(PPTP)設定したメモ。</p>
 
 <p>参考：<a href="http://jedipunkz.github.io/blog/2012/06/13/vyatta-vpn/">Vyatta で構築する簡単 VPN サーバ</a></p>
 
-<p>```
-$ configure</p>
-
-<h1>set vpn pptp remote-access authentication local-users username ${USER} password ${PASSWORD}</h1>
-
-<h1>set vpn pptp remote-access authentication mode local</h1>
-
-<h1>set vpn pptp remote-access client-ip-pool start ${IP_START}</h1>
-
-<h1>set vpn pptp remote-access client-ip-pool stop ${IP_END}</h1>
-
-<h1>commit</h1>
-
-<h1>save</h1>
-
-<p>```</p>
+<pre><code>$ configure
+# set vpn pptp remote-access authentication local-users username ${USER} password ${PASSWORD}
+# set vpn pptp remote-access authentication mode local
+# set vpn pptp remote-access client-ip-pool start ${IP_START}
+# set vpn pptp remote-access client-ip-pool stop ${IP_END}
+# commit
+# save
+</code></pre>
 
 <p>以上です。市販のルータ使っていたらGUIで設定して<br/>
 反映する為にはルータの再起動が必要です。1分待って下さいとか<br/>

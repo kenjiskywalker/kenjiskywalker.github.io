@@ -4,7 +4,7 @@
   <title><![CDATA[Category: memo | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/memo/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -68,18 +68,14 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
 
 <p><code>nginx.conf</code>に下記内容を記述</p>
 
-<p>```
-server {</p>
-
-<pre><code>listen 8080;
-server_name blog.kenjiskywalker.org;
-root /home/blog/;
-index index.html;
-access_log /var/log/nginx/blog/access_log skywalker;
-error_log  /var/log/nginx/blog/error_log  error;
+<pre><code>server {
+    listen 8080;
+    server_name blog.kenjiskywalker.org;
+    root /home/blog/;
+    index index.html;
+    access_log /var/log/nginx/blog/access_log skywalker;
+    error_log  /var/log/nginx/blog/error_log  error;
 </code></pre>
-
-<p>```</p>
 
 <p><code>8080</code>なのは、フロントにvarnishがいるから。<br/>
 これで <em>blog.kenjiskywalker.org</em> にアクセスが来たら<br/>
@@ -98,9 +94,8 @@ error_log  /var/log/nginx/blog/error_log  error;
 
 <p><code>Rakefile</code>はnginxにて設定したように</p>
 
-<p><code>
-document_root  = "/home/blog/"
-</code></p>
+<pre><code>document_root  = "/home/blog/" 
+</code></pre>
 
 <p><code>/home/blog/</code>を記述。</p>
 
@@ -118,9 +113,8 @@ document_root  = "/home/blog/"
 
 <p>カスタマイズページを右上に表示してみたかったので</p>
 
-<p><code>
-default_asides: [asides/about.html,
-</code></p>
+<pre><code>default_asides: [asides/about.html, 
+</code></pre>
 
 <p>と<em>about.html</em>の設定を追記して</p>
 
@@ -136,16 +130,15 @@ default_asides: [asides/about.html,
 
 <h4>4. 記事を書いて確認してみる</h4>
 
-<p>```
-$ rake generate
-で、source/配下の(記事であればsource/_post/)ファイルをよしなにpublicへゴリゴリしながらつくりあげて</p>
+<pre><code>$ rake generate
+で、source/配下の(記事であればsource/_post/)ファイルをよしなにpublicへゴリゴリしながらつくりあげて
 
-<p>$ rake preview
-で、localhost:4000で確認</p>
+$ rake preview
+で、localhost:4000で確認
 
-<p>$ rake deploy
+$ rake deploy
 問題がなければデプロイでfinish！
-```</p>
+</code></pre>
 
 <p>上記コマンドはすべてOctoeditorで完結しているのですが<br/>
 念の為コマンドを打ってみて動きを確認。</p>

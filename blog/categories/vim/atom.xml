@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | さよならインターネット]]></title>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-07T05:57:57+09:00</updated>
+  <updated>2014-12-07T17:28:39+09:00</updated>
   <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -20,12 +20,11 @@
     <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/10/11/vim-de-multi_byte_ime</id>
     <content type="html"><![CDATA[<p><code>.gvimrc</code>に</p>
 
-<p><code>
-if has('multi_byte_ime') || has('xim')
+<pre><code>if has('multi_byte_ime') || has('xim') 
   highlight Cursor guifg=NONE guibg=White
   highlight CursorIM guifg=NONE guibg=DarkRed
 endif
-</code></p>
+</code></pre>
 
 <p>って書いたら</p>
 
