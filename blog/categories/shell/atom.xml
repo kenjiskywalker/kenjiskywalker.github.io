@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: shell | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/shell/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/shell/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/03/27/get-extension-list/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/03/27/get-extension-list/"/>
     <updated>2014-03-27T03:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/03/27/get-extension-list</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/03/27/get-extension-list</id>
     <content type="html"><![CDATA[<p>bashの奥は深い。</p>
 
 <ul>

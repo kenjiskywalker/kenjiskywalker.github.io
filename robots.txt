@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://blog.kenjiskywalker.org//sitemap.xml 
+Sitemap: http://blog.kenjiskywalker.org/sitemap.xml 

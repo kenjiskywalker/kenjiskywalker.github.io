@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: irkit | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/irkit/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/irkit/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[IRKitのファームウェアをアップデートしてWi-Fiに繋がるようになった]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/04/20/irkit-firmware-update/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/04/20/irkit-firmware-update/"/>
     <updated>2014-04-20T00:05:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/04/20/irkit-firmware-update</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/04/20/irkit-firmware-update</id>
     <content type="html"><![CDATA[<p>IRKitの初期ロットを利用していたので、モールス信号で<br/>
 設定がとばせなくなっていたのでファームウェアのアップデートをした。<br/>
 やり方はGitHubのページの通りに行えば問題ない。</p>

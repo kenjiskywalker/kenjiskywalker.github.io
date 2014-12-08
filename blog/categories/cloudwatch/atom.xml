@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: cloudwatch | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/cloudwatch/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/cloudwatch/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/02/25/get-cloudwatch-rds-ec2/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2/"/>
     <updated>2013-02-25T01:10:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/02/25/get-cloudwatch-rds-ec2</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2</id>
     <content type="html"><![CDATA[<p>CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。</p>
 
 <p><div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_rds.rb'></script>

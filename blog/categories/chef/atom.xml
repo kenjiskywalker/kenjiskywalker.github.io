@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: chef | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/chef/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/chef/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Chefのruby_blockを利用してファイル更新時に条件によってログを出力する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/03/28/chef-ruby-block/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/03/28/chef-ruby-block/"/>
     <updated>2014-03-28T01:59:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/03/28/chef-ruby-block</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/03/28/chef-ruby-block</id>
     <content type="html"><![CDATA[<p>Chefには冪等性という特徴がありますが、実際の運用では<br/>
 ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは<br/>
 自分の手で確認したい。という条件もあるかと思います。</p>
@@ -87,9 +87,9 @@ Chefは何か込み入ったことをしようとすると色々と工夫しな�
   
   <entry>
     <title type="html"><![CDATA[Chefのnode[:hoge]をどうにかしたい]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/12/04/chef-merge-deep/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/12/04/chef-merge-deep/"/>
     <updated>2013-12-04T14:26:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/12/04/chef-merge-deep</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/12/04/chef-merge-deep</id>
     <content type="html"><![CDATA[<p>2013年オワコンの代表格として名指しされているChefですが<br/>
 <strong>nodes/hoge.json</strong>で与えられた<code>node[:hoge]</code>の値を<br/>
 <strong>roles/role.json</strong>で値を追加したい場合があります。<br/>
@@ -204,9 +204,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[plenvとperl-buildを走らせるchefのcookbookを書いた]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/08/31/plenv-chef-cookbook/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/08/31/plenv-chef-cookbook/"/>
     <updated>2013-08-31T03:03:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/08/31/plenv-chef-cookbook</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/08/31/plenv-chef-cookbook</id>
     <content type="html"><![CDATA[<p>perl-buildまでやるやつ書いた。</p>
 
 <p>参考元：<a href="http://hirobanex.net/article/2013/06/1372382206">plenvによるPerl環境を構築するchefのオレオレサンプルレシピ - hirobanex.net</a></p>
@@ -219,9 +219,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[chefの中身読んで、外部からrun_listを利用する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/07/17/chef-run_list/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/07/17/chef-run_list/"/>
     <updated>2013-07-17T00:29:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/07/17/chef-run_list</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/07/17/chef-run_list</id>
     <content type="html"><![CDATA[<p>run_listを渡してるところを探した。<br/>
 といってもほとんど<a href="https://twitter.com/soh335">@soh335</a>が教えてくれた。さすが一流エンジニアだ。</p>
 
@@ -325,9 +325,9 @@ p run_list.expand("_default", "disk").recipes
   
   <entry>
     <title type="html"><![CDATA[Chefで公開したくないJSONデータを暗号化するためにDataBagsを利用してみた記録]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/05/20/chef-databag/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/05/20/chef-databag/"/>
     <updated>2013-05-20T18:44:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/05/20/chef-databag</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/05/20/chef-databag</id>
     <content type="html"><![CDATA[<blockquote><p>ruby 1.8.7<br/>
 chef 11.4.4<br/>
 knife-solo_data_bag 0.3.2</p></blockquote>

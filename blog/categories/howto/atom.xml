@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: howto | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/howto/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/howto/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[shellscriptでmailコマンドを利用してGmailにメールを送るとnonameという添付ファイルが添付される問題]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/06/04/gmail-noname/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/06/04/gmail-noname/"/>
     <updated>2014-06-04T02:56:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/06/04/gmail-noname</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/06/04/gmail-noname</id>
     <content type="html"><![CDATA[<pre><code>#!/bin/bash
 
 FOO=`command`
@@ -57,9 +57,9 @@ echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com
   
   <entry>
     <title type="html"><![CDATA[Ubuntu 13.10でOMRONのUPS BY35Sを使う]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/02/02/ups-omron-nut/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/02/02/ups-omron-nut/"/>
     <updated>2014-02-02T11:53:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/02/02/ups-omron-nut</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/02/02/ups-omron-nut</id>
     <content type="html"><![CDATA[<blockquote><p>Ubuntu 13.04
 nut        2.6.4-2.2ubuntu1<br/>
 nut-client 2.6.4-2.2ubuntu1<br/>
@@ -324,9 +324,9 @@ OL BYPASS
   
   <entry>
     <title type="html"><![CDATA[自宅ルータをVyattaにして快適になった]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/09/10/vyatta-ubuntu/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu/"/>
     <updated>2013-09-10T23:39:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/09/10/vyatta-ubuntu</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu</id>
     <content type="html"><![CDATA[<p>市販のルータ兼無線アクセスポイント君が<br/>
 2日に1回再起動しないとAirPlayできなくなってしまったので<br/>
 この際自宅のネットワーク環境を一新すべく<br/>
@@ -632,9 +632,9 @@ AirPlay毎日できて最高です。</p>
   
   <entry>
     <title type="html"><![CDATA[AWSのAutoScalingで立ち上がってきたVPC内のEC2インスタンスに強制的にEIPを付与する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/08/27/eip-set-autoscaling-vpc/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/08/27/eip-set-autoscaling-vpc/"/>
     <updated>2013-08-27T23:50:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/08/27/eip-set-autoscaling-vpc</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/08/27/eip-set-autoscaling-vpc</id>
     <content type="html"><![CDATA[<h2>前提条件</h2>
 
 <ul>
@@ -676,9 +676,9 @@ AirPlay毎日できて最高です。</p>
   
   <entry>
     <title type="html"><![CDATA[GitHubのIRC hookの設定]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/08/27/github-issue-irc/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/08/27/github-issue-irc/"/>
     <updated>2013-08-27T18:43:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/08/27/github-issue-irc</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/08/27/github-issue-irc</id>
     <content type="html"><![CDATA[<p><a href="http://soh335.hatenablog.com/entry/2013/07/10/100354">github の irc hook に幾つかの event type が追加されました - @soh335 memo</a><br/>
 <a href="http://blog.glidenote.com/blog/2013/07/18/github-irc-hooks-event-type/">GitHubのissueやpull reqにcommentが付いたらIRC Hoooks経由で通知されるように設定した - Glide Note</a></p>
 

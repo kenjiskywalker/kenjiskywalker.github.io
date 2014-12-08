@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: zabbix | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/zabbix/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/zabbix/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[第6回 ZABBIX-JP勉強会で発表してきた #zabbix_jp]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/04/12/zabbix_jp_6/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/04/12/zabbix_jp_6/"/>
     <updated>2014-04-12T16:54:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/04/12/zabbix_jp_6</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/04/12/zabbix_jp_6</id>
     <content type="html"><![CDATA[<p>@ike_daiさん、登壇できる機会を頂きありがとうございました。</p>
 
 <h2>発表資料</h2>
@@ -65,9 +65,9 @@ ZABBIXで決まりっぽいですね。</p>
   
   <entry>
     <title type="html"><![CDATA[zabbix-proxyに複数のServerを設定することはできない]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/05/07/zabbix-proxy-not-many-server/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/05/07/zabbix-proxy-not-many-server/"/>
     <updated>2013-05-07T17:50:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/05/07/zabbix-proxy-not-many-server</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/05/07/zabbix-proxy-not-many-server</id>
     <content type="html"><![CDATA[<p>忘れそうだから書いておく。</p>
 
 <ul>
@@ -89,9 +89,9 @@ ZABBIXで決まりっぽいですね。</p>
   
   <entry>
     <title type="html"><![CDATA[ZABBIXでアラートメールを受け取るためにする設定メモ]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/03/20/zabbix-action-setting/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/03/20/zabbix-action-setting/"/>
     <updated>2013-03-20T01:53:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/03/20/zabbix-action-setting</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/03/20/zabbix-action-setting</id>
     <content type="html"><![CDATA[<p>新しくグループとかつくる時に<br/>
 アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
 
@@ -120,9 +120,9 @@ ZABBIXで決まりっぽいですね。</p>
   
   <entry>
     <title type="html"><![CDATA[ZABBIX PROXY ver.1.8の設定メモ]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/02/20/zabbix-proxy/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/02/20/zabbix-proxy/"/>
     <updated>2013-02-20T00:25:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/02/20/zabbix-proxy</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/02/20/zabbix-proxy</id>
     <content type="html"><![CDATA[<p>OctopressでGsitすごいカジュアルに載せられるけど<br/>
 ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。</p>
 
@@ -140,9 +140,9 @@ ZABBIXで決まりっぽいですね。</p>
   
   <entry>
     <title type="html"><![CDATA[Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/01/07/faraday-ruby-zabbix-api/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api/"/>
     <updated>2013-01-07T19:26:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/01/07/faraday-ruby-zabbix-api</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api</id>
     <content type="html"><![CDATA[<p>こんな感じでイケました。</p>
 
 <p><div><script src='https://gist.github.com/4473915.js'></script>

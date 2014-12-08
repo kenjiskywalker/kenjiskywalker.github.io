@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: hubot | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/hubot/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/hubot/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[hubot-atというhubot pluginをつくった]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/09/04/hubot-at/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/04/hubot-at/"/>
     <updated>2014-09-04T14:22:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/09/04/hubot-at</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/04/hubot-at</id>
     <content type="html"><![CDATA[<p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
 hubotに持ってきました。</p>
 

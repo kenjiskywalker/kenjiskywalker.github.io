@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ruby | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -16,9 +16,9 @@
   <entry>
     <title type="html"><![CDATA[Rubyでconnect': SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed (OpenSSL::SSL::SSLError)
 が出た時の対応方法]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/04/24/ruby-certificate-verify-failed/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/04/24/ruby-certificate-verify-failed/"/>
     <updated>2014-04-24T23:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/04/24/ruby-certificate-verify-failed</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/04/24/ruby-certificate-verify-failed</id>
     <content type="html"><![CDATA[<p>SensuでSSL使うプラグインでエラーが出ていた。<br/>
 その対処法を忘れないようにメモ。</p>
 
@@ -52,9 +52,9 @@ $
   
   <entry>
     <title type="html"><![CDATA[Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/01/07/faraday-ruby-zabbix-api/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api/"/>
     <updated>2013-01-07T19:26:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/01/07/faraday-ruby-zabbix-api</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api</id>
     <content type="html"><![CDATA[<p>こんな感じでイケました。</p>
 
 <p><div><script src='https://gist.github.com/4473915.js'></script>

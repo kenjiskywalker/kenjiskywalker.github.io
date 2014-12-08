@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/aws/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Route53を利用したフェイルオーバーシステムの作成]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/06/06/route53-healthcheck-failover/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/06/06/route53-healthcheck-failover/"/>
     <updated>2014-06-06T00:04:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/06/06/route53-healthcheck-failover</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/06/06/route53-healthcheck-failover</id>
     <content type="html"><![CDATA[<p>AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。</p>
 
 <h2>TL;DR</h2>
@@ -96,9 +96,9 @@ fluentdの集約サーバを冗長構成にしておいて</p>
   
   <entry>
     <title type="html"><![CDATA[AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/"/>
     <updated>2014-05-12T18:13:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk</id>
     <content type="html"><![CDATA[<p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
 存在しない場合は無視されるので、下記のように4本など<br/>
 事前に指定しておくのが良いかと思います。</p>
@@ -174,9 +174,9 @@ fluentdの集約サーバを冗長構成にしておいて</p>
   
   <entry>
     <title type="html"><![CDATA[AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/05/09/autoscaling-tag/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/05/09/autoscaling-tag/"/>
     <updated>2014-05-09T18:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/05/09/autoscaling-tag</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/05/09/autoscaling-tag</id>
     <content type="html"><![CDATA[<p><a href="http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html">【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ</a></p>
 
 <p>こちらの便利機能が追加されたので早速設定してみました。</p>
@@ -235,9 +235,9 @@ fluentdの集約サーバを冗長構成にしておいて</p>
   
   <entry>
     <title type="html"><![CDATA[Instance Store-BackedのAMIをつくる]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/03/18/instance-store-backed-ami/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/03/18/instance-store-backed-ami/"/>
     <updated>2014-03-18T23:04:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/03/18/instance-store-backed-ami</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/03/18/instance-store-backed-ami</id>
     <content type="html"><![CDATA[<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
 
 <p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
@@ -308,9 +308,9 @@ ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
   
   <entry>
     <title type="html"><![CDATA[EC2のインスタンスが立ち上がってきた時にEphemeral Diskを束ねてRAID0にするスクリプト]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/02/24/ec2-start-raid0-script/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/02/24/ec2-start-raid0-script/"/>
     <updated>2014-02-24T18:15:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/02/24/ec2-start-raid0-script</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/02/24/ec2-start-raid0-script</id>
     <content type="html"><![CDATA[<p>Ephemeral Diskが8本ある場合は条件を増やせば良い。</p>
 
 <pre><code>#!/bin/bash

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mysql | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/mysql/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[MySQLのスレーブサーバを別サーバに移設する時に注意すること]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/08/12/mv-mysql-slave-server/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server/"/>
     <updated>2013-08-12T19:20:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/08/12/mv-mysql-slave-server</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server</id>
     <content type="html"><![CDATA[<p>移設元のスレーブサーバのMySQLが停止できる場合<br/>
 移設先のスレーブサーバで</p>
 

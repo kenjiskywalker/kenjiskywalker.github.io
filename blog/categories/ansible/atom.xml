@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ansible | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/ansible/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/ansible/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ansible Vaultで暗号化されたファイルをCircleCIで利用する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/11/17/ansible-vault-circleci/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/11/17/ansible-vault-circleci/"/>
     <updated>2014-11-17T14:08:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/11/17/ansible-vault-circleci</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/11/17/ansible-vault-circleci</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>CircleCIのEnvironment variablesを利用して<br/>
@@ -64,9 +64,9 @@ test:
   
   <entry>
     <title type="html"><![CDATA[Ansibleを利用してRailsが動くVagrantfileを作成する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/10/24/ansible-vagrant/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/"/>
     <updated>2014-10-24T05:56:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/10/24/ansible-vagrant</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant</id>
     <content type="html"><![CDATA[<p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
 
 <h2>TL;DR</h2>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: mysqlcasual | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/mysqlcasual/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/mysqlcasual/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[#mysqlcasual vol.4 でカジュアルに発表してきました]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/04/18/mysqlcasual4/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/04/18/mysqlcasual4/"/>
     <updated>2013-04-18T00:47:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/04/18/mysqlcasual4</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/04/18/mysqlcasual4</id>
     <content type="html"><![CDATA[<p><a href="http://atnd.org/events/38091">MySQL Casual Talks vol.4</a> で発表してきました。</p>
 
 <p>お声がけしていただいた@myfinderさん<br/>

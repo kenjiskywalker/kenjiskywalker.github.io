@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: memo | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/memo/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/memo/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[serverspecをJenkins氏で回す場合について]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/06/30/serverspec-jenkins/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins/"/>
     <updated>2013-06-30T02:47:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/06/30/serverspec-jenkins</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins</id>
     <content type="html"><![CDATA[<p>今流行りの<a href="http://serverspec.org/">serverspec</a>、みなさんどうやって活用しているのでしょうか。<br/>
 インフラもCIだ！みたいな話最近よく聞くので、CIといえばJenkins！<br/>
 的な感じで試してみました。</p>
@@ -54,9 +54,9 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
   
   <entry>
     <title type="html"><![CDATA[さくらVPSでOctopress]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/01/02/ocococtopress/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/01/02/ocococtopress/"/>
     <updated>2013-01-02T19:34:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/01/02/ocococtopress</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/01/02/ocococtopress</id>
     <content type="html"><![CDATA[<p>新年あけましておめでとうございます。<br/>
 年初めは意識高いのでやろうと思ってたこと実行するのに良い機会ですね。</p>
 

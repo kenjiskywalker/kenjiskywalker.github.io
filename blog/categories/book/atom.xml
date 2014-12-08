@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: book | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/book/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/book/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[2014/11読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/12/07/201411-book/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/12/07/201411-book/"/>
     <updated>2014-12-07T05:21:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/12/07/201411-book</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/12/07/201411-book</id>
     <content type="html"><![CDATA[<p>なんかもうちょっと読んでた気がする&hellip;</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年11月 (1作品)</div>
@@ -33,9 +33,9 @@
   
   <entry>
     <title type="html"><![CDATA[2014/10読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/11/02/201410-book/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book/"/>
     <updated>2014-11-02T01:59:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/11/02/201410-book</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book</id>
     <content type="html"><![CDATA[<p>太平記、いよいよ尊氏がのし上がってきた。</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年10月 (7作品)</div>
@@ -71,9 +71,9 @@
   
   <entry>
     <title type="html"><![CDATA[「サーバ/インフラ徹底攻略」を読んだ]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/10/26/server-infra-webdb-book/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book/"/>
     <updated>2014-10-26T18:05:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/10/26/server-infra-webdb-book</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book</id>
     <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank" title="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL.jpg" width="354" height="500" alt="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)" /></a></p>
 
 <p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
@@ -235,9 +235,9 @@ Immutable Infrastructureをどのように実践するかの具体的な内容�
   
   <entry>
     <title type="html"><![CDATA[2014/09読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/10/01/201409-book/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/10/01/201409-book/"/>
     <updated>2014-10-01T00:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/10/01/201409-book</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/10/01/201409-book</id>
     <content type="html"><![CDATA[<p>Akamaiの本が面白かった。<br/>
 BGP繋ぎこんで終わりの世界だと思っていたので<br/>
 目からうろこだった。</p>
@@ -313,9 +313,9 @@ BGP繋ぎこんで終わりの世界だと思っていたので<br/>
   
   <entry>
     <title type="html"><![CDATA[2014/07読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/08/31/201408-book/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/08/31/201408-book/"/>
     <updated>2014-08-31T16:06:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/08/31/201408-book</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/08/31/201408-book</id>
     <content type="html"><![CDATA[<p>booklogというサービス、デザインと使い勝手が本当に良い。</p>
 
 <div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年08月 (4作品)</div>

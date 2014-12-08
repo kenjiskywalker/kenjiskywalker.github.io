@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: scatter_kun | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/scatter-kun/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/scatter-kun/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[IRCでお願いしたら分散図つくってくれるscatter_kunつくった]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/10/14/scatter_kun/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/10/14/scatter_kun/"/>
     <updated>2013-10-14T15:51:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/10/14/scatter_kun</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/10/14/scatter_kun</id>
     <content type="html"><![CDATA[<h2><a href="https://github.com/kenjiskywalker/Scatter_Kun">https://github.com/kenjiskywalker/Scatter_Kun</a></h2>
 
 <p>Songmuさんにモジュール化しろ。っていわれていたけど<br/>

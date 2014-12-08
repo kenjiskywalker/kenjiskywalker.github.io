@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: sensu | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/sensu/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/sensu/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[sensuのmackerel用のmetrics handlerをつくった #mackerelio]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/09/25/sensu-mackerel-handler/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/25/sensu-mackerel-handler/"/>
     <updated>2014-09-25T14:38:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/09/25/sensu-mackerel-handler</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/25/sensu-mackerel-handler</id>
     <content type="html"><![CDATA[<p><a href="http://mackerelio.connpass.com/event/8458/">Mackerel Meetup #2 Tokyo</a>に参加してきました。</p>
 
 <p>美味しいサバ料理頂いたりピザ頂いたりビール頂いたりして最高でした。<br/>
@@ -57,9 +57,9 @@ headerが雑なのでプロモーションも兼ねて編集して頂いた方�
   
   <entry>
     <title type="html"><![CDATA[Sensu Casual Talks #1 に行ってきた #sensucasual]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/09/17/sensu-casual/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/17/sensu-casual/"/>
     <updated>2014-09-17T23:13:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/09/17/sensu-casual</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/17/sensu-casual</id>
     <content type="html"><![CDATA[<p><a href="http://www.zusaar.com/event/7607003">Sensu Casual Talks #1</a>にいってきた。</p>
 
 <p><img src="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" /></p>
@@ -101,9 +101,9 @@ sensuに乗り換えるのは無駄だと思う。</p>
   
   <entry>
     <title type="html"><![CDATA[Monitoring monitor_agent by Sensu]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/07/09/monitor_agent-and-sensu/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/07/09/monitor_agent-and-sensu/"/>
     <updated>2014-07-09T19:39:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/07/09/monitor_agent-and-sensu</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/07/09/monitor_agent-and-sensu</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>Monitor the state of the Fluentd by Sensu.<br/>
@@ -168,9 +168,9 @@ Sensuの設定例</p>
   
   <entry>
     <title type="html"><![CDATA[Created check-fluentd-monitor-agent of sensu-plugin]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/"/>
     <updated>2014-05-30T19:08:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent</id>
     <content type="html"><![CDATA[<p>Colleagues said to me that I want to monitoring fluentd&rsquo;s state,<br/>
 Then I created this plugin.<br/>
 同僚がfluentdの状態を監視したいと言っていたので<br/>
@@ -212,9 +212,9 @@ Then I created this plugin.<br/>
   
   <entry>
     <title type="html"><![CDATA[Sensuで一つのJSONファイルに複数の設定を記述する]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/05/12/sensu-multi-settings/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/05/12/sensu-multi-settings/"/>
     <updated>2014-05-12T16:40:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/05/12/sensu-multi-settings</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/05/12/sensu-multi-settings</id>
     <content type="html"><![CDATA[<p>deep_mergeなのでこう書けます。</p>
 
 <ul>

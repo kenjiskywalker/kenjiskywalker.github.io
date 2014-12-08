@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: sed | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/sed/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/sed/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GNUのsedとBSDのsed]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2014/07/18/sed-bre/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/07/18/sed-bre/"/>
     <updated>2014-07-18T10:57:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2014/07/18/sed-bre</id>
+    <id>http://blog.kenjiskywalker.org/blog/2014/07/18/sed-bre</id>
     <content type="html"><![CDATA[<p>OSXでsedコマンドを実行した際に、正規表現が上手く動作しなかった。</p>
 
 <h2>TL;DR</h2>

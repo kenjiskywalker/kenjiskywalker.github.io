@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vim | さよならインターネット]]></title>
-  <link href="http://blog.kenjiskywalker.org//blog/categories/vim/atom.xml" rel="self"/>
-  <link href="http://blog.kenjiskywalker.org//"/>
-  <updated>2014-12-08T21:40:22+09:00</updated>
-  <id>http://blog.kenjiskywalker.org//</id>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2014-12-08T23:23:20+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vimで日本語の切り替えで毎回っっっっっっってなる対策]]></title>
-    <link href="http://blog.kenjiskywalker.org//blog/2013/10/11/vim-de-multi_byte_ime/"/>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/10/11/vim-de-multi_byte_ime/"/>
     <updated>2013-10-11T14:24:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org//blog/2013/10/11/vim-de-multi_byte_ime</id>
+    <id>http://blog.kenjiskywalker.org/blog/2013/10/11/vim-de-multi_byte_ime</id>
     <content type="html"><![CDATA[<p><code>.gvimrc</code>に</p>
 
 <pre><code>if has('multi_byte_ime') || has('xim') 
