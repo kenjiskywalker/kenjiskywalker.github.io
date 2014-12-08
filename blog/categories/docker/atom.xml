@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: docker | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/docker/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/docker/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[OS Xでfigを利用してDockerのコンテナを操作する]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/25/osx-fig-docker-access-container/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/10/25/osx-fig-docker-access-container/"/>
     <updated>2014-10-25T21:38:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/10/25/osx-fig-docker-access-container</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/10/25/osx-fig-docker-access-container</id>
     <content type="html"><![CDATA[<blockquote><p>Docker v1.3<br/>
 fig 1.0.0</p></blockquote>
 

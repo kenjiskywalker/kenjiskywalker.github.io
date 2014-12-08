@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: monicasi | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/monicasi/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/monicasi/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[#monitoringcasual vol3 に参加してきました]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/09/monitoringcasualvol3/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/03/09/monitoringcasualvol3/"/>
     <updated>2013-03-09T15:44:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/09/monitoringcasualvol3</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/03/09/monitoringcasualvol3</id>
     <content type="html"><![CDATA[<h2><a href="http://www.zusaar.com/event/521056">Monitoring Casual Talk #3</a>に参加してきました。</h2>
 
 <p>会場をご提供頂いた株式会社paperboy&amp;co.さま<br/>

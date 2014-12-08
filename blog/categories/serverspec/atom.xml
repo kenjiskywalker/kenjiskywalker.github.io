@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: serverspec | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/serverspec/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/serverspec/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[testing #chef cookbook by #serverspec #devops]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/13/serverspec-chef-cookbook/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/07/13/serverspec-chef-cookbook/"/>
     <updated>2013-07-13T13:04:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/13/serverspec-chef-cookbook</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/07/13/serverspec-chef-cookbook</id>
     <content type="html"><![CDATA[<p>serverspec use chef json file and cookbooks.<br/>
 serverspec take run_list of <code>host.json</code>,<br/>
 serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>

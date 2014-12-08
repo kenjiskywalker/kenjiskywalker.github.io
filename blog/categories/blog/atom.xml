@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: blog | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/blog/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[不快な広告と不快ではない広告]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/08/koukoku/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/12/08/koukoku/"/>
     <updated>2014-12-08T21:17:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/08/koukoku</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/12/08/koukoku</id>
     <content type="html"><![CDATA[<h2>雑記</h2>
 
 <p>youtubeもtwitterの広告も、ただ間に挟んでいるだけで<br/>
@@ -40,9 +40,9 @@
   
   <entry>
     <title type="html"><![CDATA[俺の子連れおすすめスポット - 新宿御苑]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/jyoen/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/12/07/jyoen/"/>
     <updated>2014-12-07T01:49:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/12/07/jyoen</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/12/07/jyoen</id>
     <content type="html"><![CDATA[<p><a href="http://www.adventar.org/calendars/681">俺の子連れおすすめスポット Advent Calendar 2014</a></p>
 
 <p><a href="http://www.env.go.jp/garden/shinjukugyoen/">http://www.env.go.jp/garden/shinjukugyoen/</a></p>
@@ -68,9 +68,9 @@
   
   <entry>
     <title type="html"><![CDATA[Immutable Infrastructure Conference #1 に参加してきた #immutableinfra]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/26/immutableinfra-1/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/03/26/immutableinfra-1/"/>
     <updated>2014-03-26T00:54:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/26/immutableinfra-1</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/03/26/immutableinfra-1</id>
     <content type="html"><![CDATA[<p>とてもおもしろかったです。ありがとうございました！</p>
 
 <p>以下個人メモ</p>
@@ -196,9 +196,9 @@ include_recipeなど必要以上に密結合していたりするので基本的
   
   <entry>
     <title type="html"><![CDATA[アリとキリギリス]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/16/ant-and-grasshopper/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/03/16/ant-and-grasshopper/"/>
     <updated>2014-03-16T16:33:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/16/ant-and-grasshopper</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/03/16/ant-and-grasshopper</id>
     <content type="html"><![CDATA[<p>たくさんのすごい話と、すごいことをしているすごい人たちと話す機会があって<br/>
 アリとキリギリスについて考えることがあったので書いてみる。</p>
 
@@ -282,9 +282,9 @@ include_recipeなど必要以上に密結合していたりするので基本的
   
   <entry>
     <title type="html"><![CDATA[はてなの東京オフィスに美味しいランチをたべさせてもらいに行ってきた]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/14/hatena-lunch/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/03/14/hatena-lunch/"/>
     <updated>2014-03-14T00:41:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/14/hatena-lunch</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/03/14/hatena-lunch</id>
     <content type="html"><![CDATA[<p><img src="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" alt="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" /></p>
 
 <p>エントランスがスタイリッシュ</p>

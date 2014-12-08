@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: supervisor | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/supervisor/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/supervisor/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[supervisorでログのディレクトリをSIGUSR2を使って開き直す]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/12/04/supervisor-sigusr2-reopen-logdir/"/>
     <updated>2013-12-04T20:04:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/04/supervisor-sigusr2-reopen-logdir</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/12/04/supervisor-sigusr2-reopen-logdir</id>
     <content type="html"><![CDATA[<ul>
 <li>supervisorをインストール</li>
 </ul>

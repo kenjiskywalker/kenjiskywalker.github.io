@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: sql | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/sql/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/sql/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[tweets.zipを読みこませるSQLを書いた時のメモ]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/08/sql-create-howto/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/04/08/sql-create-howto/"/>
     <updated>2013-04-08T01:19:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/08/sql-create-howto</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/04/08/sql-create-howto</id>
     <content type="html"><![CDATA[<p><a href="http://atnd.org/events/38091">MySQL Casual Talks vol.4</a>で話してみて<br/>
 ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて<br/>
 今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。</p>
@@ -80,9 +80,9 @@ ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
   
   <entry>
     <title type="html"><![CDATA[tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編)]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/04/tweets_zip_big_data/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/04/04/tweets_zip_big_data/"/>
     <updated>2013-04-04T23:59:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/04/04/tweets_zip_big_data</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/04/04/tweets_zip_big_data</id>
     <content type="html"><![CDATA[<p>Twitterの過去ログが落とせるようになったので<br/>
 SQLに学ぶには丁度いいや。ということで<br/>
 カジュアルにOSX上でhomebrewを使ってMySQLに入れてみました。</p>

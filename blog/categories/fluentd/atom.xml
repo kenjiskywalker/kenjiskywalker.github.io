@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: fluentd | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/fluentd/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/fluentd/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[flunetd、forward先がダメだった時にforward元である程度ログを担保したい]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/04/01/fluentd-buffer-forward/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/04/01/fluentd-buffer-forward/"/>
     <updated>2014-04-01T13:18:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/04/01/fluentd-buffer-forward</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/04/01/fluentd-buffer-forward</id>
     <content type="html"><![CDATA[<p>fluentdのbufferとforwardについて調べたのでメモ。</p>
 
 <blockquote><p>fluentd v0.10.45</p></blockquote>
@@ -229,9 +229,9 @@ new events are rejected.</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/14/fluentd-casual-3/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/12/14/fluentd-casual-3/"/>
     <updated>2013-12-14T01:46:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/12/14/fluentd-casual-3</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/12/14/fluentd-casual-3</id>
     <content type="html"><![CDATA[<h2>Fluentd Casual Talks #3 で話してきました</h2>
 
 <p>会場をご提供頂いたDeNAさん、主催者の@tagomorisさん、ありがとうございました。</p>
@@ -324,9 +324,9 @@ Chefやpupet、Ansibleのような設定管理ツールを利用するのが良�
   
   <entry>
     <title type="html"><![CDATA[fluent-plugin-cloudwatch 1.2.4 release]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/25/fluent-plugin-cloudwatch-1-2-4/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/09/25/fluent-plugin-cloudwatch-1-2-4/"/>
     <updated>2013-09-25T23:06:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/25/fluent-plugin-cloudwatch-1-2-4</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/09/25/fluent-plugin-cloudwatch-1-2-4</id>
     <content type="html"><![CDATA[<h3><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch">https://rubygems.org/gems/fluent-plugin-cloudwatch</a></h3>
 
 <p>リリースしました。<br/>
@@ -350,9 +350,9 @@ CloudWatchのAPIが、値なしでレスポンス返してくることはよく�
   
   <entry>
     <title type="html"><![CDATA[fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(設定編)]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/20/fluentd-plugin-create-newbie/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/01/20/fluentd-plugin-create-newbie/"/>
     <updated>2013-01-20T18:56:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/20/fluentd-plugin-create-newbie</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/01/20/fluentd-plugin-create-newbie</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
 
 <pre>
@@ -582,9 +582,9 @@ trapperのデータとしてZabbixが受け取れる為に設定します。</p>
   
   <entry>
     <title type="html"><![CDATA[fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/20/fluentd-plugin-create-newbiee/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/01/20/fluentd-plugin-create-newbiee/"/>
     <updated>2013-01-20T17:03:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/20/fluentd-plugin-create-newbiee</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/01/20/fluentd-plugin-create-newbiee</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
 
 <pre>

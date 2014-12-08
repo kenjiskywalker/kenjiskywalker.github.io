@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: circleci | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/circleci/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/circleci/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/13/circleci-docker-ansible-serverspec/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/11/13/circleci-docker-ansible-serverspec/"/>
     <updated>2014-11-13T21:11:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/11/13/circleci-docker-ansible-serverspec</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/11/13/circleci-docker-ansible-serverspec</id>
     <content type="html"><![CDATA[<h3>参考</h3>
 
 <p><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-niokeruyun-yong-zi-dong-hua">KAIZEN platform Inc. における運用自動化 - Speaker Deck</a><br/>

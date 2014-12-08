@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: perl | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/perl/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/perl/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Text::Xslateで配列]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/22/xslate-array/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/09/22/xslate-array/"/>
     <updated>2013-09-22T13:30:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/09/22/xslate-array</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/09/22/xslate-array</id>
     <content type="html"><![CDATA[<p>配列の要素数と配列の中身を渡したかっただけだったのに<br/>
 2時間ぐらい時間つかいました。<br/>
 <code>\@hoge</code>を<code>@hoge</code>で渡してたからだった。</p>
@@ -122,9 +122,9 @@ Perl、どこか東山文化の風を感じますね。</p>
   
   <entry>
     <title type="html"><![CDATA[Chiba.pm #2に参加してきた #chibapm]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/30/chibapm2/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/03/30/chibapm2/"/>
     <updated>2013-03-30T10:03:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/30/chibapm2</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/03/30/chibapm2</id>
     <content type="html"><![CDATA[<h2>地方pmに行ってみたかった</h2>
 
 <blockquote class="twitter-tweet"><p>当日の参加表明すんません！おじゃまして大丈夫そうなので参加させて頂きます！デリファレンス！ <a href="https://twitter.com/search/%23chibapm">#chibapm</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/315347329702035456">March 23, 2013</a></blockquote>
@@ -185,9 +185,9 @@ ytnobody氏が「LTやるからパソコン貸してくれ」とかやってて<
   
   <entry>
     <title type="html"><![CDATA[PerlCasual #5に参加してLTしてきた #perlcasual]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/30/perlcasual5/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/03/30/perlcasual5/"/>
     <updated>2013-03-30T01:57:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/30/perlcasual5</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/03/30/perlcasual5</id>
     <content type="html"><![CDATA[<p><a href="http://atnd.org/events/37158">PerlCasual #5</a>に参加してきました</p>
 
 <p>今回お声がけして頂いたyusukebe氏に感謝を。</p>

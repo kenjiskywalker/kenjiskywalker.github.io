@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vyatta | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/vyatta/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/vyatta/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[VyattaでVPN(PPTP)の設定]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/29/vyatta-pptp/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/03/29/vyatta-pptp/"/>
     <updated>2014-03-29T18:01:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/29/vyatta-pptp</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/03/29/vyatta-pptp</id>
     <content type="html"><![CDATA[<p>iOS用にPPTPで接続できるようにしたら便利だったので<br/>
 VyattaでVPN(PPTP)設定したメモ。</p>
 

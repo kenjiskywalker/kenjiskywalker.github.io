@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: redis-sentinel | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/redis-sentinel/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/redis-sentinel/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Redis Sentinelが動いていたらslaveof no oneしない]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/20/redis-sentinel-slaveof/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/03/20/redis-sentinel-slaveof/"/>
     <updated>2013-03-20T02:36:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/03/20/redis-sentinel-slaveof</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/03/20/redis-sentinel-slaveof</id>
     <content type="html"><![CDATA[<blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
 thanks: @sawanoboly<br/>
 update: 2013/03/22</p></blockquote>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: redis | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/redis/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/redis/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Redisの2.8.2からsplit brainの対策がされているようです]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/12/redis-2-8-sentinel-split-brain/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/03/12/redis-2-8-sentinel-split-brain/"/>
     <updated>2014-03-12T01:46:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/03/12/redis-2-8-sentinel-split-brain</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/03/12/redis-2-8-sentinel-split-brain</id>
     <content type="html"><![CDATA[<p>2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections
 <a href="https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149">https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149</a></p>
 
@@ -44,9 +44,9 @@ desynchronization between Sentinel instances easily.</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Redis Sentinelを動かしてみた]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/24/redis-sentiel-howto/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/01/24/redis-sentiel-howto/"/>
     <updated>2013-01-24T16:13:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/24/redis-sentiel-howto</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/01/24/redis-sentiel-howto</id>
     <content type="html"><![CDATA[<p>以前、<a href="http://blog.kenjiskywalker.org/blog/2013/01/15/redis-sentinel/">Redis Sentinelを試す</a>というエントリーを書きましたが<br/>
 もう少し入り込んで検証してみた。</p>
 
@@ -327,9 +327,9 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Redis Sentinelを試す]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/15/redis-sentinel/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/01/15/redis-sentinel/"/>
     <updated>2013-01-15T19:42:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/01/15/redis-sentinel</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/01/15/redis-sentinel</id>
     <content type="html"><![CDATA[<p>某社では<a href="http://d.hatena.ne.jp/sfujiwara/20120802/1343880266">RedisをKeepalivedでフェイルオーバーする構成案 / 酒日記 はてな支店</a><br/>
 みたいな構成が使われているとか使われていないとかで、Sentinelはどうなのだろうか<br/>
 というお話がわいたので、カジュアルに試してみました。</p>

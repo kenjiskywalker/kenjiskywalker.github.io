@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: consul | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/consul/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/consul/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Consulでkey/valueを叩く]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-key-value/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/09/09/consul-key-value/"/>
     <updated>2014-09-09T23:09:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-key-value</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/09/09/consul-key-value</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>Consulでkey/valueを叩く</p>
@@ -167,9 +167,9 @@ bazbazbaz
   
   <entry>
     <title type="html"><![CDATA[Consulでnodeの増減時に特定のスクリプトを実行させる]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-event-handle-watches/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/09/09/consul-event-handle-watches/"/>
     <updated>2014-09-09T22:21:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/09/consul-event-handle-watches</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/09/09/consul-event-handle-watches</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>ConsulでSerfのEvent Handlerのようなものを試したメモ</p>
@@ -224,9 +224,9 @@ hostsファイルに似せて出力するようにしている。</p>
   
   <entry>
     <title type="html"><![CDATA[Consul Clusterを手元に構築する簡単なスクリプトかいた]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/08/consul-test-tool/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/09/08/consul-test-tool/"/>
     <updated>2014-09-08T21:01:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/09/08/consul-test-tool</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/09/08/consul-test-tool</id>
     <content type="html"><![CDATA[<h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
 
 <p>READMEのとおりですが</p>
@@ -250,9 +250,9 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
   
   <entry>
     <title type="html"><![CDATA[ConsulのDNSラウンドロビンの検証]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin%20(nightskywalker's%20conflicted%20copy%202014-09-10)/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2014/06/06/consul-dns-round-robin%20(nightskywalker's%20conflicted%20copy%202014-09-10)/"/>
     <updated>2014-06-06T01:13:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2014/06/06/consul-dns-round-robin (nightskywalker&#8217;s conflicted copy 2014-09-10)</id>
+    <id>http://blog.kenjiskywalker.org//blog/2014/06/06/consul-dns-round-robin (nightskywalker&#8217;s conflicted copy 2014-09-10)</id>
     <content type="html"><![CDATA[<p><a href="http://www.hashicorp.com/blog/consul.html">Consul - hashicorp</a> を利用しDNS Failoverを検証した</p>
 
 <blockquote><p>Consul v0.2.0</p></blockquote>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: music | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/music/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/music/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[音楽]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/10/11/music-20131009/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/10/11/music-20131009/"/>
     <updated>2013-10-11T00:27:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/10/11/music-20131009</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/10/11/music-20131009</id>
     <content type="html"><![CDATA[<h2><a href="https://bleep.com/release/19779-bibio-ambivalence-avenue">Ambivalence Avenue / Bibio</a></h2>
 
 <p><img src="https://bleep.com/media/images/r/g/19779.jpg" alt="https://bleep.com/media/images/r/g/19779.jpg" /></p>
@@ -50,9 +50,9 @@
   
   <entry>
     <title type="html"><![CDATA[音楽]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/05/22/music-20130522/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/05/22/music-20130522/"/>
     <updated>2013-05-22T00:26:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/05/22/music-20130522</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/05/22/music-20130522</id>
     <content type="html"><![CDATA[<h2><a href="https://bleep.com/release/43946-hvl-flats">Flats / HVL</a></h2>
 
 <p><img src="https://bleep.com/media/images/r/g/43946.jpg" alt="https://bleep.com/media/images/r/g/43946.jpg" /></p>
@@ -71,9 +71,9 @@
   
   <entry>
     <title type="html"><![CDATA[週末買った音楽]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/25/music-20130225/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/02/25/music-20130225/"/>
     <updated>2013-02-25T03:24:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/02/25/music-20130225</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/02/25/music-20130225</id>
     <content type="html"><![CDATA[<h2><a href="https://bleep.com/release/34461">Iradelphic / Clark</a></h2>
 
 <p><img src="https://bleep.com/media/images/r/g/34461.jpg" alt="https://bleep.com/media/images/r/g/34461.jpg" /></p>

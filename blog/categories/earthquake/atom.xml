@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: earthquake | さよならインターネット]]></title>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/categories/earthquake/atom.xml" rel="self"/>
-  <link href="http://kenjiskywalker.github.com/kenjiskywalker/"/>
-  <updated>2014-12-08T21:26:25+09:00</updated>
-  <id>http://kenjiskywalker.github.com/kenjiskywalker/</id>
+  <link href="http://blog.kenjiskywalker.org//blog/categories/earthquake/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org//"/>
+  <updated>2014-12-08T21:40:22+09:00</updated>
+  <id>http://blog.kenjiskywalker.org//</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[earthquake.gemプラグイン３つ]]></title>
-    <link href="http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/10/hisaichi-tweet/"/>
+    <link href="http://blog.kenjiskywalker.org//blog/2013/07/10/hisaichi-tweet/"/>
     <updated>2013-07-10T00:07:00+09:00</updated>
-    <id>http://kenjiskywalker.github.com/kenjiskywalker/blog/2013/07/10/hisaichi-tweet</id>
+    <id>http://blog.kenjiskywalker.org//blog/2013/07/10/hisaichi-tweet</id>
     <content type="html"><![CDATA[<p><a href="http://hisaichi5518.hatenablog.jp/entry/2013/07/09/111503">Twitterで言いたいけど、言えないようなツイートを楽に言えるようにした。 - パルカワ２</a></p>
 
 <p>このearthquake.gemのpluginつくった。<br/>
