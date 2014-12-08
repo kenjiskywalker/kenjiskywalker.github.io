@@ -9,8 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="peco を利用してAWSのEC2に簡単ログイン zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。 TL;DR zsh使っててaws-cli使っていてshellscriptを利用できるなら
-aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの &hellip;">
+  <meta name="description" content="homebrewがバージョン指定してインストールできないので
+packageを作成してインストールする方法を記載します。 バージョン指定してインストールできるようにするissueとかp-rあるだろう
+と思って探してみたんですが見つからなかった。探し方が悪いかもしれない。 TL;DR &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,138 @@ aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけ�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/brew-version-specify/">Homebrewでバージョンを固定してインストールしたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T18:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>homebrewがバージョン指定してインストールできないので<br/>
+packageを作成してインストールする方法を記載します。</p>
+
+<blockquote><p>バージョン指定してインストールできるようにするissueとかp-rあるだろう<br/>
+と思って探してみたんですが見つからなかった。探し方が悪いかもしれない。</p></blockquote>
+
+<h3>TL;DR</h3>
+
+<p><code>Brewfile</code>などでバージョン指定してインストールできないので<br/>
+自分で利用したいバージョンのpackageを作成してそれをインストールする</p>
+
+<h3>Ref</h3>
+
+<p><a href="https://github.com/Homebrew/homebrew/wiki/brew-tap">brew tap - Homebrew/homebrew</a><br/>
+<a href="https://github.com/Homebrew/homebrew/wiki/Formula-Cookbook">Formula Cookbook - Homebrew/homebrew</a><br/>
+<a href="http://deeeet.com/writing/2014/05/20/brew-tap/">HomeBrewで自作ツールを配布する - SOTA</a><br/>
+<a href="http://ja.ngs.io/2014/05/08/homebrew-boxen/">Homebrew vs Boxen を比較して、brewproj に着手 - ja.ngs.io</a></p>
+
+<h3>How To</h3>
+
+<p>例えばnginxの1.2.8のバージョンを静的に指定してインストールしたい場合</p>
+
+<ol>
+<li>GitHubの自分の利用したいアカウントにて、<code>homebrew-foo</code>というリポジトリを作成する。</li>
+<li><code>brew versions nginx</code>を実行してgitのハッシュを取得する</li>
+<li><code>/usr/local/Library/</code>配下にて<em>2.</em>で取得したハッシュをcheckout</li>
+<li><code>/usr/local/Library/Formula/nginx.rb</code>を<code>homebrew-foo/nginx128.rb</code>という名前で保存</li>
+<li><p><code>nginx128.rb</code></p></li>
+<li><p>before</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Nginx &lt; Formula</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>after</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Nginx128 &lt; Formula</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のようにclass名を変更</p>
+
+<ol>
+<li><code>nginx128.rb</code> をcommitしてpush</li>
+<li><code>brew tap username/foo</code>のコマンドを発行して<code>nginx128.rb</code>を取得</li>
+<li><code>brew search nginx</code>のコマンドを発行して</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nginx          nginx128</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と出れくれば成功。</p>
+
+<ol>
+<li><code>brew install nginx128</code>のコマンドを発行してインストール</li>
+<li>nginx -v でバージョンを確認<br/>
+(/etc/pathsで/usr/bin/より先に/usr/local/bin/を見に行くようにしておく)</li>
+</ol>
+
+
+<p>上記流れで、自前のtapリポジトリを作成し、<br/>
+そこに必要な分の静的なバージョンを指定したソフトウェアの設定を格納することで<br/>
+バージョン指定がバリバリの環境も無難に構築することが可能になります。</p>
+
+<p>ちなみに既存のhomebrewでインストールしたnginxを上書きしたくない場合は<br/>
+<code>nginx128.rb</code>の中身をよしなに変更することで可能です。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>brewでバージョン固定したソフトウェアを配布しまくる雑なノウハウが溜まっていく</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/479544803370102784">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> うちは redis24.rb で class Redis24 とか雑に変えて独自の tap リポジトリにつっこんでますよ</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/statuses/479545416204025856">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 仲間!</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/statuses/479545592897490944">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2177,86 +2310,6 @@ ohai pluginについては全く知らなかったので、目からウロコで
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/21/shikinensengoo-infrastractor-blue-green-deployment/">式年遷宮インフラストラクチャについて</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T01:53:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>参考エントリ</h2>
-
-<h5><a href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h5>
-
-<h5><a href="http://blog.kentarok.org/entry/2014/03/15/224227">「技術的負債」を問いなおす」というタイトルでJAWS DAYS 2014で話してきた - delirious thoughts</a></h5>
-
-<h2>どうでもいいこと</h2>
-
-<p>世界的な表現で言う<a href="http://martinfowler.com/bliki/BlueGreenDeployment.html">BlueGreenDeployment</a>について気付いたことがあったのでメモ。<br/>
-式年遷宮が行われた2013年の当日のメンテナンス時間について調べてみた。</p>
-
-<ul>
-<li><p>皇大神宮
-10月2日　午後1時から翌3日午前5時</p></li>
-<li><p>豊受大神宮
-10月5日　午後1時から翌6日午前5時</p></li>
-</ul>
-
-
-<p>16hour x 2days ということだったらしい。<br/>
-この間は神様もお休みしていたのだ。</p>
-
-<p>これを稼働率で計算すると</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>24(hour) * 365(days) * 20(years) = 175,200
-</span><span class='line'>(16hour * 2days)       / 175,200 = 0.0001826484
-</span><span class='line'>100 - 0.0001826484               = 99.9998173516</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>99.9998%</strong>の稼働率となる。わけはなく<br/>
-そもそも24時間稼働しているわけではないのでそんな計算は成り立たない。</p>
-
-<p>何が言いたいのかというと、ガチで毎日切り替わるような<br/>
-BlueGreenDeploymentなシステムをつくるなら<br/>
-少なくとも毎日アクセスの少ない30分ぐらいはダウンしてても良いのではないか。<br/>
-それぐらい許容しないで運用でカバーするのは大変なんじゃないかと思った。</p>
-
-<p>何でもかんでもノンストップのコストって結構あるよなって感じるけど<br/>
-実際はどうなんだろ。神様も儀式立てて切り替えているんだし<br/>
-その辺インターネットのシステムも儀式立てて本番環境切り替えた方が良いのではないか。</p>
-
-<p>なんてことを日本酒飲みながら考えていたりした。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="5">&larr; Older</a>
@@ -2274,6 +2327,10 @@ BlueGreenDeploymentなシステムをつくるなら<br/>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
       </li>
     
@@ -2287,10 +2344,6 @@ BlueGreenDeploymentなシステムをつくるなら<br/>
     
       <li class="post">
         <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
       </li>
     
   </ul>

@@ -9,14 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="新しくグループとかつくる時に
-アラートメールの送り先の設定項目多くて毎回忘れるのでメモ ユーザつくる
-ユーザのメディアにアラート通知先登録する
-ユーザグループつくる
-ユーザグループにユーザ入れる
-ホストつくる
-ホストグループつくる
-ホストグループにホスト入れる &hellip;">
+  <meta name="description" content="色々とあれだったのでシンプルにキメうちにしました
+thanks: @sawanoboly
+update: 2013/03/22 環境 Redis version 2.6.7 Redis Sentinelは Monitoring 、 Notification 、Automatic failover &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +77,114 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
+</span><span class='line'>sentinel down-after-milliseconds check_one 5000
+</span><span class='line'>sentinel failover-timeout check_one 50000
+</span><span class='line'>sentinel can-failover check_one yes
+</span><span class='line'>sentinel parallel-syncs check_one 1
+</span><span class='line'>
+</span><span class='line'>daemonize yes
+</span><span class='line'>pidfile /var/run/redis-sentinel.pid
+</span><span class='line'>loglevel notice
+</span><span class='line'>logfile /var/log/redis-sentinel.log
+</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
+
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -872,93 +975,6 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/14/otona/">大人</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-14T21:24:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>大人とは〜みたいなの昔よく考えてて<br/>
-「子供は自分の意見を言うだけの人」<br/>
-「大人は自分の意見と相手の意見をすり合わせられる人」<br/>
-っていうことを考えてた。</p>
-
-<p>最近とくに自分の足りないところとか考えてて<br/>
-何かの事象が起こった時に感情的に支配されて、<br/>
-それは勝手に自分がその対象にとらわれてしまっていて<br/>
-そうすると、俯瞰でものが見れなくなって<br/>
-ちゃんとした判断が行えなくなるみたいなの思ってる。</p>
-
-<p>そういう話は<a href="http://www.amazon.co.jp/gp/product/4192422115/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=247&amp;creative=1211&amp;creativeASIN=4192422115&amp;linkCode=as2&amp;tag=13nightcrows-22" title="">不動智神妙録</a>に載ってて<br/>
-例えば、電車が来た時に降りる人がまだいるのに急いで自分の席を確保する人とか<br/>
-その人がいないところでその人の悪口言ってる人とか<br/>
-なんでそういうことするのかなーって思うんだけど、<br/>
-そういうことする人の気が知れん！ってなると、もうそこで<br/>
-理解することを止めちゃって、憎悪の対象になっちゃって<br/>
-結局とらわれることになるのかなって思う。</p>
-
-<p>例えばの話だけど、なんでそういうことするのかなーって思った時に<br/>
-その事象の背景にどんなことがあるのかっていうのを考えると<br/>
-その瞬間の出来事にとらわれることはないのかなって思う。</p>
-
-<p>まだ降りる人がいるのに自分の席確保しようと急いで乗っちゃう人、<br/>
-今まで南米の貧しい町にずっと住んでて、自分でどうにかしないと<br/>
-生きていけないようなサバイブしてきた人なのでは？とか考えると</p>
-
-<p>その町ではゆずりあってなんかいたらメシがなくなるとか<br/>
-電車の座席ひとつで生きるか死ぬかみたいなことまで発展するような<br/>
-そんな世界でどうにか生きてきた場合、多分ゆずりあいとかむずかしいと思う。</p>
-
-<p>本当はそういう事象が発生した時に<br/>
-走馬灯みたいにその人のバックグラウンドみたいなのが<br/>
-一瞬で見れれば、あーそっか、そういう背景があるのか！<br/>
-みたいになれば納得できると思う。<br/>
-まぁ背景みて余計にイライラするかもしれないけど</p>
-
-<p>取り敢えず起こった事象だけを見てあーだこーだ言うことは少なくなると思う。</p>
-
-<p>その発生した事象の背景まで想像して、なるべく理解しようとつとめて<br/>
-ものごとを客観視できれば、色々と見えてくるものもあるだろうし<br/>
-もしかしたらその対象が人だったりしたら、何かアドバイスとかできるかもしれない。</p>
-
-<p>大人っていうのは、自分の意見を通すことに政治力磨くこととか、<br/>
-争いに勝つとか、よく金を稼ぐとか、そういうことじゃなくて<br/>
-ある事象に対してよく理解して、みんながなるべくしあわせになれるように<br/>
-ものごとをすすめられる人だと思う。</p>
-
-<p>ここまで読んでもしかして&hellip;って思った人、勘がいいですね！<br/>
-そう！残念！大人ではなく解脱の話でした！</p>
-
-<p>ｳｪｰｲ</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="19">&larr; Older</a>
@@ -976,6 +992,10 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
       </li>
     
@@ -989,10 +1009,6 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
     
       <li class="post">
         <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
       </li>
     
   </ul>

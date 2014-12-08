@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Twitterの過去ログが落とせるようになったので
-SQLに学ぶには丁度いいや。ということで
-カジュアルにOSX上でhomebrewを使ってMySQLに入れてみました。 MySQL ver.5.6 (homebrew install)
-OS / OSX 10.8.3 &hellip;">
+  <meta name="description" content="MySQL Casual Talks vol.4で話してみて
+ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。 再来週のオレが今のオレよりもう少し有意義な情報を持ち合わせているようにしたい。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,111 @@ OS / OSX 10.8.3 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/08/sql-create-howto/">tweets.zipを読みこませるSQLを書いた時のメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://atnd.org/events/38091">MySQL Casual Talks vol.4</a>で話してみて<br/>
+ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて<br/>
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。</p>
+
+<p>再来週のオレが今のオレよりもう少し有意義な情報を持ち合わせているようにしたい。</p>
+
+<p>この前<a href="http://blog.kenjiskywalker.org/blog/2013/04/04/tweets_zip_big_data/">tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編)</a>というのを書いて<br/>
+ホッテントリー入ったねとか、何回もブクマ数数えたでしょ？とか<br/>
+コンテンツ力高いとか、正直中身ないでしょアレとか。色々言われたんだけど<br/>
+SQLをはじめて作成するにあたって勉強になったので、その時のメモ</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/data-type-defaults.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.1 データタイプ概要 :: 10.1.4 データタイプデフォルト値</a></h4>
+
+<p>TEXTタイプでは<code>NOT NULL</code>が使えない</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/numeric-types.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.2. 数値タイプ</a></h4>
+
+<p>必要な数値タイプのバイト数の参考</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/storage-requirements.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.5 データタイプが必要とする記憶容量</a></h4>
+
+<p>VARCHAR(255)が1バイトで、VARCHAR(256)で2バイト
+utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とかはutf8mb4</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/char.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.4 文字列タイプ :: 10.4.1 CHAR と VARCHAR タイプ</a></h4>
+
+<p>参考程度</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1-olh/ja/datetime.html">MySQL 5.1 リファレンスマニュアル (オンラインヘルプ) :: 6 データ型 :: 6.3 日付と時刻型 :: 6.3.1 DATETIME、DATE、そして TIMESTAMP 型</a></h4>
+
+<p>日付と時刻を入れる時の適切なタイプについての確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
+</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
+</span><span class='line'>  `source` VARCHAR(255),
+</span><span class='line'>  `text` VARCHAR(140),
+</span><span class='line'>  `expanded_urls` VARCHAR(255),
+</span><span class='line'>  PRIMARY KEY (id) )
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>UNSIGED</code> = 符号なしで正の値のみを扱う</li>
+<li><code>VARCHAR(140)</code> = VARCHAR(n)は文字数。Twitterは140文字制限なので140決め打ちでイケる</li>
+<li><code>VARCHAR(255)</code> = マルチバイト文字列が入らず、255文字以内であれば1byteで済むので(255)</li>
+<li><code>TIMESTAMP</code> = <code>2013-03-13 08:52:14 +0000</code>を<code>2013-03-13 08:52:14 +0900</code>としても型自体が<code>YYY-MM-DD HH:MM:SS</code>しかサポートしていない為、その後のGMTの指定は破棄されたことを確認</li>
+</ul>
+
+
+<p>ジャンパーソンみたいにMySQLのオフィシャルのリファレンスぺら読みしただけで<br/>
+全部の内容を記憶できる能力あったら便利っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1542,114 +1646,6 @@ webadmin使えばNetworkの設定追加する時も再起動なしでいける�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
-thanks: @sawanoboly<br/>
-update: 2013/03/22</p></blockquote>
-
-<h4>環境</h4>
-
-<blockquote><p>Redis version 2.6.7</p></blockquote>
-
-<p>Redis Sentinelは
- <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
-の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
-その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
-
-<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
-
-<hr />
-
-<p><del>事前情報</del></p>
-
-<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
-
-<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
-</span><span class='line'>sentinel down-after-milliseconds check_one 5000
-</span><span class='line'>sentinel failover-timeout check_one 50000
-</span><span class='line'>sentinel can-failover check_one yes
-</span><span class='line'>sentinel parallel-syncs check_one 1
-</span><span class='line'>
-</span><span class='line'>daemonize yes
-</span><span class='line'>pidfile /var/run/redis-sentinel.pid
-</span><span class='line'>loglevel notice
-</span><span class='line'>logfile /var/log/redis-sentinel.log
-</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
-
-
-<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
-
-<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
-<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
-<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
-
-<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
-
-<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
-<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
-<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
-<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
-<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
-
-<p><del>## 対策？  </del><br/>
-<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
-<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
-<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
-<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
-<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
-<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
-<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
-<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
-<del>って話をしてました。</del><br/>
-<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
-<del></del></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="18">&larr; Older</a>
@@ -1667,6 +1663,10 @@ update: 2013/03/22</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
       </li>
     
@@ -1680,10 +1680,6 @@ update: 2013/03/22</p></blockquote>
     
       <li class="post">
         <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a>
       </li>
     
   </ul>
