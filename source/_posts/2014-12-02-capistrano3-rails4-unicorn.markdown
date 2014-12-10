@@ -54,6 +54,9 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 
 汎用的な設定はここに書くのかな
 
+
+
+
 ```
 lock '3.3.3'
 
@@ -145,6 +148,12 @@ end
 ### Capfile
 
 consoleとbundlerとunicornを有効化
+
+bundlerのモジュール、便利だけどデフォルトで
+
+> set :bundle_without, %w{development test}.join(' ')
+
+と設定されているのでdevelopmentの状態で開発サーバでbundle installとかすると割とハマる
 
 ```
 # Load DSL and Setup Up Stages
