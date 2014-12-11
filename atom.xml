@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2014-12-08T23:56:53+09:00</updated>
+  <updated>2014-12-11T21:21:05+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -289,6 +289,12 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 <h3>Capfile</h3>
 
 <p>consoleとbundlerとunicornを有効化</p>
+
+<p>bundlerのモジュール、便利だけどデフォルトで</p>
+
+<blockquote><p>set :bundle_without, %w{development test}.join(&lsquo; &rsquo;)</p></blockquote>
+
+<p>と設定されているのでdevelopmentの状態で開発サーバでbundle installとかすると割とハマる</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

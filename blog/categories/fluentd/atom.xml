@@ -4,7 +4,7 @@
   <title><![CDATA[Category: fluentd | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/fluentd/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2014-12-08T23:56:53+09:00</updated>
+  <updated>2014-12-11T21:21:05+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -611,7 +611,7 @@ Zabbixで取得したら面白いかなというアイデアが思いついた�
 <h1>作成編</h1>
 
 <p>事前にtestが通るまでのものは<br/>
-<a href="http://blog.kenjiskywalker.org:8080/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
+<a href="http://blog.kenjiskywalker.org/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
 
 <p>本来はもっとスマートな作り方があるのでしょうが、<br/>
 私は基本的にこの流れで行いました。</p>
