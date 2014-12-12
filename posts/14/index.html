@@ -9,11 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="メモリの相性とか都市伝説だと思っていたけど
-元同僚のミャンマー人の人からもらった新品のADATAのメモリ
-差し込むとうんともすんとも言わなくなった。 メモリほしいなー程度だったんだけど
-そのもらった4GB x2が動かなかったおかげで
-今刺さってるCFDのメモリ4GB x2と全く同じもの買った。 &hellip;">
+  <meta name="description" content="GitHub Yokohama Drinkup @soh335と、@handlenameと行ってきた。
+お店の前でモジモジしてたらお店の人に中どうぞ。って言われて
+中入ってモジモジしてたら写真の真ん中で座ってる人にヤア！って声かけられて
+@soh335がbeer!って言って、どうぞどうぞ。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,69 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/22/github-drinkup-yokohama/">GitHub Yokohama Drinkupに遊びに行ってきた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-22T23:17:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/blog/1599-cedec-yokohama-drinkup">GitHub Yokohama Drinkup</a></h2>
+
+<p>@soh335と、@handlenameと行ってきた。<br/>
+お店の前でモジモジしてたらお店の人に中どうぞ。って言われて<br/>
+中入ってモジモジしてたら写真の真ん中で座ってる人にヤア！って声かけられて<br/>
+@soh335がbeer!って言って、どうぞどうぞ。って言ってくれた。<br/>
+さて、どうするかな。って見回してたら@sora_h君と思われる人物に<br/>
+ワッペン付けないと無料にならないよ。って教えてもらって<br/>
+ありがとう！って言ってビール飲んだりサーモンとかパエリアくったりした。</p>
+
+<p>GitHub社の人たくさん来てたのに<br/>
+あんまり人いなくてもったいなかった。<br/>
+もったいなかったって言っても<br/>
+内輪とグリーの人とかと話してただけで<br/>
+GitHub社の人と話さなかった。<br/>
+英語で話せるようになった方が良いなって思った。</p>
+
+<p>話せる話せないじゃなくて話すか話なさないかだけど。<br/>
+ギットハブいつも使ってるよ、ありがとう。<br/>
+今日は🍻ごちそうになるね！ぐらいのことは言いたいもんスね。</p>
+
+<iframe src="//instagram.com/p/dUQryxpqnF/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+
+
+<p></p>
+
+<p>I really enjoyed the beer!<br/>
+Thank you GitHub!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -857,81 +919,6 @@ hosts,status,get,list,この辺汎用的な名前付けがちなのでわかり�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/31/serverspec-attribute/">Serverspecでchefのjsonを読み込む</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-31T09:48:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>2013/12/25 update</p></blockquote>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a>の続きみたいなものですが<br/>
-Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって<br/>
-テスト対象が変化する場合があるかと思います。<br/>
-その場合、<a href="http://serverspec.org/">serverspec</a>にはpropertyの機能があるのでそれを利用します。</p>
-
-<h2>spec/spec_helper.rb</h2>
-
-<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p><code>set_property</code>の項目を追加します。</p>
-
-<h2>nodes/host.json</h2>
-
-<div><script src='https://gist.github.com/6118553.js?file=nodes_host.json'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>こんな感じでこのMySQLはSlaveですみたいなフラグがあって</p>
-
-<h2>cookbooks/mysql/templates/default/my.cnf.erb</h2>
-
-<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_templates_default_my.cnf.erb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>こんなテンプレートがあったら</p>
-
-<h2>cookbooks/mysql/spec/is_slave_spec.rb</h2>
-
-<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_spec_is_slave_spec.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>このように<code>property["mysql"]["is_slave"]</code>として値を利用することができます。</p>
-
-<blockquote><p>specファイル、<code>if ~ end</code>で囲ってるのがモサいので、良案をお待ちしております</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="15">&larr; Older</a>
@@ -949,6 +936,10 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -962,10 +953,6 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
     
       <li class="post">
         <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
       </li>
     
   </ul>

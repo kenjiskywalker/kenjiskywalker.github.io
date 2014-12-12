@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2014-12-11T21:21:05+09:00</updated>
+  <updated>2014-12-12T23:43:33+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[fluentdを利用してsshログインを通知する]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/12/12/login-notification/"/>
+    <updated>2014-12-12T22:53:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/12/12/login-notification</id>
+    <content type="html"><![CDATA[<p>sshを利用していると招かれざる客の来訪が多い。<br/>
+また、サーバに不必要にログインしている関係者がいないか<br/>
+把握しつづけるのも難しい。</p>
+
+<p>今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。</p>
+
+<h2>準備</h2>
+
+<p><code>/var/log/secure</code>はパーミッションが厳しいので<br/>
+y-kenさんのブログを参考にパーミッションを変更する必要があります。</p>
+
+<ul>
+<li><a href="http://y-ken.hatenablog.com/entry/fluentd-syslog-permission">Fluentdでsyslogを取り込むための権限設定（CentOS 5&amp;6両対応） - Y-Ken Studio</a></li>
+</ul>
+
+
+<p>SlackのAPIがバージョンアップしてリアルタイム性を持つようになった。</p>
+
+<ul>
+<li><a href="http://slackhq.com/post/104688116560/rtm-api">A new Slack API: The inevitable rise of the bots Bots</a></li>
+</ul>
+
+
+<p>個人的にはリアルタイム性よりも<br/>
+private roomでもhubotが利用できるようになったのいうのがアツい。<br/>
+これで色々遊べるようになる。</p>
+
+<ul>
+<li><a href="https://github.com/sowawa/fluent-plugin-slack">fluent-plugin-slack</a></li>
+</ul>
+
+
+<p>手元で<code>endpoint</code>を変更して動くようになった。みんな普通に動いているのかな</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private
+</span><span class='line'>def endpoint
+</span><span class='line'>  # URI.parse "https://#{@team}.slack.com/services/hooks/incoming-webhook?token=#{@api_key}"
+</span><span class='line'>  URI.parse "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Real Time Messagingを利用するためには</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX&channel=XXXXXXXXX&text=XXXXX&username=XXXXX'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにリクエストを送る必要がある。<br/>
+時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
+
+<p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
+
+<h2>設定</h2>
+
+<ul>
+<li>/etc/td-agent/td-agent.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type tail
+</span><span class='line'>  path /var/log/secure
+</span><span class='line'>  format syslog
+</span><span class='line'>  tag secure_log
+</span><span class='line'>  pos_file /var/log/td-agent/syslog_secure.pos
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match secure_log.**&gt;
+</span><span class='line'>  type grep
+</span><span class='line'>  input_key message
+</span><span class='line'>  regexp Accepted|failure|Invalid
+</span><span class='line'>  add_tag_prefix greped
+</span><span class='line'>&lt;/match&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match greped.**&gt;
+</span><span class='line'>  type buffered_slack
+</span><span class='line'>  api_key API_KEY
+</span><span class='line'>  team TEAMNAME
+</span><span class='line'>  channel %23general # You should use %23 in return for #
+</span><span class='line'>  username fluentd
+</span><span class='line'>  color danger
+</span><span class='line'>  icon_emoji :shit:
+</span><span class='line'>  buffer_path /var/log/td-agent/buffer/
+</span><span class='line'>  flush_interval 5s
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<code>Accepted</code>、<code>failure</code>、<code>Invalid</code>の文字列を<br/>
+sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep">fluent-plugin-grep</a>を利用して抽出。</p>
+
+<p>そうすると</p>
+
+<p><img src="http://i.gyazo.com/00260a2b25dfbfb9b55f00eb1b20ca05.png" alt="" /></p>
+
+<p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
+このような設定を入れておくと良いのではないでしょうか。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[不快な広告と不快ではない広告]]></title>
@@ -2377,40 +2512,6 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
 
 
 <p>コマンド名自体が短いからササッと確認するのには良さそう</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[hubot-atというhubot pluginをつくった]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/09/04/hubot-at/"/>
-    <updated>2014-09-04T14:22:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/09/04/hubot-at</id>
-    <content type="html"><![CDATA[<p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
-hubotに持ってきました。</p>
-
-<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
-
-<p>というように</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
-
-<p>元々taiyohさんが</p>
-
-<ul>
-<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
-</ul>
-
-
-<p>にて書いてくれていたので、それを踏襲しています。<br/>
-ありがとうございます。</p>
-
-<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
 ]]></content>
   </entry>
   

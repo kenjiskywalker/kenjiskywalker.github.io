@@ -9,28 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="TL;DR Ansibleを利用したからって複雑な処理がシンプルになるわけではない 1st 対象のサーバに何か設定をする必要はないので
-このように少量のコードでやりたいことが実現できる。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21 &hellip;">
+  <meta name="description" content="Docker v1.3
+fig 1.0.0 TL;DR OS XでDockerコンテナを操作するのが手間だったけどfigを使えば解決した.
+OS Xで本番環境と同じような環境をつくりたくてboot2docker + figを利用した 目を通しておいてもらいたい最高のエントリー Docker1.3版 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +75,418 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/25/osx-fig-docker-access-container/">OS Xでfigを利用してDockerのコンテナを操作する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-25T21:38:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Docker v1.3<br/>
+fig 1.0.0</p></blockquote>
+
+<h2>TL;DR</h2>
+
+<p>OS XでDockerコンテナを操作するのが手間だったけどfigを使えば解決した.<br/>
+OS Xで本番環境と同じような環境をつくりたくてboot2docker + figを利用した</p>
+
+<h2>目を通しておいてもらいたい最高のエントリー</h2>
+
+<p><a href="http://qiita.com/toritori0318/items/190fd2dad2bf3ce38b88">Docker1.3版 boot2docker+fig入門 - Qiita</a><br/>
+<a href="http://deeeet.com/writing/2014/10/08/boot2docker-guest-additions/">boot2dockerでのVolume問題が解決しそう | SOTA</a></p>
+
+<h2>必要なもの</h2>
+
+<ul>
+<li><a href="http://boot2docker.io/">boot2docker</a></li>
+<li><a href="http://www.fig.sh/">fig</a></li>
+</ul>
+
+
+<h2>fig</h2>
+
+<p>OS Xでは、Docker containerにアクセスするまでに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; boot2docker -&gt; docker container</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>boot2dockerを一旦挟まなければならなかった.<br/>
+これをfigを利用することで、透過的に</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OS X -&gt; docker container</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>このようにアクセスしているかのようにラッピングができる</p>
+
+<h2>update 2014/10/27</h2>
+
+<p>完全に勘違い！OS Xでも普通に<code>docker</code>コマンド使えます.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ boot2docker ssh
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などと操作しなくても<a href="https://github.com/docker/docker/blob/master/CHANGELOG.md#073-2014-01-02">0.7.3</a>の頃から<br/>
+DockerはOS Xに対応していて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ docker build .</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにログインせずともTiny Core Linuxのリモートクライアントとして<br/>
+コマンドを発行できた.全然アップデート見てないことがバレた〜</p>
+
+<p>Thanks <a href="http://deeeet.com/writing/2014/10/08/boot2docker-guest-additions/">@deeeet</a>!!!</p>
+
+<h3>figとは</h3>
+
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>とのことです.わかりやすい.</p>
+
+<h3>figを利用しない場合</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ docker build .
+</span><span class='line'>$ docker run -p 3000:3000 8c6d6a1339b6 bundle exec rackup -p 3000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のような操作で起動できる.</p>
+
+<h2>figをどのように使うか</h2>
+
+<p>とあるRailsのアプリケーションがあった時に、そのアプリケーションを<br/>
+Docker containerで透過的に操作する為にどのようなことが必要なのかの例</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>├── Gemfile
+</span><span class='line'>├── Gemfile.lock
+</span><span class='line'>├── README.rdoc
+</span><span class='line'>├── Rakefile
+</span><span class='line'>├── app
+</span><span class='line'>├── bin
+</span><span class='line'>├── build
+</span><span class='line'>├── config
+</span><span class='line'>├── config.ru
+</span><span class='line'>├── db
+</span><span class='line'>├── lib
+</span><span class='line'>├── log
+</span><span class='line'>├── myapp
+</span><span class='line'>├── public
+</span><span class='line'>├── test
+</span><span class='line'>├── tmp
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このようにRailsアプリケーションのディレクトリに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>├── Dockerfile
+</span><span class='line'>├── Gemfile
+</span><span class='line'>├── Gemfile.lock
+</span><span class='line'>├── README.rdoc
+</span><span class='line'>├── Rakefile
+</span><span class='line'>├── app
+</span><span class='line'>├── bin
+</span><span class='line'>├── build
+</span><span class='line'>├── config
+</span><span class='line'>├── config.ru
+</span><span class='line'>├── db
+</span><span class='line'>├── fig.yml
+</span><span class='line'>├── lib
+</span><span class='line'>├── log
+</span><span class='line'>├── myapp
+</span><span class='line'>├── public
+</span><span class='line'>├── test
+</span><span class='line'>├── tmp
+</span><span class='line'>└── vendor</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Dockerfile</code>と<code>fig.yml</code>を置く</p>
+
+<ul>
+<li>Dockerfile</li>
+</ul>
+
+
+<p>日本に住む人々は魂をRedHatに引かれてUbuntuを利用しにくいので<br/>
+CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsqliteも入っている)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ruby-sqlite:ruby213
+</span><span class='line'>
+</span><span class='line'>WORKDIR /tmp
+</span><span class='line'>ADD Gemfile Gemfile
+</span><span class='line'>ADD Gemfile.lock Gemfile.lock
+</span><span class='line'>RUN bundle install
+</span><span class='line'>
+</span><span class='line'>RUN mkdir /myapp
+</span><span class='line'>WORKDIR /myapp
+</span><span class='line'>ADD . /myapp</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>fig.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>web:
+</span><span class='line'>  build: .
+</span><span class='line'>  command: bundle exec rackup -p 3000
+</span><span class='line'>  volumes:
+</span><span class='line'>    - .:/myapp
+</span><span class='line'>  ports:
+</span><span class='line'>    - "3000:3000"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この状態で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker up
+</span><span class='line'>$ fig up</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とコマンドを発行し</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ boot2docker ip
+</span><span class='line'>
+</span><span class='line'>The VM's Host only interface IP address is: 192.168.59.103
+</span><span class='line'>
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で利用しているIPアドレスを確認して</p>
+
+<p><code>http://192.168.59.103:3000/</code>にアクセスすると<br/>
+コンテナ上で起動しているアプリケーションにアクセスすることができる.</p>
+
+<h2>手元のデータベース・サーバで何を選択するか</h2>
+
+<p>development環境がsqlite3を利用する設定であれば<br/>
+データベースのミドルウェアを立ち上げる必要はないので<br/>
+1コンテナで完結するのでこの方法が利用できます.</p>
+
+<ul>
+<li>config/database.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+</span><span class='line'>  adapter: sqlite3
+</span><span class='line'>  database: db/development.sqlite3
+</span><span class='line'>  pool: 5
+</span><span class='line'>  timeout: 5000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>しかし、裏側にMySQLを利用する場合は</p>
+
+<ul>
+<li>fig.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>db:
+</span><span class='line'>  image: mysql
+</span><span class='line'>  environment:
+</span><span class='line'>    MYSQL_ROOT_PASSWORD: "pass"
+</span><span class='line'>  ports:
+</span><span class='line'>    - "3306"
+</span><span class='line'>
+</span><span class='line'>web:
+</span><span class='line'>  build: .
+</span><span class='line'>  command: bundle exec rackup -p 3000
+</span><span class='line'>  volumes:
+</span><span class='line'>    - .:/myapp
+</span><span class='line'>  ports:
+</span><span class='line'>    - "3000:3000"
+</span><span class='line'>  links:
+</span><span class='line'>    - db
+</span><span class='line'>  environment:
+</span><span class='line'>    DB_HOST: db</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>config/database.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development: &default
+</span><span class='line'>  adapter: mysql2
+</span><span class='line'>  encoding: utf8
+</span><span class='line'>  pool: 5
+</span><span class='line'>  database: mysql
+</span><span class='line'>  username: root
+</span><span class='line'>  password: 'pass'
+</span><span class='line'>  host: &lt;%= ENV['DB_HOST'] %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このようにデータベースサーバ用コンテナの設定をRails側に記載しなければならない.</p>
+
+<p>アプリケーションもデータベースもsupervisorなどで動くコンテナを<br/>
+作成すれば良いのではないか、という話になるが、<br/>
+本番サーバも同じようにsupervisorを利用しているならまだしも<br/>
+手元でのテストをするためだけに専用のコンテナを用意するのは<br/>
+本質的ではない気がします.</p>
+
+<blockquote><p>今書いていて、supervisorで色々上げるコンテナ用意するのは<br/>
+それはそれでいいかもしれないという気がしてきた</p></blockquote>
+
+<h2>まとめ</h2>
+
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/deeeet">@deeeet</a> <a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> fig、foremanとかprocletに近い用途なイメージあります</p>&mdash; ゆううき (@y_uuk1) <a href="https://twitter.com/y_uuk1/status/526631144335233025">October 27, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>です.</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://qiita.com/toritori0318/items/190fd2dad2bf3ce38b88">Docker1.3版 boot2docker+fig入門 - Qiita</a> アルパカさんの最高のまとめ</li>
+<li><a href="http://www.fig.sh/rails.html">Getting started with Fig and Rails - fig</a></li>
+<li><a href="http://blog.docker.com/2014/10/fig-1-0-boot2docker-compatibility-and-more/">Fig 1.0: boot2docker compatibility and more | Docker Blog</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1295,67 +1688,6 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/04/hubot-at/">Hubot-atというhubot Pluginをつくった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-04T14:22:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
-hubotに持ってきました。</p>
-
-<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
-
-<p>というように</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
-
-<p>元々taiyohさんが</p>
-
-<ul>
-<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
-</ul>
-
-
-<p>にて書いてくれていたので、それを踏襲しています。<br/>
-ありがとうございます。</p>
-
-<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="3">&larr; Older</a>
@@ -1373,6 +1705,10 @@ hubotに持ってきました。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -1386,10 +1722,6 @@ hubotに持ってきました。</p>
     
       <li class="post">
         <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
       </li>
     
   </ul>

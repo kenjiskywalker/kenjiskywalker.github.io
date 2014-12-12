@@ -9,9 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="色々とあれだったのでシンプルにキメうちにしました
-thanks: @sawanoboly
-update: 2013/03/22 環境 Redis version 2.6.7 Redis Sentinelは Monitoring 、 Notification 、Automatic failover &hellip;">
+  <meta name="description" content="ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom&rsquo;s blog. インターネットそんなに古くからやってないのでlingrとかあんまり知らなかったけど
+面白そうだから入ってみた。ブラウザでログインとかしたくなかったので psychs/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +74,115 @@ update: 2013/03/22 環境 Redis version 2.6.7 Redis Sentinelは Monitoring 、 N
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/znc-to-lingr/">ZNCでlingr-ircに接続する設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T00:25:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom&rsquo;s blog.</a></p>
+
+<p>インターネットそんなに古くからやってないのでlingrとかあんまり知らなかったけど<br/>
+面白そうだから入ってみた。ブラウザでログインとかしたくなかったので</p>
+
+<p><a href="https://github.com/psychs/lingr-irc">psychs/lingr-irc</a></p>
+
+<p>使って</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nohup ruby lig.rb &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかユルフワな感じでふぉわーどするようにしてる。<br/>
+長く動かすようだとdaemontools化した方が良い。<br/>
+今ならtokuhiromさんがつくったPerlバージョンの</p>
+
+<p><a href="https://github.com/tokuhirom/lingr-ircd">tokuhirom/lingr-ircd</a></p>
+
+<p>こっち使ってもいいかもしれない。</p>
+
+<blockquote><p>あとずっとハマってたのが、アカウントつくってIRCでつなげねー！<br/>
+ってなってたけど、1回ルームに入ってからじゃないとダメだった。</p></blockquote>
+
+<p>どうせならZNCで繋ぎたかったのでこんな感じでつないでる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;Network lingr&gt;
+</span><span class='line'>            FloodBurst = 4
+</span><span class='line'>            FloodRate = 1.00
+</span><span class='line'>            IRCConnectEnabled = true
+</span><span class='line'>            Ident = [lingr account name]
+</span><span class='line'>            RealName = hotoke
+</span><span class='line'>            Server = 127.0.0.1 26667 [lingr password]
+</span><span class='line'>
+</span><span class='line'>            &lt;Chan #perl_jp&gt;
+</span><span class='line'>                    Buffer = 10
+</span><span class='line'>            &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Ident</strong> にlingrのユーザ名入れて<br/>
+<strong>Server</strong> で指定するパスワードにlingr userのパスワード設定するだけだった。<br/>
+webadmin使えばNetworkの設定追加する時も再起動なしでいけるしすごい良い。</p>
+
+<p>ずっとwebadmin見れないなーって思ってたら<br/>
+@handlename先輩が「Chromeでは見れないよ」って<br/>
+アドバイスくれて、さすがオレたちのhandle先輩！ってなってた。</p>
+
+<p>ChromeだとブラウザでIRCポートとか接続しに行くと良くないアクセスみたいな判断して<br/>
+遮断しちゃうみたい。Firefoxだと開けた。この辺細かい情報は調べてない。</p>
+
+<p>調べてないって書いたらひろせおじさんがエントリー書いてくれた</p>
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/hirose31/20130327/1364362758">ChromeでへんてこなポートにHTTPで繋ぎたい / (ひ)メモ</a></li>
+</ul>
+
+
+<p>hirose31++</p>
+
+<p>祝日なのにインターネットに関わってて体調悪くなってる。<br/>
+休肝日みたいな感じで休インターネット日みたいなの必要っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -920,59 +1028,6 @@ CloudWatchでデータ取るなら自分でメトリクスつくらないとダ�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/15/rds-tarinai/">AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-15T13:21:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
-
-<p>こんなエラーが出た。</p>
-
-<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
-must exist in availability zones with sufficient capacity for
-VPC and provisioned IOPS for db.m1.small,<br/>
-so 1 more must be created in other availability zones;
-choose from these availability zones: ap-northeast-1c.</p></blockquote>
-
-<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
-<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
-
-<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
-Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
-缶コーヒーでもおごってあげたい気持ちになりました。</p>
-
-<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="19">&larr; Older</a>
@@ -990,6 +1045,10 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -1003,10 +1062,6 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
     
       <li class="post">
         <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
       </li>
     
   </ul>

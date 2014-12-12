@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="最近宮古島行ってきたのでおすすめ情報載せますね。 レンタカー 島１周するのに２時間もあれば周れるので、レンタカーおすすめします。
-伊良部島行きたい場合はレンタカーに確認しておいた方が良いです。
-沖縄本島と比べると日差しが全然違うので
-歩いてとか移動するとだいぶつらいと思う。 &hellip;">
+  <meta name="description" content="2013/12/25 update Testing #chef Cookbook by #serverspec #devopsの続きみたいなものですが
+Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって
+テスト対象が変化する場合があるかと思います。
+その場合、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/31/serverspec-attribute/">Serverspecでchefのjsonを読み込む</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T09:48:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>2013/12/25 update</p></blockquote>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a>の続きみたいなものですが<br/>
+Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって<br/>
+テスト対象が変化する場合があるかと思います。<br/>
+その場合、<a href="http://serverspec.org/">serverspec</a>にはpropertyの機能があるのでそれを利用します。</p>
+
+<h2>spec/spec_helper.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p><code>set_property</code>の項目を追加します。</p>
+
+<h2>nodes/host.json</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=nodes_host.json'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じでこのMySQLはSlaveですみたいなフラグがあって</p>
+
+<h2>cookbooks/mysql/templates/default/my.cnf.erb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_templates_default_my.cnf.erb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなテンプレートがあったら</p>
+
+<h2>cookbooks/mysql/spec/is_slave_spec.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_spec_is_slave_spec.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>このように<code>property["mysql"]["is_slave"]</code>として値を利用することができます。</p>
+
+<blockquote><p>specファイル、<code>if ~ end</code>で囲ってるのがモサいので、良案をお待ちしております</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1077,83 +1152,6 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/18/reserved-instances/">AWSのリザーブドインスタンスについて理解していなかったので理解した</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-18T15:21:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="http://aws.amazon.com/jp/ec2/reserved-instances/">Amazon EC2 リザーブドインスタンス</a></h2>
-
-<p>先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで<br/>
-割り引いてもらえるサービス。</p>
-
-<p>詳しくはこちら</p>
-
-<h4><a href="http://aws.typepad.com/aws_japan/2011/12/additional-reserved-instance-options-for-amazon-ec2-.html">【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加</a></h4>
-
-<p>古い情報なので値段など変更されている場合があるので<br/>
-あくまで参考までに。</p>
-
-<h4>リザーブドインスタンスの種類</h4>
-
-<ul>
-<li>軽度使用(Light)  RI</li>
-<li>中度使用(Medium) RI</li>
-<li>重度使用(Heavy)  RI</li>
-</ul>
-
-
-<h4>何が違うの？</h4>
-
-<blockquote><p>15%以下:          オンデマンドインスタンス<br/>
-15% - 40%:        ライトユース・リザーブドインタンス<br/>
-40%-80%:          ミディアムユース・リザーブドインタンス<br/>
-80%以上:          ヘビーユース・リザーブドインタンス</p></blockquote>
-
-<p>上のパーセンテージは年間で使用するパーセント。<br/>
-雑な計算をすると、365日中の15%だから、54.75日。<br/>
-<code>54.75日以下</code>しか使わない場合はリザーブドインスタンスの方が損をしてしまう。<br/>
-<code>15%以上(54.75) - 40%以内(146日)以内</code>であれば、軽度使用RIを使った方がお得。<br/>
-どれぐらいお得かは参考ページに記載されている。</p>
-
-<p>取り敢えず2ヶ月以上使う予定があれば軽度使用で安くなる。<br/>
-ただ当たり前だけどインスタンスサイズ変更できないので<br/>
-カジュアルにスケールアップすることができなくなる。<br/>
-EC2が単体でスケールアウトができる構成じゃない場合つらくなる可能性ある。<br/>
-不要になったRIはマーケットプレイスで販売もできるらしいけど<br/>
-今はまだ米国専用って感じっぽい。</p>
-
-<p>なにはともあれ選択ができるっていうのはありがたいことだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="16">&larr; Older</a>
@@ -1171,6 +1169,10 @@ EC2が単体でスケールアウトができる構成じゃない場合つら�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -1184,10 +1186,6 @@ EC2が単体でスケールアウトができる構成じゃない場合つら�
     
       <li class="post">
         <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
       </li>
     
   </ul>

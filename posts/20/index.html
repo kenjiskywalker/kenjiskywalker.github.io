@@ -9,10 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="エンジニアサポートCROSS 2013
-というイベントに行ってきました。 「おしまい姉妹」という
-人類が全く体験したことのないようなイノベーションの話を聞いた。 本当に全くもって空前絶後のソリューションであり
-家に帰っても未だその熱は冷めやらない。 仕事は仕事であり、 &hellip;">
+  <meta name="description" content="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser ,j;;;;;j,. ---一､ ｀ ―--‐､_ l;;;;;; ｛;;;;;;ゝ T辷iﾌ i f'辷jァ !i;;;;; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +73,138 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/20/fluentd-plugin-create-newbiee/">fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-20T17:03:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
+
+<pre>
+   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
+  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
+   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
+     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
+     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
+     ~''戈ヽ    ｀二´      r'´:::.  `!  
+</pre>
+
+
+<p>最初Postfixのmaillogつくってやろうかなんて<br/>
+思っていたりした時期もオレにはありました。</p>
+
+<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
+と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
+ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
+Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
+取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編はこちら</a></p>
+
+<h1>作成編</h1>
+
+<p>事前にtestが通るまでのものは<br/>
+<a href="http://blog.kenjiskywalker.org/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
+
+<p>本来はもっとスマートな作り方があるのでしょうが、<br/>
+私は基本的にこの流れで行いました。</p>
+
+<ul>
+<li>内容を更新する度にrake testでtestが通ることを確認する</li>
+<li>変数の状況を<code>p hoge</code>で毎回確認する</li>
+</ul>
+
+
+<p>この2つの繰り返しでした。</p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="http://gihyo.jp/magazine/SD/archive/2012/201206">@repeatedlyさんのプラグイン作成の記事 / Software Design 2012年6月号</a></li>
+<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
+<li><a href="http://d.hatena.ne.jp/mikeda/20120704/1341363870">検証中のtd-agent（fluentd）の設定とか負荷とか / IT 東京 楽しいと思うこと</a></li>
+<li><a href="http://d.hatena.ne.jp/erukiti/20120205/1328452455">fluentdのプラグインは簡単に作成できる / ぽにくすじゃないだいありー</a></li>
+<li><a href="http://fluentd.org/plugin/">Fluentd plugins</a></li>
+</ul>
+
+
+<p>基本はりぴーさんの記事を参考に、取り敢えず片っ端からpluginのソースを読んでいけば<br/>
+センスの良い人ならその場で書けそうなものですが、いかんせん素人なので<br/>
+試行錯誤しながら書いて行きました。</p>
+
+<p>取り敢えず動いたレベルですが、何かの参考になればと思います。</p>
+
+<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
+
+<p>また、ソースを見て頂く通り、何かのログのパーサを書こうと思えば<br/>
+<em>regexp</em>と<em>time_format</em>さえどうにかなれば、<br/>
+プラグインの種類にもよりますが、いくらでも加工することが可能です。<br/>
+fluentd、素晴らしいですね。</p>
+
+<blockquote><p><em>tag</em>、<em>es</em>、<em>chain</em>の中身などを<em>.each</em>などで分解していき<br/>
+testを実行した際に(<em>test_emit</em>)で<br/>
+プラグイン内部の確認したい変数の中身を<code>p hoge</code>する。</p></blockquote>
+
+<p>この繰り返していってという感じです。<br/>
+ソースファイルのコメントアウト部は<br/>
+コードを記述していた際には常に表示させていたものです。</p>
+
+<p>サーバ上での動作のテストは<br/>
+<code>out_securelog_parser.rb</code>ファイルを<code>/etc/td-agent/plugin/</code>へ配置することで<br/>
+プラグインとして認識してくれます。素晴らしいですね。</p>
+
+<p>ログが出るのを待つのは大変なので</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo '{"message":"Jan 17 02:47:59 hostname sshd[10654]: test"}' | /usr/lib64/fluent/ruby/bin/fluent-cat secure</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と、<code>fluent-cat</code>コマンドを実行して、確認したい<em>tag</em>を指定することで<br/>
+プラグインの確認を行うことが可能です。</p>
+
+<p>ちゃんとテストを書いていないあｗ、中身はまだまだ改善の余地があるわでアレですが<br/>
+Rubyもよくに書けず、fluentdを運用した経験もあまりない人間が<br/>
+稚拙ではありますが、最低限動作するところまでは書くことができました。</p>
+
+<p>ハイユーザーから、エントリーユーザまで利用でき、<br/>
+かつ、簡単なログパーサから、各種メトリクス生成などのプラグインが<br/>
+容易に作成することができるfluentdは、やはりこれからのオペレーションの<br/>
+情報取得ツールとして、無くてはならないものになっていくんだろうな。<br/>
+という印象を受けました。</p>
+
+<p>awesome fluentd!</p>
+
+<p>続きは<a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編</a>で</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1167,197 +1296,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/03/zabbix/">Zabbix v2.0.4 + Nginx v1.0.15 Installed</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-03T15:38:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>nginxでZabbix2.0.4をインストールしたのでメモ。</p>
-
-<h2>環境</h2>
-
-<ul>
-<li>nginx v1.0.15</li>
-<li>zabbix v2.0.4</li>
-<li>MySQL - 5.5.28</li>
-<li>CentOS 6.3</li>
-</ul>
-
-
-<h3>Zabbixをyumでインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install zabbix20-server-mysql.x86_64
-</span><span class='line'>$ yum install zabbix20-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-mysql-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-2.0.4-1.el6.x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbix用のデータベースを用意</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql
-</span><span class='line'>&gt; grant all privileges on zabbix.* to zabbix@localhost identified by '********';
-</span><span class='line'>&gt; create database zabbix character set utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbixのデータをさきほど作成したデータベースに装入</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd /usr/share/zabbix-mysql/
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; schema.sql
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; images.sql 
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; data.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/zabbix_server.conf</code>に
-<em>DBPassword</em>を記述。<br/>
-デフォルトで書き込み権限ないの意識高い。</p>
-
-<h3>Zabbix Serverを起動</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/zabbix-server start
-</span><span class='line'>tail /var/log/zabbix/zabbix_server.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>nginxとphp-fpmのインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi nginx php php-fpm php-devel \  
-</span><span class='line'>php-cli php-xml php-mysql php-mbstring php-gd</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>WebUIのファイルがないことに気付きzabbix2&ndash;webをインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi zabbix20-web.noarch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>nginxのデフォルトルートにシンボリックリンク</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zabbix /usr/share/nginx/html/zabbix</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/nginx/conf.d/zabbix.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name home.kenjiskywalker.org;
-</span><span class='line'>    index index.html;
-</span><span class='line'>    access_log /var/log/nginx/zabbix/access_log main;
-</span><span class='line'>    error_log  /var/log/nginx/zabbix/error_log  error;
-</span><span class='line'>
-</span><span class='line'>    location /zabbix {
-</span><span class='line'>        index index.php;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    location ~ \.php$ {
-</span><span class='line'>        fastcgi_pass 127.0.0.1:9000;
-</span><span class='line'>        fastcgi_index index.php;
-</span><span class='line'>        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-</span><span class='line'>        include fastcgi_params;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><em>/var/log/nginx/zabbix/</em>ディレクトリは自分で掘る</p>
-
-<p><code>/etc/php.ini</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Date]
-</span><span class='line'>; Defines the default timezone used by the date functions
-</span><span class='line'>; http://php.net/date.timezone
-</span><span class='line'>; date.timezone = 
-</span><span class='line'>date.timezone = Asia/Tokyo
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>; 追記
-</span><span class='line'>post_max_size = 32M
-</span><span class='line'>max_execution_time = 300
-</span><span class='line'>max_input_time = 300</span></code></pre></td></tr></table></div></figure>
-
-
-<p>timezoneの設定はphp-fpmをstop/startしないと反映されなかった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/nginx start
-</span><span class='line'>$ /etc/init.d/php-fpm start</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あとは<code>http://domain/zabbix/</code>にアクセスすれば閲覧できるはず。
-ログイン確認後はすみやかにパスワードを変更してとりあえずは完了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="21">&larr; Older</a>
@@ -1375,6 +1313,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -1388,10 +1330,6 @@
     
       <li class="post">
         <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a>
       </li>
     
   </ul>
