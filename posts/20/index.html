@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser ,j;;;;;j,. ---一､ ｀ ―--‐､_ l;;;;;; ｛;;;;;;ゝ T辷iﾌ i f'辷jァ !i;;;;; &hellip;">
+  <meta name="description" content="HHKの恐怖体験です pic.twitter.com/JAjpk5mFob&mdash; kenjiskywalker (@kenjiskywalker) November 16, 2013 水で洗って終わりではありません。ゴムの部分に大量の水が付着しています。
+水ジャブ放置だけではなく、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -52,19 +53,7 @@
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+  <nav role="navigation"><ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -79,7 +68,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/20/fluentd-plugin-create-newbie/">fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(設定編)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/11/16/hhk/">Happy Hacking Keyboardがコーヒーを飲んだら</a></h1>
     
     
       <p class="meta">
@@ -95,39 +84,220 @@
   
 
 
-<time datetime="2013-01-20T18:56:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-11-16T14:35:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<pre>
-   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
-  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
-   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
-     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
-     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
-     ~''戈ヽ    ｀二´      r'´:::.  `!  
-</pre>
+  <div class="entry-content"><blockquote class="twitter-tweet"><p>HHKの恐怖体験です <a href="http://t.co/JAjpk5mFob">pic.twitter.com/JAjpk5mFob</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401584902602100736">November 16, 2013</a></blockquote>
 
 
-<p>最初Postfixのmaillogつくってやろうかなんて<br/>
-思っていたりした時期もオレにはありました。</p>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
-と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
-ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
-Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
-取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
 
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbiee/">プラグイン作成編はこちらから</a></p>
+<p></p>
 
-<h2>テスト環境</h2>
+<p>水で洗って終わりではありません。ゴムの部分に大量の水が付着しています。<br/>
+水ジャブ放置だけではなく、必ず分解して乾かしましょう。</p>
 
-<p><code>/etc/fluent-agent-lite.conf</code></p>
+<blockquote class="twitter-tweet"><p>東プレさん、あともう少しだけケーブル伸ばしてくれ <a href="http://t.co/YLfiYxNxP4">pic.twitter.com/YLfiYxNxP4</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401585581777371136">November 16, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>外すことはできるのですが、この部分もう少し長いとメンテが楽になるかと思います。<br/>
+東プレさん、よろしくお願いいたします。</p>
+
+<p>分解したきっかけは<code>e</code>がチャタりだして、おいおいマジかよ&hellip;<br/>
+って分解してみたら〜でした。ゴムと基板の間の他に、キートップの隙間にも<br/>
+水分が溜まっていて、アチャ〜って感じでした。</p>
+
+<p>全部掃除して、ハメ直して試したら今度は<code>x</code>がチャタってて、終わった&hellip;<br/>
+ってなったんですけど、基板とゴムの部分のネジを弛めて、<br/>
+バネが真ん中の方に来るようにカタカタ揺らして、基板のネジを全部強く締め直したら直りました。</p>
+
+<p>日頃の行いよくしてこ</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/16/think-simple/">「Think Simple」を読んだ。おすすめです</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-16T12:13:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B008YOHMCS/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B008YOHMCS&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B008YOHMCS&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B008YOHMCS" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>何か事ある度に「人が集まるとろくなことがない」って口にしているのですが<br/>
+その解がこの本には詰まっていました。</p>
+
+<iframe src="http://widgets.itunes.apple.com/widget.html?c=jp&brc=FFFFFF&blc=FFFFFF&trc=FFFFFF&tlc=FFFFFF&d=&t=&m=movie&e=movie&w=250&h=300&ids=727851606&wt=discovery&partnerId=&affiliate_id=&at=&ct=" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:250px;height: 300px;border:0px"></iframe>
+
+
+<p>人間と人間とがぶつかり合い、意見を戦わせることで良いものができるという研磨機おじさんの話はこちらを参照ください。</p>
+
+<p>読んでいて引っかかったところをメモ。</p>
+
+<h2>進め方の話</h2>
+
+<blockquote><p>プロジェクトの成果の質は、そこにかかわる人間の多さに反比例する</p></blockquote>
+
+<p>渋い。</p>
+
+<blockquote><p>プロジェクトの成果の質は、最終的な意思決定者がかかわる程度に比例する</p></blockquote>
+
+<p>渋い。</p>
+
+<blockquote><p>プロセスが王様のときに、アイデアはけっして王様にはなれない。プロセスの段階を増やせば増やすほど、完成品の質が悪くなることは、&lt;常識>を働かせればわかるだろう。</p></blockquote>
+
+<p>厳しい。</p>
+
+<blockquote><p>フォーカスグループによって製品をデザインするのはとてもむずかしい。多くの場合、一般の人は実際に製品を見るまで、何がほしいかわかっていないからだ。</p></blockquote>
+
+<p>有名なヤツだ。消費者を馬鹿にしているんじゃなくて、クリエイティブなものをつくるのに、人の意見ばかり気にするんじゃなくて、徹底的に最高のものをつくろうとすることが大切だ。みたいな話だった。</p>
+
+<blockquote><p>ピクサー内部で彼(ジョブズ)は、クリエイティブな会議には出席しないように求められていた。さもなければ、ライターやアーティストが大量に造反する恐れがあったからだ。</p></blockquote>
+
+<p>案外言うこと聞くんだなって笑ってた。</p>
+
+<h2>話しあいの話</h2>
+
+<blockquote><p>シンプルさはせっかちだ。いきなり本題に入って、大事なことに集中したがる。</p></blockquote>
+
+<p>会議で完結に要点を伝えないとすぐに追い出されるの、相当きついと思う。</p>
+
+<blockquote><p>クライアントを結論に導くことと、クライアントを愚か者のように扱うことはわずかな違いしかない。おそらくスティーブが「導かれる」ことに反応したのもそこに理由があったのだろう。スティーブに対する最良のアプローチは、ただ事実をテーブルの上に並べて、議論を始めることだった。</p></blockquote>
+
+<p>資料音読会議に対するアンサーソングだ。</p>
+
+<blockquote><p>最後に「何かご質問は？」と問いかけても、議論を推奨しているわけではない。最終的に、ほとんどのビジネスは人間関係の問題になる。堅苦しくないプレゼンで正直な議論をすることは、人間関係を深める道であり、それがよりよい結果をもたらすのだ。</p></blockquote>
+
+<p>建設的だ。</p>
+
+<h2>アイデアの話</h2>
+
+<blockquote><p>アップルの競争相手が売る電話機は、ほとんどの名前が覚えられないほど難しい。その理由は、あまりにもモデルの数が多いのと、それらがブランド名や電話の機能とは関連がないからだ。</p>
+
+<p>iPadが披露されたときに、ライバル各社は特徴がないと批判した。〜中略〜iPadに「欠けている」ものをすべて足して、魅力的な機器にしようとした。ところが、そうした足し算では売れなかった。消費者にとって魅力的に映ったのは、アップルがデザイン段階でおこなう引き算だったのだ。</p></blockquote>
+
+<p>万物のすべてにおいて、デコ盛りしてよかった試しなんてほとんどない。</p>
+
+<blockquote><p>たとえば、スティーブの承認を得た広告を作っていて、撮影中や編集中にもっといいアイデアを思いついたとしよう。そのとき私たちは、いつでも新しいアイデアをスティーブに提案することができた。彼もそれを期待しているようで、新しい広告が議題にあがることを楽しみにしていた。</p></blockquote>
+
+<p>ロストインタビューで言っていた研磨機の話だ。</p>
+
+<blockquote><p>スティーブはそうした「幸運なアクシデント」、つまり、ランダムに起こる話しあいを信じていた。</p></blockquote>
+
+<p>研磨機おじさんだ。</p>
+
+<blockquote><p>プロセスによって効率を上げることはできる。だが、イノベーションは人が廊下で出くわしたり、夜の10時半に電話をかけあったりするところから生まれるのだ。新しいアイデアを思いついたとか、ある問題に関して行き詰まっている原因に思い当たったとかいう理由でね。最高にクールで新しいものを考えだした人間が、そのアイデアについて意見を聞きたいと思って電話をかけた6人が集まる。そこで臨時会議がはじまるというわけだ。</p></blockquote>
+
+<p>研磨機だ。</p>
+
+<blockquote><p>シンプルさのためには、あなたも否定的な答えに遭ったときには精査するとよい。その「ノー」はたんにあなたの要求が高すぎることを言っているだけかもしれない。しかしそう要求することが、普通以上の結果を得るためには必要なのだ。</p></blockquote>
+
+<p>プロジェクト単位で取り入れるとデスマ礼賛になる。これは自分自身への要求へ置き換えるのが正解だ。</p>
+
+<blockquote><p>ある問題を解決しようとして、最初に考えだした解決策がとても複雑だったとしよう。ほとんどの人はそこで考えるのをやめてしまう。だが、そこでやめずに考えつづけて、タマネギの皮をむくようにムダなものをそぎ落としていくと、とても洗練されたシンプルな解決策にたどり着くことがよくある。</p></blockquote>
+
+<p>良い話だ。</p>
+
+<blockquote><p>イノベーションをするときに、ミスをすることがある。最良の手は、すぐにミスを認めて、イノベーションのほかの面をどんどん進めることだ。</p></blockquote>
+
+<p>肝に銘じよう。</p>
+
+<h2>プロダクトの話</h2>
+
+<blockquote><p>PCメーカーのように、無秩序にモデルを増やし、各モデルの違いがわからない状態とは依然としてまったく違う。</p></blockquote>
+
+<p>やめてあげて。</p>
+
+<blockquote><p>アップルが極端に走る理由は、顧客が箱に触れた瞬間から品質のよさを感じてもらいたいからだ。</p></blockquote>
+
+<p>良い話だ。</p>
+
+<blockquote><p>アップルが何よりも優先するものがあるとすれば、それは顧客体験だ。アップルとかかわることすべてにおいて、顧客が常にすばらしい体験をすることが目標だ。</p></blockquote>
+
+<p>アップルケアっていうバカ高いサポート費用払わなくても気軽に修理してくれると合点できる。</p>
+
+<h2>まとめ</h2>
+
+<blockquote><p>シンプルさはあなたのビジネスにすばらしい結果をもらたしてくれるだろうか？もちろんそうだ。なぜなら、シンプルさは目標ではなく、目標を達成へと導いていくれる光だからだ。</p></blockquote>
+
+<p>シンプルは光だ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/13/brapi/">シンデレラのようにブラピになる方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-13T23:28:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>TwitterのDevelopersサイトで必要な権限を取得(これは色んなところに載っているから省略)</li>
+<li>実行したい時間にcronでスクリプトを叩く</li>
+</ul>
+
+
+<p>これだけです。</p>
+
+<h2>brapi.rb</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -136,16 +306,44 @@ Zabbixで取得したら面白いかなというアイデアが思いついた�
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/fluent-agent-lite.conf 
-</span><span class='line'>TAG_PREFIX=""
-</span><span class='line'>LOGS=$(cat &lt;&lt;"EOF"
-</span><span class='line'>secure                   /var/log/secure
-</span><span class='line'>EOF
-</span><span class='line'>)
-</span><span class='line'>PRIMARY_SERVER="0.0.0.0:24224"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
+</span><span class='line'>
+</span><span class='line'># encoding: utf-8
+</span><span class='line'>
+</span><span class='line'>require 'twitter'
+</span><span class='line'>
+</span><span class='line'>YOUR_CONSUMER_KEY       = ''
+</span><span class='line'>YOUR_CONSUMER_SECRET    = ''
+</span><span class='line'>YOUR_OAUTH_TOKEN        = ''
+</span><span class='line'>YOUR_OAUTH_TOKEN_SECRET = ''
+</span><span class='line'>
+</span><span class='line'>Twitter.configure do |config|
+</span><span class='line'>  config.consumer_key       = YOUR_CONSUMER_KEY
+</span><span class='line'>  config.consumer_secret    = YOUR_CONSUMER_SECRET
+</span><span class='line'>  config.oauth_token        = YOUR_OAUTH_TOKEN
+</span><span class='line'>  config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>img = open('./brapi.png')
+</span><span class='line'>Twitter.update_profile_image(img)
+</span><span class='line'>Twitter.update_profile(:name =&gt; "ブラッド・ピット")</span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>/etc/td-agent/td-agent.conf</code></p>
+<h2>modoru.rb</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -169,1004 +367,190 @@ Zabbixで取得したら面白いかなというアイデアが思いついた�
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
 </span><span class='line'>
-</span><span class='line'>&lt;match secure&gt;
-</span><span class='line'>  type securelog-parser
-</span><span class='line'>  tag  seclog.local
-</span><span class='line'>&lt;/match&gt;
+</span><span class='line'># encoding: utf-8
 </span><span class='line'>
-</span><span class='line'>&lt;match seclog.*&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>   &lt;store&gt;
-</span><span class='line'>    type datacounter
-</span><span class='line'>    count_key message
-</span><span class='line'>    aggregate all
-</span><span class='line'>    tag check.seclog
-</span><span class='line'>    pattern1 acce Accepted
-</span><span class='line'>    pattern2 fail failure
-</span><span class='line'>    pattern3 inva Invalid
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>   type file
-</span><span class='line'>   path /tmp/hoge
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;
+</span><span class='line'>require 'twitter'
 </span><span class='line'>
-</span><span class='line'>&lt;match check.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type             zabbix
-</span><span class='line'>    zabbix_server    192.0.2.2
-</span><span class='line'>    host             watashi
-</span><span class='line'>    name_key_pattern (fail|acce|inva)_count
-</span><span class='line'>    add_key_prefix   securelog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>YOUR_CONSUMER_KEY       = ''
+</span><span class='line'>YOUR_CONSUMER_SECRET    = ''
+</span><span class='line'>YOUR_OAUTH_TOKEN        = ''
+</span><span class='line'>YOUR_OAUTH_TOKEN_SECRET = ''
+</span><span class='line'>
+</span><span class='line'>Twitter.configure do |config|
+</span><span class='line'>  config.consumer_key       = YOUR_CONSUMER_KEY
+</span><span class='line'>  config.consumer_secret    = YOUR_CONSUMER_SECRET
+</span><span class='line'>  config.oauth_token        = YOUR_OAUTH_TOKEN
+</span><span class='line'>  config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>img = open('./twitter.jpg')
+</span><span class='line'>
+</span><span class='line'>Twitter.update_profile_image(img)
+</span><span class='line'>Twitter.update_profile(:name =&gt; "kenjiskywalker")</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>環境および設定内容の解説</h2>
+<p><code>Twitter.update_profile_image</code>で画像をアップロードして<br/>
+<code>Twitter.update_profile(:name =&gt; "name")</code>で名前を変更する。</p>
 
-<h2><code>fluent-agent-lite</code></h2>
+<p>やり方さえわかれば簡単ですね。</p>
+</div>
+  
+  
 
-<p><code>in_tail</code>で見に行くとパーミッションが足りないとのことなので<br/>
-fluent-agent-liteを噛ましました。</p>
 
-<p>localhostに転送するので
-<code>PRIMARY_SERVER="0.0.0.0:24224"</code>として自分自身へ転送。</p>
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/12/commit-hannyashinkyo/">コミットしたら般若心経が流れるgit Hookをつくった。</a></h1>
+    
+    
+      <p class="meta">
+        
 
-<h2><code>td-agent</code></h2>
 
-<p><code>fluent-agent-lite</code>から値を取得。</p>
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-12T22:15:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>告白されたいと思って、
+告白しやすくしたりしたが、男からしか告白が来ない。</p>
+
+<p><a href="http://hisaichi5518.hatenablog.jp/entry/2012/11/10/003301">http://hisaichi5518.hatenablog.jp/entry/2012/11/10/003301</a></p>
+
+<p>よく考えたら、大人になって、社会人になって、エンジニアになって、<br/>
+おじさんと話すことは多くなったが、女の子と話すことがない。<br/>
+告白なんて夢のまた夢だと気づいた。</p>
+
+<p>でも、やっぱり女の子に告白されると嬉しい。<br/>
+とくに可愛い女の子に告白されたら嬉しい。</p>
+
+<p>可愛い女の子といえば、般若心経だと思う。</p>
+
+<p>般若心経に「照見五蘊皆空、度一切苦厄」とか言われたい。早く苦悩から開放されたくなる。 <br/>
+般若心経に「能除一切苦」とか言われたい。早く苦悩を除いて良かった。</p>
+
+<p>なので、コミットしたら般若心経が流れるgit hookを作った。<br/>
+コードを書いてコミットをする、たったそれだけで般若心経が流れて<br/>
+「羯諦羯諦、波羅羯諦、波羅僧羯諦、菩提薩婆訶」とか言われる。最高。解脱。</p>
+
+<h3>.git/hooks/post-commit</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>open http://www.kenjiskywalker.org/hannyashinkyoo.html</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>自作pluginを通す</h3>
-
-<p><code>fluent-agent-lite</code>で付与した<code>secure</code>のタグをmatchさせて<br/>
-自作したテスト用のpluginへ渡します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match secure&gt;
-</span><span class='line'>  type securelog-parser
-</span><span class='line'>  tag  seclog.local
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>fluent-plugin-datacounterを通す</h3>
+<iframe src="//player.vimeo.com/video/79205431" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
-<p><code>seclog.*</code>にmatchさせ</p>
 
-<p>もりす先生の<a href="https://github.com/tagomoris/fluent-plugin-datacounter">fluent-plugin-datacounter</a>を利用し<br/>
-それぞれ確認したいログのpatternを登録します。</p>
+<p> <p><a href="http://vimeo.com/79205431">commit般若心経</a> from <a href="http://vimeo.com/user16420998">kenjiskywalker</a> on <a href="https://vimeo.com">Vimeo</a>.</p></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match seclog.*&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>   &lt;store&gt;
-</span><span class='line'>    type datacounter
-</span><span class='line'>    count_key message
-</span><span class='line'>    aggregate all
-</span><span class='line'>    tag check.seclog
-</span><span class='line'>    pattern1 acce Accepted
-</span><span class='line'>    pattern2 fail failure
-</span><span class='line'>    pattern3 inva Invalid
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>   type file
-</span><span class='line'>   path /tmp/hoge
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
+<h2>合わせて読みたい</h2>
 
 <ul>
-<li><p><code>pattern1 acce Accepted</code><br/>
-接続が許可されたログ(Acceptedという文字列を含んだログ)を<br/>
-<em>pattern1</em>として<em>acce</em>というprefixで渡します。</p></li>
-<li><p><code>pattern2 fail failure</code><br/>
-接続に失敗したログ(failureという文字列を含んだログ)を<br/>
-<em>pattern2</em>として<em>fail</em>というprefixで渡します。</p></li>
-<li><p><code>pattern3 inva Invalid</code><br/>
-無効な接続のログ(Invalidという文字列を含んだログ)を<br/>
-<em>pattern3</em>として<em>inva</em>というprefixで渡します。</p></li>
+<li><a href="http://hisaichi5518.hatenablog.jp/entry/2013/11/03/193719">コミットしたら吉高由里子に告白されるgit hookを作った。 - パルカワ2</a></li>
+<li><a href="http://soh335.hatenablog.com/entry/2013/11/11/222949">コミットしたら宮崎あおいに告白されるgit hookを作った。 - @soh335 memo</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/11/isucon2013-main/">#isucon 2013 参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-11T10:02:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>運営のみなさまおつかれさまでした。今回もとても楽しかったです。</p>
+
+<p>今回は誰でもわかるようなボトルネック、例えばクソクエリとか<br/>
+クソコードとかはなくて、現状のゼロベースからどうやってスコアを上げるか。<br/>
+みたいな感じだった。なので最初の方向性付けがすべてだったのかなと。<br/>
+出題者の@fujiwaraさんと@acidlemonさんすごい。</p>
+
+<p>また、アプリケーションを確認した時点で<br/>
+2人でできることって限界があるな。って感じていました。</p>
+
+<p>細かいことは<a href="http://soh335.hatenablog.com/entry/2013/11/10/214457">http://soh335.hatenablog.com/entry/2013/11/10/214457</a>ここ読んでください。</p>
+
+<h1>課題</h1>
+
+<ul>
+<li>予選の時にはできていたスコアを着実に上げていくことができなかった。(人数の問題もあった)</li>
+<li>エラーが発生していて、その解決を@soh335待ちにしてたところがあった。問題解決とは別に平行して作業を行えばよかった。</li>
+<li>待ちにしていた実装が不可能だった場合、即切り替えてやればよかった。</li>
+<li>切り替えるにしろ、実装の確認、問題意識のすり合わせをしなかったのでそこは予選から改善されていなかった。(問題の複雑さと人数の少なさを意識し過ぎた)</li>
+<li>Redis載せ、取り敢えず画像を縮小するか  手分けして複数台でRedisに載せられるように改修できればよかった。自分の実装力が足りなかった。</li>
 </ul>
 
 
-<p>また、デバッグの為に、<code>/tmp/hoge</code>ファイルへ<br/>
-現時点での状態をファイル出力しておきます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2013-01-20T18:12:24+09:00       seclog.local    {"message":"Accepted publickey for hogehoge from 192.0.2.100 port 64884 ssh2"}
-</span><span class='line'>2013-01-20T18:12:24+09:00       seclog.local    {"message":"pam_unix(sshd:session): session opened for user hogehoge by (uid=0)"}
-</span><span class='line'>2013-01-20T18:12:28+09:00       seclog.local    {"message":"Received disconnect from 192.0.2.100: 11: disconnected by user"}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のような内容で、出力されています。<br/>
-この時点で期待した内容のログ出力がされていない場合は<br/>
-どこかに誤りがあるので、修正していく流れになります。</p>
-
-<h3>fluent-plugin-zabbixへデータを渡す</h3>
-
-<p>fujiwaraさん作成の<a href="https://github.com/fujiwara/fluent-plugin-zabbix">fluent-plugin-zabbix</a>を利用し、Zabbixへデータを渡します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match check.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type             zabbix
-</span><span class='line'>    zabbix_server    192.0.2.2
-</span><span class='line'>    host             watashi
-</span><span class='line'>    name_key_pattern (fail|acce|inva)_count
-</span><span class='line'>    add_key_prefix   securelog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/tmp/hoge</code>へのデバッグ出力と同様に<br/>
-<em>fluent-plugin-datacounter</em>を通したログを<br/>
-<code>/var/log/td-agent/check_seclog</code>へ出力しておきます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらも、値が正常に取得されているかを確認します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2013-01-20T18:09:56+09:00       check.seclog    {"unmatched_count":4,"unmatched_rate":0.06,"unmatched_percentage":66.66666666666667,"acce_count":0,"acce_rate":0.0,"acce_percentage":0.0,"fail_count":0,"fail_rate":0.0,"fail_percentage":0.0,"inva_count":2,"inva_rate":0.03,"inva_percentage":33.333333333333336}
-</span><span class='line'>2013-01-20T18:10:56+09:00       check.seclog    {"unmatched_count":0,"unmatched_rate":0.0,"acce_count":0,"acce_rate":0.0,"fail_count":0,"fail_rate":0.0,"inva_count":0,"inva_rate":0.0}
-</span><span class='line'>2013-01-20T18:11:56+09:00       check.seclog    {"unmatched_count":0,"unmatched_rate":0.0,"acce_count":0,"acce_rate":0.0,"fail_count":0,"fail_rate":0.0,"inva_count":0,"inva_rate":0.0}
-</span><span class='line'>2013-01-20T18:12:56+09:00       check.seclog    {"unmatched_count":14,"unmatched_rate":0.23,"unmatched_percentage":73.6842105263158,"acce_count":4,"acce_rate":0.06,"acce_percentage":21.05263157894737,"fail_count":0,"fail_rate":0.0,"fail_percentage":0.0,"inva_count":1,"inva_rate":0.01,"inva_percentage":5.2631578947368425}</span></code></pre></td></tr></table></div></figure>
-
+<p>残り2時間前まで何やっていたのか覚えていない。</p>
 
 <ul>
-<li><p><code>zabbix_server    192.0.2.2</code>
-zabbixサーバのIPアドレスを指定します。</p></li>
-<li><p><code>host             watashi</code>
-データ送り元のホスト名を指定します。</p></li>
-<li><p><code>name_key_pattern (fail|acce|inva)_count</code><br/>
-<em>name_key_pattern (fail|acce|inva)_count</em>の設定と<br/>
-<em>add_key_prefix   securelog</em>の設定は</p></li>
+<li>サーバ全員が同じ画像ディレクトリを見ていれば良い</li>
+<li>内部ネットワークは1Gbpsって言っていたのでネットワークのボトルネックはない</li>
 </ul>
 
 
-<p><a href="https://dl.dropbox.com/u/5390179/6c2da543eb8312cd496ef8f75fb8d83d.png"><img src="https://dl.dropbox.com/u/5390179/6c2da543eb8312cd496ef8f75fb8d83d.png" alt="zabbix" /></a></p>
+<p>と信じてNFSの導入をした。30分ぐらいで全台NFSで見れるようになったけど<br/>
+アプリでどうにかイケそうだ。っていう話だったのでNFSだと全台再起動してからのテストでコケた場合、<br/>
+設定箇所の特定が間に合わないかもしれないと判断して、NFSは捨ててアプリのフォローに回った。<br/>
+結果、改修は間に合わなかった。</p>
 
-<p>Zabbixで、itemを上記設定のように作成し<br/>
-trapperのデータとしてZabbixが受け取れる為に設定します。</p>
+<h1>まとめ</h1>
 
-<h3>Zabbixでグラフ化</h3>
+<p>Failで終わるのはプロとして恥ずかしい。</p>
 
-<p>Zabbix上で上手く値が取得できていれば</p>
+<p>転職前にスピードワゴンはクールに去るぜ。の如くキメたかったけど<br/>
+先は長く厳しい。日々戦いは続く。ベルマーレがJ2に落ちたとしても<br/>
+オレたちは常に目の前の問題に最善をつくしていかなければならないんだ。</p>
 
-<p><a href="https://dl.dropbox.com/u/5390179/107d6802dbac9f28c4b78819242d3018.png"><img src="https://dl.dropbox.com/u/5390179/107d6802dbac9f28c4b78819242d3018.png" alt="zabbix" /></a></p>
-
-<p>このようにグラフに値が出力され、期待通りの動作をすることが確認できました。</p>
-
-<p>awesome fluentd!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/20/fluentd-plugin-create-newbiee/">fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-20T17:03:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<pre>
-   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
-  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
-   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
-     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
-     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
-     ~''戈ヽ    ｀二´      r'´:::.  `!  
-</pre>
-
-
-<p>最初Postfixのmaillogつくってやろうかなんて<br/>
-思っていたりした時期もオレにはありました。</p>
-
-<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
-と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
-ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
-Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
-取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編はこちら</a></p>
-
-<h1>作成編</h1>
-
-<p>事前にtestが通るまでのものは<br/>
-<a href="http://blog.kenjiskywalker.org:8080/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
-
-<p>本来はもっとスマートな作り方があるのでしょうが、<br/>
-私は基本的にこの流れで行いました。</p>
-
-<ul>
-<li>内容を更新する度にrake testでtestが通ることを確認する</li>
-<li>変数の状況を<code>p hoge</code>で毎回確認する</li>
-</ul>
-
-
-<p>この2つの繰り返しでした。</p>
-
-<h3>参考</h3>
-
-<ul>
-<li><a href="http://gihyo.jp/magazine/SD/archive/2012/201206">@repeatedlyさんのプラグイン作成の記事 / Software Design 2012年6月号</a></li>
-<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
-<li><a href="http://d.hatena.ne.jp/mikeda/20120704/1341363870">検証中のtd-agent（fluentd）の設定とか負荷とか / IT 東京 楽しいと思うこと</a></li>
-<li><a href="http://d.hatena.ne.jp/erukiti/20120205/1328452455">fluentdのプラグインは簡単に作成できる / ぽにくすじゃないだいありー</a></li>
-<li><a href="http://fluentd.org/plugin/">Fluentd plugins</a></li>
-</ul>
-
-
-<p>基本はりぴーさんの記事を参考に、取り敢えず片っ端からpluginのソースを読んでいけば<br/>
-センスの良い人ならその場で書けそうなものですが、いかんせん素人なので<br/>
-試行錯誤しながら書いて行きました。</p>
-
-<p>取り敢えず動いたレベルですが、何かの参考になればと思います。</p>
-
-<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<p>また、ソースを見て頂く通り、何かのログのパーサを書こうと思えば<br/>
-<em>regexp</em>と<em>time_format</em>さえどうにかなれば、<br/>
-プラグインの種類にもよりますが、いくらでも加工することが可能です。<br/>
-fluentd、素晴らしいですね。</p>
-
-<blockquote><p><em>tag</em>、<em>es</em>、<em>chain</em>の中身などを<em>.each</em>などで分解していき<br/>
-testを実行した際に(<em>test_emit</em>)で<br/>
-プラグイン内部の確認したい変数の中身を<code>p hoge</code>する。</p></blockquote>
-
-<p>この繰り返していってという感じです。<br/>
-ソースファイルのコメントアウト部は<br/>
-コードを記述していた際には常に表示させていたものです。</p>
-
-<p>サーバ上での動作のテストは<br/>
-<code>out_securelog_parser.rb</code>ファイルを<code>/etc/td-agent/plugin/</code>へ配置することで<br/>
-プラグインとして認識してくれます。素晴らしいですね。</p>
-
-<p>ログが出るのを待つのは大変なので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo '{"message":"Jan 17 02:47:59 hostname sshd[10654]: test"}' | /usr/lib64/fluent/ruby/bin/fluent-cat secure</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と、<code>fluent-cat</code>コマンドを実行して、確認したい<em>tag</em>を指定することで<br/>
-プラグインの確認を行うことが可能です。</p>
-
-<p>ちゃんとテストを書いていないあｗ、中身はまだまだ改善の余地があるわでアレですが<br/>
-Rubyもよくに書けず、fluentdを運用した経験もあまりない人間が<br/>
-稚拙ではありますが、最低限動作するところまでは書くことができました。</p>
-
-<p>ハイユーザーから、エントリーユーザまで利用でき、<br/>
-かつ、簡単なログパーサから、各種メトリクス生成などのプラグインが<br/>
-容易に作成することができるfluentdは、やはりこれからのオペレーションの<br/>
-情報取得ツールとして、無くてはならないものになっていくんだろうな。<br/>
-という印象を受けました。</p>
-
-<p>awesome fluentd!</p>
-
-<p>続きは<a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編</a>で</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/20/cross2013/">おしまい姉妹について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-20T13:14:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cross-party.com/">エンジニアサポートCROSS 2013</a><br/>
-というイベントに行ってきました。</p>
-
-<p>「おしまい姉妹」という<br/>
-人類が全く体験したことのないようなイノベーションの話を聞いた。</p>
-
-<p>本当に全くもって空前絶後のソリューションであり<br/>
-家に帰っても未だその熱は冷めやらない。</p>
-
-<p>仕事は仕事であり、そこに人格は必要ないと思っていたが<br/>
-全くもってそれはナンセンスであった。</p>
-
-<p>サービスと人、<br/>
-サービスを終わらせるというそのたったひとつの出来事のためにのみ存在する<br/>
-「おしまい姉妹」。</p>
-
-<p>もちろんこれは西尾維新先生にラノベ化して頂き<br/>
-ゆくゆくはシャフト制作のアニメ化は間違いないだろう。<br/>
-そしてこのソリューションはいずれジャパニメーションの波に乗り、<br/>
-全世界へ羽ばたいていくだろう。</p>
-
-<p>そしていずれ、サービス管理の正しい在り方として多様な論文や書籍が発行され、<br/>
-サービス管理部門としてのおしまい姉妹の存在は<br/>
-デファクトスタンダード化していくだろう。</p>
-
-<p>今日もどこかで、おしまい姉妹たちはそっと<br/>
-技術者の心の隙間を満たしているのだろう&hellip;</p>
-
-<p>お会いしたかった方にお会いできてよかったです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/17/fist-os-code-reading/">はじめてのOSコードリーディング ――UNIX V6で学ぶカーネルのしくみを電子書籍で買ったのですが</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-17T10:16:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://gihyo.jp/book/2013/978-4-7741-5464-0">はじめてのOSコードリーディング　――UNIX V6で学ぶカーネルのしくみ</a></p>
-
-<p>参考のソースコードが書いてあって<br/>
-次の次のページに解説が書いてあったりするので書籍の方が読みやすいとおもいます。</p>
-
-<p>まだ読み始めですが、ユルフワなので3周ぐらいしないと理解できなさそうです。<br/>
-けど面白いです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/15/redis-sentinel/">Redis Sentinelを試す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T19:42:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>某社では<a href="http://d.hatena.ne.jp/sfujiwara/20120802/1343880266">RedisをKeepalivedでフェイルオーバーする構成案 / 酒日記 はてな支店</a><br/>
-みたいな構成が使われているとか使われていないとかで、Sentinelはどうなのだろうか<br/>
-というお話がわいたので、カジュアルに試してみました。</p>
-
-<p>参考：<a href="http://redis.io/topics/sentinel">Redis Sentinel Documentation</a></p>
-
-<p><code>6379 Port が Master</code><br/>
-<code>6380 Port が 6379のSlave</code></p>
-
-<p>上記内容のRedisのセットがあるとします。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6379 info | grep role -3
-</span><span class='line'>latest_fork_usec:340
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:master
-</span><span class='line'>connected_slaves:1
-</span><span class='line'>slave0:127.0.0.1,6380,online
-</span><span class='line'>
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6380 info | grep role -3
-</span><span class='line'>latest_fork_usec:336
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:slave
-</span><span class='line'>master_host:127.0.0.1
-</span><span class='line'>master_port:6379
-</span><span class='line'>master_link_status:up
-</span><span class='line'>[hoge@example ~]# 
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>sentinel.conf</code>はソースファイルから拾ってくるのでも良いし<br/>
-参考サイトからコピペするでも良いかと。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# cat /etc/sentinel.conf 
-</span><span class='line'>sentinel monitor mymaster 127.0.0.1 6379 1
-</span><span class='line'>sentinel down-after-milliseconds mymaster 10000
-</span><span class='line'>sentinel failover-timeout mymaster 50000
-</span><span class='line'>sentinel can-failover mymaster yes
-</span><span class='line'>sentinel parallel-syncs mymaster 1
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-server /etc/sentinel.conf --sentinel
-</span><span class='line'>[8373] 15 Jan 19:44:27.071 * Max number of open files set to 10032
-</span><span class='line'>                _._                                                  
-</span><span class='line'>           _.-``__ ''-._                                             
-</span><span class='line'>      _.-``    `.  `_.  ''-._           Redis 2.6.8 (00000000/0) 64 bit
-</span><span class='line'>  .-`` .-```.  ```\/    _.,_ ''-._                                   
-</span><span class='line'> (    '      ,       .-`  | `,    )     Running in sentinel mode
-</span><span class='line'> |`-._`-...-` __...-.``-._|'` _.-'|     Port: 26379
-</span><span class='line'> |    `-._   `._    /     _.-'    |     PID: 8373
-</span><span class='line'>  `-._    `-._  `-./  _.-'    _.-'                                   
-</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
-</span><span class='line'> |    `-._`-._        _.-'_.-'    |           http://redis.io        
-</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
-</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
-</span><span class='line'> |    `-._`-._        _.-'_.-'    |                                  
-</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
-</span><span class='line'>      `-._    `-.__.-'    _.-'                                       
-</span><span class='line'>          `-._        _.-'                                           
-</span><span class='line'>              `-.__.-'                                               
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:44:27.078 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>
-</span><span class='line'> --- 動きました --</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> ...
-</span><span class='line'>
-</span><span class='line'>  ＿人人人人人人人人人＿
-</span><span class='line'>  ＞  Master突然の死  ＜
-</span><span class='line'>  ￣Y^Y^Y^Y^Y^Y^Y^Y￣
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> ...
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:45:41.854 # +sdown master mymaster 127.0.0.1 6379 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:41.854 # +odown master mymaster 127.0.0.1 6379 #quorum 1/1
-</span><span class='line'>[8373] 15 Jan 19:45:41.855 # +failover-triggered master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:41.855 # +failover-state-wait-start master mymaster 127.0.0.1 6379 #starting in 6893 milliseconds
-</span><span class='line'>
-</span><span class='line'>ログがゴニョゴニョ出てきて
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:45:48.750 # +failover-state-select-slave master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.851 # +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.852 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.953 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.954 # +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.954 # +failover-state-reconf-slaves master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:49.054 # +failover-end master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:49.054 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
-</span><span class='line'>
-</span><span class='line'>マスター変わったよーというログが出ていますね
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Redisのレプリケーションの状況を確認</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6379 info | grep role -3
-</span><span class='line'>Could not connect to Redis at 127.0.0.1:6379: Connection refused
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6380 info | grep role -3
-</span><span class='line'>latest_fork_usec:336
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:master
-</span><span class='line'>connected_slaves:0
-</span><span class='line'>
-</span><span class='line'># CPU
-</span><span class='line'>[hoge@example ~]# </span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>6380 PortのRedis</code>がMasterになっていますね。</p>
-
-<p>とてもシンプルにfailoverが可能であることがわかりました。</p>
-
-<blockquote><p>この設定だけでは<code>Master &lt;=&gt; Slave</code>間で障害が発生した場合など<br/>
-諸所問題点があるので、ちょっと工夫が必要。</p></blockquote>
-
-<p>その他ドキュメントを読んでて気付いたところ</p>
-
-<ul>
-<li><p><code>sentinel parallel-syncs hoge 1</code> hogeがMasterに切り替わった時にslave化する数。あんまり増やすとデータの同期取ったりすることに時間がかかるよとのこと。</p></li>
-<li><p><code>SDOWN(主体的ダウン検知)</code>、<code>ODOWN(客観的ダウン検知)</code>の2つのパターンがあり、それぞれの状態を観察しているのが面白い</p></li>
-</ul>
-
-
-<p>基本的に1ページによくまとまっていて、<code>Sentinel Rule</code>を読むことで<br/>
-どのような状態になった時に、どうのような状態に遷移させる。<br/>
-判断基準としてはこれとこれを見ている。</p>
-
-<p>などなど、シンプルかつ丁寧に書かれており、とても読みやすい印象でした。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/12/soundcloud/">鍼とお灸と黒歴史とSoundCloud</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-12T19:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>誰しも中2力全開だった時があると思う。<br/>
-学生の頃DTMやろうと思って<br/>
-フリーのVSTプラグインで遊んでた頃の曲をSoundCloudに上げた。</p>
-
-<p><a href="https://soundcloud.com/kenjiskywalker">https://soundcloud.com/kenjiskywalker</a></p>
-
-<p>全般的に黒歴史っぽい感じだけど人間っぽいから良いと思った。<br/>
-音圧高めてスピーカー壊れれば良いとか思ってた頃だった気がする。</p>
-
-<p>あとお腹がヤバかったの胃腸が冷え込んでたみたいで<br/>
-いつも通ってる鍼とお灸の先生、保険効かないから5000円かかるんだけど<br/>
-すごいよくしてくれる人で、これでダメだったら大学病院やなー！って思ってたら<br/>
-全身に鍼とお灸キメたら良くなってきた。東洋の医学すごい。</p>
-
-<p>近所のちょっと大きめの病院、適当な先生多いかもしれないから<br/>
-不安だったらさっさと大きい病院行った方がお金無駄に使わなくて良さそう。</p>
-
-<p>死にかけたことある人みんなそうだろうけど、何か身体に変調があると<br/>
-すぐ死を意識してしまう。すごくダサいから止めたい。</p>
-
-<p>みなさん健康には気を付けましょう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/09/fukutsuu/">腹痛</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-09T20:49:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>お腹が痛くて会社休んでた。<br/>
-お腹が痛くて会社休みますってすごいウソ感あるなって思った。</p>
-
-<p>念の為病院行って調整薬貰った。</p>
-
-<p>インターネットで似た症状調べたらストレスっぽいかなーって思ったんですけど<br/>
-って話したら、ストレスは色んな症状出るから。って言われて<br/>
-そうですね。ってなった。</p>
-
-<p>良い先生だった。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/07/faraday-ruby-zabbix-api/">Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-07T19:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>こんな感じでイケました。</p>
-
-<div><script src='https://gist.github.com/4473915.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>参考：<br/>
- - <a href="https://gist.github.com/2775321">Ruby の HTTP クライアントライブラリ Faraday が便利そう / mitukiii gist</a><br/>
- - <a href="http://d.hatena.ne.jp/ike-dai/20110418/1303129550">Zabbix APIを使って値を取ってみる / ike-daiの日記</a></p>
-
-<p>アクセストークンは、ike-daiさんのブログを参考に<code>curl</code>コマンドで取得し、<br/>
-取得したアクセストークンを<code>auth</code>に入れています。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/07/zabbix-min/">Zabbixで5分間閾値以下だったらアラート</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-07T10:53:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(#10)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかで設定すると、アイテムが30秒間隔の場合<br/>
-<code>30sec * 10 = 300sec</code>の間の最大値が全て<code>50Kbps以下</code>であれば<br/>
-トリガーを発動する。みたいな設定ができる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(300)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こっちの方がシンプルでわかりやすいかもしれない。</p>
-
-<p>@fujiwara++<br/>
-@qryuu++</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/05/unagi/">ウナギ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-05T11:39:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>淡水魚と海水魚と川と海の境目について考えていた。</p>
-
-<p><a href="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg"><img src="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg" alt="wikipedia" /></a></p>
-
-<blockquote><p>ウナギ科魚類がなぜこれほど長距離に及ぶ回遊をするのか、何を目印として元の産卵場所へたどりつくのか、確かなことはわかってない</p></blockquote>
-
-<p>かっこいい。</p>
-
-<blockquote><p>雌の性成熟は遅い（4–13年、高緯度地帯では6–43年）</p></blockquote>
-
-<p>43歳のウナギ、かっこいい。</p>
+<p>先は長く、厳しい。</p>
 </div>
   
   
@@ -1186,33 +570,7 @@ Rubyもよくに書けず、fluentdを運用した経験もあまりない人間
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
-      </li>
-    
-  </ul>
-</section>
-
   
 </aside>
 

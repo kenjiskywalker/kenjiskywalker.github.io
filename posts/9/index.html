@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content=" 今年もよろしくお願いします。
-">
+  <meta name="description" content="Colleagues said to me that I want to monitoring fluentd&rsquo;s state,
+Then I created this plugin.
+同僚がfluentdの状態を監視したいと言っていたので
+私はこのプラグインをつくりました。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -53,19 +55,7 @@
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+  <nav role="navigation"><ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -80,7 +70,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/01/01/2014/">あけましておめでとうございます</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/">Created Check-fluentd-monitor-agent of Sensu-plugin</a></h1>
     
     
       <p class="meta">
@@ -96,484 +86,26 @@
   
 
 
-<time datetime="2014-01-01T02:13:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-05-30T19:08:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/5390179/2014.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/2014.jpg" /></p>
-
-<p>今年もよろしくお願いします。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/31/working-with-tcp-socket/">「Working With TCP Sockets」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-31T06:34:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51uNC60Jm4L._SL160_.jpg" width="160" height="124" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank">Working With TCP Sockets</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Jesse+Storimer" target="_blank">Jesse Storimer</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00BPYT6PK" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p></p>
-
-<p>大切なことはここにすべて載っています。<br/>
-<a href="http://shibayu36.hatenablog.com/entry/2013/10/29/205718">Working With TCP Socketsを読んだ - $shibayu36->blog;</a></p>
-
-<p>これも読みました。<br/>
-<a href="http://melborne.github.io/2012/12/13/ruby-parallel-on-ebook/">電子書籍「irbから学ぶRubyの並列処理 ~ forkからWebSocketまで」EPUB版をGumroadから出版しました！</a></p>
-
-<p>100円で完結にまとめられていて最高でした。</p>
-
-<p>コード参考<br/>
-<a href="http://ja.scribd.com/doc/28253878/EventMachine-scalable-non-blocking-i-o-in-ruby">EventMachine: scalable non-blocking i/o in ruby</a></p>
-
-<p>send(2)のマニュアルページ<br/>
-<a href="http://linuxjm.sourceforge.jp/html/LDP_man-pages/man2/sendmsg.2.html">http://linuxjm.sourceforge.jp/html/LDP_man-pages/man2/sendmsg.2.html</a></p>
-
-<h3>ソケットの流れ</h3>
-
-<blockquote><ol>
-<li>socket(2) ソケットの生成</li>
-<li>bind(2)   ソケットとポートの結合</li>
-<li>listen(2)   接続キューの作成(サーバ)</li>
-<li>accept(2)   接続受け入れ(サーバ)</li>
-<li>send(2), write(2) パケット送信</li>
-<li>recv(2), read(2) パケット受信</li>
-<li>close   ソケットの終了</li>
-</ol>
-</blockquote>
-
-<p>基礎について改めて勉強になった。accept_loop便利だった。<br/>
-IO.selectの部分はepollとかkqueueでやってるんじゃないのかな。<br/>
-EventMachineどうなってるんだろう。って思って調べたら</p>
+  <div class="entry-content"><p>Colleagues said to me that I want to monitoring fluentd&rsquo;s state,<br/>
+Then I created this plugin.<br/>
+同僚がfluentdの状態を監視したいと言っていたので<br/>
+私はこのプラグインをつくりました。</p>
 
 <ul>
-<li>ext/project.h</li>
+<li><a href="http://docs.fluentd.org/articles/monitoring">Monitoring Fluentd - fluentd</a></li>
+<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">sensu-community-plugins/plugins/fluentd/check-fluentd-monitor-agent.rb</a></li>
 </ul>
 
 
-<pre>
-#ifdef HAVE_EPOLL
-#include <sys/epoll.h>
-#endif
-
-#ifdef HAVE_KQUEUE
-#include <sys/event.h>
-#include <sys/queue.h>
-#endif
-
-#ifdef HAVE_INOTIFY
-#include <sys/inotify.h>
-#endif
-</pre>
-
-
-<p>ってやってた。</p>
-
-<p>この人の本はわかりやすくていい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/29/agile-and-scram/">「アジャイル開発とスクラム」をよんだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-29T03:32:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>@hsbtさんから頂戴した本書、大変よかったです。<br/>
-ありがとうございます！</p>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41qg6STGdqL._SL160_.jpg" width="102" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank">アジャイル開発とスクラム 顧客・技術・経営をつなぐ協調的ソフトウェア開発マネジメント</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B9%B3%E9%8D%8B%E5%81%A5%E5%85%90" target="_blank">平鍋健児</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">翔泳社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-01-18</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4798129704" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p></p>
-
-<p>実は、１年前ぐらいにアジャイルサムライを読んけどそんなにしっくりこなかった。<br/>
-本書は</p>
-
-<ul>
-<li>アジャイル開発とは何か、スクラムとは何か</li>
-<li>アジャイル開発とスクラムを実践する</li>
-<li>アジャイル開発とスクラムを考える</li>
-</ul>
-
-
-<p>という三部構成で、第一部でアジャイルとスクラムについてのわかりやすい解説があり、<br/>
-第二部で実際に導入した事例の紹介と中の人の体験談を学び、<br/>
-最後に歴史と、もう少し踏み込んだ話になっていて、大変わかりやすい内容だった。</p>
-
-<p>前職では、３人でサーバサイドのインフラ部分の作業を分担していて、<br/>
-他の部署の人たちがアジャイル開発を実践しているのを遠くで眺めていたレベルだった。</p>
-
-<p>３人で特定の作業を行うだけであればとくにそういうことも必要なかったし<br/>
-自主的に仕事を見つけては共有していたので問題はそんなになかった。<br/>
-コミュニケーションも隣りの席にいてもなるべくIRCを利用し、<br/>
-コミュニケーションのログに残すようにしていたので、<br/>
-コミュニケーションロスはそんなになかった。疑問があったらすぐ相談していたのも<br/>
-多分よかったのだと思う。</p>
-
-<p>一方、現在は組織自体もできてそんなに時間が経っていない、<br/>
-スタートアップなので組織うんぬんよりも、アプリケーションの新機能に<br/>
-業務時間を費やしてきたパターンという印象だ。</p>
-
-<p>自分が入社して１ヶ月ぐらい経つが、他の人が何をやっているのかわかっていない。<br/>
-１週間の進捗確認はあるが、おおよそ１時間で誰が何をやっているのかの詳細をつかむことは<br/>
-相当難しいと思う。そしてスタートアップ関係なしで<br/>
-そういう組織は多いんじゃないかと思っている。</p>
-
-<p>では、そのように誰が何をやっているのかいまいち共有されていない組織すべてが<br/>
-本書を参考に全面的にアジャイルを導入すべく<br/>
-コミュニケーションを取っていくかと考えるとそれは違うと思う。</p>
-
-<p>自分の状況に当てはめると、スクラムマスターと<br/>
-プロダクトオーナーを置いて、スプリントを決めてガッツリと組織立てて行うことは<br/>
-あまりにも変化が大きすぎるからそのコストだけでも大変だ。というのが第一の理由で、<br/>
-第二の理由は、そのようなことに時間を割いている余裕がないことである。</p>
-
-<p>後者の理由については、スタートアップだから。という理由で御座なりにしていくと<br/>
-後々大変なことになるのは経験上目に見えているので</p>
-
-<blockquote><p>プロダクトと組織が大きくなる一方、<br/>
-プロダクトと組織を構成する仕組みや運用が脆弱なまま進んでいく危険</p></blockquote>
-
-<p>早めのうちに対応しておくべきだ。その点で、本書に掲載されているいくつかの施策は<br/>
-試すに値するものがあると感じた。(自分で感じてもみんなが感じなければあんまり意味ない。)</p>
-
-<p>なにはともあれ、各個人が自分の与えられた作業を遂行するのではなく<br/>
-全員が集まって、課題に対してワイワイしながら</p>
-
-<ul>
-<li>課題に対する作業</li>
-<li>自発的に誰が何をやるのか</li>
-<li>誰が何の作業でどう困っているのか</li>
-<li>どういう進捗なのか</li>
-<li>課題はなにか。</li>
-<li>失敗はあったか</li>
-<li>失敗をどう克服したら良いのか</li>
-</ul>
-
-
-<p>などなど、各個人やグループで完結するのではなく、チーム全員で共有し<br/>
-邁進していくことが最高なんだ。という当たり前のことを改めて学べたので、<br/>
-相談しながらどうしていくかみんなで考えたい。</p>
-
-<p>考えたい。というか、みんなでどうやって進めていくのがいいのか<br/>
-話し合ってやってみるところからが本当のスタートだと思う。<br/>
-その上で2014年、本書は最高の課題図書になる。</p>
-
-<p>ホワイトボード使ってかんばんやってみるのがいいのかな。</p>
-
-<h3>あわせてよみたい</h3>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61lV8UYViNL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank">WEB+DB PRESS Vol.78</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/WEB%2BDBPRESS%E7%B7%A8%E9%9B%86%E9%83%A8%E7%B7%A8" target="_blank">WEB+DBPRESS編集部編</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">技術評論社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-12-21</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4774161209" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/29/gravity/">「ゼロ・グラビティ」をみた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-29T03:25:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://wwws.warnerbros.co.jp/gravity/">http://wwws.warnerbros.co.jp/gravity/</a></p>
-
-<p>IMAX 3Dで見た方が良いって言われたので見てきた。<br/>
-アバターを見てから、3Dは残念感があって今回も飛び出す絵本だろうなって思っていた。</p>
-
-<p>全くの見当違いだった。本当に宇宙に行ってきた感覚だった。<br/>
-映画館でしか体験できないので是非体験してもらいたい。<br/>
-座席は前から３、４列目をおすすめします。<br/>
-視野全体がIMAXのスクリーンに覆われるぐらいがちょうどいい。</p>
-
-<p>久々にエンドロール流れて３分ぐらい身動き取れなかった。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/23/katabira-river/">本日の帷子川情報です</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T12:50:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>この記事は <a href="http://www.zusaar.com/event/1847003">MySQL Casual Advent Calendar 2013</a> の 23 日目です。<br/>
-業務でMySQLを使っていない場合、なかなか深い知見というものを得られないとは思います。<br/>
-今回は常日頃自分が気になっていることをメモしておき、<br/>
-データとして利用する一例を記します。</p>
-
-<p>横浜駅から<a href="http://yokohamamitsui.com/">横浜三井ビルディング</a>へ向かうと、途中で築地橋という橋を渡ります。<br/>
-その築地橋の下には帷子川が流れ、目の前の相模湾へと続いているのですが<br/>
-毎日見てみると、丁度築地橋の付近で陸地から海へと流れるはずの川の流れが<br/>
-たまに逆流していることがあるのに気付きました。</p>
-
-<p><img src="http://gyazo.com/f2b5ca8be0ef5844940c9c0e19e97619.png" alt="http://gyazo.com/f2b5ca8be0ef5844940c9c0e19e97619.png" /></p>
-
-<p><a href="http://hamarepo.com/story.php?page_no=0&amp;story_id=2120">帷子川の源流までってどうなってるの？ - はまれぽ.com</a></p>
-
-<p>これは面白いなと思い、通る度にTwitterへメモを残すようにしていました。<br/>
-今回はそのデータを利用し、何か面白い情報が得られないか確認してみようと思います。</p>
-
-<p>本来であれば、天候、風、気温などの複合的情報があって<br/>
-精度の高いデータとして利用できるのですが、<br/>
-川を見てメモをする以上の作業を増やしたくなかったので<br/>
-今回は行いませんでした。</p>
-
-<p>まず、tweets.zipをMySQLに入れる作業ですが、<a href="http://blog.kenjiskywalker.org/blog/2013/04/04/tweets_zip_big_data/">以前メモをした内容</a>の通りに行います。<br/>
-メモ記載当時だと<code>tweets.csv</code>のフォーマットが</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id",  
-</span><span class='line'>"in_reply_to_status_id",
-</span><span class='line'>"in_reply_to_user_id",
-</span><span class='line'>"retweeted_status_id",
-</span><span class='line'>"retweeted_status_user_id",
-</span><span class='line'>"timestamp",
-</span><span class='line'>"source",
-</span><span class='line'>"text",
-</span><span class='line'>"expanded_urls"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-という並びだったのですが、現在は</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id",
-</span><span class='line'>"in_reply_to_status_id",
-</span><span class='line'>"in_reply_to_user_id",
-</span><span class='line'>"timestamp",
-</span><span class='line'>"source",
-</span><span class='line'>"text",
-</span><span class='line'>"retweeted_status_id",
-</span><span class='line'>"retweeted_status_user_id",
-</span><span class='line'>"retweeted_status_timestamp",
-</span><span class='line'>"expanded_urls"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>という並びに変更になっています(2013/12/23現在)。<br/>
-新しく<code>retweeted_status_user_id</code>,<code>retweeted_status_timestamp</code>という<br/>
-２つのステータスが取得できりるようになっています。</p>
-
-<p>テーブルも新しい仕様に変更します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
-</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-</span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
-</span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
-</span><span class='line'>  `in_reply_to_user_id` BIGINT UNSIGNED,
-</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
-</span><span class='line'>  `source` VARCHAR(255),
-</span><span class='line'>  `text` VARCHAR(140),
-</span><span class='line'>  `retweeted_status_id` BIGINT UNSIGNED,
-</span><span class='line'>  `retweeted_status_user_id` BIGINT UNSIGNED,
-</span><span class='line'>  `retweeted_status_timestamp` BIGINT UNSIGNED,
-</span><span class='line'>  `expanded_urls` VARCHAR(255),
-</span><span class='line'>  PRIMARY KEY (id) )
-</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>データをインサートします。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; LOAD DATA INFILE '/Users/kenjiskywalker/Downloads/tweets/tweets.csv' \
-</span><span class='line'>INTO TABLE tweets FIELDS  TERMINATED BY ","  ENCLOSED BY '"'  LINES TERMINATED BY "\n"  IGNORE 1 LINES  \
-</span><span class='line'>(tweet_id, in_reply_to_status_id, in_reply_to_user_id, timestamp, source, text, \
-</span><span class='line'>retweeted_status_id, retweeted_status_user_id, retweeted_status_timestamp, expanded_urls);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>うまくデータがインサートされたか確認します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT COUNT(text) FROM tweets WHERE text LIKE "%本日の帷子川情報です%";
-</span><span class='line'>+-------------+
-</span><span class='line'>| COUNT(text) |
-</span><span class='line'>+-------------+
-</span><span class='line'>|         119 |
-</span><span class='line'>+-------------+
-</span><span class='line'>1 row in set (0.03 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この時点で自分が想像していた1/3ぐらいのデータ量で、<br/>
-別の内容に変更しようと考えましたが諦めずに続けたいと思います。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT timestamp,text FROM tweets WHERE text LIKE "%本日の帷子川情報です%" LIMIT 3;
-</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
-</span><span class='line'>| timestamp           | text                                                                         |
-</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
-</span><span class='line'>| 2013-11-14 01:04:00 | 流入あり #本日の帷子川情報です                                               |
-</span><span class='line'>| 2013-11-13 01:30:56 | 流入あり #本日の帷子川情報です http://t.co/c4hCPjgx5B #gifboom               |
-</span><span class='line'>| 2013-11-12 01:25:46 | 流入あり #本日の帷子川情報です                                               |
-</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
-</span><span class='line'>3 rows in set (0.00 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>正確なデータが入っていることが確認できました。</p>
-
-<p>それではまず、流出と流入の割合を調べてみましょう。</p>
+<p>how to use.<br/>
+使い方</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -593,63 +125,160 @@ EventMachineどうなってるんだろう。って思って調べたら</p>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%";
-</span><span class='line'>+-----------+
-</span><span class='line'>| COUNT(id) |
-</span><span class='line'>+-----------+
-</span><span class='line'>|       119 |
-</span><span class='line'>+-----------+
-</span><span class='line'>1 row in set (0.03 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%";
-</span><span class='line'>+-----------+
-</span><span class='line'>| COUNT(id) |
-</span><span class='line'>+-----------+
-</span><span class='line'>|        33 |
-</span><span class='line'>+-----------+
-</span><span class='line'>1 row in set (0.03 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流入%";
-</span><span class='line'>+-----------+
-</span><span class='line'>| COUNT(id) |
-</span><span class='line'>+-----------+
-</span><span class='line'>|        62 |
-</span><span class='line'>+-----------+
-</span><span class='line'>1 row in set (0.04 sec)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 1,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024 -c 5120 -m 'buffer_queue_length'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 1,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>特に意識していなかったのですが、いくら海が近いとはいえ<br/>
-陸から海へと流れ出る(流出)より海から川へと逆流していく(流入)割合の方が倍近くありました。<br/>
-検証データの怪しさが見えますね。</p>
-
-<p>これだけでは面白くないので月の満ち欠けを含めて確認してみましょう。<br/>
-今回個人的にやりたかったのはこれです。</p>
-
-<p><a href="http://www.hamweather.com/support/documentation/aeris/endpoints/sunmoon-moonphases/">hamweather.com</a>のAPIから月の遷移のデータをとってきます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE moon (
-</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
-</span><span class='line'>  `moon_state` VARCHAR(140),
-</span><span class='line'>  PRIMARY KEY (id) )
-</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
+<p>Please try it.<br/>
+よかったらご利用ください。</p>
+</div>
+  
+  
 
 
-<p>このように<code>moon</code>というテーブルを作成し、<code>moon_state</code>に取得した月の状態を<br/>
-<code>timestamp</code>には<code>%Y-%m-%d</code>のフォーマットのtimestampがはいります。</p>
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/22/chef-books/">書評「Chef活用ガイド」と「Chef実践入門」について</a></h1>
+    
+    
+      <p class="meta">
+        
 
-<p>それでは関連性を調べてみましょう。</p>
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T01:08:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/5390179/chef-books.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/chef-books.jpg" /></p>
+
+<p>同じような時期にChefの書籍が2冊(厚い方と普通の方)発行されるという<br/>
+大変おもしろい現象もあり、日本のChefコミュニティは<br/>
+これからより多くの人が活用する段階に入ってきたのかなという印象を持っています。</p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Chef%E6%B4%BB%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E3%82%B3%E3%83%BC%E3%83%89%E3%81%A7%E3%81%AF%E3%81%98%E3%82%81%E3%82%8B%E6%A7%8B%E6%88%90%E7%AE%A1%E7%90%86-%E6%BE%A4%E7%99%BB%E4%BA%A8%E5%BD%A6/dp/4048919857%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048919857" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51P9TwWpOGL._SL160_.jpg" width="116" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Chef%E6%B4%BB%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89-%E3%82%B3%E3%83%BC%E3%83%89%E3%81%A7%E3%81%AF%E3%81%98%E3%82%81%E3%82%8B%E6%A7%8B%E6%88%90%E7%AE%A1%E7%90%86-%E6%BE%A4%E7%99%BB%E4%BA%A8%E5%BD%A6/dp/4048919857%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048919857" target="_blank">Chef活用ガイド コードではじめる構成管理</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E6%BE%A4%E7%99%BB%E4%BA%A8%E5%BD%A6" target="_blank">澤登亨彦</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">KADOKAWA/アスキー・メディアワークス</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-04-25</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4048919857" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<p></p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Chef%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%7E%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%82%88%E3%82%8B%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E6%A7%8B%E6%88%90%E3%81%AE%E8%87%AA%E5%8B%95%E5%8C%96-WEB-PRESS-plus/dp/477416500X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D477416500X" target="_blank"><img src="http://ecx.images-amazon.com/images/I/514bjG3dt9L._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Chef%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%7E%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%82%88%E3%82%8B%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E6%A7%8B%E6%88%90%E3%81%AE%E8%87%AA%E5%8B%95%E5%8C%96-WEB-PRESS-plus/dp/477416500X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D477416500X" target="_blank">Chef実践入門 ~コードによるインフラ構成の自動化 (WEB+DB PRESS plus)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%90%89%E7%BE%BD%E9%BE%8D%E5%A4%AA%E9%83%8E" target="_blank">吉羽龍太郎</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">技術評論社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-05-22</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/477416500X" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<p></p>
+
+<p>2013/03に発売された@naoya_ito氏による「chef-solo本」から1年と少し</p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%85%A5%E9%96%80Chef-Solo-Infrastructure-as-Code-ebook/dp/B00BSPH158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BSPH158" target="_blank"><img src="http://ecx.images-amazon.com/images/I/31u6VLGX2kL._SL160_.jpg" width="93" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%85%A5%E9%96%80Chef-Solo-Infrastructure-as-Code-ebook/dp/B00BSPH158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BSPH158" target="_blank">入門Chef Solo - Infrastructure as Code</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E4%BC%8A%E8%97%A4%E7%9B%B4%E4%B9%9F" target="_blank">伊藤直也</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">伊藤直也</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-03-11</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00BSPH158" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<p></p>
+
+<p>薄い本(chef-solo本)、普通の本(Chef実践入門)、厚い本(Chef活用ガイド)の3冊をもって<br/>
+Chef三種の神本として本棚に祀ることをおすすめいたします。</p>
+
+<h3>書籍毎によるおすすめ</h3>
+
+<h4>chef-solo本(薄い本)</h4>
+
+<ul>
+<li>本を読むのが苦手、取り敢えずChefというものを動かしてみたい人向き</li>
+</ul>
+
+
+<h4>Chef実践入門(普通の本)</h4>
+
+<ul>
+<li>Chefはどのようなものか、手元でVagrantなどを利用して手で動かしながら学びたい人向き</li>
+</ul>
+
+
+<h4>Chef活用ガイド(厚い本)</h4>
+
+<ul>
+<li>普段からChefを利用しているユーザのリファレンス、およびふとした瞬間に開いて発見したい人向き</li>
+</ul>
+
+
+<h2>Chefを初めてさわる人へ</h2>
+
+<p>Chefを取り敢えず触ってみようという人が<br/>
+どちらを購入すべきか迷われる可能性は多いにあるかと思うので、<br/>
+参考程度に違いを記載します。</p>
+
+<p>Chefの導入自体が、会社にとって大変大掛かりなタスクになる可能性がある場合は<br/>
+まずご自身が<em>Chef実践入門</em>を読み、手を動かしどのようなものか理解された上で、<br/>
+<em>Chef活用ガイド</em>を読み、Chefに関連する知識を埋めるという流れをおすすめしたいです。</p>
+
+<p>理由は、<em>Chef実践入門</em>の書籍自体が手を動かしながら  <br/>
+理解を深めることに重きを置いており、<br/>
+<em>Chef活用ガイド</em>はChefに対するリファレンス的な要素が大きいからです。</p>
+
+<blockquote><p>もちろん<em>Chef実践入門</em>にもChef Serverやtest-kitchen、<br/>
+Serverspecを利用したテスト方法など記載されています:)<br/>
+Chef活用ガイドはコーディングやcookbookの実行のされ方  <br/>
+LWRPについてなど、少し深い情報がリファレンス的に情報に辿りつけ<br/>
+2冊ともよく棲み分けがされている印象です。</p></blockquote>
+
+<h2>両方読んでみて</h2>
+
+<p>私自身は、あまり深いところまでChefを利用しているわけではないのですが<br/>
+２年ぐらいChefを扱って仕事を行っているので(もう2年ぐらい経つのか&hellip;)<br/>
+何の気なしに知っているような感覚にもなりますが、<br/>
+ohai pluginについては全く知らなかったので、目からウロコでした。</p>
+
+<p><em>Chef実践入門</em>のPackerとVagrantの設定を読みながら、自分のものを見直します。
+<em>Chef活用ガイド</em>のコラムは大変面白いですね。(ohaiの由来、考えたこともありませんでした)</p>
+
+<h2>まとめ</h2>
+
+<p>Chefの他にもSaltStack社の<a href="https://github.com/saltstack/salt">salt</a>、Puppet Labs社の<a href="https://github.com/puppetlabs/puppet">puppet</a>、<br/>
+国内では最近だとAnsible社の<a href="https://github.com/ansible/ansible">ansible</a>などが流行っていたりしますね。</p>
+
+<p>流行りにのっかるというのもエンジニアとして大切なモチベーションではありますが<br/>
+書籍が充実しているから選択する。という選択の方法も十分あり得るのかもしれません。</p>
+
+<h4>あわせて読みたい</h4>
+
+<script async class="speakerdeck-embed" data-id="1de48920c23e0131cbce32f19432c92f" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+<hr />
+
+<h2>各書籍の目次</h2>
+
+<h3><a href="http://ascii.asciimw.jp/books/books/detail/978-4-04-891985-2.shtml">Chef活用ガイド</a></h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -679,39 +308,191 @@ EventMachineどうなってるんだろう。って思って調べたら</p>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
-</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%");
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>| timestamp  | moon_state    |
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>| 2013-09-05 | new moon      |
-</span><span class='line'>| 2013-04-26 | full moon     |
-</span><span class='line'>| 2013-04-18 | first quarter |
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>3 rows in set (0.03 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;
-</span><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
-</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報 です%" AND text LIKE "%流入%");tamp
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>| timestamp  | moon_state    |
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>| 2013-09-27 | last quarter  |
-</span><span class='line'>| 2013-09-19 | full moon     |
-</span><span class='line'>| 2013-08-21 | full moon     |
-</span><span class='line'>| 2013-08-14 | first quarter |
-</span><span class='line'>| 2013-07-30 | last quarter  |
-</span><span class='line'>| 2013-07-08 | new moon      |
-</span><span class='line'>| 2013-06-17 | first quarter |
-</span><span class='line'>+------------+---------------+
-</span><span class='line'>7 rows in set (0.03 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>第1部 Chefってなに？
+</span><span class='line'>第1章 Chefの概要
+</span><span class='line'>1.1 Chefとは
+</span><span class='line'>1.2 Chefの背景とInfrastructure as Codeの概念
+</span><span class='line'>第2章 Chefの利用形態
+</span><span class='line'>2.1 Chef-Server/Client構成
+</span><span class='line'>2.2 Chef-Solo
+</span><span class='line'>2.3 どちらの構成を採用するか
+</span><span class='line'>2.4 Chefの機能要素
+</span><span class='line'>2.5 Chef-Repo
+</span><span class='line'>第3章 Ohai
+</span><span class='line'>3.1 Ohai概要
+</span><span class='line'>3.2 Ohaiが収集するNode Attribute
+</span><span class='line'>3.3 Ohaiの活用
+</span><span class='line'>3.4 Ohaiリファレンス
+</span><span class='line'>第4章 Chef-Server
+</span><span class='line'>4.1 Chef-Serverの種類
+</span><span class='line'>4.2 Chef-Serverのコンポーネント
+</span><span class='line'>4.3 Chef-Serverの導入
+</span><span class='line'>4.4 Chef-Serverの設定
+</span><span class='line'>第5章 Chef-Client
+</span><span class='line'>5.1 Chef-Clientとは
+</span><span class='line'>5.2 Chef-Client主要オブジェクト解説
+</span><span class='line'>5.3 Chef-Clientの動作の流れ
+</span><span class='line'>5.4 Chef-Clientの導入
+</span><span class='line'>5.5 Chef-Clientの設定
+</span><span class='line'>5.6 Chef-Clientの実行
+</span><span class='line'>5.7 Chef-Clientの機能を拡張する
+</span><span class='line'>5.8 イベントディスパッチャ（Chef::EventDispatcher）
+</span><span class='line'>第6章 Workstation
+</span><span class='line'>6.1 WorkstationとKnife
+</span><span class='line'>6.2 Knifeの役割
+</span><span class='line'>6.3 Knifeのセットアップ
+</span><span class='line'>6.4 Knifeの設定
+</span><span class='line'>6.5 knifeコマンドラインの共通オプション
+</span><span class='line'>6.6 knifeサブコマンド
+</span><span class='line'>6.7 Knifeの基本操作
+</span><span class='line'>6.8 Knifeを使ったワークフロー
+</span><span class='line'>6.9 WorkstationからNodeを管理する
+</span><span class='line'>6.10 Knifeの拡張
+</span><span class='line'>6.11 独自のKnifeプラグインを作成する
+</span><span class='line'>第2部 もっと詳しく
+</span><span class='line'>第7章 Search API
+</span><span class='line'>7.1 問い合わせ書式
+</span><span class='line'>7.2 検索対象オブジェクト
+</span><span class='line'>7.3 問い合わせキー
+</span><span class='line'>7.4 問い合わせパターン
+</span><span class='line'>7.5 論理演算子
+</span><span class='line'>7.6 特殊文字の取り扱い
+</span><span class='line'>7.7 Partial Search
+</span><span class='line'>第8章 Data Bag
+</span><span class='line'>8.1 Data Bagの構成
+</span><span class='line'>8.2 Data Bagの作成
+</span><span class='line'>8.3 暗号化Data Bag
+</span><span class='line'>8.4 Data Bagの利用
+</span><span class='line'>第9章 Environment
+</span><span class='line'>9.1 Environmentの構成と基本要素
+</span><span class='line'>9.2 要素の詳細と記述例
+</span><span class='line'>9.3 Environment _defaultについて
+</span><span class='line'>9.4 EnvironmentをNodeに適用する
+</span><span class='line'>第10章 Role
+</span><span class='line'>10.1 Roleの構成と基本要素
+</span><span class='line'>10.2 要素の詳細と記述例
+</span><span class='line'>10.3 RoleをNodeに適用する
+</span><span class='line'>第11章 Cookbookの基本
+</span><span class='line'>11.1 Cookbookとは
+</span><span class='line'>11.2 Cookbookの基本要素一覧
+</span><span class='line'>11.3 Cookbook要素の読み込み順序
+</span><span class='line'>11.4 Recipe
+</span><span class='line'>11.5 Resource共通項目
+</span><span class='line'>11.6 Attribute
+</span><span class='line'>11.7 Recipe DSL
+</span><span class='line'>11.8 ResourceとProviderの関係
+</span><span class='line'>11.9 ディープマージ
+</span><span class='line'>第12章 他のCookbookコンポーネント
+</span><span class='line'>12.1 Cookbook Metadata
+</span><span class='line'>12.2 Cookbook Version
+</span><span class='line'>12.3 Cookbook File
+</span><span class='line'>12.4 Cookbook Template
+</span><span class='line'>12.5 Cookbook Library
+</span><span class='line'>12.6 Cookbook Definition
+</span><span class='line'>第13章 Lightweight Resources and Providers（LWRP）
+</span><span class='line'>13.2 LWRPの組み込み
+</span><span class='line'>13.3 簡単なLWRPを作成する
+</span><span class='line'>13.4 Lightweight Resource
+</span><span class='line'>13.5 Lightweight Provider
+</span><span class='line'>13.6 LWRPの活用と作成例
+</span><span class='line'>第14章 テスト
+</span><span class='line'>14.1 knife cookbook testサブコマンド
+</span><span class='line'>14.2 foodcritic
+</span><span class='line'>14.3 ChefSpec
+</span><span class='line'>14.4 test-kitchen
+</span><span class='line'>14.5 Cookbookを継続的インテグレーションする
+</span><span class='line'>第15章 Cookbookの管理ツール
+</span><span class='line'>15.1 Cookbook管理のアンチパターン
+</span><span class='line'>15.2 Berkshelf
+</span><span class='line'>15.3 Librarian-Chef
+</span><span class='line'>第16章 Chefの運用
+</span><span class='line'>16.1 Chefとシステム構築
+</span><span class='line'>16.2 Enterprise Chef Server有償アドオン
+</span><span class='line'>16.3 事例紹介
+</span><span class='line'>付録A Chef-ClientのEventDispatcherイベント一覧
+</span><span class='line'>付録B Chef公式LWRP
+</span><span class='line'>付録C ResourcesとProvidersの一覧
+</span><span class='line'>付録D IaaS系Knifeプラグイン</span></code></pre></td></tr></table></div></figure>
 
 
-<p>出、出〜！サブクエリLIKE連奴〜！<br/>
-SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行しないようにしましょうね。<br/>
-<code>moon_state</code>が<code>fullmoon</code>のものを抽出してみます。</p>
+<h3><a href="http://gihyo.jp/book/2014/978-4-7741-6500-4?ard=1400691161">Chef実践入門</a></h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -734,47 +515,104 @@ SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行�
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
-</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%") AND moon_state = "full moon";
-</span><span class='line'>+------------+------------+
-</span><span class='line'>| timestamp  | moon_state |
-</span><span class='line'>+------------+------------+
-</span><span class='line'>| 2013-04-26 | full moon  |
-</span><span class='line'>+------------+------------+
-</span><span class='line'>1 row in set (0.05 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;
-</span><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
-</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流入%") AND moon_state = "full moon";
-</span><span class='line'>+------------+------------+
-</span><span class='line'>| timestamp  | moon_state |
-</span><span class='line'>+------------+------------+
-</span><span class='line'>| 2013-09-19 | full moon  |
-</span><span class='line'>| 2013-08-21 | full moon  |
-</span><span class='line'>+------------+------------+
-</span><span class='line'>2 rows in set (0.04 sec)
-</span><span class='line'>
-</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>第1章：DevOpsの潮流とChef
+</span><span class='line'>1.1　今なぜChefが注目されているのか
+</span><span class='line'>1.2　Infrastructure as Code
+</span><span class='line'>1.3　Chefの概要
+</span><span class='line'>第2章：Chef Soloによるローカル開発環境の自動構築
+</span><span class='line'>2.1　Chef Soloとは
+</span><span class='line'>2.2　検証環境を構築する
+</span><span class='line'>2.3　Chef Soloをインストールする
+</span><span class='line'>2.4　Chefを動かしてみる
+</span><span class='line'>2.5　Chef Soloでパッケージをインストールする
+</span><span class='line'>2.6　knife-soloでchef-soloをリモート実行する
+</span><span class='line'>2.7　Chef SoloでApache，MySQLをセットアップする
+</span><span class='line'>2.8　Chefリポジトリの扱い
+</span><span class='line'>2.9　Vagrant以外のサーバへChefを実行する
+</span><span class='line'>2.10　Chefの考え方
+</span><span class='line'>第3章：レシピの書き方
+</span><span class='line'>3.1　リソースとは
+</span><span class='line'>3.2　td-agentのレシピを読む
+</span><span class='line'>3.3　主要なリソースの解説
+</span><span class='line'>3.4　そのほかのリソース
+</span><span class='line'>3.5　AttributeとData Bag
+</span><span class='line'>3.6　クックブックのディレクトリレイアウト
+</span><span class='line'>4.1　コミュニティクックブックを利用する
+</span><span class='line'>4.2　Chef Soloで複数ノードを管理する
+</span><span class='line'>第5章：Vagrantによるクックブック開発環境の構築
+</span><span class='line'>5.1　Vagrantから直接クックブックを適用する
+</span><span class='line'>5.2　Saharaを使って何度もクックブック適用を試す
+</span><span class='line'>5.3　Packerで開発環境用のboxを作成する
+</span><span class='line'>5.4　変更を加えたboxを配布する
+</span><span class='line'>5.5　VagrantでVMware Fusionを利用する
+</span><span class='line'>5.6　VagrantでAmazon EC2を利用する
+</span><span class='line'>第6章：アプリケーション実行環境の自動構築
+</span><span class='line'>6.1　PHP環境を構築する
+</span><span class='line'>6.2　Ruby環境を構築する
+</span><span class='line'>6.3　MySQLを構築する
+</span><span class='line'>6.4　Fluentdを構築する
+</span><span class='line'>第7章：テスト駆動インフラ構築
+</span><span class='line'>7.1　インフラ構築用のコードにテストを用意する意味
+</span><span class='line'>7.2　Test Kitchenによるテスト
+</span><span class='line'>7.3　継続的インテグレーション
+</span><span class='line'>第8章：Chefをより活用するための注意点
+</span><span class='line'>8.1　Chefユーザの共通の悩み
+</span><span class='line'>8.2　共通の悩みを解消する基本的な方針
+</span><span class='line'>8.3　レシピの書き方の注意点
+</span><span class='line'>8.4　Chefをデプロイツールとして使う際の問題点
+</span><span class='line'>8.5　大きくなったクックブックを分割する
+</span><span class='line'>8.6　クックブックと実際の環境の食い違い
+</span><span class='line'>8.7　クックブックの依存関係を管理する
+</span><span class='line'>8.8　Chefのレシピが実行されるまでのサイクル
+</span><span class='line'>8.9　Chefを拡張する
+</span><span class='line'>第9章：Chef Serverによる本番環境の構築と運用
+</span><span class='line'>9.1　Chef Serverを利用するメリット
+</span><span class='line'>9.2　Chef Serverをセットアップする
+</span><span class='line'>9.3　knifeコマンドを利用したオペレーション
+</span><span class='line'>9.4　Chef Serverを使った運用フロー
+</span><span class='line'>Chef Serverと認証する
+</span><span class='line'>chef-clientコマンドを実行する
+</span><span class='line'>第10章：Chef Serverによる大規模システムの構築と運用</span></code></pre></td></tr></table></div></figure>
 
 
-<p>流出:流入 = 2:1 なので、傾向は出ていないように見えます。<br/>
-参照データ量が少ないので、なんともですが<br/>
-もう少し面白い結果が出てきてくれたら楽しかったですね。</p>
-
-<blockquote class="twitter-tweet" lang="en"><p>月の満ち欠け、何も関係ねーじゃねーか</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/414329273709625344">December 21, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>はい。ということでMySQLを利用すれば、<em>好きなあの子のバスの乗車時刻</em>や<br/>
-<em>あの人いつもあの服着てる気がする</em>。など、<br/>
-日頃から気になることをメモしておくことで、<br/>
-実際に検証することが可能になるのでおすすめです。</p>
-
-<p>明日(12/24)はからあげエンジニアでおなじみの@sasata299さんです。</p>
+<p>cookbookの書き方とか勉強させてもらお</p>
 </div>
   
   
@@ -787,7 +625,7 @@ SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行�
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/22/london/">「ロンドン起業日記」を読んだ</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/21/shikinensengoo-infrastractor-blue-green-deployment/">式年遷宮インフラストラクチャについて</a></h1>
     
     
       <p class="meta">
@@ -803,49 +641,58 @@ SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行�
   
 
 
-<time datetime="2013-12-22T16:21:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-05-21T01:53:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank"><img src="http://tatsu-zine.com/images/books/205/cover_s.jpg" alt="ロンドン起業日記　ヨーロッパで絶賛、奮闘中！" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%;margin-bottom:10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">ロンドン起業日記　ヨーロッパで絶賛、奮闘中！【電子書籍】</a></div><div class="amazlet-detail">井上真<br />達人出版会<br />発行日: 2013-12-09<br />対応フォーマット: PDF, EPUB<br /></div><div class="amazlet-sub-info" style="float:left;"><div class="amazlet-link" style="margin-top:5px"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear:left"></div></div>
+  <div class="entry-content"><h2>参考エントリ</h2>
+
+<h5><a href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h5>
+
+<h5><a href="http://blog.kentarok.org/entry/2014/03/15/224227">「技術的負債」を問いなおす」というタイトルでJAWS DAYS 2014で話してきた - delirious thoughts</a></h5>
+
+<h2>どうでもいいこと</h2>
+
+<p>世界的な表現で言う<a href="http://martinfowler.com/bliki/BlueGreenDeployment.html">BlueGreenDeployment</a>について気付いたことがあったのでメモ。<br/>
+式年遷宮が行われた2013年の当日のメンテナンス時間について調べてみた。</p>
+
+<ul>
+<li><p>皇大神宮
+10月2日　午後1時から翌3日午前5時</p></li>
+<li><p>豊受大神宮
+10月5日　午後1時から翌6日午前5時</p></li>
+</ul>
 
 
-<p><a href="http://www.hsbt.org/diary/20131216.html">ロンドン起業日記 を読んだ - HsbtDiary</a></p>
+<p>16hour x 2days ということだったらしい。<br/>
+この間は神様もお休みしていたのだ。</p>
 
-<p>@hsbtさんが読んでいたので読んでみた。<br/>
-成功した話とかあまり教訓にならなくて、鮮度の高い体験談の方が<br/>
-よっぽど得るものがあると思う。</p>
+<p>これを稼働率で計算すると</p>
 
-<blockquote><p>記されているその行いよりも、事前に存在したバックグラウンドが大切なのに<br/>
-さもその行いだけで成功した文脈のものが多い。という意味で</p></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>24(hour) * 365(days) * 20(years) = 175,200
+</span><span class='line'>(16hour * 2days)       / 175,200 = 0.0001826484
+</span><span class='line'>100 - 0.0001826484               = 99.9998173516</span></code></pre></td></tr></table></div></figure>
 
-<p>とくに本書はまだプロダクトをつくりあげていく途中の生の情報がたくさんあって<br/>
-ゴールした後に整備された話ではなく、今走り続けている人の話なので<br/>
-@makoto_inoueさんのお話を直接聞いているような熱量があってすぐに読み終わった。</p>
 
-<p>blogの<a href="http://d.hatena.ne.jp/makotoi/">makotoiの日記:from London</a>も面白い。</p>
+<p><strong>99.9998%</strong>の稼働率となる。わけはなく<br/>
+そもそも24時間稼働しているわけではないのでそんな計算は成り立たない。</p>
 
-<p>昔、社会起業家みたいなの考えてた時期があった。<br/>
-あの時は熱量だけで進んでいって、途中で全部投げ出してしまった。</p>
+<p>何が言いたいのかというと、ガチで毎日切り替わるような<br/>
+BlueGreenDeploymentなシステムをつくるなら<br/>
+少なくとも毎日アクセスの少ない30分ぐらいはダウンしてても良いのではないか。<br/>
+それぐらい許容しないで運用でカバーするのは大変なんじゃないかと思った。</p>
 
-<p>あの頃は自分で何もかもやろうとしていた。若さ故のなんとかだった。<br/>
-今ならもう少しうまくやれるかもしれない。もう少し人の役に立てるかもしれない。<br/>
-など、読む人によって色々感じるものがあるのではないかと思います。</p>
+<p>何でもかんでもノンストップのコストって結構あるよなって感じるけど<br/>
+実際はどうなんだろ。神様も儀式立てて切り替えているんだし<br/>
+その辺インターネットのシステムも儀式立てて本番環境切り替えた方が良いのではないか。</p>
 
-<p>鮮度と熱量があって、大変良かったです。</p>
-
-<p>お母さんからのメールに、新聞から抜粋した</p>
-
-<blockquote><p>嘘をつかない<br/>
-人に親切にする<br/>
-ルールを守る<br/>
-勉強をする</p></blockquote>
-
-<p>この４つのしつけの話に背筋が伸びる思いでした。<br/>
-お母さんのメールが書籍化されたらそちらも読みたいです。</p>
+<p>なんてことを日本酒飲みながら考えていたりした。</p>
 </div>
   
   
@@ -858,7 +705,7 @@ SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行�
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/14/fluentd-casual-3/">Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/">AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする</a></h1>
     
     
       <p class="meta">
@@ -874,35 +721,19 @@ SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行�
   
 
 
-<time datetime="2013-12-14T01:46:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-05-12T18:13:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>Fluentd Casual Talks #3 で話してきました</h2>
-
-<p>会場をご提供頂いたDeNAさん、主催者の@tagomorisさん、ありがとうございました。</p>
-
-<p>スライドはこちらです。</p>
-
-<script async class="speakerdeck-embed" data-id="b9dcc770460d0131db724af7eb411f76" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
-
-
-<p></p>
-
-<p>設定が増えてくると<code>td-agent.conf</code>自体が肥えてきます。<br/>
-その場合、<code>include config.d/hoge.conf</code>というように<br/>
-機能別に設定ファイルを分けることで、人間が管理できるようになります。</p>
-
-<p>設定ファイルについては、必要な設定だけを人間が行って<br/>
-ファイルの設置などについては、Chefに行ってもらうのが良いです。<br/>
-Chefの設定方法についてはスライドを見てもらうとなんとなくわかるかなと思います。<br/>
-ポイントは<code>include_recipe</code>を利用して、Chefのrecipe自体も分割するところです。</p>
+  <div class="entry-content"><p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
+存在しない場合は無視されるので、下記のように4本など<br/>
+事前に指定しておくのが良いかと思います。</p>
 
 <ul>
-<li>chef/site-cookbook/td-agent/recipes/td-agent.conf</li>
+<li>create-launch-configuration</li>
 </ul>
 
 
@@ -916,268 +747,21 @@ Chefの設定方法についてはスライドを見てもらうとなんとな�
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;
-</span><span class='line'>
-</span><span class='line'>include config.d/nginx.conf
-</span><span class='line'>
-</span><span class='line'>&lt;match **&gt;
-</span><span class='line'>  type file
-</span><span class='line'>  path /tmp/unmatched
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>chef/site-cookbook/td-agent/recipes/nginx.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/td-agent/config.d/nginx.conf" do
-</span><span class='line'>  owner "root"
-</span><span class='line'>  mode  0644
-</span><span class='line'>  source "nginx.conf.erb"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>chef/site-cookbooks/td-agent/templates/default/nginx.conf.erb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match nginx.access.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file_alternative
-</span><span class='line'>    time_slice_format %Y%m%d-%H
-</span><span class='line'>    path /var/log/aggregated/nginx/access
-</span><span class='line'>    output_data_type attr:message
-</span><span class='line'>    localtime
-</span><span class='line'>    output_include_time false
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;
-</span><span class='line'>
-</span><span class='line'>...
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \
+</span><span class='line'>                  --image-id AMI \
+</span><span class='line'>                  --instance-type m1.small \
+</span><span class='line'>                  --key-name KEYNAME \
+</span><span class='line'>                  --security-groups sg-00000000 sg-00000001 \
+</span><span class='line'>                  --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
+</span><span class='line'>                                           ]'
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>このように分割します。<code>nginx.rb</code>や<code>rds.rb</code>には<br/>
-<code>nginx.conf</code>や<code>rds.conf</code>を生成するためのテンプレートが書かれています。<br/>
-スライド内の<code>s3cmd</code>の箇所を参照して頂ければ、どんな感じかわかると思います。</p>
-
-<p>世界を前進させるスーパーな話も良いですが、増えすぎる設定ファイルを<br/>
-どう管理するか。みたいな話があっても良いのではないかと思い<br/>
-発表するに至りました。みなさんも良い管理方法などあれば<br/>
-是非とも教えて下さい。</p>
-
-<p>また、わからないことがあれば気軽に@kenjiskywalkerや、<br/>
-kenji at kenjiskywalker.orgに聞いて下さい。</p>
-
-<p>fluentdのように設定が多岐に渡る場合などは<br/>
-Chefやpupet、Ansibleのような設定管理ツールを利用するのが良いですね。</p>
-
-<p>ライブリリース２本、ライブ感あってよかったですね。<br/>
-おつかれさまでした。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/11/201311-book/">2013/11読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-11T01:20:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank"><img src="http://www.oreilly.co.jp/books/images/picture_small978-4-87311-642-6.gif" width="113" height="145" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank">イーサネットスイッチ</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : </div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">O&#8217;Reilly Japan</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/11/9784873116426" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%A1%E3%82%BF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0Ruby-Paolo-Perrotta/dp/4048687158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048687158" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51TODrMIEnL._SL160_.jpg" width="115" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%A1%E3%82%BF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0Ruby-Paolo-Perrotta/dp/4048687158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048687158" target="_blank">メタプログラミングRuby</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Paolo+Perrotta" target="_blank">Paolo Perrotta</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">アスキー・メディアワークス</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2010-08-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4048687158" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Eloquent-Ruby-Addison-Wesley-Professional-Series-ebook/dp/B004MMEJ36%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB004MMEJ36" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51NOH1DvAGL._SL160_.jpg" width="114" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Eloquent-Ruby-Addison-Wesley-Professional-Series-ebook/dp/B004MMEJ36%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB004MMEJ36" target="_blank">Eloquent Ruby (Addison-Wesley Professional Ruby Series)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Russ+Olsen" target="_blank">Russ Olsen</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">Addison-Wesley Professional</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2011-02-07</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B004MMEJ36" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E4%BB%95%E4%BA%8B%E3%81%A8%E5%B9%B8%E7%A6%8F%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%BA%BA%E7%94%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6-%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0/dp/4887596839%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4887596839" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51BkkH-iuoL._SL160_.jpg" width="101" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E4%BB%95%E4%BA%8B%E3%81%A8%E5%B9%B8%E7%A6%8F%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%BA%BA%E7%94%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6-%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0/dp/4887596839%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4887596839" target="_blank">仕事と幸福、そして人生について</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0" target="_blank">ジョシュア・ハルバースタム</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">ディスカヴァー・トゥエンティワン</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2009-02-18</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4887596839" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q5jtSKEQL._SL160_.jpg" width="103" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank">ワーク・シフト ― 孤独と貧困から自由になる働き方の未来図〈2025〉</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3" target="_blank">リンダ・グラットン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">プレジデント社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-07-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4833420163" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Objective-C-iPhone%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA-%E5%85%A5%E9%96%80%E3%83%8E%E3%83%BC%E3%83%88-Xcode5-iOS7%E5%AF%BE%E5%BF%9C/dp/4800710227%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4800710227" target="_blank"><img src="http://ecx.images-amazon.com/images/I/5108ukII8yL._SL160_.jpg" width="117" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Objective-C-iPhone%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA-%E5%85%A5%E9%96%80%E3%83%8E%E3%83%BC%E3%83%88-Xcode5-iOS7%E5%AF%BE%E5%BF%9C/dp/4800710227%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4800710227" target="_blank">詳細! Objective-C iPhoneアプリ開発 入門ノート Xcode5+iOS7対応</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%A4%A7%E9%87%8D%E7%BE%8E%E5%B9%B8" target="_blank">大重美幸</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">ソーテック社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-11-02</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4800710227" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9D%82%E6%9C%AC%E3%81%A7%E3%81%99%E3%81%8C-1-%E3%83%93%E3%83%BC%E3%83%A0%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B/dp/4047286338%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4047286338" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51wRd7OZK3L._SL160_.jpg" width="104" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9D%82%E6%9C%AC%E3%81%A7%E3%81%99%E3%81%8C-1-%E3%83%93%E3%83%BC%E3%83%A0%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B/dp/4047286338%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4047286338" target="_blank">坂本ですが? 1 (ビームコミックス)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B" target="_blank">佐野菜見</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">エンターブレイン</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-01-15</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4047286338" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p></p>
-
-<p>Rubyの2冊は何回でも読みたい本だ。<br/>
-プログラミング、未だにわからないことだからけだけど<br/>
-個人的なウェッブサービスやるやるって言って1年ぐらい経ってる。<br/>
-アイデアはあるのでちゃんとやっていきたい。</p>
-
-<p>Objective-Cの本はUI周りがほとんどでなんとなく違った感じだった。<br/>
-Objective-Cはオフィシャルのドキュメントとか充実してるので<br/>
-それを見てやれば良さそう。</p>
-
-<p>転職前の１週間ずっと体調悪くて最低だった。<br/>
-2014年は技術力の向上と合わせて健康力も上げていきたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/10/riq/">「利休にたずねよ」を見てきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-10T10:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.rikyu-movie.jp/">http://www.rikyu-movie.jp/</a></p>
-
-<p>本物の黒茶碗が使われるのと、利休の異常さが見れそうだったので見てきました。<br/>
-オープニングの10分ぐらいで利休の異常さに気付くと思います。</p>
-
-<p>先週末、京都に行ったついでに利休追悼ツアーで大徳寺と北野天満宮に行ったので<br/>
-よりリアルに感じることができました。</p>
-
-<p>利休の異常さ、朝顔の話が有名だけど人間そぎ落としていくと最高の美が見つかるっていうのは<br/>
-よくある話だし、それに関してはつきつめていくのが正しいと思います。</p>
-
-<p>昔の人も色々とせわしなくて、市中の山居という概念が必要とされていたし<br/>
-それはいつの時代も変わらないのかなとも思います。</p>
-
-<p>弟子の織部も異常で、その異常さを面白く読めるへうげものはおすすめです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/">supervisorでログのディレクトリをSIGUSR2を使って開き直す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-04T20:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>supervisorをインストール</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install python-setuptools
-</span><span class='line'>$ sudo easy_install supervisor
-</span><span class='line'>$ echo_supervisord_conf &gt; /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
-
-
 <ul>
-<li>テストスクリプト(/root/while.sh)を置く</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>while true ; do date ; sleep 1 ; done</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>/etc/supervisord.conf</li>
+<li>aws autoscaling &ndash;region REGION describe-launch-configurations</li>
 </ul>
 
 
@@ -1201,126 +785,112 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[unix_http_server]
-</span><span class='line'>file=/tmp/supervisor.sock   ; (the path to the socket file)
-</span><span class='line'>[supervisord]
-</span><span class='line'>logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
-</span><span class='line'>logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
-</span><span class='line'>logfile_backups=10           ; (num of main logfile rotation backups;default 10)
-</span><span class='line'>loglevel=info                ; (log level;default info; others: debug,warn,trace)
-</span><span class='line'>pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
-</span><span class='line'>nodaemon=false               ; (start in foreground if true;default false)
-</span><span class='line'>minfds=1024                  ; (min. avail startup file descriptors;default 1024)
-</span><span class='line'>minprocs=200                 ; (min. avail process descriptors;default 200)
-</span><span class='line'>childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
-</span><span class='line'>[rpcinterface:supervisor]
-</span><span class='line'>supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
-</span><span class='line'>[supervisorctl]
-</span><span class='line'>serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
-</span><span class='line'>[program:hello]
-</span><span class='line'>priority = 100
-</span><span class='line'>command = sh /root/while.sh
-</span><span class='line'>redirect_stderr = true</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "LaunchConfigurations": [
+</span><span class='line'>        {
+</span><span class='line'>            "UserData": null,
+</span><span class='line'>            "EbsOptimized": false,
+</span><span class='line'>            "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
+</span><span class='line'>            "InstanceMonitoring": {
+</span><span class='line'>                "Enabled": true
+</span><span class='line'>            },
+</span><span class='line'>            "ImageId": "AMI",
+</span><span class='line'>            "CreatedTime": "2014-01-01T01:00:00.000Z",
+</span><span class='line'>            "BlockDeviceMappings": [
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdd",
+</span><span class='line'>                    "VirtualName": "ephemeral2"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdb",
+</span><span class='line'>                    "VirtualName": "ephemeral0"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sde",
+</span><span class='line'>                    "VirtualName": "ephemeral3"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdc",
+</span><span class='line'>                    "VirtualName": "ephemeral1"
+</span><span class='line'>                }
+</span><span class='line'>            ],
+</span><span class='line'>            "KeyName": "KEYNAME",
+</span><span class='line'>            "SecurityGroups": [
+</span><span class='line'>                "sg-00000000",
+</span><span class='line'>                "sg-00000001"
+</span><span class='line'>            ],
+</span><span class='line'>            "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
+</span><span class='line'>            "KernelId": null,
+</span><span class='line'>            "RamdiskId": null,
+</span><span class='line'>            "InstanceType": "m1.small"
+</span><span class='line'>        }
+</span><span class='line'>    ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
+
+<p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/12/sensu-multi-settings/">Sensuで一つのJSONファイルに複数の設定を記述する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-12T16:40:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>deep_mergeなのでこう書けます。</p>
 
 <ul>
-<li>supervisorを走らせる</li>
+<li>/etc/sensu/conf.d/checks/check_hoge.json</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor
-</span><span class='line'>$ supervisord -c /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>ログが出力されているのか確認</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
-</span><span class='line'>Wed Dec  4 10:32:17 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:18 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:19 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:20 UTC 2013</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>状態を確認するためにプロセスを監視しておく</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>/var/log/supervisor/を移動する</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mv /var/log/supervisor /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
-
-
-<p>tailで流しているログが流れ続けているか確認する。<br/>
-ログが止まっていたりしたらがんばってください。</p>
-
-<ul>
-<li>別のディレクトリを作成してsymlinkしてみる</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor_new
-</span><span class='line'>$ ln -s /var/log/supervisor_new /var/log/supervisor
-</span><span class='line'>$ ls -la /var/log/supervisor</span></code></pre></td></tr></table></div></figure>
-
-
-<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
-
-<ul>
-<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
-</ul>
-
-
-<p>出力され続けていることを確認</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls -la /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>SIGUSR2</code>を発行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ kill -SIGUSR2 `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じでシグナルがやってきて</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`
-</span><span class='line'>Process 22859 attached - interrupt to quit
-</span><span class='line'>--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
-</span><span class='line'>open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
-</span><span class='line'>open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1329,16 +899,46 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>Wed Dec  4 10:03:42 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:43 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:44 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:45 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:46 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:47 UTC 2013</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_hoge_one": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_two": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_three": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>学ぶことは多い。</p>
+
 </div>
   
   
@@ -1358,33 +958,7 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
-      </li>
-    
-  </ul>
-</section>
-
   
 </aside>
 

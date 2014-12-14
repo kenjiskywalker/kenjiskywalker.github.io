@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。
+もちろんZABBIXでグラフにすることもできます。 fluent-plugin-zabbix
+fluent- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/posts/35/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/cloudwatch-fluentd-zabbix/">fluentdでCloudWatchのELBのメトリクスをZABBIXに渡す</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T17:05:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。<br/>
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。<br/>
+もちろんZABBIXでグラフにすることもできます。</p>
+
+<p><a href="https://rubygems.org/gems/fluent-plugin-zabbix">fluent-plugin-zabbix</a><br/>
+<a href="http://rubygems.org/gems/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a></p>
+
+<p>この2つのfluentdプラグインを使います。</p>
+
+<h4>td-agent.conf</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type cloudwatch
+</span><span class='line'>  tag  cloudwatch
+</span><span class='line'>  aws_key_id  YOUR_AWS_KEY_ID
+</span><span class='line'>  aws_sec_key YOUR_AWS_SECRET/KE
+</span><span class='line'>  cw_endpoint monitoring.ap-northeast-1.amazonaws.com
+</span><span class='line'>
+</span><span class='line'>  namespace AWS/ELB
+</span><span class='line'>  metric_name HealthyHostCount,HTTPCode_Backend_2XX,HTTPCode_Backend_3XX,HTTPCode_Backend_4XX,HTTPCode_Backend_5XX,HTTPCode_ELB_4XX,Latency,RequestCount,UnHealthyHostCount
+</span><span class='line'>  dimensions_name LoadBalancerName
+</span><span class='line'>  dimensions_value YOUR_ELB_NAME
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match cloudwatch&gt;
+</span><span class='line'>  type copy
+</span><span class='line'> &lt;store&gt;
+</span><span class='line'>  type             zabbix
+</span><span class='line'>  zabbix_server    ZABBIX SERVER IP
+</span><span class='line'>  host             [ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]
+</span><span class='line'>  name_keys        HealthyHostCount, HTTPCode_Backend_2XX, HTTPCode_Backend_3XX, HTTPCode_Backend_4XX, HTTPCode_Backend_5XX, HTTPCode_ELB_4XX, Latency, RequestCount, UnHealthyHostCount
+</span><span class='line'>  add_key_prefix   cloudwatch
+</span><span class='line'> &lt;/store&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ZABBIXの設定</h4>
+
+<p>ホスト名は<br/>
+<code>[ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]</code>
+で指定したものを。</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" /></p>
+
+<p>こんな感じでアイテムを設定します。</p>
+
+<ul>
+<li>キー：cloudwatch.HealthyHostCount</li>
+<li>データ型：整数とか浮動小数点型とか</li>
+<li>タイプ：ZABBIX Trapper</li>
+</ul>
+
+
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" /></p>
+
+<p>トリガーはこんな感じで<strong>UnHealthyHost</strong>が0よりも大きければwarningを<br/>
+みたいな監視が行えるようになります。</p>
+
+<p><strong>Latency</strong>や<strong>RequestCount</strong>なんかもグラフにできるので<br/>
+良い感じっぽいです。</p>
+
+<blockquote><p>画像小さいのウケますね</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/znc-to-lingr/">ZNCでlingr-ircに接続する設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T00:25:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom&rsquo;s blog.</a></p>
+
+<p>インターネットそんなに古くからやってないのでlingrとかあんまり知らなかったけど<br/>
+面白そうだから入ってみた。ブラウザでログインとかしたくなかったので</p>
+
+<p><a href="https://github.com/psychs/lingr-irc">psychs/lingr-irc</a></p>
+
+<p>使って</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nohup ruby lig.rb &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかユルフワな感じでふぉわーどするようにしてる。<br/>
+長く動かすようだとdaemontools化した方が良い。<br/>
+今ならtokuhiromさんがつくったPerlバージョンの</p>
+
+<p><a href="https://github.com/tokuhirom/lingr-ircd">tokuhirom/lingr-ircd</a></p>
+
+<p>こっち使ってもいいかもしれない。</p>
+
+<blockquote><p>あとずっとハマってたのが、アカウントつくってIRCでつなげねー！<br/>
+ってなってたけど、1回ルームに入ってからじゃないとダメだった。</p></blockquote>
+
+<p>どうせならZNCで繋ぎたかったのでこんな感じでつないでる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;Network lingr&gt;
+</span><span class='line'>            FloodBurst = 4
+</span><span class='line'>            FloodRate = 1.00
+</span><span class='line'>            IRCConnectEnabled = true
+</span><span class='line'>            Ident = [lingr account name]
+</span><span class='line'>            RealName = hotoke
+</span><span class='line'>            Server = 127.0.0.1 26667 [lingr password]
+</span><span class='line'>
+</span><span class='line'>            &lt;Chan #perl_jp&gt;
+</span><span class='line'>                    Buffer = 10
+</span><span class='line'>            &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Ident</strong> にlingrのユーザ名入れて<br/>
+<strong>Server</strong> で指定するパスワードにlingr userのパスワード設定するだけだった。<br/>
+webadmin使えばNetworkの設定追加する時も再起動なしでいけるしすごい良い。</p>
+
+<p>ずっとwebadmin見れないなーって思ってたら<br/>
+@handlename先輩が「Chromeでは見れないよ」って<br/>
+アドバイスくれて、さすがオレたちのhandle先輩！ってなってた。</p>
+
+<p>ChromeだとブラウザでIRCポートとか接続しに行くと良くないアクセスみたいな判断して<br/>
+遮断しちゃうみたい。Firefoxだと開けた。この辺細かい情報は調べてない。</p>
+
+<p>調べてないって書いたらひろせおじさんがエントリー書いてくれた</p>
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/hirose31/20130327/1364362758">ChromeでへんてこなポートにHTTPで繋ぎたい / (ひ)メモ</a></li>
+</ul>
+
+
+<p>hirose31++</p>
+
+<p>祝日なのにインターネットに関わってて体調悪くなってる。<br/>
+休肝日みたいな感じで休インターネット日みたいなの必要っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
+</span><span class='line'>sentinel down-after-milliseconds check_one 5000
+</span><span class='line'>sentinel failover-timeout check_one 50000
+</span><span class='line'>sentinel can-failover check_one yes
+</span><span class='line'>sentinel parallel-syncs check_one 1
+</span><span class='line'>
+</span><span class='line'>daemonize yes
+</span><span class='line'>pidfile /var/run/redis-sentinel.pid
+</span><span class='line'>loglevel notice
+</span><span class='line'>logfile /var/log/redis-sentinel.log
+</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
+
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/zabbix-action-setting/">ZABBIXでアラートメールを受け取るためにする設定メモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T01:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新しくグループとかつくる時に<br/>
+アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
+
+<ol>
+<li>ユーザつくる</li>
+<li>ユーザのメディアにアラート通知先登録する</li>
+<li>ユーザグループつくる</li>
+<li>ユーザグループにユーザ入れる</li>
+<li>ホストつくる</li>
+<li>ホストグループつくる</li>
+<li>ホストグループにホスト入れる</li>
+<li>アクションのコンディションのホストグループにホストグループを指定</li>
+<li>アクションのオペレーションにユーザグループを指定</li>
+</ol>
+
+
+<p>で、大丈夫のはず。</p>
+
+<p>コピーとかでやるとコンディションとか通知先とか変え忘れるので<br/>
+新規でちゃんとつくった方が確実だしなんか通知こねー！とかなるので<br/>
+ちゃんと確認しないといけない。</p>
+
+<p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/znc-limechat-iphone/">ZNCでLimeChatをIRCクライアントにしてiPhoneだけBuffer効かせる設定とim.kayacの設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T00:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>環境<br/>
+ZNC vresion 1.0<br/>
+LimeChat version 2.33<br/>
+ZNC Packages from epel repository<br/>
+- znc-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-devel-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-modperl-1.0-0.1.alpha1.el6.x86_64</p></blockquote>
+
+<p>出先で、im.kayacの通知が来てて見ると<br/>
+「kenjiskywalkerマジでクソ、サーバさわんな」みたいなことが話されてて<br/>
+解脱〜、みたいな状況になった場合、iPhoneで直近の会話だけ<br/>
+みたい場合があるので、その設定をした。</p>
+
+<h4>参考:</h4>
+
+<blockquote><p><a href="http://blog.handlena.me/entry/2013/01/20/185717">ZNCってひとつのアカウントで複数サーバーに接続できるよね？ - handlename&rsquo;s blog</a><br/>
+<a href="http://soh335.hatenablog.com/entry/2013/01/29/170500">znc 内で keepbuffer on と off なものを作る - soh335 memo</a><br/>
+<a href="http://blog.64p.org/entry/20120703/1341288920">znc で im.kayac をつかうための NotifyImKayacSimple.pm をかいた - tokuhirom&rsquo;s blog.</a></p></blockquote>
+
+<h2>NotifyImKayacSimpleの設定</h2>
+
+<p><a href="http://d.hatena.ne.jp/sugyan/20120320/1332254901">特定のキーワードをim.kayac.comに通知するZNCモジュール書いた - すぎゃーんメモ</a><br/>
+このすぎゃーんさんのメモの&#8217;-fPIC&#8217;の設定を有効にした記憶がある。あまり覚えてない。</p>
+
+<p><code>~/.znc/modules/NotifyImkayacSimple.pm</code>に置いて
+<em>LoadModule = modperl</em>して、<br/>
+<em>NotifyImkayacSimple username=username keyword=key1,key2</em>で通知が来ると思う。</p>
+
+<p>設定書いて間違っていればzncが起動しないので、その辺で確認できると思う。<br/>
+デバッグモードを有効にするのもアリだと思う。</p>
+
+<h2>zncの設定</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// WARNING
+</span><span class='line'>//
+</span><span class='line'>// Do NOT edit this file while ZNC is running!
+</span><span class='line'>// Use webadmin or *admin instead.
+</span><span class='line'>//
+</span><span class='line'>// Buf if you feel risky, you might want to read help on /znc saveconfig and /znc rehash.
+</span><span class='line'>// Also check http://en.znc.in/wiki/Configuration
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>&lt;Listener listener0&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>&lt;/Listener&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User hotoke&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>    LoadModule = modperl
+</span><span class='line'>    AutoClearChanBuffer = false
+</span><span class='line'>
+</span><span class='line'>    &lt;Network default&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=涅槃,解脱,成仏
+</span><span class='line'>        Server = hoge.example.com
+</span><span class='line'>        Buffer = 100
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #buddha&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network freenode&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=灌仏会
+</span><span class='line'>        Server = irc.freenode.net 6667
+</span><span class='line'>        Buffer = 1
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #isucon&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #monitoring-casual&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network perl&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=解脱
+</span><span class='line'>        Server = irc.perl.org 6667
+</span><span class='line'>        Buffer = 10
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #ark&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #dbi-ja&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #prepan&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User limechat&gt;
+</span><span class='line'>
+</span><span class='line'>     AutoClearChanBuffer = true
+</span><span class='line'>     Buffer = 500
+</span><span class='line'>
+</span><span class='line'>    &lt;Network znc&gt;
+</span><span class='line'>        ...
+</span><span class='line'>        Server = 127.0.0.1 +6669 [zncのパスワード]
+</span><span class='line'>
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで設定している。</p>
+
+<p>Userひとつで複数のNetworkに入れる。</p>
+
+<blockquote><p>PC => loginname: limechat/znc<br/>
+iPhone => loginname: hotoke/default, hotoke/freenode, hotoke/perl</p></blockquote>
+
+<p>みたいな感じにして、PC側は<em>AutoClearChanBuffer</em>を有効にして<br/>
+既読にしたものは消していって、iPhoneで接続する方は<br/>
+毎回過去の履歴が見れるようになる。</p>
+
+<p>これで出先で社内IRCで椅子がとんできても大丈夫なようになる。<br/>
+仏像彫刻教室情報お待ちしております。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="36">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="34">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="fluentdをまともに動かしたことないけど
-プラグイン書いたらわかるのでは！！？
-と思い立って取り敢えず下地だけつくったのでメモ。 参考 fluentdのためのプラグインをイチから書く手順(bundler版) / tagomorisのメモ置き場
-Writing plugins / fluentd &hellip;">
+  <meta name="description" content="実在するかどうかはわかりませんがこのような構成があった場合に
+どのような費用が発生するのか試算してみました。
+AWSは費用の算出が難しいので、参考になれば幸いです。 また、計算方法の誤りや、情報の過不足等あれば
+gistにコメントか、Twitterなどで教えて頂ければ有難いです。 Simple &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,19 +55,7 @@ Writing plugins / fluentd &hellip;">
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+  <nav role="navigation"><ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -82,7 +70,7 @@ Writing plugins / fluentd &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/11/07/example-aws-cost/">AWS費用試算例</a></h1>
     
     
       <p class="meta">
@@ -98,457 +86,27 @@ Writing plugins / fluentd &hellip;">
   
 
 
-<time datetime="2013-01-05T00:52:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-11-07T14:16:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>fluentdをまともに動かしたことないけど<br/>
-プラグイン書いたらわかるのでは！！？<br/>
-と思い立って取り敢えず下地だけつくったのでメモ。</p>
+  <div class="entry-content"><p>実在するかどうかはわかりませんがこのような構成があった場合に<br/>
+どのような費用が発生するのか試算してみました。<br/>
+AWSは費用の算出が難しいので、参考になれば幸いです。</p>
 
-<h4>参考</h4>
+<p>また、計算方法の誤りや、情報の過不足等あれば<br/>
+gistにコメントか、Twitterなどで教えて頂ければ有難いです。</p>
 
-<ul>
-<li><a href="http://d.hatena.ne.jp/tagomoris/20120221/1329815126">fluentdのためのプラグインをイチから書く手順(bundler版) / tagomorisのメモ置き場</a></li>
-<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
-<li><a href="https://github.com/fujiwara/fluent-plugin-imkayac">fluent-plugin-imkayac / fujiwara</a></li>
-<li><a href="https://github.com/studio3104/fluent-plugin-r18">fluent-plugin-r18 / studio3104</a></li>
-</ul>
+<blockquote><p><a href="http://calculator.s3.amazonaws.com/calc5.html?lng=ja_JP">Simple Monthly Calculator</a>を利用して算出しています。</p></blockquote>
 
-
-<p>基本はもりす先生の手順にそって行えば問題なし。<br/>
-参考にオフィシャルのドキュメントと<br/>
-@fujiwaraさんのシンプルなプラグイン<br/>
-@studio3104さんの下地を見ながら書くとなおよし。</p>
-
-<p>また、rake testまで通したものを</p>
-
-<p><a href="https://github.com/kenjiskywalker/fluent-plugin-hoge">https://github.com/kenjiskywalker/fluent-plugin-hoge</a></p>
-
-<p>こちらに上げておきました。ここから遊んでみても良いのではないかと思います。</p>
-
-<h3>作成手順</h3>
-
-<h4>bunldeで作成</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle gem fluent-plugin-hoge
-</span><span class='line'>$ cd fluent-plugin-hoge/
-</span><span class='line'>$ mkdir -p lib/fluent/plugin
-</span><span class='line'>$ mv lib/fluent-plugin-hoge.rb lib/fluent/plugin/out_hoge.rb
-</span><span class='line'>$ rm lib/fluent-plugin-hoge/version.rb
-</span><span class='line'>$ rmdir lib/fluent-plugin-hoge
-</span><span class='line'>$ mkdir -p test/plugin
-</span><span class='line'>$ touch test/plugin/test_out_hoge.rb</span></code></pre></td></tr></table></div></figure>
+<div><script src='https://gist.github.com/7349351.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
 
 
-<h4>gemspecファイルの修正</h4>
 
-<p><code>fluent-plugin-hoge.gemspec</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># -*- encoding: utf-8 -*-
-</span><span class='line'>lib = File.expand_path('../lib', __FILE__)
-</span><span class='line'>$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-</span><span class='line'>
-</span><span class='line'>Gem::Specification.new do |gem|
-</span><span class='line'>  gem.name          = "fluent-plugin-hoge"
-</span><span class='line'>  gem.version       = "0.0.1"
-</span><span class='line'>  gem.authors       = ["kenjiskywalker"]
-</span><span class='line'>  gem.email         = ["git@kenjiskywalker.org"]
-</span><span class='line'>  gem.description   = %q{TODO: Write a gem description}
-</span><span class='line'>  gem.summary       = %q{TODO: Write a gem summary}
-</span><span class='line'>  gem.homepage      = ""
-</span><span class='line'>
-</span><span class='line'>  gem.files         = `git ls-files`.split($/)
-</span><span class='line'>  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-</span><span class='line'>  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-</span><span class='line'>  gem.require_paths = ["lib"]
-</span><span class='line'>  gem.add_development_dependency "fluentd"
-</span><span class='line'>  gem.add_runtime_dependency "fluentd"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>version周りの設定の変更とfluentdの依存周りの設定の追加</p>
-
-<h4>out_hoge.rbの作成</h4>
-
-<p><code>fluent-plugin-hoge/lib/fluent/plugin/out_hoge.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Fluent::HogeOutput &lt; Fluent::BufferedOutput
-</span><span class='line'>  Fluent::Plugin.register_output('hoge', self)
-</span><span class='line'>
-</span><span class='line'>  include Fluent::SetTagKeyMixin
-</span><span class='line'>  config_set_default :include_tag_key, false
-</span><span class='line'>
-</span><span class='line'>  include Fluent::SetTimeKeyMixin
-</span><span class='line'>  config_set_default :include_time_key, true
-</span><span class='line'>
-</span><span class='line'>  # config_param :hoge, :string, :default =&gt; 'hoge'
-</span><span class='line'>
-</span><span class='line'>  def initialize
-</span><span class='line'>    super
-</span><span class='line'>    # require 'hogepos'
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def configure(conf)
-</span><span class='line'>    super
-</span><span class='line'>    # @path = conf['path']
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def start
-</span><span class='line'>    super
-</span><span class='line'>    # init
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def shutdown
-</span><span class='line'>    super
-</span><span class='line'>    # destroy
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def format(tag, time, record)
-</span><span class='line'>    [tag, time, record].to_msgpack
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def write(chunk)
-</span><span class='line'>    records = []
-</span><span class='line'>    chunk.msgpack_each { |record|
-</span><span class='line'>      # records &lt;&lt; record
-</span><span class='line'>    }
-</span><span class='line'>    # write records
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>test周りの設定</h4>
-
-<p><code>fluent-plugin-hoge/test/helper.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'rubygems'
-</span><span class='line'>require 'bundler'
-</span><span class='line'>begin
-</span><span class='line'>  Bundler.setup(:default, :development)
-</span><span class='line'>rescue Bundler::BundlerError =&gt; e
-</span><span class='line'>  $stderr.puts e.message
-</span><span class='line'>  $stderr.puts "Run `bundle install` to install missing gems"
-</span><span class='line'>  exit e.status_code
-</span><span class='line'>end
-</span><span class='line'>require 'test/unit'
-</span><span class='line'>
-</span><span class='line'>$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-</span><span class='line'>$LOAD_PATH.unshift(File.dirname(__FILE__))
-</span><span class='line'>require 'fluent/test'
-</span><span class='line'>unless ENV.has_key?('VERBOSE')
-</span><span class='line'>  nulllogger = Object.new
-</span><span class='line'>  nulllogger.instance_eval {|obj|
-</span><span class='line'>    def method_missing(method, *args)
-</span><span class='line'>      # pass
-</span><span class='line'>    end
-</span><span class='line'>  }
-</span><span class='line'>  $log = nulllogger
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>require 'fluent/plugin/out_hoge'
-</span><span class='line'>
-</span><span class='line'>class Test::Unit::TestCase
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>fluent-plugin-hoge/test/plugin/test_out_hoge.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'helper'
-</span><span class='line'># require 'time'
-</span><span class='line'>
-</span><span class='line'>class HogeOutputTest &lt; Test::Unit::TestCase
-</span><span class='line'>  # TMP_DIR = File.dirname(__FILE__) + "/../tmp"
-</span><span class='line'>
-</span><span class='line'>  def setup
-</span><span class='line'>    Fluent::Test.setup
-</span><span class='line'>    # FileUtils.rm_rf(TMP_DIR)
-</span><span class='line'>    # FileUtils.mkdir_p(TMP_DIR)
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  CONFIG = %[
-</span><span class='line'>  ]
-</span><span class='line'>  # CONFIG = %[
-</span><span class='line'>  #   path #{TMP_DIR}/out_file_test
-</span><span class='line'>  #   compress gz
-</span><span class='line'>  #   utc
-</span><span class='line'>  # ]
-</span><span class='line'>
-</span><span class='line'>  def create_driver(conf = CONFIG)
-</span><span class='line'>    Fluent::Test::BufferedOutputTestDriver.new(Fluent::HogeOutput).configure(conf)
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_configure
-</span><span class='line'>    #### set configurations
-</span><span class='line'>    # d = create_driver %[
-</span><span class='line'>    #   path test_path
-</span><span class='line'>    #   compress gz
-</span><span class='line'>    # ]
-</span><span class='line'>    #### check configurations
-</span><span class='line'>    # assert_equal 'test_path', d.instance.path
-</span><span class='line'>    # assert_equal :gz, d.instance.compress
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_format
-</span><span class='line'>    d = create_driver
-</span><span class='line'>
-</span><span class='line'>    # time = Time.parse("2011-01-02 13:14:15 UTC").to_i
-</span><span class='line'>    # d.emit({"a"=&gt;1}, time)
-</span><span class='line'>    # d.emit({"a"=&gt;2}, time)
-</span><span class='line'>
-</span><span class='line'>    # d.expect_format %[2011-01-02T13:14:15Z\ttest\t{"a":1}\n]
-</span><span class='line'>    # d.expect_format %[2011-01-02T13:14:15Z\ttest\t{"a":2}\n]
-</span><span class='line'>
-</span><span class='line'>    # d.run
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_write
-</span><span class='line'>    d = create_driver
-</span><span class='line'>
-</span><span class='line'>    # time = Time.parse("2011-01-02 13:14:15 UTC").to_i
-</span><span class='line'>    # d.emit({"a"=&gt;1}, time)
-</span><span class='line'>    # d.emit({"a"=&gt;2}, time)
-</span><span class='line'>
-</span><span class='line'>    # ### FileOutput#write returns path
-</span><span class='line'>    # path = d.run
-</span><span class='line'>    # expect_path = "#{TMP_DIR}/out_file_test._0.log.gz"
-</span><span class='line'>    # assert_equal expect_path, path
-</span><span class='line'>
-</span><span class='line'>    # data = Zlib::GzipReader.open(expect_path) {|f| f.read }
-</span><span class='line'>    # assert_equal %[2011-01-02T13:14:15Z\ttest\t{"a":1}\n] +
-</span><span class='line'>    #                 %[2011-01-02T13:14:15Z\ttest\t{"a":2}\n],
-</span><span class='line'>    #              data
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Rakefileの設定</h4>
-
-<p><code>Rakefile</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env rake
-</span><span class='line'>require "bundler/gem_tasks"
-</span><span class='line'>require "rake/testtask"
-</span><span class='line'>
-</span><span class='line'>Rake::TestTask.new(:test) do |test|
-</span><span class='line'>  test.libs &lt;&lt; 'lib' &lt;&lt; 'test'
-</span><span class='line'>  test.pattern = 'test/**/test_*.rb'
-</span><span class='line'>  test.verbose = true
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>task :default =&gt; :test</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>rake testの実行</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake test
-</span><span class='line'># Running tests:
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>Finished tests in 0.065174s, 46.0306 tests/s, 0.0000 assertions/s.
-</span><span class='line'>
-</span><span class='line'>3 tests, 0 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
-
-
-<p>うおおおおおおおおお！！！自分で何も書いてないけどテストが通った喜びッッ！！！</p>
-
-<p>ということで、ここからつくりあげていく感じになるでしょうか。<br/>
-当初、何もわかっていない状態で<em>fluent-plugin-postfix-logger</em>などと<br/>
-ドヤ顔でつくりはじめたのですが、ファイルの関係性とか全く理解していない状態で<br/>
-ややこしいファイル名にすると間違っている箇所が特定しづらいので<br/>
-最初は<em>fluent-plugin-hoge</em>などと作成して、最低限自分が確認したい状態まで<br/>
-持っていった上で確認していくのがいいという、初心者っぽい気付きがありました。</p>
-
-<p>初心者ながら地道にやっていきたいということで超初級の恥ずかしいメモを<br/>
-アップしました。誤りなどありましたら教えてくださいませ！</p>
 </div>
   
   
@@ -561,7 +119,7 @@ Writing plugins / fluentd &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/03/zabbix/">Zabbix v2.0.4 + Nginx v1.0.15 Installed</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/11/04/meta-programming-eloquent-ruby/">「メタプログラミングRuby」と「Eloquent Ruby」を斜め読みした</a></h1>
     
     
       <p class="meta">
@@ -577,169 +135,20 @@ Writing plugins / fluentd &hellip;">
   
 
 
-<time datetime="2013-01-03T15:38:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-11-04T20:14:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>nginxでZabbix2.0.4をインストールしたのでメモ。</p>
+  <div class="entry-content"><p>読んだ時のメモです</p>
 
-<h2>環境</h2>
-
-<ul>
-<li>nginx v1.0.15</li>
-<li>zabbix v2.0.4</li>
-<li>MySQL - 5.5.28</li>
-<li>CentOS 6.3</li>
-</ul>
+<div><script src='https://gist.github.com/7281133.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
 
 
-<h3>Zabbixをyumでインストール</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install zabbix20-server-mysql.x86_64
-</span><span class='line'>$ yum install zabbix20-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-mysql-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-2.0.4-1.el6.x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbix用のデータベースを用意</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql
-</span><span class='line'>&gt; grant all privileges on zabbix.* to zabbix@localhost identified by '********';
-</span><span class='line'>&gt; create database zabbix character set utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbixのデータをさきほど作成したデータベースに装入</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd /usr/share/zabbix-mysql/
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; schema.sql
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; images.sql 
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; data.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/zabbix_server.conf</code>に
-<em>DBPassword</em>を記述。<br/>
-デフォルトで書き込み権限ないの意識高い。</p>
-
-<h3>Zabbix Serverを起動</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/zabbix-server start
-</span><span class='line'>tail /var/log/zabbix/zabbix_server.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>nginxとphp-fpmのインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi nginx php php-fpm php-devel \  
-</span><span class='line'>php-cli php-xml php-mysql php-mbstring php-gd</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>WebUIのファイルがないことに気付きzabbix2&ndash;webをインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi zabbix20-web.noarch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>nginxのデフォルトルートにシンボリックリンク</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zabbix /usr/share/nginx/html/zabbix</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/nginx/conf.d/zabbix.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name home.kenjiskywalker.org;
-</span><span class='line'>    index index.html;
-</span><span class='line'>    access_log /var/log/nginx/zabbix/access_log main;
-</span><span class='line'>    error_log  /var/log/nginx/zabbix/error_log  error;
-</span><span class='line'>
-</span><span class='line'>    location /zabbix {
-</span><span class='line'>        index index.php;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    location ~ \.php$ {
-</span><span class='line'>        fastcgi_pass 127.0.0.1:9000;
-</span><span class='line'>        fastcgi_index index.php;
-</span><span class='line'>        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-</span><span class='line'>        include fastcgi_params;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><em>/var/log/nginx/zabbix/</em>ディレクトリは自分で掘る</p>
-
-<p><code>/etc/php.ini</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Date]
-</span><span class='line'>; Defines the default timezone used by the date functions
-</span><span class='line'>; http://php.net/date.timezone
-</span><span class='line'>; date.timezone = 
-</span><span class='line'>date.timezone = Asia/Tokyo
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>; 追記
-</span><span class='line'>post_max_size = 32M
-</span><span class='line'>max_execution_time = 300
-</span><span class='line'>max_input_time = 300</span></code></pre></td></tr></table></div></figure>
-
-
-<p>timezoneの設定はphp-fpmをstop/startしないと反映されなかった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/nginx start
-</span><span class='line'>$ /etc/init.d/php-fpm start</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あとは<code>http://domain/zabbix/</code>にアクセスすれば閲覧できるはず。
-ログイン確認後はすみやかにパスワードを変更してとりあえずは完了。</p>
 </div>
   
   
@@ -752,7 +161,7 @@ Writing plugins / fluentd &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/02/ocococtopress/">さくらVPSでOctopress</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/11/01/201310-book/">2013/10読んだ本</a></h1>
     
     
       <p class="meta">
@@ -768,117 +177,223 @@ Writing plugins / fluentd &hellip;">
   
 
 
-<time datetime="2013-01-02T19:34:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-11-01T18:45:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>新年あけましておめでとうございます。<br/>
-年初めは意識高いのでやろうと思ってたこと実行するのに良い機会ですね。</p>
+  <div class="entry-content"><p><a href="http://blog.kentarok.org/entry/2013/10/13/145618">antipopさん</a>の真似事をしてみる。</p>
 
-<p>ということで<a href="http://octopress.org/">Octopress</a>を入れてみました。</p>
+<p><code>歴史人</code>、体系的に明治政府設立の過程が理解できてよかった。<br/>
+<code>なるほどUnixプロセス</code>はずっと前から持っていたけどサラサラ〜っと読んで終わっていた。<br/>
+実際に手を動かすことで理解が深まった。<br/>
+<code>Linuxシステムコールプログラミング</code>もサラサラ〜っと読んだだけなので<br/>
+コード書いて実際にそのシステムコールを利用しているプログラムの<br/>
+ソースを読んで理解したい。</p>
 
-<h3>手順</h3>
+<p>図書館上手く使えていないので使いたい。</p>
 
-<h4>1. nginxの設定</h4>
-
-<p><code>nginx.conf</code>に下記内容を記述</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 8080;
-</span><span class='line'>    server_name blog.kenjiskywalker.org;
-</span><span class='line'>    root /home/blog/;
-</span><span class='line'>    index index.html;
-</span><span class='line'>    access_log /var/log/nginx/blog/access_log skywalker;
-</span><span class='line'>    error_log  /var/log/nginx/blog/error_log  error;</span></code></pre></td></tr></table></div></figure>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%80%E3%83%A0-31-%E3%83%A4%E3%83%B3%E3%82%B0%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E5%8E%9F-%E6%B3%B0%E4%B9%85/dp/4088796098%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4088796098" target="_blank"><img src="http://ecx.images-amazon.com/images/I/616ahk85c9L._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%80%E3%83%A0-31-%E3%83%A4%E3%83%B3%E3%82%B0%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E5%8E%9F-%E6%B3%B0%E4%B9%85/dp/4088796098%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4088796098" target="_blank">キングダム 31 (ヤングジャンプコミックス)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%8E%9F%E6%B3%B0%E4%B9%85" target="_blank">原泰久</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">集英社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-07-19</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4088796098" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
 
-<p><code>8080</code>なのは、フロントにvarnishがいるから。<br/>
-これで <em>blog.kenjiskywalker.org</em> にアクセスが来たら<br/>
-<code>/home/blog/</code>のディレクトリを見に行くようになる。</p>
-
-<h4>2. オフィシャルのドキュメントを読みながらOctopressの設定</h4>
-
-<p><a href="http://java.com/en/download/apple_manual.jsp">Octopress Setup</a></p>
-
-<p>とくに躓くところはなし。</p>
-
-<p><a href="http://octopress.org/docs/deploying/">Deploying</a></p>
-
-<p>さくらVPSで運用する予定なので<br/>
-<a href="http://octopress.org/docs/deploying/rsync/">Deploying With Rsync</a>を読みながら作業。問題なし。</p>
-
-<p><code>Rakefile</code>はnginxにて設定したように</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>document_root  = "/home/blog/" </span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>/home/blog/</code>を記述。</p>
-
-<p><a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
-
-<p>最低限の設定を行った。
-この辺はもうちょっといじくりたい。</p>
-
-<ul>
-<li>右サイドバーにGithubのリポジトリ表示したり</li>
-<li>Twitterのストリーミング流したり</li>
-<li>Google Analyticsの設定したりするのもここで行える</li>
-</ul>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%A4%9A%E9%87%8D%E4%BA%BA%E6%A0%BC%E6%8E%A2%E5%81%B5%E3%82%B5%E3%82%A4%E3%82%B3-18-%E3%82%AB%E3%83%89%E3%82%AB%E3%83%AF%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B9-%E7%94%B0%E5%B3%B6-%E6%98%AD%E5%AE%87/dp/4041205581%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4041205581" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51f-tb5kmdL._SL160_.jpg" width="104" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%A4%9A%E9%87%8D%E4%BA%BA%E6%A0%BC%E6%8E%A2%E5%81%B5%E3%82%B5%E3%82%A4%E3%82%B3-18-%E3%82%AB%E3%83%89%E3%82%AB%E3%83%AF%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B9-%E7%94%B0%E5%B3%B6-%E6%98%AD%E5%AE%87/dp/4041205581%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4041205581" target="_blank">多重人格探偵サイコ (18) (カドカワコミックス・エース)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%94%B0%E5%B3%B6%E6%98%AD%E5%AE%87" target="_blank">田島昭宇</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">角川書店(角川グループパブリッシング)</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-02-01</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4041205581" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
 
-<p>カスタマイズページを右上に表示してみたかったので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/about.html, </span></code></pre></td></tr></table></div></figure>
 
 
-<p>と<em>about.html</em>の設定を追記して</p>
-
-<p><code>/source/_includes/asides/about.html</code>にファイルを設置。</p>
-
-<p>参考：<a href="http://qiita.com/items/ac729ec076f477f05ac6">Octopressでサイドバーに簡易プロフィールを表示させよう！</a></p>
-
-<h4>3. Glide Noteさんを参考にvimの設定</h4>
-
-<p><a href="http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/">Octopressの記事管理用プラグイン、Octoeditor.vimを作った</a></p>
-
-<p>神様。このエントリーもOctoeditor.vim使って書かせてもらっています！</p>
-
-<h4>4. 記事を書いて確認してみる</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>で、source/配下の(記事であればsource/_post/)ファイルをよしなにpublicへゴリゴリしながらつくりあげて
-</span><span class='line'>
-</span><span class='line'>$ rake preview
-</span><span class='line'>で、localhost:4000で確認
-</span><span class='line'>
-</span><span class='line'>$ rake deploy
-</span><span class='line'>問題がなければデプロイでfinish！</span></code></pre></td></tr></table></div></figure>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%A4%9A%E9%87%8D%E4%BA%BA%E6%A0%BC%E6%8E%A2%E5%81%B5%E3%82%B5%E3%82%A4%E3%82%B3-19-%E3%82%AB%E3%83%89%E3%82%AB%E3%83%AF%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B9-%E7%94%B0%E5%B3%B6-%E6%98%AD%E5%AE%87/dp/4041207851%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4041207851" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51yxY59s7TL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%A4%9A%E9%87%8D%E4%BA%BA%E6%A0%BC%E6%8E%A2%E5%81%B5%E3%82%B5%E3%82%A4%E3%82%B3-19-%E3%82%AB%E3%83%89%E3%82%AB%E3%83%AF%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%A8%E3%83%BC%E3%82%B9-%E7%94%B0%E5%B3%B6-%E6%98%AD%E5%AE%87/dp/4041207851%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4041207851" target="_blank">多重人格探偵サイコ (19) (カドカワコミックス・エース)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%94%B0%E5%B3%B6%E6%98%AD%E5%AE%87" target="_blank">田島昭宇</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">角川書店</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-03</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4041207851" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
 
-<p>上記コマンドはすべてOctoeditorで完結しているのですが<br/>
-念の為コマンドを打ってみて動きを確認。</p>
 
-<p>deploy先で正常に閲覧できればOKです。</p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%90%E3%82%AC%E3%83%9C%E3%83%B3%E3%83%89-36-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E4%BA%95%E4%B8%8A-%E9%9B%84%E5%BD%A6/dp/4063872610%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872610" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41biyKV2MML._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%90%E3%82%AC%E3%83%9C%E3%83%B3%E3%83%89-36-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E4%BA%95%E4%B8%8A-%E9%9B%84%E5%BD%A6/dp/4063872610%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872610" target="_blank">バガボンド(36) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E4%BA%95%E4%B8%8A%E9%9B%84%E5%BD%A6" target="_blank">井上雄彦</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-23</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063872610" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%AE%87%E5%AE%99%E5%85%84%E5%BC%9F-22-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B0%8F%E5%B1%B1-%E5%AE%99%E5%93%89/dp/4063872637%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872637" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51dm%2Bs%2B%2B8-L._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%AE%87%E5%AE%99%E5%85%84%E5%BC%9F-22-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B0%8F%E5%B1%B1-%E5%AE%99%E5%93%89/dp/4063872637%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872637" target="_blank">宇宙兄弟(22) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B0%8F%E5%B1%B1%E5%AE%99%E5%93%89" target="_blank">小山宙哉</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-23</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063872637" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E6%AD%B4%E5%8F%B2%E4%BA%BA-2013%E5%B9%B4-11%E6%9C%88%E5%8F%B7-%E9%9B%91%E8%AA%8C/dp/B00FFDLHQ8%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00FFDLHQ8" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51nsAzefkaL._SL160_.jpg" width="108" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E6%AD%B4%E5%8F%B2%E4%BA%BA-2013%E5%B9%B4-11%E6%9C%88%E5%8F%B7-%E9%9B%91%E8%AA%8C/dp/B00FFDLHQ8%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00FFDLHQ8" target="_blank">歴史人 2013年 11月号 [雑誌]</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : </div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">ベストセラーズ</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-12</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00FFDLHQ8" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%90%89%E7%94%B0%E6%9D%BE%E9%99%B0-%E7%95%99%E9%AD%82%E9%8C%B2-%E5%85%A8%E8%A8%B3%E6%B3%A8-%E8%AC%9B%E8%AB%87%E7%A4%BE%E5%AD%A6%E8%A1%93%E6%96%87%E5%BA%AB-%E5%8F%A4%E5%B7%9D/dp/4061595652%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4061595652" target="_blank"><img src="http://ecx.images-amazon.com/images/I/512B8KWK6VL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%90%89%E7%94%B0%E6%9D%BE%E9%99%B0-%E7%95%99%E9%AD%82%E9%8C%B2-%E5%85%A8%E8%A8%B3%E6%B3%A8-%E8%AC%9B%E8%AB%87%E7%A4%BE%E5%AD%A6%E8%A1%93%E6%96%87%E5%BA%AB-%E5%8F%A4%E5%B7%9D/dp/4061595652%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4061595652" target="_blank">吉田松陰 留魂録 (全訳注) (講談社学術文庫)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%8F%A4%E5%B7%9D%E8%96%AB" target="_blank">古川薫</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2002-09-10</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4061595652" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%93%E3%81%A8%E3%81%AF%E3%81%98%E3%82%81%E2%80%95%E8%A8%80%E8%91%89%E3%82%92%E8%A6%9A%E3%81%88%E4%BC%9A%E8%A9%B1%E3%81%AE%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF-%E8%8D%92%E6%9C%A8-%E5%81%A5%E6%B2%BB/dp/4627828519%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4627828519" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41YR130B5BL._SL160_.jpg" width="101" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%93%E3%81%A8%E3%81%AF%E3%81%98%E3%82%81%E2%80%95%E8%A8%80%E8%91%89%E3%82%92%E8%A6%9A%E3%81%88%E4%BC%9A%E8%A9%B1%E3%81%AE%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF-%E8%8D%92%E6%9C%A8-%E5%81%A5%E6%B2%BB/dp/4627828519%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4627828519" target="_blank">自然言語処理ことはじめ―言葉を覚え会話のできるコンピュータ</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E8%8D%92%E6%9C%A8%E5%81%A5%E6%B2%BB" target="_blank">荒木健治</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">森北出版</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2004-06-12</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4627828519" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://tatsu-zine.com/books/naruhounix" target="_blank"><img src="http://tatsu-zine.com//images/books/87/cover_s.jpg" width="106" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://tatsu-zine.com/books/naruhounix" target="_blank">なるほどUnixプロセス ― Rubyで学ぶUnixの基礎</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Jesse+Storimer" target="_blank">Jesse Storimer</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">達人出版会</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-06-21</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/10/naruhounix" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Linux%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-%E3%82%A8%E3%83%83%E3%82%BB%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF-%E5%B1%B1%E6%A3%AE-%E4%B8%88%E7%AF%84/dp/477413970X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D477413970X" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41sFzTXl4GL._SL160_.jpg" width="102" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Linux%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-%E3%82%A8%E3%83%83%E3%82%BB%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF-%E5%B1%B1%E6%A3%AE-%E4%B8%88%E7%AF%84/dp/477413970X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D477413970X" target="_blank">Linuxシステムコールプログラミング (エッセンシャルソフトウェアガイドブック)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B1%B1%E6%A3%AE%E4%B8%88%E7%AF%84" target="_blank">山森丈範</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">技術評論社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2009-09-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/477413970X" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<div style="margin-top:20px;padding:10px;background-color:#f4f4f4;"></div>
+
+
+<p>キングダム、定価で良いので紙と同じ日に発売してほしい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/31/buttoh-ten/">「興福寺仏頭展」と「京都なんとか展」に行ってきた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-31T19:54:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>仏像の頭と</p>
+
+<iframe src="//instagram.com/p/f9V8yipqko/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+
+
+<p>障壁みてきた</p>
+
+<iframe src="//instagram.com/p/f9gLuaJqg3/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+
+
+<p></p>
+
+<p>丁度気候が良かったのもあるかもしれないけど東京藝術大学、とてもいい雰囲気だった。<br/>
+あの辺から国立博物館付近お散歩するのとても良いかもしれない。</p>
+
+<p>障壁、風俗がわかって資料として面白かった。<br/>
+けど寺とかにある絵とか二条城の襖の絵とか飾ってあっても<br/>
+そうですか。っていう感じだった。</p>
+
+<p>古典、あまり詳しくはないんですが、狩野派と呼ばれる人より<br/>
+俵屋宗達の方が構図が面白くて好きです。光悦とのコラボ作品とかとても面白い。</p>
+
+<p>そもそもやっぱり仏像の方が面白い。</p>
+
+<p>厨子入木造弥勒菩薩半跏像は細かい装飾が綺麗に残っていて玄関に飾りたかったです。</p>
+
+<p>木造十二神将立像なんですが、頭に干支が乗っかってるんですね。<br/>
+で、みんなよく出来ているんです。説明読まなくてもああ虎だなとか<br/>
+これは牛だなとか、わかるんです。干支は小さいながらも<br/>
+とても細かく掘られているのでわかるんです。<br/>
+ですが猿だけ、プロトタイプみたいな感じでやたら雑だったんです。<br/>
+で、多分ですけど、これ掘った人猿見たことなかったんじゃないかなって。</p>
+
+<p>板彫十二神将像は板なのに声が聞こえそうで、みんなひょうきんでとてもおもしろかったです。<br/>
+何かつらいことがあってもこの１２体の神様がそばにいたら楽しくなりそう。</p>
+
+<p>あと国立博物館行ったら是非常設展に足を運んでみてください。
+定期的に中身入れ替わってて、東海道中膝栗毛の原本とか、<br/>
+勝海舟の本物のポラロイドとか置いてあったりするのでおすすめです。</p>
+
+<p><a href="http://www.flickr.com/photos/kenjiskywalker/10531836216/" title="senjyu-kannon by kenjiskywalker, on Flickr"><img src="http://farm6.staticflickr.com/5514/10531836216_8b0b1aee9c.jpg" width="500" height="333" alt="senjyu-kannon"></a></p>
+
+<p>写真もOKなものあるので、撮影して祈りたい放題ですね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/working-with-unix-processes/">「なるほどUnixプロセス ― Rubyで学ぶUnixの基礎」を読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T14:43:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>サラサラ〜っと読んで放置していた<br/>
+<a href="http://tatsu-zine.com/books/naruhounix">「なるほどUnixプロセス ― Rubyで学ぶUnixの基礎」</a>を読みました。<br/>
+週末手を動かしながら読めたのでよかった。<br/>
+<code>fork(2)</code>周りの所作と<code>pipe(2)</code>、<code>socket(2)</code>も簡単に試せてよかった。<br/>
+daemon化するために孫プロセスで動かすとか古典的な感じだった。</p>
+
+<p>本書は簡単に書きながら試せる。っていうのが最高に最高だと思います。</p>
+
+<p>何で放置していたものを手に取ったかは<br/>
+<a href="http://hakobe932.hatenablog.com/entry/2013/04/28/210815">なるほどUnixプロセス読んだ - デーモン化のためのdouble fork - はこべブログ ♨</a><br/>
+このはこべさんのエントリー読んだのがきっかけでした。</p>
+
+<p><a href="http://d.hatena.ne.jp/sleepy_yoshi/20100228/p1">親プロセスは2度死ぬ - デーモン化に使うダブルforkの謎 - 睡眠不足？！</a><br/>
+そしてこちらのエントリーへ行って、<a href="http://www.amazon.co.jp/dp/4894713195">詳解UNIXプログラミング</a>に行きあたり<br/>
+いい加減読むか〜って思って色々見ていたら<br/>
+<a href="http://d.hatena.ne.jp/hirose31/20130731/1375248744">『詳細UNIXプログラミング』の原書『Advanced Programming in the UNIX Environment』(通称APUE)の3rd Editionが出てました - (ひ)メモ</a><br/>
+というひろせさんのブログにぶち当たり</p>
+
+<p>APUEか〜、いい加減読まないとダメだな〜ってなって買いました。</p>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>洋書なので多分今年中に読み終わらないと思います。<br/>
+購入の決め手はサンプルコードが毎回記載されてて<br/>
+サンプルコード毎に実行できそうだったので、コード読めばなんとなく<br/>
+わかるかなって判断しました。</p>
+
+<blockquote class="twitter-tweet"><p>なるほどUNIXなんとか読む =&gt; hakobeさんのブログでdouble forkについて理解する =&gt; 詳細UNIXプログラミングが気にある =&gt; (ひ)に辿り着く</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/391948022038282240">October 20, 2013</a></blockquote>
+
+
+<p>次から次に壁が現れるぜコンチクショ〜</p>
 </div>
   
   
@@ -888,6 +403,8 @@ Writing plugins / fluentd &hellip;">
   
   <div class="pagination">
     
+      <a class="prev" href="22">&larr; Older</a>
+    
     <a href="/blog/archives">Blog Archives</a>
     
     <a class="next" href="20">Newer &rarr;</a>
@@ -896,33 +413,7 @@ Writing plugins / fluentd &hellip;">
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
-      </li>
-    
-  </ul>
-</section>
-
   
 </aside>
 
