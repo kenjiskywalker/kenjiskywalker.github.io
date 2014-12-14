@@ -9,10 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="sshを利用していると招かれざる客の来訪が多い。
-また、サーバに不必要にログインしている関係者がいないか
-把握しつづけるのも難しい。 今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。 準備 /var/log/secureはパーミッションが厳しいので
-y- &hellip;">
+  <meta name="description" content="「なぜ人と組織は変われないのか ― ハーバード流 自己変革の理論と実践」を読んだ。 本書のKindle版を読んでいたが、50%付近で速読に変更してざっくりと内容を理解するに留めた。
+しっかり読んで内容を吸収しようとすると相当時間がかかると思う。 何故かというと、この書籍は机上の話ではなく、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +80,7 @@ y- &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/12/12/login-notification/">Fluentdを利用してsshログインを通知する</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a></h1>
     
     
       <p class="meta">
@@ -98,140 +96,102 @@ y- &hellip;">
   
 
 
-<time datetime="2014-12-12T22:53:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-12-14T13:27:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>sshを利用していると招かれざる客の来訪が多い。<br/>
-また、サーバに不必要にログインしている関係者がいないか<br/>
-把握しつづけるのも難しい。</p>
+  <div class="entry-content"><p>「なぜ人と組織は変われないのか ― ハーバード流 自己変革の理論と実践」を読んだ。</p>
 
-<p>今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。</p>
+<p><a href="http://www.amazon.co.jp/gp/product/B00MRRF3K6/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00MRRF3K6&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00MRRF3K6&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00MRRF3K6" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
 
-<h2>準備</h2>
+<p>本書のKindle版を読んでいたが、50%付近で速読に変更してざっくりと内容を理解するに留めた。<br/>
+しっかり読んで内容を吸収しようとすると相当時間がかかると思う。</p>
 
-<p><code>/var/log/secure</code>はパーミッションが厳しいので<br/>
-y-kenさんのブログを参考にパーミッションを変更する必要があります。</p>
+<p>何故かというと、この書籍は机上の話ではなく、実際に理論があって<br/>
+その理論を実践したユースケースを事細かく書いてあるからだ。</p>
+
+<p>ビジネスマンはこうあるべき、リーダーシップとは、あの人から学ぶ〜<br/>
+系のよくある本ではなく、</p>
+
+<blockquote><p>&ldquo;人と組織が何故硬直(本書では&#8221;変革をはばむ免疫機能&#8221;と表現されている)するのか、<br/>
+どうしたら変化していけるのか&rdquo;</p></blockquote>
+
+<p>豊富なシナリオを用いて、課題、実践、結果というサイクルをいくつも<br/>
+紹介してくれている。</p>
+
+<p>とても長いですが、年末年始に読む意識高い系の本としておすすめできます。</p>
+
+<h2>個人的なメモ</h2>
+
+<h3>環境順応型知性</h3>
+
+<p>言われたことをきちんとやる・指示者や他部署の人間を敵視する人が多そう</p>
+
+<h3>自己主導型知性</h3>
+
+<p>情報を発信するときに自分が車の運転席に座ろうとするのか、それとも車に乗せて運んでもらおうとするのか</p>
+
+<h3>自己変容型知性</h3>
+
+<p>思い通り目的地に向けて車を走らせるためではなく、道路地図を描き直したり、目的地を修正できる</p>
+
+<p>この3パターンを体系化していたのはとてもわかりやすかった。<br/>
+優秀な人は基本的に&#8221;自己主導型知性&#8221;のパターンが多かったけど<br/>
+ああ、この人本当に良いな。って思う人はやっぱり&#8221;自己変容型知性&#8221;の人だった。</p>
+
+<p>日常の揉め事は不満から発生することがほとんどで、<br/>
+その不満を口に出して自分では何もしない人は&#8221;環境順応型知性&#8221;が多い印象だ。<br/>
+というか3パターンの内2パターンは不満や問題があるなら<br/>
+解決しようと試みるから当たり前っちゃあ当たり前だ。</p>
+
+<h2>暗黙の関係性</h2>
+
+<p>あの人ってああだから、あのグループはああだから、など<br/>
+人数が多ければ多いほどコミュニケーションはしづらくなって<br/>
+閉鎖的になったり変化が起こりにくくなったりする。</p>
+
+<p>当事者間の問題なら、腹割って話しましょうよ！とかで<br/>
+終わりだけど(そもそも腹割って話せる間柄ならそこまで深刻じゃないよね)<br/>
+組織として硬直するのは当事者全員で行わないと、<br/>
+本当の改善にはならないと思う。</p>
+
+<p>誰かがリーダーシップを発揮して解決してくれー！！！とか<br/>
+おままごとじゃないんだから全員でちゃんとした方が良い。</p>
+
+<h2>実践</h2>
+
+<p>そして風通しの悪い、グループ間の仲が悪い会社を<br/>
+どうやって改善していくかみたいなのが事例と共に大量に書いてある。<br/>
+本書の半分以上は事例を伴っての実践と結果の振り返りだった。<br/>
+<strong>&ldquo;one-big-thing&rdquo;</strong>という一つの焦点に絞って目標を設定するのも面白かった。</p>
+
+<h2>個人の成長と組織の成長が同じベクトルに向いているか</h2>
+
+<p>後半読み飽きてペラペラめくっていく感じで眺めていたが<br/>
+個人の成長が組織の成長と同じベクトルを向いているかは<br/>
+その人にとっても、組織にとっても重要だと気付かされた。</p>
+
+<p>多分会社に所属していると、ある特定のサイクルで<br/>
+&ldquo;面談&#8221;、という形でそのサイクルの間どのような目標を持って<br/>
+どのような結果を行ったか、確認し合う場があるが、</p>
 
 <ul>
-<li><a href="http://y-ken.hatenablog.com/entry/fluentd-syslog-permission">Fluentdでsyslogを取り込むための権限設定（CentOS 5&amp;6両対応） - Y-Ken Studio</a></li>
+<li>会社としての目標</li>
+<li>所属しているグループの目標</li>
+<li>個人の目標</li>
 </ul>
 
 
-<p>SlackのAPIがバージョンアップしてリアルタイム性を持つようになった。</p>
+<p>その3点が噛み合うか噛み合わないかで、<br/>
+係数は何倍にも変わってくることはまさに目からウロコだった。</p>
 
-<ul>
-<li><a href="http://slackhq.com/post/104688116560/rtm-api">A new Slack API: The inevitable rise of the bots Bots</a></li>
-</ul>
+<h2>まとめ</h2>
 
-
-<p>個人的にはリアルタイム性よりも<br/>
-private roomでもhubotが利用できるようになったのいうのがアツい。<br/>
-これで色々遊べるようになる。</p>
-
-<ul>
-<li><a href="https://github.com/sowawa/fluent-plugin-slack">fluent-plugin-slack</a></li>
-</ul>
-
-
-<p>手元で<code>endpoint</code>を変更して動くようになった。みんな普通に動いているのかな</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private
-</span><span class='line'>def endpoint
-</span><span class='line'>  # URI.parse "https://#{@team}.slack.com/services/hooks/incoming-webhook?token=#{@api_key}"
-</span><span class='line'>  URI.parse "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Real Time Messagingを利用するためには</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX&channel=XXXXXXXXX&text=XXXXX&username=XXXXX'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようにリクエストを送る必要がある。<br/>
-時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
-
-<p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
-
-<h2>設定</h2>
-
-<ul>
-<li>/etc/td-agent/td-agent.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type tail
-</span><span class='line'>  path /var/log/secure
-</span><span class='line'>  format syslog
-</span><span class='line'>  tag secure_log
-</span><span class='line'>  pos_file /var/log/td-agent/syslog_secure.pos
-</span><span class='line'>&lt;/source&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;match secure_log.**&gt;
-</span><span class='line'>  type grep
-</span><span class='line'>  input_key message
-</span><span class='line'>  regexp Accepted|failure|Invalid
-</span><span class='line'>  add_tag_prefix greped
-</span><span class='line'>&lt;/match&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;match greped.**&gt;
-</span><span class='line'>  type buffered_slack
-</span><span class='line'>  api_key API_KEY
-</span><span class='line'>  team TEAMNAME
-</span><span class='line'>  channel %23general # You should use %23 in return for #
-</span><span class='line'>  username fluentd
-</span><span class='line'>  color danger
-</span><span class='line'>  icon_emoji :shit:
-</span><span class='line'>  buffer_path /var/log/td-agent/buffer/
-</span><span class='line'>  flush_interval 5s
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じで<code>Accepted</code>、<code>failure</code>、<code>Invalid</code>の文字列を<br/>
-sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep">fluent-plugin-grep</a>を利用して抽出。</p>
-
-<p>そうすると</p>
-
-<p><img src="http://i.gyazo.com/00260a2b25dfbfb9b55f00eb1b20ca05.png" alt="" /></p>
-
-<p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
-このような設定を入れておくと良いのではないでしょうか。</p>
+<p>長いけど面白い。<br/>
+実践は同じ目標持った人が集まったら試行錯誤しながらできると思う。</p>
 </div>
   
   
@@ -619,12 +579,6 @@ capistrano用の設定ファイル?であるCapfileのひな形が作成され�
 <h3>Capfile</h3>
 
 <p>consoleとbundlerとunicornを有効化</p>
-
-<p>bundlerのモジュール、便利だけどデフォルトで</p>
-
-<blockquote><p>set :bundle_without, %w{development test}.join(&lsquo; &rsquo;)</p></blockquote>
-
-<p>と設定されているのでdevelopmentの状態で開発サーバでbundle installとかすると割とハマる</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1522,7 +1476,7 @@ Immutable Infrastructureをどのように実践するかの具体的な内容�
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
       <li class="post">

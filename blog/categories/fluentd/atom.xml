@@ -4,7 +4,7 @@
   <title><![CDATA[Category: fluentd | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/fluentd/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2014-12-12T23:43:33+09:00</updated>
+  <updated>2014-12-14T14:22:51+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,109 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[fluentdを利用してsshログインを通知する]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/12/12/login-notification/"/>
-    <updated>2014-12-12T22:53:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/12/12/login-notification</id>
-    <content type="html"><![CDATA[<p>sshを利用していると招かれざる客の来訪が多い。<br/>
-また、サーバに不必要にログインしている関係者がいないか<br/>
-把握しつづけるのも難しい。</p>
-
-<p>今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。</p>
-
-<h2>準備</h2>
-
-<p><code>/var/log/secure</code>はパーミッションが厳しいので<br/>
-y-kenさんのブログを参考にパーミッションを変更する必要があります。</p>
-
-<ul>
-<li><a href="http://y-ken.hatenablog.com/entry/fluentd-syslog-permission">Fluentdでsyslogを取り込むための権限設定（CentOS 5&amp;6両対応） - Y-Ken Studio</a></li>
-</ul>
-
-
-<p>SlackのAPIがバージョンアップしてリアルタイム性を持つようになった。</p>
-
-<ul>
-<li><a href="http://slackhq.com/post/104688116560/rtm-api">A new Slack API: The inevitable rise of the bots Bots</a></li>
-</ul>
-
-
-<p>個人的にはリアルタイム性よりも<br/>
-private roomでもhubotが利用できるようになったのいうのがアツい。<br/>
-これで色々遊べるようになる。</p>
-
-<ul>
-<li><a href="https://github.com/sowawa/fluent-plugin-slack">fluent-plugin-slack</a></li>
-</ul>
-
-
-<p>手元で<code>endpoint</code>を変更して動くようになった。みんな普通に動いているのかな</p>
-
-<pre><code>private
-def endpoint
-  # URI.parse "https://#{@team}.slack.com/services/hooks/incoming-webhook?token=#{@api_key}"
-  URI.parse "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
-end
-</code></pre>
-
-<p>Real Time Messagingを利用するためには</p>
-
-<pre><code>https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX&amp;channel=XXXXXXXXX&amp;text=XXXXX&amp;username=XXXXX'
-</code></pre>
-
-<p>のようにリクエストを送る必要がある。<br/>
-時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
-
-<p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
-
-<h2>設定</h2>
-
-<ul>
-<li>/etc/td-agent/td-agent.conf</li>
-</ul>
-
-
-<pre><code>&lt;source&gt;
-  type tail
-  path /var/log/secure
-  format syslog
-  tag secure_log
-  pos_file /var/log/td-agent/syslog_secure.pos
-&lt;/source&gt;
-
-&lt;match secure_log.**&gt;
-  type grep
-  input_key message
-  regexp Accepted|failure|Invalid
-  add_tag_prefix greped
-&lt;/match&gt;
-
-&lt;match greped.**&gt;
-  type buffered_slack
-  api_key API_KEY
-  team TEAMNAME
-  channel %23general # You should use %23 in return for #
-  username fluentd
-  color danger
-  icon_emoji :shit:
-  buffer_path /var/log/td-agent/buffer/
-  flush_interval 5s
-&lt;/match&gt;
-</code></pre>
-
-<p>こんな感じで<code>Accepted</code>、<code>failure</code>、<code>Invalid</code>の文字列を<br/>
-sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep">fluent-plugin-grep</a>を利用して抽出。</p>
-
-<p>そうすると</p>
-
-<p><img src="http://i.gyazo.com/00260a2b25dfbfb9b55f00eb1b20ca05.png" alt="" /></p>
-
-<p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
-このような設定を入れておくと良いのではないでしょうか。</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[flunetd、forward先がダメだった時にforward元である程度ログを担保したい]]></title>
@@ -680,6 +577,109 @@ trapperのデータとしてZabbixが受け取れる為に設定します。</p>
 <p>このようにグラフに値が出力され、期待通りの動作をすることが確認できました。</p>
 
 <p>awesome fluentd!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbiee/"/>
+    <updated>2013-01-20T17:03:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbiee</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
+
+<pre>
+   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
+  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
+   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
+     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
+     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
+     ~''戈ヽ    ｀二´      r'´:::.  `!  
+</pre>
+
+
+<p>最初Postfixのmaillogつくってやろうかなんて<br/>
+思っていたりした時期もオレにはありました。</p>
+
+<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
+と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
+ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
+Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
+取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編はこちら</a></p>
+
+<h1>作成編</h1>
+
+<p>事前にtestが通るまでのものは<br/>
+<a href="http://blog.kenjiskywalker.org:8080/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
+
+<p>本来はもっとスマートな作り方があるのでしょうが、<br/>
+私は基本的にこの流れで行いました。</p>
+
+<ul>
+<li>内容を更新する度にrake testでtestが通ることを確認する</li>
+<li>変数の状況を<code>p hoge</code>で毎回確認する</li>
+</ul>
+
+
+<p>この2つの繰り返しでした。</p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="http://gihyo.jp/magazine/SD/archive/2012/201206">@repeatedlyさんのプラグイン作成の記事 / Software Design 2012年6月号</a></li>
+<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
+<li><a href="http://d.hatena.ne.jp/mikeda/20120704/1341363870">検証中のtd-agent（fluentd）の設定とか負荷とか / IT 東京 楽しいと思うこと</a></li>
+<li><a href="http://d.hatena.ne.jp/erukiti/20120205/1328452455">fluentdのプラグインは簡単に作成できる / ぽにくすじゃないだいありー</a></li>
+<li><a href="http://fluentd.org/plugin/">Fluentd plugins</a></li>
+</ul>
+
+
+<p>基本はりぴーさんの記事を参考に、取り敢えず片っ端からpluginのソースを読んでいけば<br/>
+センスの良い人ならその場で書けそうなものですが、いかんせん素人なので<br/>
+試行錯誤しながら書いて行きました。</p>
+
+<p>取り敢えず動いたレベルですが、何かの参考になればと思います。</p>
+
+<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
+
+<p>また、ソースを見て頂く通り、何かのログのパーサを書こうと思えば<br/>
+<em>regexp</em>と<em>time_format</em>さえどうにかなれば、<br/>
+プラグインの種類にもよりますが、いくらでも加工することが可能です。<br/>
+fluentd、素晴らしいですね。</p>
+
+<blockquote><p><em>tag</em>、<em>es</em>、<em>chain</em>の中身などを<em>.each</em>などで分解していき<br/>
+testを実行した際に(<em>test_emit</em>)で<br/>
+プラグイン内部の確認したい変数の中身を<code>p hoge</code>する。</p></blockquote>
+
+<p>この繰り返していってという感じです。<br/>
+ソースファイルのコメントアウト部は<br/>
+コードを記述していた際には常に表示させていたものです。</p>
+
+<p>サーバ上での動作のテストは<br/>
+<code>out_securelog_parser.rb</code>ファイルを<code>/etc/td-agent/plugin/</code>へ配置することで<br/>
+プラグインとして認識してくれます。素晴らしいですね。</p>
+
+<p>ログが出るのを待つのは大変なので<br/>
+<code>
+echo '{"message":"Jan 17 02:47:59 hostname sshd[10654]: test"}' | /usr/lib64/fluent/ruby/bin/fluent-cat secure
+</code>
+と、<code>fluent-cat</code>コマンドを実行して、確認したい<em>tag</em>を指定することで<br/>
+プラグインの確認を行うことが可能です。</p>
+
+<p>ちゃんとテストを書いていないあｗ、中身はまだまだ改善の余地があるわでアレですが<br/>
+Rubyもよくに書けず、fluentdを運用した経験もあまりない人間が<br/>
+稚拙ではありますが、最低限動作するところまでは書くことができました。</p>
+
+<p>ハイユーザーから、エントリーユーザまで利用でき、<br/>
+かつ、簡単なログパーサから、各種メトリクス生成などのプラグインが<br/>
+容易に作成することができるfluentdは、やはりこれからのオペレーションの<br/>
+情報取得ツールとして、無くてはならないものになっていくんだろうな。<br/>
+という印象を受けました。</p>
+
+<p>awesome fluentd!</p>
+
+<p>続きは<a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編</a>で</p>
 ]]></content>
   </entry>
   
