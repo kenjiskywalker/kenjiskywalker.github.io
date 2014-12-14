@@ -9,9 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Slackを使い始めたので昔つくったunazu_kunの機能を
-hubotに持ってきました。 hubot-at というように 1
-&gt; hubot at HH:MM message と指定することによって、その指定した時間にmessageを通知してくれます。 元々taiyohさんが &hellip;">
+  <meta name="description" content="$ss -ltと$ss -ltpは使える。
+-iは面白いけど本当に確認するならngrepかtcpdumpだろうな セッションを開いているホスト名を名前解決しない(デフォルト) 1
+$ss -n セッションを開いているホスト名を名前解決する 1
+$ss -r TCPのセッションのみ表示 1
+$ss &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +77,136 @@ hubotに持ってきました。 hubot-at というように 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/06/ss-command/">Ssコマンドの使えそうなもののメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-06T23:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>$ss -lt</code>と<code>$ss -ltp</code>は使える。<br/>
+<code>-i</code>は面白いけど本当に確認するなら<code>ngrep</code>か<code>tcpdump</code>だろうな</p>
+
+<h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>セッションを開いているホスト名を名前解決する</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPとUDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UNIX Domainのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>特定のセッションの状態のものを抽出</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートを表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートのプロセス名を表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コマンド名自体が短いからササッと確認するのには良さそう</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -815,73 +947,6 @@ Sensuの設定例</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/22/alfred-utc-get/">AlfredのUTC時間を調べるworkflowをつくった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-22T03:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/alfred-get-utc-workflow">alfred-get-utc-workflow</a></h2>
-
-<h2>TL;DR</h2>
-
-<p>毎回UTCが何時だか計算してたので機械にやらせる</p>
-
-<h2>Ref</h2>
-
-<ul>
-<li><a href="http://support.alfredapp.com/workflows">An Introduction to Workflows</a></li>
-<li><a href="http://kadoppe.com/archives/2014/01/alfred-random-pocket-workflow.html">Pocketの記事をランダムに表示・検索するAlfred Workflowをつくりました - CreativeStyle</a></li>
-<li><a href="https://github.com/zhaocai/alfred2-ruby-template">https://github.com/zhaocai/alfred2-ruby-template</a></li>
-</ul>
-
-
-<h2>workflow</h2>
-
-<ul>
-<li><code>utc</code></li>
-</ul>
-
-
-<p>だけで現在時刻に対するUTCの時間を</p>
-
-<ul>
-<li><code>utc 20:00</code></li>
-</ul>
-
-
-<p>と<code>hh:mm</code>を引数で渡すとその時刻に対してのUTC時刻を表示する</p>
-
-<p><img src="https://raw.githubusercontent.com/kenjiskywalker/alfred-get-utc-workflow/master/screenshots/caps.png" alt="https://raw.githubusercontent.com/kenjiskywalker/alfred-get-utc-workflow/master/screenshots/caps.png" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="4">&larr; Older</a>
@@ -903,6 +968,10 @@ Sensuの設定例</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -914,45 +983,8 @@ Sensuの設定例</p>
         <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
   </ul>
 </section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
 
   
 </aside>

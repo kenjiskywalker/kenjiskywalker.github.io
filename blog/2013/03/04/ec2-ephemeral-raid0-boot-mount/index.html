@@ -9,9 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="EC2でEphemeral DiskをRAID0で構築した状態でブートする こんなスクリプトを置いておいて /etc/rc.local 1
+  <meta name="description" content="こんなスクリプトを置いておいて /etc/rc.local 1
 sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
-エフェメラルディスク2つをRAID0としてマウントする。 &hellip;">
+エフェメラルディスク2つをRAID0としてマウントする。
+なんでmd127なのかは、AWSさんに聞いてほしい。
+md0でつくっても必ず、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -122,17 +124,7 @@ sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
 </div>
 
 
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
+  <footer>
     <p class="meta">
       
   
@@ -164,7 +156,6 @@ sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
     </p>
     
       <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
   
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/" >Tweet</a>
   
@@ -184,6 +175,8 @@ sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
       
     </p>
   </footer>
+</article>
+
 </div>
 
 <aside class="sidebar">
@@ -194,6 +187,10 @@ sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
     
       <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
       </li>
     
       <li class="post">
@@ -208,50 +205,11 @@ sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
         <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
   </ul>
 </section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
 
   
 </aside>
-</article>
-
 
 
     </div>

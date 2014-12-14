@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013/12/25 update Testing #chef Cookbook by #serverspec #devopsの続きみたいなものですが
-Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって
-テスト対象が変化する場合があるかと思います。
-その場合、 &hellip;">
+  <meta name="description" content="本読むより人のコード読んだ方が勉強なるけど
+こういう所作の話全然知らないから面白かった。 自分メモ ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い
+汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う
+hosts,status,get,list, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,57 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/03/art-of-readable-code/">リーダブルコード読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-03T14:18:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/4873115655/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4873115655&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4873115655&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=4873115655" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>本読むより人のコード読んだ方が勉強なるけど<br/>
+こういう所作の話全然知らないから面白かった。</p>
+
+<h3>自分メモ</h3>
+
+<ul>
+<li>ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い</li>
+<li>汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う<br/>
+hosts,status,get,list,この辺汎用的な名前付けがちなのでわかりやすいようにする</li>
+<li>スコープが小さければx,yとか使っても良いけど目視で追い切れないところで使うと追う手間が発生する</li>
+<li>コメントで補う前にコードや変数名をよしなにできないか考える</li>
+<li>ループロジックは簡潔に、かつそれぞれのメソッドがわかりやすいように</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1104,54 +1155,6 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/26/ajisai-2013/">2013 / あじさい / 鎌倉</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-26T00:47:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>あかっぽいあじさい</h3>
-
-<p><img src="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" alt="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" /></p>
-
-<h3>あおっぽいあじさい</h3>
-
-<p><img src="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" alt="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" /></p>
-
-<p>一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。<br/>
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし<br/>
-家で見ると７割ぐらいピント合ってなくて面白い。</p>
-
-<p>確実性求めすぎない方が心に余裕生まれる気がする。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="16">&larr; Older</a>
@@ -1173,6 +1176,10 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
       </li>
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -1184,45 +1191,8 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
         <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
   </ul>
 </section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
 
   
 </aside>

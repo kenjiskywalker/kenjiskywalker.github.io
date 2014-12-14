@@ -9,11 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="人数の少ないスタートアップに参加して、
-お金持ちになる夢を一度ぐらい見てみたいものだ。
-サーバサイドだけどプロダクトにガッツリコミットして
-みんなでワイワイやってみたいものだ。 という気持ちを持ってSumallyに入りました。
-カヤックというエンジニア天国から身一つでどこまでできるかやってみます &hellip;">
+  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
+nodes/hoge.jsonで与えられたnode[:hoge]の値を
+roles/role.jsonで値を追加したい場合があります。
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,230 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/chef-merge-deep/">Chefのnode[:hoge]をどうにかしたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T14:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2013年オワコンの代表格として名指しされているChefですが<br/>
+<strong>nodes/hoge.json</strong>で与えられた<code>node[:hoge]</code>の値を<br/>
+<strong>roles/role.json</strong>で値を追加したい場合があります。<br/>
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。</p>
+
+<p><a href="http://docs.opscode.com/essentials_node_object_deep_merge.html">http://docs.opscode.com/essentials_node_object_deep_merge.html</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "foo", "bar" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "role[role_two]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_two.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_two",
+</span><span class='line'>  "description": "role two",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "baz" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |h|
+</span><span class='line'>  p h
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>role</code>で回せと。</p>
+
+<p>ほかにも<a href="https://twitter.com/keita">@keita</a>氏に教えてもらったのですが<br/>
+Key-Valueで渡せばいけるらしいです。</p>
+
+<p><a href="https://coderanger.net/2013/06/arrays-and-chef/">Arrays and Chef Attributes - Noah Kantrowitz</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "hoge": {
+</span><span class='line'>      "foo": true,
+</span><span class='line'>      "bar": true
+</span><span class='line'>  },
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": {
+</span><span class='line'>        "baz": true
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |k,v|
+</span><span class='line'>  p k
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>どちらも気持ち悪いので使いません。<br/>
+よさ気な方法あれば教えて下さい。</p>
+
+<p>Chef、Opscode社の経典みたいなcookbooksと<br/>
+何がどこに書かれているかよくわからないドキュメントをのぞけば<br/>
+2014年もよしなに使えるのではないかと思います。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -840,55 +1063,6 @@ Many sites butcher this process. You should have a link to 1-click unsubscribe a
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/07/example-aws-cost/">AWS費用試算例</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-07T14:16:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>実在するかどうかはわかりませんがこのような構成があった場合に<br/>
-どのような費用が発生するのか試算してみました。<br/>
-AWSは費用の算出が難しいので、参考になれば幸いです。</p>
-
-<p>また、計算方法の誤りや、情報の過不足等あれば<br/>
-gistにコメントか、Twitterなどで教えて頂ければ有難いです。</p>
-
-<blockquote><p><a href="http://calculator.s3.amazonaws.com/calc5.html?lng=ja_JP">Simple Monthly Calculator</a>を利用して算出しています。</p></blockquote>
-
-<div><script src='https://gist.github.com/7349351.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="11">&larr; Older</a>
@@ -910,6 +1084,10 @@ gistにコメントか、Twitterなどで教えて頂ければ有難いです。
       </li>
     
       <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
       </li>
     
@@ -921,45 +1099,8 @@ gistにコメントか、Twitterなどで教えて頂ければ有難いです。
         <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a>
-      </li>
-    
   </ul>
 </section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
 
   
 </aside>
