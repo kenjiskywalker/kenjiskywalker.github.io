@@ -34,7 +34,7 @@ Zabbixで取得したら面白いかなというアイデアが思いついた�
 # 作成編
 
 事前にtestが通るまでのものは  
-[超初級！Fluentdのプラグインを書きたくなった時の下地づくり](http://blog.kenjiskywalker.org/blog/2013/01/05/fluent-pluing/)にて作成しています。  
+[超初級！Fluentdのプラグインを書きたくなった時の下地づくり](http://blog.kenjiskywalker.org:8080/blog/2013/01/05/fluent-pluing/)にて作成しています。  
 
 本来はもっとスマートな作り方があるのでしょうが、  
 私は基本的にこの流れで行いました。
