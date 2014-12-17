@@ -53,6 +53,11 @@ https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXX
 
 [chat.postMessage - slack API](https://api.slack.com/methods/chat.postMessage)
   
+
+## 2014/12/16 追記
+
+sowawaさんにmergeして頂いた。感謝
+
 ## 設定
 
 - /etc/td-agent/td-agent.conf
