@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="ロンドン起業日記　ヨーロッパで絶賛、奮闘中！【電子書籍】井上真達人出版会発行日: 2013-12-09対応フォーマット: PDF, EPUB詳細を見る ロンドン起業日記 を読んだ - HsbtDiary @hsbtさんが読んでいたので読んでみた。
-成功した話とかあまり教訓にならなくて、 &hellip;">
+  <meta name="description" content="ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。
+もちろんZABBIXでグラフにすることもできます。 fluent-plugin-zabbix
+fluent- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -53,7 +55,19 @@
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="main-navigation">
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -68,7 +82,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/22/london/">「ロンドン起業日記」を読んだ</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/03/21/cloudwatch-fluentd-zabbix/">fluentdでCloudWatchのELBのメトリクスをZABBIXに渡す</a></h1>
     
     
       <p class="meta">
@@ -84,383 +98,23 @@
   
 
 
-<time datetime="2013-12-22T16:21:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-03-21T17:05:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank"><img src="http://tatsu-zine.com/images/books/205/cover_s.jpg" alt="ロンドン起業日記　ヨーロッパで絶賛、奮闘中！" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%;margin-bottom:10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">ロンドン起業日記　ヨーロッパで絶賛、奮闘中！【電子書籍】</a></div><div class="amazlet-detail">井上真<br />達人出版会<br />発行日: 2013-12-09<br />対応フォーマット: PDF, EPUB<br /></div><div class="amazlet-sub-info" style="float:left;"><div class="amazlet-link" style="margin-top:5px"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear:left"></div></div>
+  <div class="entry-content"><p>ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。<br/>
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。<br/>
+もちろんZABBIXでグラフにすることもできます。</p>
 
+<p><a href="https://rubygems.org/gems/fluent-plugin-zabbix">fluent-plugin-zabbix</a><br/>
+<a href="http://rubygems.org/gems/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a></p>
 
-<p><a href="http://www.hsbt.org/diary/20131216.html">ロンドン起業日記 を読んだ - HsbtDiary</a></p>
+<p>この2つのfluentdプラグインを使います。</p>
 
-<p>@hsbtさんが読んでいたので読んでみた。<br/>
-成功した話とかあまり教訓にならなくて、鮮度の高い体験談の方が<br/>
-よっぽど得るものがあると思う。</p>
-
-<blockquote><p>記されているその行いよりも、事前に存在したバックグラウンドが大切なのに<br/>
-さもその行いだけで成功した文脈のものが多い。という意味で</p></blockquote>
-
-<p>とくに本書はまだプロダクトをつくりあげていく途中の生の情報がたくさんあって<br/>
-ゴールした後に整備された話ではなく、今走り続けている人の話なので<br/>
-@makoto_inoueさんのお話を直接聞いているような熱量があってすぐに読み終わった。</p>
-
-<p>blogの<a href="http://d.hatena.ne.jp/makotoi/">makotoiの日記:from London</a>も面白い。</p>
-
-<p>昔、社会起業家みたいなの考えてた時期があった。<br/>
-あの時は熱量だけで進んでいって、途中で全部投げ出してしまった。</p>
-
-<p>あの頃は自分で何もかもやろうとしていた。若さ故のなんとかだった。<br/>
-今ならもう少しうまくやれるかもしれない。もう少し人の役に立てるかもしれない。<br/>
-など、読む人によって色々感じるものがあるのではないかと思います。</p>
-
-<p>鮮度と熱量があって、大変良かったです。</p>
-
-<p>お母さんからのメールに、新聞から抜粋した</p>
-
-<blockquote><p>嘘をつかない<br/>
-人に親切にする<br/>
-ルールを守る<br/>
-勉強をする</p></blockquote>
-
-<p>この４つのしつけの話に背筋が伸びる思いでした。<br/>
-お母さんのメールが書籍化されたらそちらも読みたいです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/14/fluentd-casual-3/">Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-14T01:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Fluentd Casual Talks #3 で話してきました</h2>
-
-<p>会場をご提供頂いたDeNAさん、主催者の@tagomorisさん、ありがとうございました。</p>
-
-<p>スライドはこちらです。</p>
-
-<script async class="speakerdeck-embed" data-id="b9dcc770460d0131db724af7eb411f76" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
-
-
-<p></p>
-
-<p>設定が増えてくると<code>td-agent.conf</code>自体が肥えてきます。<br/>
-その場合、<code>include config.d/hoge.conf</code>というように<br/>
-機能別に設定ファイルを分けることで、人間が管理できるようになります。</p>
-
-<p>設定ファイルについては、必要な設定だけを人間が行って<br/>
-ファイルの設置などについては、Chefに行ってもらうのが良いです。<br/>
-Chefの設定方法についてはスライドを見てもらうとなんとなくわかるかなと思います。<br/>
-ポイントは<code>include_recipe</code>を利用して、Chefのrecipe自体も分割するところです。</p>
-
-<ul>
-<li>chef/site-cookbook/td-agent/recipes/td-agent.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;
-</span><span class='line'>
-</span><span class='line'>include config.d/nginx.conf
-</span><span class='line'>
-</span><span class='line'>&lt;match **&gt;
-</span><span class='line'>  type file
-</span><span class='line'>  path /tmp/unmatched
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>chef/site-cookbook/td-agent/recipes/nginx.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/td-agent/config.d/nginx.conf" do
-</span><span class='line'>  owner "root"
-</span><span class='line'>  mode  0644
-</span><span class='line'>  source "nginx.conf.erb"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>chef/site-cookbooks/td-agent/templates/default/nginx.conf.erb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match nginx.access.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file_alternative
-</span><span class='line'>    time_slice_format %Y%m%d-%H
-</span><span class='line'>    path /var/log/aggregated/nginx/access
-</span><span class='line'>    output_data_type attr:message
-</span><span class='line'>    localtime
-</span><span class='line'>    output_include_time false
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;
-</span><span class='line'>
-</span><span class='line'>...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>このように分割します。<code>nginx.rb</code>や<code>rds.rb</code>には<br/>
-<code>nginx.conf</code>や<code>rds.conf</code>を生成するためのテンプレートが書かれています。<br/>
-スライド内の<code>s3cmd</code>の箇所を参照して頂ければ、どんな感じかわかると思います。</p>
-
-<p>世界を前進させるスーパーな話も良いですが、増えすぎる設定ファイルを<br/>
-どう管理するか。みたいな話があっても良いのではないかと思い<br/>
-発表するに至りました。みなさんも良い管理方法などあれば<br/>
-是非とも教えて下さい。</p>
-
-<p>また、わからないことがあれば気軽に@kenjiskywalkerや、<br/>
-kenji at kenjiskywalker.orgに聞いて下さい。</p>
-
-<p>fluentdのように設定が多岐に渡る場合などは<br/>
-Chefやpupet、Ansibleのような設定管理ツールを利用するのが良いですね。</p>
-
-<p>ライブリリース２本、ライブ感あってよかったですね。<br/>
-おつかれさまでした。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/11/201311-book/">2013/11読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-11T01:20:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank"><img src="http://www.oreilly.co.jp/books/images/picture_small978-4-87311-642-6.gif" width="113" height="145" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank">イーサネットスイッチ</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : </div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">O&#8217;Reilly Japan</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/11/9784873116426" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%A1%E3%82%BF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0Ruby-Paolo-Perrotta/dp/4048687158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048687158" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51TODrMIEnL._SL160_.jpg" width="115" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%A1%E3%82%BF%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0Ruby-Paolo-Perrotta/dp/4048687158%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4048687158" target="_blank">メタプログラミングRuby</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Paolo+Perrotta" target="_blank">Paolo Perrotta</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">アスキー・メディアワークス</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2010-08-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4048687158" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Eloquent-Ruby-Addison-Wesley-Professional-Series-ebook/dp/B004MMEJ36%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB004MMEJ36" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51NOH1DvAGL._SL160_.jpg" width="114" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Eloquent-Ruby-Addison-Wesley-Professional-Series-ebook/dp/B004MMEJ36%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB004MMEJ36" target="_blank">Eloquent Ruby (Addison-Wesley Professional Ruby Series)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Russ+Olsen" target="_blank">Russ Olsen</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">Addison-Wesley Professional</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2011-02-07</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B004MMEJ36" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E4%BB%95%E4%BA%8B%E3%81%A8%E5%B9%B8%E7%A6%8F%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%BA%BA%E7%94%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6-%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0/dp/4887596839%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4887596839" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51BkkH-iuoL._SL160_.jpg" width="101" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E4%BB%95%E4%BA%8B%E3%81%A8%E5%B9%B8%E7%A6%8F%E3%80%81%E3%81%9D%E3%81%97%E3%81%A6%E4%BA%BA%E7%94%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6-%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0/dp/4887596839%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4887596839" target="_blank">仕事と幸福、そして人生について</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%82%B8%E3%83%A7%E3%82%B7%E3%83%A5%E3%82%A2%E3%83%BB%E3%83%8F%E3%83%AB%E3%83%90%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%A0" target="_blank">ジョシュア・ハルバースタム</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">ディスカヴァー・トゥエンティワン</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2009-02-18</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4887596839" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q5jtSKEQL._SL160_.jpg" width="103" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank">ワーク・シフト ― 孤独と貧困から自由になる働き方の未来図〈2025〉</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3" target="_blank">リンダ・グラットン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">プレジデント社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-07-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4833420163" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Objective-C-iPhone%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA-%E5%85%A5%E9%96%80%E3%83%8E%E3%83%BC%E3%83%88-Xcode5-iOS7%E5%AF%BE%E5%BF%9C/dp/4800710227%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4800710227" target="_blank"><img src="http://ecx.images-amazon.com/images/I/5108ukII8yL._SL160_.jpg" width="117" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Objective-C-iPhone%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA-%E5%85%A5%E9%96%80%E3%83%8E%E3%83%BC%E3%83%88-Xcode5-iOS7%E5%AF%BE%E5%BF%9C/dp/4800710227%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4800710227" target="_blank">詳細! Objective-C iPhoneアプリ開発 入門ノート Xcode5+iOS7対応</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%A4%A7%E9%87%8D%E7%BE%8E%E5%B9%B8" target="_blank">大重美幸</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">ソーテック社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-11-02</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4800710227" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9D%82%E6%9C%AC%E3%81%A7%E3%81%99%E3%81%8C-1-%E3%83%93%E3%83%BC%E3%83%A0%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B/dp/4047286338%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4047286338" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51wRd7OZK3L._SL160_.jpg" width="104" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9D%82%E6%9C%AC%E3%81%A7%E3%81%99%E3%81%8C-1-%E3%83%93%E3%83%BC%E3%83%A0%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B/dp/4047286338%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4047286338" target="_blank">坂本ですが? 1 (ビームコミックス)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E4%BD%90%E9%87%8E%E8%8F%9C%E8%A6%8B" target="_blank">佐野菜見</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">エンターブレイン</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-01-15</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4047286338" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p></p>
-
-<p>Rubyの2冊は何回でも読みたい本だ。<br/>
-プログラミング、未だにわからないことだからけだけど<br/>
-個人的なウェッブサービスやるやるって言って1年ぐらい経ってる。<br/>
-アイデアはあるのでちゃんとやっていきたい。</p>
-
-<p>Objective-Cの本はUI周りがほとんどでなんとなく違った感じだった。<br/>
-Objective-Cはオフィシャルのドキュメントとか充実してるので<br/>
-それを見てやれば良さそう。</p>
-
-<p>転職前の１週間ずっと体調悪くて最低だった。<br/>
-2014年は技術力の向上と合わせて健康力も上げていきたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/10/riq/">「利休にたずねよ」を見てきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-10T10:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.rikyu-movie.jp/">http://www.rikyu-movie.jp/</a></p>
-
-<p>本物の黒茶碗が使われるのと、利休の異常さが見れそうだったので見てきました。<br/>
-オープニングの10分ぐらいで利休の異常さに気付くと思います。</p>
-
-<p>先週末、京都に行ったついでに利休追悼ツアーで大徳寺と北野天満宮に行ったので<br/>
-よりリアルに感じることができました。</p>
-
-<p>利休の異常さ、朝顔の話が有名だけど人間そぎ落としていくと最高の美が見つかるっていうのは<br/>
-よくある話だし、それに関してはつきつめていくのが正しいと思います。</p>
-
-<p>昔の人も色々とせわしなくて、市中の山居という概念が必要とされていたし<br/>
-それはいつの時代も変わらないのかなとも思います。</p>
-
-<p>弟子の織部も異常で、その異常さを面白く読めるへうげものはおすすめです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/">supervisorでログのディレクトリをSIGUSR2を使って開き直す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-04T20:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>supervisorをインストール</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install python-setuptools
-</span><span class='line'>$ sudo easy_install supervisor
-</span><span class='line'>$ echo_supervisord_conf &gt; /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>テストスクリプト(/root/while.sh)を置く</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>while true ; do date ; sleep 1 ; done</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>/etc/supervisord.conf</li>
-</ul>
-
+<h4>td-agent.conf</h4>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -482,126 +136,120 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[unix_http_server]
-</span><span class='line'>file=/tmp/supervisor.sock   ; (the path to the socket file)
-</span><span class='line'>[supervisord]
-</span><span class='line'>logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
-</span><span class='line'>logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
-</span><span class='line'>logfile_backups=10           ; (num of main logfile rotation backups;default 10)
-</span><span class='line'>loglevel=info                ; (log level;default info; others: debug,warn,trace)
-</span><span class='line'>pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
-</span><span class='line'>nodaemon=false               ; (start in foreground if true;default false)
-</span><span class='line'>minfds=1024                  ; (min. avail startup file descriptors;default 1024)
-</span><span class='line'>minprocs=200                 ; (min. avail process descriptors;default 200)
-</span><span class='line'>childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
-</span><span class='line'>[rpcinterface:supervisor]
-</span><span class='line'>supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
-</span><span class='line'>[supervisorctl]
-</span><span class='line'>serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
-</span><span class='line'>[program:hello]
-</span><span class='line'>priority = 100
-</span><span class='line'>command = sh /root/while.sh
-</span><span class='line'>redirect_stderr = true</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type cloudwatch
+</span><span class='line'>  tag  cloudwatch
+</span><span class='line'>  aws_key_id  YOUR_AWS_KEY_ID
+</span><span class='line'>  aws_sec_key YOUR_AWS_SECRET/KE
+</span><span class='line'>  cw_endpoint monitoring.ap-northeast-1.amazonaws.com
+</span><span class='line'>
+</span><span class='line'>  namespace AWS/ELB
+</span><span class='line'>  metric_name HealthyHostCount,HTTPCode_Backend_2XX,HTTPCode_Backend_3XX,HTTPCode_Backend_4XX,HTTPCode_Backend_5XX,HTTPCode_ELB_4XX,Latency,RequestCount,UnHealthyHostCount
+</span><span class='line'>  dimensions_name LoadBalancerName
+</span><span class='line'>  dimensions_value YOUR_ELB_NAME
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match cloudwatch&gt;
+</span><span class='line'>  type copy
+</span><span class='line'> &lt;store&gt;
+</span><span class='line'>  type             zabbix
+</span><span class='line'>  zabbix_server    ZABBIX SERVER IP
+</span><span class='line'>  host             [ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]
+</span><span class='line'>  name_keys        HealthyHostCount, HTTPCode_Backend_2XX, HTTPCode_Backend_3XX, HTTPCode_Backend_4XX, HTTPCode_Backend_5XX, HTTPCode_ELB_4XX, Latency, RequestCount, UnHealthyHostCount
+</span><span class='line'>  add_key_prefix   cloudwatch
+</span><span class='line'> &lt;/store&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
 
+
+<h4>ZABBIXの設定</h4>
+
+<p>ホスト名は<br/>
+<code>[ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]</code>
+で指定したものを。</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" /></p>
+
+<p>こんな感じでアイテムを設定します。</p>
 
 <ul>
-<li>supervisorを走らせる</li>
+<li>キー：cloudwatch.HealthyHostCount</li>
+<li>データ型：整数とか浮動小数点型とか</li>
+<li>タイプ：ZABBIX Trapper</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor
-</span><span class='line'>$ supervisord -c /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" /></p>
+
+<p>トリガーはこんな感じで<strong>UnHealthyHost</strong>が0よりも大きければwarningを<br/>
+みたいな監視が行えるようになります。</p>
+
+<p><strong>Latency</strong>や<strong>RequestCount</strong>なんかもグラフにできるので<br/>
+良い感じっぽいです。</p>
+
+<blockquote><p>画像小さいのウケますね</p></blockquote>
+</div>
+  
+  
 
 
-<ul>
-<li>ログが出力されているのか確認</li>
-</ul>
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/znc-to-lingr/">ZNCでlingr-ircに接続する設定</a></h1>
+    
+    
+      <p class="meta">
+        
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
-</span><span class='line'>Wed Dec  4 10:32:17 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:18 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:19 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:20 UTC 2013</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>状態を確認するためにプロセスを監視しておく</li>
-</ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>/var/log/supervisor/を移動する</li>
-</ul>
+  
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mv /var/log/supervisor /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+<time datetime="2013-03-21T00:25:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
 
 
-<p>tailで流しているログが流れ続けているか確認する。<br/>
-ログが止まっていたりしたらがんばってください。</p>
+  <div class="entry-content"><p><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom&rsquo;s blog.</a></p>
 
-<ul>
-<li>別のディレクトリを作成してsymlinkしてみる</li>
-</ul>
+<p>インターネットそんなに古くからやってないのでlingrとかあんまり知らなかったけど<br/>
+面白そうだから入ってみた。ブラウザでログインとかしたくなかったので</p>
 
+<p><a href="https://github.com/psychs/lingr-irc">psychs/lingr-irc</a></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor_new
-</span><span class='line'>$ ln -s /var/log/supervisor_new /var/log/supervisor
-</span><span class='line'>$ ls -la /var/log/supervisor</span></code></pre></td></tr></table></div></figure>
-
-
-<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
-
-<ul>
-<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
-</ul>
-
-
-<p>出力され続けていることを確認</p>
+<p>使って</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls -la /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nohup ruby lig.rb &</span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>SIGUSR2</code>を発行</p>
+<p>とかユルフワな感じでふぉわーどするようにしてる。<br/>
+長く動かすようだとdaemontools化した方が良い。<br/>
+今ならtokuhiromさんがつくったPerlバージョンの</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ kill -SIGUSR2 `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
+<p><a href="https://github.com/tokuhirom/lingr-ircd">tokuhirom/lingr-ircd</a></p>
 
+<p>こっち使ってもいいかもしれない。</p>
 
-<p>こんな感じでシグナルがやってきて</p>
+<blockquote><p>あとずっとハマってたのが、アカウントつくってIRCでつなげねー！<br/>
+ってなってたけど、1回ルームに入ってからじゃないとダメだった。</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`
-</span><span class='line'>Process 22859 attached - interrupt to quit
-</span><span class='line'>--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
-</span><span class='line'>open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
-</span><span class='line'>open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
+<p>どうせならZNCで繋ぎたかったのでこんな感じでつないでる。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -610,16 +258,844 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>Wed Dec  4 10:03:42 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:43 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:44 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:45 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:46 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:47 UTC 2013</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;Network lingr&gt;
+</span><span class='line'>            FloodBurst = 4
+</span><span class='line'>            FloodRate = 1.00
+</span><span class='line'>            IRCConnectEnabled = true
+</span><span class='line'>            Ident = [lingr account name]
+</span><span class='line'>            RealName = hotoke
+</span><span class='line'>            Server = 127.0.0.1 26667 [lingr password]
+</span><span class='line'>
+</span><span class='line'>            &lt;Chan #perl_jp&gt;
+</span><span class='line'>                    Buffer = 10
+</span><span class='line'>            &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>学ぶことは多い。</p>
+<p><strong>Ident</strong> にlingrのユーザ名入れて<br/>
+<strong>Server</strong> で指定するパスワードにlingr userのパスワード設定するだけだった。<br/>
+webadmin使えばNetworkの設定追加する時も再起動なしでいけるしすごい良い。</p>
+
+<p>ずっとwebadmin見れないなーって思ってたら<br/>
+@handlename先輩が「Chromeでは見れないよ」って<br/>
+アドバイスくれて、さすがオレたちのhandle先輩！ってなってた。</p>
+
+<p>ChromeだとブラウザでIRCポートとか接続しに行くと良くないアクセスみたいな判断して<br/>
+遮断しちゃうみたい。Firefoxだと開けた。この辺細かい情報は調べてない。</p>
+
+<p>調べてないって書いたらひろせおじさんがエントリー書いてくれた</p>
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/hirose31/20130327/1364362758">ChromeでへんてこなポートにHTTPで繋ぎたい / (ひ)メモ</a></li>
+</ul>
+
+
+<p>hirose31++</p>
+
+<p>祝日なのにインターネットに関わってて体調悪くなってる。<br/>
+休肝日みたいな感じで休インターネット日みたいなの必要っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
+</span><span class='line'>sentinel down-after-milliseconds check_one 5000
+</span><span class='line'>sentinel failover-timeout check_one 50000
+</span><span class='line'>sentinel can-failover check_one yes
+</span><span class='line'>sentinel parallel-syncs check_one 1
+</span><span class='line'>
+</span><span class='line'>daemonize yes
+</span><span class='line'>pidfile /var/run/redis-sentinel.pid
+</span><span class='line'>loglevel notice
+</span><span class='line'>logfile /var/log/redis-sentinel.log
+</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
+
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/zabbix-action-setting/">ZABBIXでアラートメールを受け取るためにする設定メモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T01:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新しくグループとかつくる時に<br/>
+アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
+
+<ol>
+<li>ユーザつくる</li>
+<li>ユーザのメディアにアラート通知先登録する</li>
+<li>ユーザグループつくる</li>
+<li>ユーザグループにユーザ入れる</li>
+<li>ホストつくる</li>
+<li>ホストグループつくる</li>
+<li>ホストグループにホスト入れる</li>
+<li>アクションのコンディションのホストグループにホストグループを指定</li>
+<li>アクションのオペレーションにユーザグループを指定</li>
+</ol>
+
+
+<p>で、大丈夫のはず。</p>
+
+<p>コピーとかでやるとコンディションとか通知先とか変え忘れるので<br/>
+新規でちゃんとつくった方が確実だしなんか通知こねー！とかなるので<br/>
+ちゃんと確認しないといけない。</p>
+
+<p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/znc-limechat-iphone/">ZNCでLimeChatをIRCクライアントにしてiPhoneだけBuffer効かせる設定とim.kayacの設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T00:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>環境<br/>
+ZNC vresion 1.0<br/>
+LimeChat version 2.33<br/>
+ZNC Packages from epel repository<br/>
+- znc-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-devel-1.0-0.1.alpha1.el6.x86_64<br/>
+- znc-modperl-1.0-0.1.alpha1.el6.x86_64</p></blockquote>
+
+<p>出先で、im.kayacの通知が来てて見ると<br/>
+「kenjiskywalkerマジでクソ、サーバさわんな」みたいなことが話されてて<br/>
+解脱〜、みたいな状況になった場合、iPhoneで直近の会話だけ<br/>
+みたい場合があるので、その設定をした。</p>
+
+<h4>参考:</h4>
+
+<blockquote><p><a href="http://blog.handlena.me/entry/2013/01/20/185717">ZNCってひとつのアカウントで複数サーバーに接続できるよね？ - handlename&rsquo;s blog</a><br/>
+<a href="http://soh335.hatenablog.com/entry/2013/01/29/170500">znc 内で keepbuffer on と off なものを作る - soh335 memo</a><br/>
+<a href="http://blog.64p.org/entry/20120703/1341288920">znc で im.kayac をつかうための NotifyImKayacSimple.pm をかいた - tokuhirom&rsquo;s blog.</a></p></blockquote>
+
+<h2>NotifyImKayacSimpleの設定</h2>
+
+<p><a href="http://d.hatena.ne.jp/sugyan/20120320/1332254901">特定のキーワードをim.kayac.comに通知するZNCモジュール書いた - すぎゃーんメモ</a><br/>
+このすぎゃーんさんのメモの&#8217;-fPIC&#8217;の設定を有効にした記憶がある。あまり覚えてない。</p>
+
+<p><code>~/.znc/modules/NotifyImkayacSimple.pm</code>に置いて
+<em>LoadModule = modperl</em>して、<br/>
+<em>NotifyImkayacSimple username=username keyword=key1,key2</em>で通知が来ると思う。</p>
+
+<p>設定書いて間違っていればzncが起動しないので、その辺で確認できると思う。<br/>
+デバッグモードを有効にするのもアリだと思う。</p>
+
+<h2>zncの設定</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// WARNING
+</span><span class='line'>//
+</span><span class='line'>// Do NOT edit this file while ZNC is running!
+</span><span class='line'>// Use webadmin or *admin instead.
+</span><span class='line'>//
+</span><span class='line'>// Buf if you feel risky, you might want to read help on /znc saveconfig and /znc rehash.
+</span><span class='line'>// Also check http://en.znc.in/wiki/Configuration
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>&lt;Listener listener0&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>&lt;/Listener&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User hotoke&gt;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>    LoadModule = modperl
+</span><span class='line'>    AutoClearChanBuffer = false
+</span><span class='line'>
+</span><span class='line'>    &lt;Network default&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=涅槃,解脱,成仏
+</span><span class='line'>        Server = hoge.example.com
+</span><span class='line'>        Buffer = 100
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #buddha&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network freenode&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=灌仏会
+</span><span class='line'>        Server = irc.freenode.net 6667
+</span><span class='line'>        Buffer = 1
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #isucon&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #monitoring-casual&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Network perl&gt;
+</span><span class='line'>
+</span><span class='line'>        ...
+</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=解脱
+</span><span class='line'>        Server = irc.perl.org 6667
+</span><span class='line'>        Buffer = 10
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #ark&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #dbi-ja&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>
+</span><span class='line'>        &lt;Chan #prepan&gt;
+</span><span class='line'>        &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;User limechat&gt;
+</span><span class='line'>
+</span><span class='line'>     AutoClearChanBuffer = true
+</span><span class='line'>     Buffer = 500
+</span><span class='line'>
+</span><span class='line'>    &lt;Network znc&gt;
+</span><span class='line'>        ...
+</span><span class='line'>        Server = 127.0.0.1 +6669 [zncのパスワード]
+</span><span class='line'>
+</span><span class='line'>    &lt;/Network&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;Pass password&gt;
+</span><span class='line'>        ...
+</span><span class='line'>    &lt;/Pass&gt;
+</span><span class='line'>&lt;/User&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで設定している。</p>
+
+<p>Userひとつで複数のNetworkに入れる。</p>
+
+<blockquote><p>PC => loginname: limechat/znc<br/>
+iPhone => loginname: hotoke/default, hotoke/freenode, hotoke/perl</p></blockquote>
+
+<p>みたいな感じにして、PC側は<em>AutoClearChanBuffer</em>を有効にして<br/>
+既読にしたものは消していって、iPhoneで接続する方は<br/>
+毎回過去の履歴が見れるようになる。</p>
+
+<p>これで出先で社内IRCで椅子がとんできても大丈夫なようになる。<br/>
+仏像彫刻教室情報お待ちしております。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/09/monitoringcasualvol3/">#monitoringcasual Vol3 に参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T15:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="http://www.zusaar.com/event/521056">Monitoring Casual Talk #3</a>に参加してきました。</h2>
+
+<p>会場をご提供頂いた株式会社paperboy&amp;co.さま<br/>
+@ume3_さん、@tnmtさん、@lamanotramaさん、ありがとうございました。</p>
+
+<p>会場へ向かう途中で、fujiwaraさんとsongmuさんが<br/>
+今日はmizzyさんいないからイケるかもしれないとか物騒なこと言ってて怖かったです。</p>
+
+<p>セルリアンタワー、曜日の夜にBARになるところがすごくて<br/>
+入り口にイケイケのおねーさんいたりして華やかや〜！！！ってなっていました。</p>
+
+<h2>発表内容</h2>
+
+<p><a href="http://www.slideshare.net/KenjiNaito/monitoringcasual-vol3">発表資料</a>はこんな感じです。<br/>
+出発する30分前につくったのでそんなに大したものではないです。<br/>
+一枚目は 「<em>RDSのメトリクスをCloudWatchからfluentdへ、slow_logを添えて</em>」<br/>
+って書いてあります。<br/>
+フレンチっぽくしたかったんですけどただの読めない文字になってました。<br/>
+あと何枚目かに素敵な妖精が映ってるかもしれないですけど気のせいです。</p>
+
+<p>こんなんあったらいいなーって思ったら、素晴らしいプロダクトがたくさんあるので<br/>
+すぐにできて良いですね。という感じで5分ぐらいで話したんですけど<br/>
+みんな普通にライトニングじゃない時間トークしてて、<br/>
+何でか一番時間きっかりしてたのに手抜いた感じがしてて切なかったです。</p>
+
+<p>もにかじ中にお前ZABBIXのスクリーン消したろ？って社内IRCで声かけられて<br/>
+は〜申し訳ないです〜とか言いながらZABBIXのスクリーンつくりなおしてました。<br/>
+ZABBIXのスクリーン、業が深いので手作業でやらないようにしたいですね。</p>
+
+<h2>fluentdのプラグインをつくりました。</h2>
+
+<p><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch-lite">fluent-plugin-cloudwatch-lite</a><br/>
+<a href="https://rubygems.org/gems/fluent-plugin-rds-slowlog">fluent-plugin-rds-slowlog</a></p>
+
+<p><strong>fluent-plugin-cloudwatch-lite</strong> は、RDSのメトリクスをZABBIXで取得したかったので<br/>
+fluentdに120秒前と60秒前のデータを取ってくるものです。<br/>
+元々<a href="https://github.com/yunomu/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a>があって<br/>
+それを参考につくらせてもらいました。<br/>
+自分でThread書くとか多分無理だったので本当にありがたいです。</p>
+
+<p><strong>fluent-plugin-rds-slowlog</strong> は、<br/>
+RDSのslow_logをファイルで保存したかったので書きました。<br/>
+最初シェルスクリプトでやってたんですけど、<br/>
+fujiwaraさんからfluentdでやれば？って言われて<br/>
+ほんとっスねってなって書きました。fluentdのplugin簡単に書けてすごいです。</p>
+
+<p>簡単に書けるからこそ、つくるならちゃんとしたものつくりたいなーって思いながら<br/>
+自信ないので、色々書いていくようになれば自信つくのかなーとか思ったりしてます。</p>
+
+<h2>もにかじ</h2>
+
+<p>もにかじ、次回ははてなさんらしいので超楽しみです。<br/>
+なんだったら鴨川でビールキメたりしたいですが、<br/>
+多分カミさんに物理的に抹消されるので厳しいです。</p>
+
+<p>もし次回参加できたら、次はこんなことで悩んでるんですけど<br/>
+みなさんどうしてます？みたいな感じで行きたいです。(前も言ってた気がする)</p>
+
+<h2>fujiwaraさん</h2>
+
+<p><a href="http://dl.dropbox.com/u/224433/monitoring_casual_3/index.html#1">『いつもと違う』を検知したい</a></p>
+
+<p>ハンパない</p>
+
+<h2>Perlのひとたち</h2>
+
+<p>Perl使ってる若者みんなスルーしてるけど、Perlおじさんたち<br/>
+disに対するアンサーソングみたいなのみんなキメてて怖かった。</p>
+
+<p>Twitter見たらまだ話してる人いて本当に物騒だなって思った。</p>
+
+<h2>ひとりじゃない</h2>
+
+<p>監視とかモニタリングとかってあんまりおもしろい話ないし<br/>
+すごい地道な作業が多いけど、みんなで集まって<br/>
+どうやって問題に対して解決してるかとか、<br/>
+こういう課題があるんだけどどうだとか、このツールどうだとか<br/>
+ワイワイ話したりするの楽しいなーって思いました。</p>
+
+<p>Twitter芸人として技術力ないけどコンテンツ力があるとか<br/>
+言われないように頑張って生きたい。</p>
+
+<p>頑張るのに疲れたらインターネットから解脱して仏像彫りたい</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/">EC2でEphemeral DiskをRAID0で構築した状態でブートする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T21:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div><script src='https://gist.github.com/5081937.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなスクリプトを置いておいて</p>
+
+<p><code>/etc/rc.local</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh ec2-raid0.sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<em>rc.local</em>に一行書いておけば<br/>
+エフェメラルディスク2つをRAID0としてマウントする。<br/>
+なんで<strong>md127</strong>なのかは、AWSさんに聞いてほしい。<br/>
+<strong>md0</strong>でつくっても必ず、再起動後に<strong>md127</strong>として起動してくる。</p>
+
+<p>きっと神の意思なんだと思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/27/chef-variables-same-cookbook/">Chefのtemplateにrecipeからデータを渡すvariablesについて</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
+異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
+
+<p>@fujiwaraさん++</p>
+
+<blockquote><p>検証環境<br/>
+Chef v11.4.0</p></blockquote>
+
+<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
+結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
+
+<p>当初、この課題に対する解決方法として、<br/>
+複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
+実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
+複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
+最初に読み込まれた <em>role</em> は認識されなかった。</p>
+
+<h2>variablesを利用したレシピをみていこう</h2>
+
+<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>recipe内で<br/>
+<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
+また、わかりづらいのだが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
+</span><span class='line'>  :port =&gt; port  
+</span><span class='line'>})  </span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br/>
+<strong>@port</strong> に代入している。</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>template内で、代入された <strong>@port</strong> を利用する</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>上記内容の結果、出力ファイルとして</p>
+
+<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>期待した通り、複数のvalueを受け取り<br/>
+それぞれ異なったファイルに出力されることが確認できた。</p>
+
+<p>もう少しエレガントな方法があるように思うので<br/>
+他の方法などがあれば、是非是非コメントを頂きたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/25/music-20130225/">週末買った音楽</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T03:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://bleep.com/release/34461">Iradelphic / Clark</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/34461.jpg" alt="https://bleep.com/media/images/r/g/34461.jpg" /></p>
+
+<h2><a href="https://bleep.com/release/36554">Quarantine / Laurel Halo</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/36554.jpg" alt="https://bleep.com/media/images/r/g/36554.jpg" /></p>
+
+<h2><a href="https://bleep.com/release/37690">Ancient Future / Willits + Sakamoto</a></h2>
+
+<p><img src="https://bleep.com/media/images/r/g/37690.jpg" alt="https://bleep.com/media/images/r/g/37690.jpg" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/25/get-cloudwatch-rds-ec2/">RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T01:10:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_rds.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じで適当に叩いたら良い感じに取ってきてくれます。<br/>
+デフォルトの<em>metirc_name</em>パターンはコメントアウトに書いてます。</p>
+
+<p>start_timeとかperiodいじると返ってくるデータパターンが変わってくるので<br/>
+色々遊んでみてください。</p>
+
+<p>ついでにEC2のデータもとってくれるようなの書いてみたんですが<br/>
+デフォルトで手に入るメトリクス少ないので<br/>
+CloudWatchでデータ取るなら自分でメトリクスつくらないとダメですね。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_ec2.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Enjoy CloudWatch API!</p>
 </div>
   
   
@@ -639,7 +1115,66 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 </div>
 <aside class="sidebar">
   
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kenjiskywalker',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
   
 </aside>
 

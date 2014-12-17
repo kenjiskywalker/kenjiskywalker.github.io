@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
-nodes/hoge.jsonで与えられたnode[:hoge]の値を
-roles/role.jsonで値を追加したい場合があります。
-そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
+  <meta name="description" content="OctopressでGsitすごいカジュアルに載せられるけど
+ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。 ZABBIX PROXYのメモ 普通にproxyインストールするまではよかったんだけど
+その後にproxy先のZABBIXで設定するのしらなくてずっと &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -55,7 +54,19 @@ roles/role.jsonで値を追加したい場合があります。
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="main-navigation">
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -70,7 +81,7 @@ roles/role.jsonで値を追加したい場合があります。
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/04/chef-merge-deep/">Chefのnode[:hoge]をどうにかしたい</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/02/20/zabbix-proxy/">ZABBIX PROXY ver.1.8の設定メモ</a></h1>
     
     
       <p class="meta">
@@ -86,148 +97,531 @@ roles/role.jsonで値を追加したい場合があります。
   
 
 
-<time datetime="2013-12-04T14:26:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-02-20T00:25:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>2013年オワコンの代表格として名指しされているChefですが<br/>
-<strong>nodes/hoge.json</strong>で与えられた<code>node[:hoge]</code>の値を<br/>
-<strong>roles/role.json</strong>で値を追加したい場合があります。<br/>
-そのやり方として、オフィシャルにはディープマージという方法が載っていました。</p>
+  <div class="entry-content"><p>OctopressでGsitすごいカジュアルに載せられるけど<br/>
+ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。</p>
 
-<p><a href="http://docs.opscode.com/essentials_node_object_deep_merge.html">http://docs.opscode.com/essentials_node_object_deep_merge.html</a></p>
+<p><a href="https://github.com/kenjiskywalker/memo/blob/master/software/ZABBIX/zabbix-proxy.md">ZABBIX PROXYのメモ</a></p>
+
+<p>普通にproxyインストールするまではよかったんだけど<br/>
+その後にproxy先のZABBIXで設定するのしらなくてずっと</p>
+
+<p><code>Sending list of active checks to [IP ADDORESS] failed: host [n01] not found</code></p>
+
+<p>ZABBIXのオフィシャルのドキュメントがあったら<br/>
+本当にそういうドキュメント探すセンスがないっぽい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/15/rds-tarinai/">AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T13:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
+
+<p>こんなエラーが出た。</p>
+
+<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
+must exist in availability zones with sufficient capacity for
+VPC and provisioned IOPS for db.m1.small,<br/>
+so 1 more must be created in other availability zones;
+choose from these availability zones: ap-northeast-1c.</p></blockquote>
+
+<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
+<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
+
+<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
+Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
+缶コーヒーでもおごってあげたい気持ちになりました。</p>
+
+<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/14/otona/">大人</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-14T21:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>大人とは〜みたいなの昔よく考えてて<br/>
+「子供は自分の意見を言うだけの人」<br/>
+「大人は自分の意見と相手の意見をすり合わせられる人」<br/>
+っていうことを考えてた。</p>
+
+<p>最近とくに自分の足りないところとか考えてて<br/>
+何かの事象が起こった時に感情的に支配されて、<br/>
+それは勝手に自分がその対象にとらわれてしまっていて<br/>
+そうすると、俯瞰でものが見れなくなって<br/>
+ちゃんとした判断が行えなくなるみたいなの思ってる。</p>
+
+<p>そういう話は<a href="http://www.amazon.co.jp/gp/product/4192422115/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=247&amp;creative=1211&amp;creativeASIN=4192422115&amp;linkCode=as2&amp;tag=13nightcrows-22" title="">不動智神妙録</a>に載ってて<br/>
+例えば、電車が来た時に降りる人がまだいるのに急いで自分の席を確保する人とか<br/>
+その人がいないところでその人の悪口言ってる人とか<br/>
+なんでそういうことするのかなーって思うんだけど、<br/>
+そういうことする人の気が知れん！ってなると、もうそこで<br/>
+理解することを止めちゃって、憎悪の対象になっちゃって<br/>
+結局とらわれることになるのかなって思う。</p>
+
+<p>例えばの話だけど、なんでそういうことするのかなーって思った時に<br/>
+その事象の背景にどんなことがあるのかっていうのを考えると<br/>
+その瞬間の出来事にとらわれることはないのかなって思う。</p>
+
+<p>まだ降りる人がいるのに自分の席確保しようと急いで乗っちゃう人、<br/>
+今まで南米の貧しい町にずっと住んでて、自分でどうにかしないと<br/>
+生きていけないようなサバイブしてきた人なのでは？とか考えると</p>
+
+<p>その町ではゆずりあってなんかいたらメシがなくなるとか<br/>
+電車の座席ひとつで生きるか死ぬかみたいなことまで発展するような<br/>
+そんな世界でどうにか生きてきた場合、多分ゆずりあいとかむずかしいと思う。</p>
+
+<p>本当はそういう事象が発生した時に<br/>
+走馬灯みたいにその人のバックグラウンドみたいなのが<br/>
+一瞬で見れれば、あーそっか、そういう背景があるのか！<br/>
+みたいになれば納得できると思う。<br/>
+まぁ背景みて余計にイライラするかもしれないけど</p>
+
+<p>取り敢えず起こった事象だけを見てあーだこーだ言うことは少なくなると思う。</p>
+
+<p>その発生した事象の背景まで想像して、なるべく理解しようとつとめて<br/>
+ものごとを客観視できれば、色々と見えてくるものもあるだろうし<br/>
+もしかしたらその対象が人だったりしたら、何かアドバイスとかできるかもしれない。</p>
+
+<p>大人っていうのは、自分の意見を通すことに政治力磨くこととか、<br/>
+争いに勝つとか、よく金を稼ぐとか、そういうことじゃなくて<br/>
+ある事象に対してよく理解して、みんながなるべくしあわせになれるように<br/>
+ものごとをすすめられる人だと思う。</p>
+
+<p>ここまで読んでもしかして&hellip;って思った人、勘がいいですね！<br/>
+そう！残念！大人ではなく解脱の話でした！</p>
+
+<p>ｳｪｰｲ</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/12/keiryu-hannyashinkyo/">すぐに般若心経を唱えられるGoogle Chromeの拡張作った。</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-12T21:15:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>生きていればつらいことがある。
+しかし、つらいからと言って簡単に投げ出す事は出来ないということも多い。</p>
+
+<p>みなさんもつらまってる時、よく般若心経を唱えると思う。
+当然のごとく僕もそうである。</p>
+
+<p>最近つらい事がよくある。
+そんな時のために、般若心経を素早く表示する必要があった。
+なので、般若心経をすぐ唱えるGoogle Chromeの拡張を作った。</p>
+
+<p>「だめだ。もうやってらねー」って時は、空の tab を表示すればすぐ般若心経を唱えられる。最高。解脱したい。</p>
+
+<iframe src="//player.vimeo.com/video/59482395" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+
+<p> <p><a href="http://vimeo.com/59482395">渓流般若心経</a> from <a href="http://vimeo.com/user16420998">kenjiskywalker</a> on <a href="https://vimeo.com">Vimeo</a>.</p></p>
+
+<blockquote><p>音が出ます。時間が経過すると般若心経が流れ出します。苦手な方は視聴を控えてください。</p></blockquote>
+
+<p><a href="https://github.com/kenjiskywalker/chrome-keiryu-hannnyashinkyo">https://github.com/kenjiskywalker/chrome-keiryu-hannnyashinkyo</a></p>
+
+<h3>合わせて読みたい</h3>
+
+<p><a href="http://blog.hisaichi5518.com/entry/2013/02/01/003820">すぐに吉高由里子を見れるGoogle Chromeの拡張作った。 - パルカワ2</a><br/>
+<a href="http://soh335.hatenablog.com/entry/2013/02/10/011039">すぐに宮崎あおいを見れるGoogle Chromeの拡張作った。- soh335 memo</a><br/>
+<a href="http://mizzy.org/blog/2013/02/11/1/">すぐにハッブル宇宙望遠鏡撮影画像を見れるGoogle Chromeの拡張作った。- mizzy.org</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/06/aws-ec2-vpc/">AWS::EC2をVPCにアサインして、EIP用のNetwork Interfaceを追加して外部と接続できるようにする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-06T21:30:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AWSでEC2のインスタンスをVPCにアサインして<br/>
+外部と接続する為のネットワークインタフェースを追加して<br/>
+外部と接続できるようにしたメモです。</p>
+
+<div><script src='https://gist.github.com/4722151.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>もっと簡単なやり方ありましたら教えてくださいませ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/06/aws-ec2-root-resize/">AWS::EC2のルートパーティションをリサイズする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-06T21:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本的にルートパーティションはEBSで8GB決め打ちだったので<br/>
+サイズ変更できないかなーと思ったらできたのでメモ。</p>
+
+<ol>
+<li>普通にEC2のインスタンスつくる</li>
+<li>インスタンスを落とす</li>
+<li>Volumesから作成されたインスタンスのルートボリュームをDetach</li>
+<li>DetachされたVolumeからSnapshotを作成</li>
+<li>SnapshotからVolumeを作成(この時にディスクサイズ指定)</li>
+<li>作成されたボリュームをAttach(Deviceは <strong><em>/dev/sda1</em></strong> を指定)</li>
+<li>インスタンスを起動</li>
+<li><em>fdisk -l</em> などで認識しているディスクサイズが変わったことを確認して</li>
+<li><em>resize2fs /dev/xvda1</em></li>
+</ol>
+
+
+<p>さわりはじめたばかりなので、もっと簡単な方法ありましたら<br/>
+教えてくださいませ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/26/qpstudy-buddhism/">#qpstudyと仏教とわたし</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T23:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本エントリーはビール駆動記述によって書かれているため<br/>
+内容については3割で読んで頂けると幸いです。</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/qpstudy.png" alt="https://dl.dropbox.com/u/5390179/qpstudy.png" /></p>
+
+<p>先週、<a href="http://www.cross-party.com/">エンジニアサポートCROSS 2013</a>というイベントに参加して<br/>
+リーダーさんと初めてお会いして</p>
+
+<p>我「来週qpstudyですよね、DevOps。」<br/>
+我「社内ではDevOpsなんてものは存在しないって話なんですよ」</p>
+
+<p>リーダー「そのポジションでパネルディスカッション参加して！」<br/>
+我「！！！？」</p>
+
+<p>ということで、@kazeburoさんや@fujiwaraさんに<br/>
+一緒に出ましょうよ〜って誘ったんですけど、2人とも家族と過ごす！って言ってて<br/>
+ウッ、家族サービス。。では仕方ないですね&hellip;</p>
+
+<p>という流れで、情弱ながらパネラーとして参加してきました。</p>
+
+<p>スタッフのみなさま、参加されたみなさま<br/>
+パネラーのみなさま、おつかれさまでした！</p>
+
+<p>人生で初めての勉強会が<a href="http://connpass.com/event/213/">hb qp bp study 新年LT&amp;ビアバッシュ2012</a>で<br/>
+3月に転職してから、色々アウトプットし出したりした情弱な私が<br/>
+翌年にqpstudyのパネラーとして参加してるの、本当に場違いな感じだったんですが<br/>
+勉強会参加ぐらいしかしたことない方が<br/>
+<strong><em>アイツが出れるならオレだってもっと参加しても良いんじゃん！</em></strong><br/>
+みたいな気持ちになって頂けたらいいなと思い、参加しました。</p>
+
+<p>話したことは</p>
+
+<h4>「開発のとき運用を考えられないのは素人」「運用のために開発できないのは二流」</h4>
+
+<h4>「社畜が嫌なら自分に付加価値を付けなければいけない」</h4>
+
+<h4>「DevとかOpsという言葉で自分のフィールドを制限してはいけない」</h4>
+
+<h4>「DevOps、ただのバズワードとして扱って、自分の範囲外のものに目を向けてみるきっかけにしてみては」</h4>
+
+<p>みたいな内容を話しました。<br/>
+基本的にスピリチュアルな話でした。</p>
+
+<p>スピリチュアルといえば、仏教には<a href="http://ja.wikipedia.org/wiki/%E8%A1%86%E7%94%9F">衆生</a>という概念があります。<br/>
+元々<strong><em>人間</em></strong>、とか<strong><em>私</em></strong>という自己の存在は西洋文化から入ってきたもの<br/>
+というのはご存知でしょうか。</p>
+
+<p>例えば、「そこに山がある」という日本語を英語に訳すことは難しいんです。<br/>
+何故難しいのかというと</p>
 
 <ul>
-<li>nodes/hoge.json</li>
+<li>「わたしは山を見ている」</li>
+<li>「その町には山がある」</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "run_list": [ "role[role_one]" ] 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<p>など、主体となる存在がないんです。</p>
 
+<p>宗派によって多少解釈が異なることはありますが、<br/>
+こんな感じで、境界線によって業が産まれるなら<br/>
+最初からそんな境界線なんて存在しないんじゃないの？<br/>
+みたいな発想があって、わたしはその発想がすごい好きなんですね。</p>
+
+<p>つまり、DevもOpsもないんです。<br/>
+自分で境界線を引かない限りは、そこに境界線は産まれないんです。<br/>
+境界線を引いた瞬間に、制限や争いが発生するんです。</p>
+
+<p>ということで、自分の業務外だとか、関係のないものだと思っていたものに<br/>
+目を向けてみたり、自分でもやってみるとかすると<br/>
+新しいことが見つかるかもしれません。<br/>
+そういう何かのきっかけになれたらいいなと思い、話しました。</p>
+
+<p>もしくは、業の深いインターネットから離れて、仏像を彫るのも良さそうです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/deagostini-33/">ディアゴスティーニ社から「週間 蓮華王院本堂(三十三間堂)」が創刊されたら</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-25T14:17:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>毎号、木造千手観音立像が1体付属。<br/>
+湛慶をはじめ慶派、院派、円派など、観音像を極限まで再現。</p>
+
+<p>創刊号は本尊千手観音像から<br/>
+(このシリーズは1002回で完成します(講堂含む))</p>
+
+<p>みたいなものが発売されたら、それを作り上げていくこと自体が仏教観あるし<br/>
+多分一個人愛読してる人とか手を出さざるを得ない状況なのは待ちがないので<br/>
+本当に創刊されたらどうしよう&hellip;って今から悩んでいます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/24/redis-sentiel-howto/">Redis Sentinelを動かしてみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-24T16:13:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以前、<a href="http://blog.kenjiskywalker.org/blog/2013/01/15/redis-sentinel/">Redis Sentinelを試す</a>というエントリーを書きましたが<br/>
+もう少し入り込んで検証してみた。</p>
+
+<p>殴り書きの域を出ていないので適時アップデートしていきたい。</p>
+
+<h2>検証環境</h2>
 
 <ul>
-<li>roles/role_one.json</li>
+<li>DATE: 2013/01/25</li>
+<li>CentOS 6.3</li>
+<li>Redis 2.6.9(remi)</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "name": "role_one",
-</span><span class='line'>  "description": "role one",
-</span><span class='line'>  "json_class": "Chef::Role",
-</span><span class='line'>  "override_attributes": {
-</span><span class='line'>    "hoge": [ "foo", "bar" ]
-</span><span class='line'>  },
-</span><span class='line'>  "default_attributes": {
-</span><span class='line'>  },
-</span><span class='line'>  "chef_type": "role",
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "role[role_two]"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<h2>ドキュメント</h2>
 
+<p><a href="http://redis.io/topics/sentinel">http://redis.io/topics/sentinel</a></p>
 
-<ul>
-<li>roles/role_two.json</li>
-</ul>
+<p>こちらを参考に行います。</p>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "name": "role_two",
-</span><span class='line'>  "description": "role two",
-</span><span class='line'>  "json_class": "Chef::Role",
-</span><span class='line'>  "override_attributes": {
-</span><span class='line'>    "hoge": [ "baz" ]
-</span><span class='line'>  },
-</span><span class='line'>  "default_attributes": {
-</span><span class='line'>  },
-</span><span class='line'>  "chef_type": "role",
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "recipe[hoge_recipe]"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>cookbooks/hoge_recipe/recipe/default.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |h|
-</span><span class='line'>  p h
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>role</code>で回せと。</p>
-
-<p>ほかにも<a href="https://twitter.com/keita">@keita</a>氏に教えてもらったのですが<br/>
-Key-Valueで渡せばいけるらしいです。</p>
-
-<p><a href="https://coderanger.net/2013/06/arrays-and-chef/">Arrays and Chef Attributes - Noah Kantrowitz</a></p>
-
-<ul>
-<li>nodes/hoge.json</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "hoge": {
-</span><span class='line'>      "foo": true,
-</span><span class='line'>      "bar": true
-</span><span class='line'>  },
-</span><span class='line'>  "run_list": [ "role[role_one]" ] 
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>roles/role_one.json</li>
-</ul>
-
+<h2>Sentinelの設定、および起動方法</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -245,43 +639,310 @@ Key-Valueで渡せばいけるらしいです。</p>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "name": "role_one",
-</span><span class='line'>  "description": "role one",
-</span><span class='line'>  "json_class": "Chef::Role",
-</span><span class='line'>  "override_attributes": {
-</span><span class='line'>    "hoge": {
-</span><span class='line'>        "baz": true
-</span><span class='line'>    }
-</span><span class='line'>  },
-</span><span class='line'>  "default_attributes": {
-</span><span class='line'>  },
-</span><span class='line'>  "chef_type": "role",
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "recipe[hoge_recipe]"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ /usr/local/bin/redis-server /etc/sentinel.conf --sentinel
+</span><span class='line'>[28498] 25 Jan 01:28:24.447 * Max number of open files set to 10032
+</span><span class='line'>                _._                                                  
+</span><span class='line'>           _.-``__ ''-._                                             
+</span><span class='line'>      _.-``    `.  `_.  ''-._           Redis 2.6.9 (00000000/0) 64 bit
+</span><span class='line'>  .-`` .-```.  ```\/    _.,_ ''-._                                   
+</span><span class='line'> (    '      ,       .-`  | `,    )     Running in sentinel mode
+</span><span class='line'> |`-._`-...-` __...-.``-._|'` _.-'|     Port: 26379
+</span><span class='line'> |    `-._   `._    /     _.-'    |     PID: 28498
+</span><span class='line'>  `-._    `-._  `-./  _.-'    _.-'                                   
+</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+</span><span class='line'> |    `-._`-._        _.-'_.-'    |           http://redis.io        
+</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
+</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+</span><span class='line'> |    `-._`-._        _.-'_.-'    |                                  
+</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
+</span><span class='line'>      `-._    `-.__.-'    _.-'                                       
+</span><span class='line'>          `-._        _.-'                                           
+</span><span class='line'>              `-.__.-'                                               
+</span><span class='line'>
+</span><span class='line'>[28498] 25 Jan 01:28:24.451 * +slave slave 192.168.2.102:6379 192.168.2.102 6379 @ mymaster 192.168.2.101 6379
+</span><span class='line'>[28498] 25 Jan 01:28:25.358 * +sentinel sentinel 192.168.2.101:26379 192.168.2.101 26379 @ mymaster 192.168.2.101 6379</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>cookbooks/hoge_recipe/recipe/default.rb</li>
-</ul>
+<p>こんな感じで起動します。</p>
 
+<h4>設定ファイル</h4>
+
+<p>参考: <a href="http://download.redis.io/redis-stable/sentinel.conf">http://download.redis.io/redis-stable/sentinel.conf</a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |k,v|
-</span><span class='line'>  p k
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor mymaster 127.0.0.1 6379 2
+</span><span class='line'>sentinel down-after-milliseconds mymaster 60000
+</span><span class='line'>sentinel failover-timeout mymaster 900000
+</span><span class='line'>sentinel can-failover mymaster yes
+</span><span class='line'>sentinel parallel-syncs mymaster 1</span></code></pre></td></tr></table></div></figure>
 
 
-<p>どちらも気持ち悪いので使いません。<br/>
-よさ気な方法あれば教えて下さい。</p>
+<p>オフィシャルの設定ファイルを参考に。</p>
 
-<p>Chef、Opscode社の経典みたいなcookbooksと<br/>
-何がどこに書かれているかよくわからないドキュメントをのぞけば<br/>
-2014年もよしなに使えるのではないかと思います。</p>
+<h4>設定の意味</h4>
+
+<ul>
+<li><code>sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;</code></li>
+</ul>
+
+
+<p>この<code>&lt;quorum&gt;</code>は<em>Redis-Sentinelの数</em>を指します。<br/>
+Redis-Sentinelは、他のRedis-Sentinelが接続してきた場合に<br/>
+相互に理解する働きがあります。<br/>
+この機能によって<em>Split-brain-syndrome</em>を防ぐことが可能です。</p>
+
+<h4>Redisのレプリケーションが正常に行えている状態</h4>
+
+<p><img src="https://dl.dropbox.com/u/5390179/Redis1.png" alt="正常" /></p>
+
+<h4>Redisのレプリケーションの回線に障害が発生した場合</h4>
+
+<p><img src="https://dl.dropbox.com/u/5390179/Redis2.png" alt="突然の" /></p>
+
+<p>上記のように、レプリケーションの経路に異常が発生した場合<br/>
+<em>Split-brain-syndrome</em>が起こり</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/Redis3.png" alt="スプリットブレイン" /></p>
+
+<p>レプリケーション情報は保てなくなり、お互いがMasterと認識してしまう問題があります。</p>
+
+<p>上記のような状況を避ける為に<code>&lt;quorum&gt;</code>の設定があります。<br/>
+このquorumの値は、<strong><em>監視しているRedis-Sentinelの数</em></strong>を表しています。</p>
+
+<p>上記のようにレプリケーションの経路に異常があった場合であっても<br/>
+<code>&lt;quorum&gt;</code>で設定した数のSentinelが異常を検知して初めてフェイルオーバーが始まります。<br/>
+SentinelはSentinel同士で理解し合う機能が搭載されているんですね。<br/>
+人間にもそんな機能があったら争いとかなくなりますかね。</p>
+
+<h4>Redis-Sentinelの連絡が行えなくなり、Split-brain-syndromeは起こらない</h4>
+
+<p><img src="https://dl.dropbox.com/u/5390179/Redis4.png" alt="スプリットブレイン" /></p>
+
+<p>ということで、<code>&lt;quorum&gt;</code>を2台以上設定することで、<br/>
+予期しないフェイルオーバーを予防することが可能です。</p>
+
+<ul>
+<li><code>sentinel down-after-milliseconds mymaster 60000</code></li>
+</ul>
+
+
+<p>SentinelがDOWNを検知してからのフェイルオーバーを始めるまでのアイドル時間。</p>
+
+<blockquote><p>DOWNと認める条件は<a href="http://redis.io/topics/sentinel">ドキュメント</a>を参照。<br/>
+<em>ODOWN</em>と<em>SDOWN</em>についてももう少し書きたい。</p></blockquote>
+
+<p>検証時では <em>5000milliseconds</em> ぐらいが問題なく動作した。<br/>
+スペックや環境によってはもっとストイックな設定が可能。</p>
+
+<p>なお、実際にMasterが切り替わるまで <em>5~15秒</em> の間でランダムな待ち時間が発生する。</p>
+
+<blockquote><p>Sentinel Rule #14: A Sentinel detects a failover as an Observer
+(that is, the Sentinel just follows the failover generating the appropriate events in the log file and Pub/Sub interface,
+ but without actively reconfiguring instances) if the following conditions are true at the same time: * There is no failover already in progress.
+* A slave instance of the monitored master turned into a master.
+However the failover will NOT be sensed as started if the slave instance turns into a master and at the same time the runid has changed from the previous one.
+This means the instance turned into a master because of a restart, and is not a valid condition to consider it a slave election.</p>
+
+<p>Sentinel Rule #15: A Sentinel starting a failover as leader does not immediately starts it.
+It enters a state called wait-start, that lasts a random amount of time between 5 seconds and 15 seconds.
+During this time Sentinel Rule #14 still applies: if a valid slave promotion is detected the failover as leader is aborted and the failover as observer is detected.</p></blockquote>
+
+<p>詳細は<a href="http://redis.io/topics/sentinel">ドキュメント</a>の <em>Sentinel Rule #14,#15</em> を参照。</p>
+
+<p>なので、フェイルオーバーが開始されるタイミングは<br/>
+ <strong><em>down-after-milliseconds + 5~15秒</em></strong> の時間になります。</p>
+
+<ul>
+<li><code>sentinel failover-timeout mymaster 900000</code></li>
+</ul>
+
+
+<p>フェイルオーバーを開始してから、レスポンスが返ってくるまでの<br/>
+待ち時間。詳細はやはりドキュメントを読んでほしい。</p>
+
+<blockquote><p>検証時に &ldquo;10 milliseconds&rdquo; などストイックな設定を行なってみたが
+タイムアウトに引っかかり、レプリケーションが開始することはなかった&hellip;
+こちらもやはり &ldquo;5000 milliseconds&rdquo; ぐらいが安全であった</p></blockquote>
+
+<ul>
+<li><code>sentinel can-failover mymaster yes</code></li>
+</ul>
+
+
+<p><em>mymaster</em>のダウン時に、フェイルオーバーを実行するか否かの設定。</p>
+
+<ul>
+<li><code>sentinel parallel-syncs mymaster 1</code></li>
+</ul>
+
+
+<p>フェイルオーバーが実行された後、新しいマスターを<br/>
+使用するように並列で再構成することができるスレーブの数の指定。</p>
+
+<p>Slaveサーバが多く、この設定数が低いほど、<br/>
+フェイルオーバーの処理に時間がかかるとのこと。<br/>
+(未検証)</p>
+
+<h2>おまけ：レプリケーションの構築手順</h2>
+
+<h3>Slave(192.168.2.102)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo "slaveof 192.168.2.101 6379" | redis-cli -h 192.168.2.102
+</span><span class='line'>OK
+</span><span class='line'>$
+</span><span class='line'>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
+</span><span class='line'>role:slave
+</span><span class='line'>master_host:192.168.2.101
+</span><span class='line'>master_port:6379
+</span><span class='line'>master_link_status:up
+</span><span class='line'>master_last_io_seconds_ago:5
+</span><span class='line'>master_sync_in_progress:0
+</span><span class='line'>slave_priority:100
+</span><span class='line'>slave_read_only:1
+</span><span class='line'>connected_slaves:0
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Master(192.168.2.101)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.101 info | grep -E 'mas|sla'
+</span><span class='line'>role:master
+</span><span class='line'>connected_slaves:1
+</span><span class='line'>slave0:192.168.2.102,6379,online
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>レプリケーションの情報</h3>
+
+<ul>
+<li><p><code>master_host:192.168.2.101</code><br/>
+MasterのIPアドレス情報</p></li>
+<li><p><code>master_port:6379</code><br/>
+MasterのPort番号情報</p></li>
+<li><p><code>master_link_status:up</code><br/>
+Masterの状態の情報</p></li>
+<li><p><code>master_last_io_seconds_ago</code><br/>
+Slaveは10秒間隔でMasterへ<em>PING</em>を送信している。<br/>
+その&#8221;正常な&#8221;データを受信してからの経過時間の情報</p></li>
+</ul>
+
+
+<p><code>monitor</code>コマンドで確認することができる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 monitor
+</span><span class='line'>OK
+</span><span class='line'>1359037270.075903 [0 192.168.2.101:6379] "PING"
+</span><span class='line'>1359037280.274001 [0 192.168.2.101:6379] "PING"
+</span><span class='line'>1359037290.464774 [0 192.168.2.101:6379] "PING"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>master_sync_in_progress</code><br/>
+Masterからデータを受信状況(SYNC)の情報<br/>
+SYNC中であれば <em>1</em> のフラグが立ち、状況の詳細が表示される。</li>
+</ul>
+
+
+<blockquote><p>詳細はこちら : <a href="http://redis.io/commands/info">INFO / Redis</a></p></blockquote>
+
+<h4>Masterが落ちていた場合の状態</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>master_link_status:down
+</span><span class='line'>master_last_io_seconds_ago:-1
+</span><span class='line'>master_sync_in_progress:0
+</span><span class='line'>master_link_down_since_seconds:N</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>PING</em>の間隔が10秒間隔なので、疎通チェックも10秒間隔かと思うが<br/>
+そうではない(もう少し調べる)。</p>
+
+<h2>おまけのおまけ</h2>
+
+<h4>SlaveのSlaveも設定可能</h4>
+
+<p><code>101.slave(Master) &lt;= 102.6379(Slave) &lt;= 102.6380(Slave)</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ redis-cli -h 192.168.2.102 info | grep -E 'mas|sla'
+</span><span class='line'>role:slave
+</span><span class='line'>master_host:192.168.2.101
+</span><span class='line'>master_port:6379
+</span><span class='line'>master_link_status:up
+</span><span class='line'>master_last_io_seconds_ago:7
+</span><span class='line'>master_sync_in_progress:0
+</span><span class='line'>slave_priority:100
+</span><span class='line'>slave_read_only:1
+</span><span class='line'>connected_slaves:1
+</span><span class='line'>slave0:192.168.2.102,6380,online
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>また、MasterとSlaveの接続が切れた場合も<br/>
+Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
+
+<p>master_last_io_seconds_ago が Sentinel立ち上げる事に間隔が短かくなる<br/>
+3台上げたらほとんど1秒間隔になった。</p>
+
+<h2>ということで</h2>
+
+<p>Sentinel、よく考えられているなという印象です。<br/>
+以上、この情報が何かのお役に立てれば幸いです。</p>
+
+<blockquote><p>This HOWTO is a work in progress, more information will be added in the near future.</p></blockquote>
+
+<p><a href="https://github.com/antirez/redis-doc/blob/master/topics/sentinel.md">https://github.com/antirez/redis-doc/blob/master/topics/sentinel.md</a></p>
+
+<p>ということで、活発的に開発が行われているので<br/>
+適時チェックするのが良さそうですね。</p>
 </div>
   
   
@@ -294,7 +955,7 @@ Key-Valueで渡せばいけるらしいです。</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/02/sumally/">Sumallyに入りました</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/23/postfix-header_checks/">Postfixのheader_checksでの否定の条件について</a></h1>
     
     
       <p class="meta">
@@ -310,245 +971,40 @@ Key-Valueで渡せばいけるらしいです。</p>
   
 
 
-<time datetime="2013-12-02T22:50:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2013-01-23T20:52:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>人数の少ないスタートアップに参加して、<br/>
-お金持ちになる夢を一度ぐらい見てみたいものだ。<br/>
-サーバサイドだけどプロダクトにガッツリコミットして<br/>
-みんなでワイワイやってみたいものだ。</p>
+  <div class="entry-content"><p><a href="http://www.postfix.org/header_checks.5.html">header_checks - Postfix built-in content inspection</a><br/>
+<a href="http://www.postfix.org/regexp_table.5.html">regexp_table - format of Postfix regular expression tables</a></p>
 
-<p>という気持ちを持って<a href="http://sumally.co.jp/">Sumally</a>に入りました。<br/>
-<a href="http://www.kayac.com/recruit/career">カヤック</a>というエンジニア天国から身一つでどこまでできるかやってみます。</p>
+<p><code>header_checks</code></p>
 
-<p>似たようなサービスが色々とありますが<br/>
-できることをやっていこうと思うので、これからの活躍楽しみにしていてください。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>!/^(To|From):.*@example\.com*/ REJECT</span></code></pre></td></tr></table></div></figure>
 
-<p>また、Sumallyのここがイケてない、ここを良くした方がいい。<br/>
-などご意見があれば気軽にお聞かせください。<br/>
-頂いたご意見については、必ずメンバーで話し合います。よろしくお願いします。</p>
 
-<p>=== 広告 ============================================</p>
+<p>とすれば、対象の<em>example.com</em>のドメイン意外受け付けなくて<br/>
+ライフチェンジングなのでは！！！！！！！！<br/>
+と思ったのですが、header_checksの仕様上<br/>
+ヘッダ全てに対してではなく、1行毎にルールを適用するため<br/>
+例えば、ヘッダの1行目が</p>
 
-<p><a href="http://sumally.co.jp/jobs.html">Sumally</a>と<a href="http://www.kayac.com/recruit/career">カヤック</a>では広く人材を募集しております。<br/>
-気になる方は話を聞いてみるぐらいの感覚で連絡してみるとよいのではないでしょうか。</p>
+<p><code>Delivered-To: foo@example.com</code></p>
 
-<hr />
+<p>である場合、<strong><em>マッチしない</em></strong>と認識されてREJECTされます。</p>
 
-<p>恥ずかしながら、末尾にウィッシュリストを掲載させて頂きます。<br/>
-<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT">http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT</a></p>
+<p>この意味がわからなくてずっと悩んでいました。</p>
 
-<p>貢献と年収。</p>
-</div>
-  
-  
+<p>メールの破棄の処理をheader_checksの例外処理を利用して行うのは<br/>
+とてもむずかしいので、素直にSpamAssasinやprocmailなどを利用しましょう！</p>
 
+<p>というお話でした。</p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/01/monitoringcasual-kyoto/">Monitoring Casual Talk in Kyoto 行ってきた #monitoringcasual</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-01T18:53:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.zusaar.com/event/1377006">Monitoring Casual Talk in Kyoto</a>へ参加してきました。</p>
-
-<p><a href="https://github.com/kenjiskywalker/p5-Zabbix-Senrigan/">Zabbix::Senrigan</a>を成仏させるために発表の機会を求めていたら、 <br/>
-モニカジが京都で開催されるとのことだったので<br/>
-夜行バスや新幹線などの費用を調べて、京都へ旅行へ行ってきました。<br/>
-参加できたのも、@shiba_yu36君がお家に宿泊させてくれたからでした。<br/>
-紅葉シーズンど真ん中でどこも空いていなかったので助かりました。<br/>
-ありがとうございました！</p>
-
-<p>また、京都に行くきっかけをつくってくれた@shoichimasuharaさん<br/>
-ありがとうございました！おつかれさまでした！</p>
-
-<p>発表、デモサーバとZabbixサーバを立ててる自宅サーバにつながらなくて<br/>
-カミさんに連絡したら、ブレーカー落としちゃったって聞いて大変でした。<br/>
-こういうこともあるのだなと、バックアップ体制について考えなおすきっかけになりました。</p>
-
-<p>まともに発表できないのなら、せめて京都繋がりで有意義な発表をすべく<br/>
-私の大好きな<a href="http://blog.kenjiskywalker.org/blog/2013/07/18/kiga-to-sensou/">応仁の乱の話</a>でもしようかと考えたのですが<br/>
-40分ぐらいかかるようだったので、みなさんに聞きたいですか？と確認し<br/>
-誰ひとり手を挙げてくれなかったので、普通にみんなのイメージに委ねながら発表をしました。</p>
-
-<p><a href="https://gist.github.com/kenjiskywalker/7703670">発表内容</a></p>
-
-<p>完結に書くと、何かツールを使っていて<br/>
-そのツールがイケていないなら自分で何かつくってフォローしようという話でした。<br/>
-もちろんそのツールがプラガブルならどんどん組み込めばいいし<br/>
-フォローツールのせいで管理するソフトウェアが多くなってくるなら<br/>
-もともと利用しているソフトウェアを見直すべきです。</p>
-
-<p>というように、状況も厳しく、内容も軽めだったのに<br/>
-全体的にDocker、Sensu、Immutable Infrastructureなど<br/>
-ウェブサービスのミドルウェア構成管理のモダンな話が多く<br/>
-2014年を迎えるにあたっての技術者としての姿勢を正さなければならない状態でした。<br/>
-関西で気軽に勉強会に参加すると返り討ちにあう可能性が高いです。<br/>
-関東各位は気を引き締めて参加されたし。</p>
-
-<p>会場ははてな社だったのですが、無限にビールが出てきて最高の勉強会環境でした。<br/>
-近くの席に@hitode909っていう人がいていよいよ無限にビール出てくる状況でした。</p>
-
-<p>飲み会、挙動不審の若者がいて、何やってるんですか？って聞いたら<br/>
-鹿児島出身の大学生で広島の大学に通っていて、京都に旅行へ来ていて<br/>
-調べたら宿泊しているホテルの隣りのビルがはてな社だったので<br/>
-遊びに行ってみたら勉強会していたので参加した。みたいなこと言っていて<br/>
-&ldquo;持ってる&#8221;青年でした。はてなのサービスには興味がないって言って<br/>
-ずっともりすさんにLINEのサービスのこと熱心に聞いてて面白かったです。</p>
-
-<p>そういえば、帰り際に興味深い体験がありました。<br/>
-新幹線までの時間、鴨川で遊んでいると、川沿いにある長屋が目に飛び込んできて<br/>
-長屋、火事になると隣家が燃えて大変になる。そこで編み出されたのが<br/>
-長屋を壊しやすくして、火事になればすぐに取り壊して建て替えるシステムだったな。<br/>
-はて、これはもしやImmutable Infrastructureではないのか。<br/>
-不要になったものを取り壊し、新しくつくりなおす。<br/>
-まさにImmutable Infrastructureでした。<br/>
-我々日本人は、ちょんまげの頃に既に<br/>
-Immutable Infrastructureの概念を取り入れていたのです。</p>
-
-<p>まるで新しい概念のように受け入れていたimmutable infrastructureは<br/>
-車輪の再発明にすぎなかったことに、おろどきを隠せませんでした。</p>
-
-<p>Blue-Green Developmentも式年遷宮の再発明なので、いい加減我々は<br/>
-インターネットからもう少し視野を広げて物事を考えなければ<br/>
-ならないのではないかと実感した京都旅行でした。</p>
-
-<p>このように学びを得るために毎年京都に来たいです。<br/>
-ありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/29/work-shift/">「ワーク・シフト 孤独と貧困から自由になる働き方の未来図<2025>」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-29T04:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>何故これを借りたのか全く覚えてなくて、<br/>
-流し読み程度で読んでいたのですが大変興味深い書籍でした。<br/>
-将来の自分の社会との関わり方に疑問を抱いていたので<br/>
-今後の物事の指標を置くための補助としての情報として、役立てられればと想います。</p>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q5jtSKEQL._SL160_.jpg" width="103" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank">ワーク・シフト ― 孤独と貧困から自由になる働き方の未来図〈2025〉</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3" target="_blank">リンダ・グラットン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">プレジデント社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-07-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4833420163" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p>訳者あとがきの一節が大変すばらしくまとまっていましたので<br/>
-備忘録の為に抜粋させて頂きます。</p>
-
-<blockquote><p>略) 私たちが働き方をどう&lt;シフト(転換)>させるべきかを提案する。</p>
-
-<p>&lt;第一のシフト>は、一つの企業の中でしか通用しない技能で満足せず、高度な専門技能を磨き、ほかの多くの人たちから自分を差別化するために「自分」ブランドを築くこと</p>
-
-<p>&lt;第二のシフト>は、難しい課題に取り組む上で頼りになる少人数の盟友グループ(ポッセ)と、
-イノベーションの源泉となるバラエティに富んだ大勢の知り合いのネットワーク(ビッグアイデア・クラウド)、そしてストレスを和らげるための打算のない友人関係(自己再生のコミュニティ)
-という、三種類の人的ネットワークをはぐくむこと</p>
-
-<p>&lt;第三のシフト>は、大量消費主義を脱却し、家庭や趣味、社会貢献などの面で充実した創造的経験をすることを重んじる生き方に転換すること。</p></blockquote>
-
-<p>物質的にも精神的にも裕福ではなかった時代があって、<br/>
-物質的に裕福になった一部の地域ができてきた時に、精神的に裕福になるためには<br/>
-過剰に物質的欲求を満たすのではなく、社会貢献や、家族、仲間との時間を過ごす<br/>
-方向に流れていくのは自然かなとは思います。</p>
-
-<p>先人の経験や慣例から得られるものと、これから先の大きな変化と<br/>
-自分が何ができるか、というものを並べて、常に問いながら、<br/>
-なるべくならその選択が、自分を含めた環境にとって<br/>
-最善の選択になるように生きていければよいですね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/20/click-to-unsubscribe/">メルマガ、サイトにログインしないと配信停止できないの</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-20T23:15:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://harknesslabs.com/post/66570723467/stop-doing-this-crap-on-your-startups-website">Stop doing this crap on your startups website</a></p>
-
-<blockquote><p>1: One click unsubscribe<br/>
-Many sites butcher this process. You should have a link to 1-click unsubscribe at both the top and bottom of all emails you send. Don’t settle for “log in to unsubscribe” - Yes, its legal for transactional emails but its still stupid. You (the webmaster) will be the only one hurt when your user just marks you as spam instead because he doesn’t remember his password. If you want to ensure email deliver-ability for those who want your emails, there is zero benefit in hiding or making the unsubscribe difficult.</p></blockquote>
-
-<p>「別れる前に最後に１回だけデートしよ。」みたいになってるので止めましょう(意訳)</p>
+<p>(;´д｀)ﾄﾎﾎ…</p>
 </div>
   
   
@@ -568,7 +1024,66 @@ Many sites butcher this process. You should have a link to 1-click unsubscribe a
 </div>
 <aside class="sidebar">
   
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'kenjiskywalker',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
   
 </aside>
 

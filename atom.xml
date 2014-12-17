@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2014-12-14T16:52:45+09:00</updated>
+  <updated>2014-12-17T13:39:07+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -173,6 +173,10 @@ private roomでもhubotが利用できるようになったのいうのがアツ
 時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
 
 <p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
+
+<h2>2014/12/16 追記</h2>
+
+<p>sowawaさんにmergeして頂いた。感謝</p>
 
 <h2>設定</h2>
 
