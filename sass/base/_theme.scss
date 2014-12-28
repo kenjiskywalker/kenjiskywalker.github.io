@@ -1,4 +1,4 @@
-$noise-bg: image-url('noise.png') top left !default;
+$noise-bg: #000 !default;
 $img-border: inline-image('dotted-border.png');
 
 // Main Link Colors
@@ -23,7 +23,7 @@ $type-border: #ddd !default;
 
 /* Navigation */
 $nav-bg: #ccc !default;
-$nav-bg-front: image-url('noise.png') !default;
+$nav-bg-front: #000 !default;
 $nav-bg-back: linear-gradient(lighten($nav-bg, 8), $nav-bg, darken($nav-bg, 11)) !default;
 $nav-color: darken($nav-bg, 38) !default;
 $nav-color-hover: darken($nav-color, 25) !default;
@@ -48,7 +48,7 @@ $twitter-status-link: lighten($sidebar-link-color-subdued, 15) !default;
 
 $footer-color: #888 !default;
 $footer-bg: #ccc !default;
-$footer-bg-front: image-url('noise.png') !default;
+$footer-bg-front: #000  !default;
 $footer-bg-back: linear-gradient(lighten($footer-bg, 8), $footer-bg, darken($footer-bg, 11)) !default;
 $footer-color: darken($footer-bg, 38) !default;
 $footer-color-hover: darken($footer-color, 10) !default;
@@ -76,11 +76,11 @@ html {
 }
 body {
   > div {
-    background: $sidebar-bg $noise-bg;
+//    background: $sidebar-bg $noise-bg;
     border-bottom: 1px solid $page-border-bottom;
     > div {
-      background: $main-bg $noise-bg;
-      border-right: 1px solid $sidebar-border;
+//      background: $main-bg $noise-bg;
+//      border-right: 1px solid $sidebar-border;
     }
   }
 }
