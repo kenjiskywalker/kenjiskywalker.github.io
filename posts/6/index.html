@@ -9,8 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="忘れていた。しや君に教えてもらった
-ハートで感じる英文法は面白かった。 生命保険のカラクリ (文春新書)著者 : 岩瀬大輔文藝春秋発売日 : 2009-10-17ブクログでレビューを見る» “お茶”はなぜ女のものになったか―茶道から見る戦後の家族著者 : 加藤恵津子紀伊國屋書店発売日 : 2004 &hellip;">
+  <meta name="description" content="heartbleedの件を持って、そもそもSSLというか
+暗号はどうやってやりとりされているんだ？という謎に光りを当てててくれる本でした。 情報系の大学出てたり、根っからのプログラマだと理解しているのかもしれないけど
+コンピュータについて詳しくないので大変助かった。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +75,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/28/alice-in-secret/">Heartbleedの件があったので「秘密の国のアリス」を読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-28T21:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00H372H18/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H372H18&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H372H18&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00H372H18" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p><a href="http://heartbleed.com/">heartbleed</a>の件を持って、そもそもSSLというか<br/>
+暗号はどうやってやりとりされているんだ？という謎に光りを当てててくれる本でした。</p>
+
+<p>情報系の大学出てたり、根っからのプログラマだと理解しているのかもしれないけど<br/>
+コンピュータについて詳しくないので大変助かった。</p>
+
+<p>みんな当たり前に読んでるのかもしれないけど徳丸本</p>
+
+<p><a href="http://www.amazon.co.jp/gp/product/B00E5TJ120/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00E5TJ120&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00E5TJ120&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00E5TJ120" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>と合わせて必読なタイプの本だと思いました。<br/>
+おすすめです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1139,120 +1189,6 @@ include_recipeなど必要以上に密結合していたりするので基本的
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/18/instance-store-backed-ami/">Instance Store-BackedのAMIをつくる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-18T23:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
-
-<p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
-気を付けなければいけない点が何点かあったのでシェアさせて頂きます。</p>
-
-<blockquote><p>ec2-api-tools 1.6.12.0<br/>
-ec2-bundle-vol 1.4.0.9 20071010<br/>
-ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
-
-<ul>
-<li>AMIをつくる元のインスタンスにて</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ mkdir /tmp/cert
-</span><span class='line'>[ec2-user ~]$ cd /tmp/cert</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>手元からファイルを送る</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>image元となるデータを作成</li>
-</ul>
-
-
-<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
-所々ファイルが消えます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
-</span><span class='line'>-k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>-c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>-u your_aws_account_id -r x86_64 -e /tmp/cert</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>S3にAMIの元となるデータをアップロードします</li>
-</ul>
-
-
-<p>AMIを作成するregionと合わせないとエラーになります。<br/>
-<code>--region</code>ではなく<code>--location</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
-</span><span class='line'>-m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
-</span><span class='line'>--location us-west-2</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>AMIにregisterします</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
-</span><span class='line'>-n AMI_name -O your_access_key_id -W your_secret_access_key \
-</span><span class='line'>--region us-west-2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="7">&larr; Older</a>
@@ -1270,6 +1206,10 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1283,10 +1223,6 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

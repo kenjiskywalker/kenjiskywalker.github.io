@@ -9,7 +9,12 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Ambivalence Avenue / Bibio Silver Wilkinson / Bibio Fi / Bibio Ignorant - In the Grid EP / Funkinevil Night/Dusk / Funkinevil Feast - Beast / Clark &hellip;">
+  <meta name="description" content=".gvimrcに 1
+2
+3
+4
+if has('multi_byte_ime') || has('xim') highlight Cursor guifg=NONE guibg=White highlight CursorIM guifg=NONE guibg=DarkRed
+endif &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +78,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/11/vim-de-multi_byte_ime/">Vimで日本語の切り替えで毎回っっっっっっってなる対策</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T14:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>.gvimrc</code>に</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if has('multi_byte_ime') || has('xim') 
+</span><span class='line'>  highlight Cursor guifg=NONE guibg=White
+</span><span class='line'>  highlight CursorIM guifg=NONE guibg=DarkRed
+</span><span class='line'>endif</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書いたら</p>
+
+<p><img src="http://gifzo.net/hfBHJNAZR0.gif" alt="http://gifzo.net/hfBHJNAZR0.gif" /></p>
+
+<p>こんな風に全角の時に赤色になるから<br/>
+ノーマルモードで全角で入力しちゃってうわああああ！！！<br/>
+っていうことなくなるのでおすすめです。</p>
+
+<p>MacVimだと<code>multi_byte_ime</code>使えなくて<br/>
+<a href="https://code.google.com/p/macvim-kaoriya/">macvim-kaoriya</a>だと使えました。<br/>
+マコピーに教えてもらいました。ライフチェインジング！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -915,139 +978,6 @@ chef-soloなどが実行された後に、serverspecが実行されます。<br/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/20/logfile-backup-to-s3/">ログファイルをS3にバックアップする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-20T00:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。<br/>
-一つの例として私の方法を載せますので、よりよい方法などあれば教えて頂きたいです。</p>
-
-<h2>backup dir</h2>
-
-<p><code>/var/log/backup/nginx/YYYYMMDD/</code><br/>
-<code>/var/log/backup/app/YYYYMMDD/</code></p>
-
-<h2>backup file</h2>
-
-<p><code>/var/log/backup/nginx/20130918/access.20130918-00.log.gz</code>
-<code>/var/log/backup/nginx/20130918/access.20130918-01.log.gz</code>
-<code>/var/log/backup/nginx/20130918/access.20130918-02.log.gz</code><br/>
-&hellip;</p>
-
-<p><code>/var/log/backup/app/20130918/app.20130918-00.log.gz</code>
-<code>/var/log/backup/app/20130918/app.20130918-01.log.gz</code>
-<code>/var/log/backup/app/20130918/app.20130918-02.log.gz</code><br/>
-&hellip;</p>
-
-<p>上記ディレクトリに、それぞれ<br/>
-nginx、アプリケーションのログがあるとします。</p>
-
-<p>nginxのログはtd-agentによって</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;store&gt;
-</span><span class='line'>  type file_alternative
-</span><span class='line'>  time_slice_format %Y%m%d-%H
-</span><span class='line'>  path /var/log/backup/nginx/access
-</span><span class='line'>  output_data_type attr:msg
-</span><span class='line'>  localtime
-</span><span class='line'>  output_include_time false
-</span><span class='line'>&lt;/store&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/var/log/backup/nginx/access.20130919-00.log</code>
-<code>/var/log/backup/nginx/access.20130919-01.log</code>
-<code>/var/log/backup/nginx/access.20130919-02.log</code></p>
-
-<p>このように吐き出され、それを日付が変わったのち</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
-</span><span class='line'>
-</span><span class='line'># set -e
-</span><span class='line'>DATE=`date --date '1 days ago' +%Y%m%d`
-</span><span class='line'>BASE="/var/log/backup"
-</span><span class='line'>for type in nginx app;
-</span><span class='line'>do
-</span><span class='line'>  DIR="${BASE}/${type}/${DATE}"
-</span><span class='line'>  mkdir "${DIR}"
-</span><span class='line'>  mv ${BASE}/${type}/*${DATE}*log "${DIR}"
-</span><span class='line'>  nice gzip --fast ${DIR}/*log
-</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらのアーカイブスクリプトによって</p>
-
-<p><code>/var/log/backup/nginx/YYYYMMDD/</code></p>
-
-<p>というディレクトリを作成し、その配下へ昨日分のログファイルをgzip化し退避します。<br/>
-そして、退避したログファイルをS3へバックアップします。</p>
-
-<p>バックアップは<a href="http://s3tools.org/s3cmd">s3cmd</a>を利用しても良いですが<br/>
-先日1.0のリリースが行われた<a href="https://github.com/aws/aws-cli">awscli</a>を利用します。</p>
-
-<h2>backup script</h2>
-
-<div><script src='https://gist.github.com/6625841.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p><code>aws s3 cp --recursive</code>によって昨日分のログファイルディレクトリを<br/>
-再帰的にバックアップを行い、ファイルの整合性を担保する為に<br/>
-ファイルサイズの比較を行っています。(可能であればMD5チェックを行いたい)</p>
-
-<p>このように、深夜に昨日分のログファイルをS3にバックアップするようにしています。</p>
-
-<p>以上、ご参考になれば幸いです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="13">&larr; Older</a>
@@ -1065,6 +995,10 @@ nginx、アプリケーションのログがあるとします。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1078,10 +1012,6 @@ nginx、アプリケーションのログがあるとします。</p>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

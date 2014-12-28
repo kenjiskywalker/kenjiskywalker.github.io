@@ -9,10 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Colleagues said to me that I want to monitoring fluentd&rsquo;s state,
-Then I created this plugin.
-同僚がfluentdの状態を監視したいと言っていたので
-私はこのプラグインをつくりました。 &hellip;">
+  <meta name="description" content="1
+2
+3
+4
+5
+#!/bin/bash FOO=`command` echo ${FOO} | mail -s "foo command dayo" foo@example.com のようなスクリプトを作成した時に、送信先である
+Gmailで受信すると本文にコマンドの結果が出力されるのではなく &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +79,85 @@ Then I created this plugin.
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/04/gmail-noname/">shellscriptでmailコマンドを利用してGmailにメールを送るとnonameという添付ファイルが添付される問題</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-04T02:56:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>FOO=`command`
+</span><span class='line'>
+</span><span class='line'>echo ${FOO} | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようなスクリプトを作成した時に、送信先である<br/>
+Gmailで受信すると本文にコマンドの結果が出力されるのではなく<br/>
+nonameという添付ファイルが送られてきた。</p>
+
+<p>原因はコマンドの結果にEscape Sequenceが入っていたため<br/>
+文字コードを上手く認識できなかったようだ。</p>
+
+<p>Escape Sequenceとかガッツリやったことがなくて<br/>
+IRCに色付けたりターミナルの文字列に色付けたりするぐらいしか<br/>
+使ったことがなくて、原因が特定できなかった。</p>
+
+<p>@keitap氏は一撃でEscape Sequenceだってわかった。<br/>
+対応としては</p>
+
+<p><a href="http://d.hatena.ne.jp/hogem/20100320/1269132856">colでエスケープシーケンスを除去 - うまい棒blog</a></p>
+
+<p>hogemさんが書いてくれたように<code>\</code>を除外するとかして<br/>
+Escape Sequenceとして認識させないようにして上手くいった。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>FOO=`command`
+</span><span class='line'>
+</span><span class='line'>echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1907,55 +1989,6 @@ serverへ結果を返す。という繰り返しを行います。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/28/alice-in-secret/">Heartbleedの件があったので「秘密の国のアリス」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-28T21:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00H372H18/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H372H18&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H372H18&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00H372H18" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p><a href="http://heartbleed.com/">heartbleed</a>の件を持って、そもそもSSLというか<br/>
-暗号はどうやってやりとりされているんだ？という謎に光りを当てててくれる本でした。</p>
-
-<p>情報系の大学出てたり、根っからのプログラマだと理解しているのかもしれないけど<br/>
-コンピュータについて詳しくないので大変助かった。</p>
-
-<p>みんな当たり前に読んでるのかもしれないけど徳丸本</p>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B00E5TJ120/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00E5TJ120&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00E5TJ120&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00E5TJ120" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>と合わせて必読なタイプの本だと思いました。<br/>
-おすすめです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="6">&larr; Older</a>
@@ -1973,6 +2006,10 @@ serverへ結果を返す。という繰り返しを行います。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1986,10 +2023,6 @@ serverへ結果を返す。という繰り返しを行います。</p>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

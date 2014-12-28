@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser ,j;;;;;j,. ---一､ ｀ ―--‐､_ l;;;;;; ｛;;;;;;ゝ T辷iﾌ i f'辷jァ !i;;;;; &hellip;">
+  <meta name="description" content="header_checks - Postfix built-in content inspection
+regexp_table - format of Postfix regular expression tables header_checks 1
+!/^(To|From):.*@ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +75,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/23/postfix-header_checks/">Postfixのheader_checksでの否定の条件について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-23T20:52:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.postfix.org/header_checks.5.html">header_checks - Postfix built-in content inspection</a><br/>
+<a href="http://www.postfix.org/regexp_table.5.html">regexp_table - format of Postfix regular expression tables</a></p>
+
+<p><code>header_checks</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>!/^(To|From):.*@example\.com*/ REJECT</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすれば、対象の<em>example.com</em>のドメイン意外受け付けなくて<br/>
+ライフチェンジングなのでは！！！！！！！！<br/>
+と思ったのですが、header_checksの仕様上<br/>
+ヘッダ全てに対してではなく、1行毎にルールを適用するため<br/>
+例えば、ヘッダの1行目が</p>
+
+<p><code>Delivered-To: foo@example.com</code></p>
+
+<p>である場合、<strong><em>マッチしない</em></strong>と認識されてREJECTされます。</p>
+
+<p>この意味がわからなくてずっと悩んでいました。</p>
+
+<p>メールの破棄の処理をheader_checksの例外処理を利用して行うのは<br/>
+とてもむずかしいので、素直にSpamAssasinやprocmailなどを利用しましょう！</p>
+
+<p>というお話でした。</p>
+
+<p>(;´д｀)ﾄﾎﾎ…</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1128,52 +1192,6 @@ Rubyもよくに書けず、fluentdを運用した経験もあまりない人間
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/05/unagi/">ウナギ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-05T11:39:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>淡水魚と海水魚と川と海の境目について考えていた。</p>
-
-<p><a href="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg"><img src="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg" alt="wikipedia" /></a></p>
-
-<blockquote><p>ウナギ科魚類がなぜこれほど長距離に及ぶ回遊をするのか、何を目印として元の産卵場所へたどりつくのか、確かなことはわかってない</p></blockquote>
-
-<p>かっこいい。</p>
-
-<blockquote><p>雌の性成熟は遅い（4–13年、高緯度地帯では6–43年）</p></blockquote>
-
-<p>43歳のウナギ、かっこいい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="21">&larr; Older</a>
@@ -1191,6 +1209,10 @@ Rubyもよくに書けず、fluentdを運用した経験もあまりない人間
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1204,10 +1226,6 @@ Rubyもよくに書けず、fluentdを運用した経験もあまりない人間
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

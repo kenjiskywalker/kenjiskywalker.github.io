@@ -9,11 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="$ss -ltと$ss -ltpは使える。
--iは面白いけど本当に確認するならngrepかtcpdumpだろうな セッションを開いているホスト名を名前解決しない(デフォルト) 1
-$ss -n セッションを開いているホスト名を名前解決する 1
-$ss -r TCPのセッションのみ表示 1
-$ss &hellip;">
+  <meta name="description" content="https://github.com/kenjiskywalker/consul-test READMEのとおりですが 1
+2
+3
+4
+5
+Node Address Status Type Build Protocol
+node01 127.0.0.1:8301 alive server 0.4. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +79,64 @@ $ss &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/08/consul-test-tool/">Consul Clusterを手元に構築する簡単なスクリプトかいた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-08T21:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
+
+<p>READMEのとおりですが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
+</span><span class='line'>node01  127.0.0.1:8301  alive   server  0.4.0  2
+</span><span class='line'>node02  127.0.0.2:8301  alive   server  0.4.0  2
+</span><span class='line'>node03  127.0.0.3:8301  alive   server  0.4.0  2
+</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記構成のConsul Clusterを<br/>
+OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
+よかったらご利用ください。</p>
+
+<h3>あわせてよみたい</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/06/06/consul-dns-round-robin/">ConsulのDNSラウンドロビンの検証</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -833,120 +893,6 @@ BSD sedは拡張はしていないから使えない。<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/09/monitor_agent-and-sensu/">Monitoring Monitor_agent by Sensu</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-09T19:39:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
-
-<p>Monitor the state of the Fluentd by Sensu.<br/>
-SensuでFluentdの状態を監視する</p>
-
-<h3>利用するソフトウェア(Using Software)</h3>
-
-<ul>
-<li><a href="https://github.com/fluent/fluentd">fluentd</a></li>
-<li><a href="https://github.com/sensu/sensu">Sensu</a></li>
-<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">check-fluentd-monitor-agent.rb</a></li>
-</ul>
-
-
-<h3>監視設定(Monitoring Settings)</h3>
-
-<p>Sensu&rsquo;s Configuration Example<br/>
-Sensuの設定例</p>
-
-<p><code>check_fluentd_monitor_agent.json</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 3,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    },
-</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024000 -c 51200000 -m 'buffer_queue_length'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 3,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>アラート例(Example Alert)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CheckFluentdMonitorAgent WARNING: plugin_id object:XXXXXXX retry_count 8</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>アラートが出ているプラグインの確認(Check the plug-in target)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Thus, It is useful to grasp if Fluentd could not be temporarily connected to the another service.<br/>
-このように、Fluentdが他のサービスへ一時的に接続できなかった場合にアラートが来たりして便利です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="4">&larr; Older</a>
@@ -964,6 +910,10 @@ Sensuの設定例</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -977,10 +927,6 @@ Sensuの設定例</p>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

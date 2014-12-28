@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="本読むより人のコード読んだ方が勉強なるけど
-こういう所作の話全然知らないから面白かった。 自分メモ ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い
-汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う
-hosts,status,get,list, &hellip;">
+  <meta name="description" content="Immutable Infrastracture について / apatheia.info
+こちらのエントリーを読んでふと思いついたので書きました。 式年遷宮 / 伊勢神宮 今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、
+このシステム、今のインターネットのインフラストラクチャの &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +75,82 @@ hosts,status,get,list, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://apatheia.info/blog/2013/08/10/immutable-infrastructure/">Immutable Infrastracture について / apatheia.info</a><br/>
+こちらのエントリーを読んでふと思いついたので書きました。</p>
+
+<p><a href="http://www.isejingu.or.jp/shikinensengu/">式年遷宮 / 伊勢神宮</a></p>
+
+<p>今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、<br/>
+このシステム、今のインターネットのインフラストラクチャの<br/>
+モデルとして結構参考になるのではないだろうか。</p>
+
+<p>さすがに20年間無停止で動いているサーバは<br/>
+その存在自体が重要文化財になってしまうが、例えば、１つのシステムを<br/>
+ロードバランサ、スイッチ、サーバ、ミドルウェア、ログ集約サーバなど<br/>
+完全に冗長化しておき、１週間毎に冗長化されたシステム、A、Bをそれぞれ入れ替える。</p>
+
+<p>このアーキテクチャを採用した場合、<br/>
+アプリケーションの大規模な改修が発生した場合にも<br/>
+スタンバイ側となっているインフラストラクチャ側で<br/>
+スナップショットのようなものを取得しておき、テストを行い、<br/>
+スナップショット時に戻れば、実サービスと同じ環境でテストが行える。</p>
+
+<p>アクティブ側となっているインフラストラクチャのハードに<br/>
+何かしらの問題が発生した場合、スタンバイ側のインフラストラクチャへ<br/>
+切り替えることにより、対障害性能を向上することが可能になる。</p>
+
+<p>また、アクティブスタンバイ化されたシステムは、なかなかどうして<br/>
+テスト時と同じ結果になってくれず、サービスダウンした際に<br/>
+フェイルオーバーしないことがよくある。</p>
+
+<p>しかし、この式年遷宮インフラストラクチャを採用すれば<br/>
+定期的に切り替えが発生するので、切り替え時にエラーが発生した場合にも<br/>
+発見が早くなり、結果的にシステムそのもののテストという側面を持ち、<br/>
+障害発生時に高確率でフェイルオーバーが成功するのではないだろうか。</p>
+
+<p>問題となるのは、切り替えそのものの正確性の確保、一つのシステムを冗長化するコスト、<br/>
+切り替え前、切り替え前後の監視対象の切り替え、切り替え時のログの欠落をなくす工夫、<br/>
+切り替え時にサービスに影響を及ぼさない工夫など、実現する為には様々な困難はある。</p>
+
+<p>とはいえ、機械を利用し利便性を向上してきた我々は<br/>
+やはりその機械を運用するというそのものについても利便性を求め<br/>
+職人の技、秘伝のタレなど閉鎖的な情報に頼ること無く、また、運用担当者が<br/>
+毎日深い眠りに就けるよう、日々楽をする為の努力をしていきたいものであります。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1034,127 +1109,6 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
-取り敢えずインストールしてみた。</p>
-
-<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
-誰でも見れちゃうので悲しい感じになる。<br/>
-ということでVPNを貼って内部で接続しに行く。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
-</span><span class='line'>| sakura | --- vpn --- | MBA |
-</span><span class='line'>+--------+             +-----+
-</span><span class='line'>[10.9.0.1]             [10.9.0.6]
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
-
-<h3>Jenkins氏</h3>
-
-<ul>
-<li>/etc/sysconfig/jenkins</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>として、自分自身のアクセスだけ許可</p>
-
-<h3>nginx氏</h3>
-
-<ul>
-<li>/etc/nginx/conf.d/hoge.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
-</span><span class='line'>    root /home/skywalker/www;
-</span><span class='line'>
-</span><span class='line'>    location /{
-</span><span class='line'>        proxy_pass http://localhost:8080;
-</span><span class='line'>        allow 10.9.0.0/16;
-</span><span class='line'>        deny all;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
-
-<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
-
-<ul>
-<li>/usr/local/etc/dnsmasq.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
-<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
-<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
-
-<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="16">&larr; Older</a>
@@ -1172,6 +1126,10 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1185,10 +1143,6 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

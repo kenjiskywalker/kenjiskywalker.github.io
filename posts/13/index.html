@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="げんきだしてbot / すぎゃーんメモ 類似品つくらせてもらいました。 @kenjiskywalker いますぐやりましょう！&mdash; imayaro_bot (@imayaro_bot) September 19, 2013 https://github.com/ &hellip;">
+  <meta name="description" content="デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。
+一つの例として私の方法を載せますので、よりよい方法などあれば教えて頂きたいです。 backup dir /var/log/backup/nginx/YYYYMMDD/
+/var/log/backup/app/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +75,139 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/20/logfile-backup-to-s3/">ログファイルをS3にバックアップする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-20T00:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。<br/>
+一つの例として私の方法を載せますので、よりよい方法などあれば教えて頂きたいです。</p>
+
+<h2>backup dir</h2>
+
+<p><code>/var/log/backup/nginx/YYYYMMDD/</code><br/>
+<code>/var/log/backup/app/YYYYMMDD/</code></p>
+
+<h2>backup file</h2>
+
+<p><code>/var/log/backup/nginx/20130918/access.20130918-00.log.gz</code>
+<code>/var/log/backup/nginx/20130918/access.20130918-01.log.gz</code>
+<code>/var/log/backup/nginx/20130918/access.20130918-02.log.gz</code><br/>
+&hellip;</p>
+
+<p><code>/var/log/backup/app/20130918/app.20130918-00.log.gz</code>
+<code>/var/log/backup/app/20130918/app.20130918-01.log.gz</code>
+<code>/var/log/backup/app/20130918/app.20130918-02.log.gz</code><br/>
+&hellip;</p>
+
+<p>上記ディレクトリに、それぞれ<br/>
+nginx、アプリケーションのログがあるとします。</p>
+
+<p>nginxのログはtd-agentによって</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;store&gt;
+</span><span class='line'>  type file_alternative
+</span><span class='line'>  time_slice_format %Y%m%d-%H
+</span><span class='line'>  path /var/log/backup/nginx/access
+</span><span class='line'>  output_data_type attr:msg
+</span><span class='line'>  localtime
+</span><span class='line'>  output_include_time false
+</span><span class='line'>&lt;/store&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>/var/log/backup/nginx/access.20130919-00.log</code>
+<code>/var/log/backup/nginx/access.20130919-01.log</code>
+<code>/var/log/backup/nginx/access.20130919-02.log</code></p>
+
+<p>このように吐き出され、それを日付が変わったのち</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
+</span><span class='line'>
+</span><span class='line'># set -e
+</span><span class='line'>DATE=`date --date '1 days ago' +%Y%m%d`
+</span><span class='line'>BASE="/var/log/backup"
+</span><span class='line'>for type in nginx app;
+</span><span class='line'>do
+</span><span class='line'>  DIR="${BASE}/${type}/${DATE}"
+</span><span class='line'>  mkdir "${DIR}"
+</span><span class='line'>  mv ${BASE}/${type}/*${DATE}*log "${DIR}"
+</span><span class='line'>  nice gzip --fast ${DIR}/*log
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こちらのアーカイブスクリプトによって</p>
+
+<p><code>/var/log/backup/nginx/YYYYMMDD/</code></p>
+
+<p>というディレクトリを作成し、その配下へ昨日分のログファイルをgzip化し退避します。<br/>
+そして、退避したログファイルをS3へバックアップします。</p>
+
+<p>バックアップは<a href="http://s3tools.org/s3cmd">s3cmd</a>を利用しても良いですが<br/>
+先日1.0のリリースが行われた<a href="https://github.com/aws/aws-cli">awscli</a>を利用します。</p>
+
+<h2>backup script</h2>
+
+<div><script src='https://gist.github.com/6625841.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p><code>aws s3 cp --recursive</code>によって昨日分のログファイルディレクトリを<br/>
+再帰的にバックアップを行い、ファイルの整合性を担保する為に<br/>
+ファイルサイズの比較を行っています。(可能であればMD5チェックを行いたい)</p>
+
+<p>このように、深夜に昨日分のログファイルをS3にバックアップするようにしています。</p>
+
+<p>以上、ご参考になれば幸いです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1023,78 +1158,6 @@ HHKでタイピングするの面白くて無駄に長文になった。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/27/eip-set-autoscaling-vpc/">AWSのAutoScalingで立ち上がってきたVPC内のEC2インスタンスに強制的にEIPを付与する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-27T23:50:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前提条件</h2>
-
-<ul>
-<li>グローバルにアクセスできる管理サーバが一台ある</li>
-<li>対象のVPCにアサイン可能なEIPがある(AssociateされていないEIPがある)</li>
-</ul>
-
-
-<p>という前提条件が成立していれば、管理サーバで</p>
-
-<div><script src='https://gist.github.com/6354555.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>このようなスクリプトを</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*/1 * * * * root /root/set_eip.sh 2&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と噛ましておけば、EIPが付与されていないインスタンスを発見し次第<br/>
-強制的にEIPをアサインすることができます。</p>
-
-<p><code>2&gt; /dev/null</code>とかやってるとイスが飛んできそうなものですが<br/>
-1分毎に実行していると、内部DNS結構頻繁に取りこぼしたりするので闇に葬りました。<br/>
-成功した場合は<code>ADDRESS    i-XXXXXXXX eipalloc-XXXXXXXX   eipassoc-XXXXXXXX</code><br/>
-という内容のメールがとんできて、お、アサインされたのか。と気付けます。</p>
-
-<p>CloudWatchのAutoScaling発動トリガーで何かしらの通知設定をされているかと思うので<br/>
-まずその通知でAutoScalingの発火を確認し、<br/>
-上記EIPアサイン通知でインスタンスの起動を確認。のようなこともできます。</p>
-
-<p><a href="http://aws.typepad.com/aws_japan/2013/08/additional-ip-address-flexibility-in-the-virtual-private-cloud.html">【AWS発表】 VPC内のパブリックIPアドレスの取い扱いがより柔軟に</a></p>
-
-<p>ということを頑張らなくてもそのうち上記Public IPがAutoScalingにも対応すると思う。</p>
-
-<p>ところで<code>EIP</code>と<code>Public IP</code>の違いって何なんですかね？</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="14">&larr; Older</a>
@@ -1112,6 +1175,10 @@ HHKでタイピングするの面白くて無駄に長文になった。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1125,10 +1192,6 @@ HHKでタイピングするの面白くて無駄に長文になった。</p>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="たくさんのすごい話と、すごいことをしているすごい人たちと話す機会があって
-アリとキリギリスについて考えることがあったので書いてみる。 きっかけは色々あった。常に高い、正しいモチベーションを
-持ち合わせていたわけではない。 今でもそうだ、何事に対してもその中で頂点を取ろうとか
-有名になりたいとか、 &hellip;">
+  <meta name="description" content="Creating an Instance Store-Backed Linux AMI 基本的にドキュメントに従って作業をすれば作成できます。
+気を付けなければいけない点が何点かあったのでシェアさせて頂きます。 ec2-api-tools 1.6.12.0
+ec2-bundle-vol 1.4.0 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +75,120 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/18/instance-store-backed-ami/">Instance Store-BackedのAMIをつくる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-18T23:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
+
+<p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
+気を付けなければいけない点が何点かあったのでシェアさせて頂きます。</p>
+
+<blockquote><p>ec2-api-tools 1.6.12.0<br/>
+ec2-bundle-vol 1.4.0.9 20071010<br/>
+ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
+
+<ul>
+<li>AMIをつくる元のインスタンスにて</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ mkdir /tmp/cert
+</span><span class='line'>[ec2-user ~]$ cd /tmp/cert</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>手元からファイルを送る</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+</span><span class='line'>ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>image元となるデータを作成</li>
+</ul>
+
+
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
+所々ファイルが消えます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
+</span><span class='line'>-k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+</span><span class='line'>-c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
+</span><span class='line'>-u your_aws_account_id -r x86_64 -e /tmp/cert</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>S3にAMIの元となるデータをアップロードします</li>
+</ul>
+
+
+<p>AMIを作成するregionと合わせないとエラーになります。<br/>
+<code>--region</code>ではなく<code>--location</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
+</span><span class='line'>-m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
+</span><span class='line'>--location us-west-2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>AMIにregisterします</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
+</span><span class='line'>-n AMI_name -O your_access_key_id -W your_secret_access_key \
+</span><span class='line'>--region us-west-2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -992,51 +1105,6 @@ nginxのinit scriptでも</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/02/2014-02-movie/">「ワールド・ウォーZ」と「ニュー・ジャック・シティ」見た</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-02T23:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe src="https://banners.itunes.apple.com/banner.html?partnerId=&aId=11ldGT&id=756496633&c=jp&l=ja-JP&bt=catalog&t=catalog_black&w=300&h=250" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height:250px;border:0px"></iframe>
-
-
-<p>意外に面白かった。</p>
-
-<iframe src="https://banners.itunes.apple.com/banner.html?partnerId=&aId=11ldGT&id=718046714&c=jp&l=ja-JP&bt=catalog&t=catalog_black&w=300&h=250" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height:250px;border:0px"></iframe>
-
-
-<p>今の原宿にいる女の子の服装こんな感じだった。<br/>
-なんだかんだでこのジャケットが一番おもしろいと思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="8">&larr; Older</a>
@@ -1054,6 +1122,10 @@ nginxのinit scriptでも</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1067,10 +1139,6 @@ nginxのinit scriptでも</p>
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>

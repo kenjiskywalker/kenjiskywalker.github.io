@@ -9,10 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="あかっぽいあじさい あおっぽいあじさい 一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし
-家で見ると７割ぐらいピント合ってなくて面白い。 確実性求めすぎない方が心に余裕生まれる気がする。
-">
+  <meta name="description" content="Jenkins氏、存在は知ってるけど自分で使ったことなかったので
+取り敢えずインストールしてみた。 さくらVPSだとグローバル経由でアクセスすることになって
+誰でも見れちゃうので悲しい感じになる。
+ということでVPNを貼って内部で接続しに行く。 1
+2
+3
+4 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +79,127 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
+取り敢えずインストールしてみた。</p>
+
+<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
+誰でも見れちゃうので悲しい感じになる。<br/>
+ということでVPNを貼って内部で接続しに行く。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
+</span><span class='line'>| sakura | --- vpn --- | MBA |
+</span><span class='line'>+--------+             +-----+
+</span><span class='line'>[10.9.0.1]             [10.9.0.6]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
+
+<h3>Jenkins氏</h3>
+
+<ul>
+<li>/etc/sysconfig/jenkins</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>として、自分自身のアクセスだけ許可</p>
+
+<h3>nginx氏</h3>
+
+<ul>
+<li>/etc/nginx/conf.d/hoge.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>    listen 80;
+</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
+</span><span class='line'>    root /home/skywalker/www;
+</span><span class='line'>
+</span><span class='line'>    location /{
+</span><span class='line'>        proxy_pass http://localhost:8080;
+</span><span class='line'>        allow 10.9.0.0/16;
+</span><span class='line'>        deny all;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
+
+<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
+
+<ul>
+<li>/usr/local/etc/dnsmasq.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
+<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
+<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
+
+<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -862,133 +986,6 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/27/darenotameno/">「誰のためのデザイン」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-27T23:01:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/478850362X/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=478850362X&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=478850362X&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=478850362X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>会社の給湯室の蛇口、下に下げると止まって、上に上げると出てくるつくりで<br/>
-これ感覚的に逆だなーって思ってて、会社のIRCで、これ感覚的に<br/>
-逆じゃないですか？って聞いたら、直感とかでキメるのイケてないって言われて<br/>
-みんな詳しいなーと思って、デザインの基礎っぽい本読みたくて読んだ。</p>
-
-<p><a href="http://sh0tk.blogspot.jp/2012/02/blog-post_26.html">人間中心のデザインの原則－『誰のためのデザイン？』を読んで－ / マーケターのメモ帳</a></p>
-
-<p>この人のまとめ記事がすごいよくまとまってて、<br/>
-もう本読む必要ないのではって思うほどだった。<br/>
-本、400ページ超あるから時間ない人はこの記事読むだけでも良さそう。</p>
-
-<h2>感想</h2>
-
-<ul>
-<li><p>ofの知識とhowの知識<br/>
-ofの知識は表現できるけどhowの知識は意識下でやってるから伝えるのがむずかしい。<br/>
-自転車はどうやって進むかって説明するのは簡単にできるけど<br/>
-どうやって進ませるかを説明するのはむずかしいみたいな話載ってて<br/>
-なるほど〜って言ってた。</p></li>
-<li><p>正確さはあまり必要ではない<br/>
-5円玉がどういう模様で、どんな色で、とかあんまり必要ない。<br/>
-ただ、すごい似た硬貨とか作っちゃうと見分けつかなくなって大変なことになる。<br/>
-たしかに10円玉とか平等院鳳凰堂がどう書かれているのかってあんまり覚えてない。<br/>
-覚えてないけど小銭入れの中に100円玉とか1円玉とか入ってても、10円玉かどうかわかる。<br/>
-10円玉の平等院鳳凰堂、オレは正確に書けるとか言う人、その才能活用したら良いと思う。</p></li>
-</ul>
-
-
-<p>サーバのホスト名とか、<code>srv10</code>、<code>srv11</code>とかたまに見ることあって<br/>
-見分け付きづらいし、そもそも何のサーバだかわからないの良くないって改めて感じた。</p>
-
-<ul>
-<li><p>トライアンドエラー<br/>
-物流のスピードが上がったおかげで、昔みたいなシンプルで洗練されたデザインのものが<br/>
-なくなってきてて、どんどん機能追加していった方がいいみたいになってるの、<br/>
-昔は市場に出回った後でも何回かトライアンドエラーしていって、デザインの精度を<br/>
-上げられたけど、今は多くても2,3回出して失敗したらもうダメっていうのが多い。<br/>
-っていうデザイナーの話、そういう面もあるのか。って知った。<br/>
-90年発行の本にそんなこと書いてあるんだから、  今のデザイナーもっと大変っぽい。<br/>
-ウェッブサービスのデザインは結構トライアンドエラーできる印象ある。</p></li>
-<li><p>エラーが起きても大丈夫なようにデザインしておく<br/>
-操作間違えて後戻りできないの、インターネットの運用とかやってるとよくあって<br/>
-そう簡単に言われても〜、とか思ったけど、ミスが起こりにくいデザインとか<br/>
-失敗しても元に戻せるデザインとかは、目指すべきところなんだと思う。<br/>
-個人的に注意力散漫でリフレッシュ力高いから、こういうところに力入れていきたい。<br/>
-そもそもそういう人間がそういう仕事してるの危険極まりないので<br/>
-仕事では面倒くさい感じの臆病なヤツでいたい。</p></li>
-</ul>
-
-
-<p>最後の方あんまりちゃんと読んでなかったから<br/>
-次読んだらまた新しい発見あると思う。</p>
-
-<h2>なんとなく</h2>
-
-<p>本、細かく読めばもっと発見とかあると思う。<br/>
-また読みたくなったら図書館で借りると思う。<br/>
-図書館、便利なのでおすすめです。</p>
-
-<p>デザイン、要は誰かが何かをしようとした時に、<br/>
-その目的を達成するための助けになるものが良いってことだと思った。<br/>
-何かがあって、そのデザインを見てもわからないの、人間でいうと<br/>
-主語がなくて、何の話してるのかわからない人の話と同じっぽい。<br/>
-そのものだけ見てもよくわからなくて、マニュアルとか説明書き読まないと<br/>
-理解できないのも、その話(目的)自体が難解なのか、<br/>
-ただの説明(デザイン)下手なのかのどっちかっぽい印象ある。</p>
-
-<h2>これから</h2>
-
-<ul>
-<li>端的でわかりやすい</li>
-<li>簡単な操作で目的まで辿りつける</li>
-<li>操作を誤っても安全に操作前の状態に戻れる</li>
-</ul>
-
-
-<p>この辺を意識していくと色々と物事見えてきそうな気がした。</p>
-
-<p>冒頭で書いた会社の蛇口、ドアで言うと、押すと閉まって、引くと開くみたいな<br/>
-文章で書くと意味不明な感じになるけど、多分中身は下に下げると弁が閉じて<br/>
-上に上げると弁が開くみたいな感じだと思う。<br/>
-そっちの方が安全だからそうしている気がする。</p>
-
-<p>この本を読むとデザインについてあれこれ考えだすけど、<br/>
-デザインだけの視点で物事を見てしまうと、極端な感じでしか物事見れなくなるので、<br/>
-総合的な判断の為の予備知識として持っておくっていうのが良さそう。</p>
-
-<p>ただひとつ言えるのは、オフィスのフロアの電気付けるパネル、全部同じスイッチで<br/>
-どこのスイッチがどこのフロアに関連付けられてるのかわからないの、<br/>
-ただダメなだけっぽい。スイッチ毎にテプラで説明書こう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="17">&larr; Older</a>
@@ -1006,6 +1003,10 @@ ofの知識は表現できるけどhowの知識は意識下でやってるから
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
       </li>
     
@@ -1019,10 +1020,6 @@ ofの知識は表現できるけどhowの知識は意識下でやってるから
     
       <li class="post">
         <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/jyoen/">俺の子連れおすすめスポット - 新宿御苑</a>
       </li>
     
   </ul>
