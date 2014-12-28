@@ -9,12 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content=".gvimrcに 1
-2
-3
-4
-if has('multi_byte_ime') || has('xim') highlight Cursor guifg=NONE guibg=White highlight CursorIM guifg=NONE guibg=DarkRed
-endif &hellip;">
+  <meta name="description" content="fluentdのbufferとforwardについて調べたのでメモ。 fluentd v0.10.45 追記( 04/02 00:27) @kenjiskywalker flushしようとしてできなかったbufferにもlimitまで溜まるから、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,19 +52,7 @@ endif &hellip;">
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+  <nav role="navigation"><ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -84,7 +67,7 @@ endif &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/11/vim-de-multi_byte_ime/">Vimで日本語の切り替えで毎回っっっっっっってなる対策</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/04/01/fluentd-buffer-forward/">Flunetd、forward先がダメだった時にforward元である程度ログを担保したい</a></h1>
     
     
       <p class="meta">
@@ -100,36 +83,247 @@ endif &hellip;">
   
 
 
-<time datetime="2013-10-11T14:24:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-04-01T13:18:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><code>.gvimrc</code>に</p>
+  <div class="entry-content"><p>fluentdのbufferとforwardについて調べたのでメモ。</p>
+
+<blockquote><p>fluentd v0.10.45</p></blockquote>
+
+<h2>追記( 04/02 00:27)</h2>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> flushしようとしてできなかったbufferにもlimitまで溜まるから、1kbのbufferが128個で限界にはならないような気がしますが</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/statuses/451015148627456000">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/fujiwara">@fujiwara</a> 今手元で試したんですけどflush_interval関係なさそうですね。普通にflush_interval 1s buffer_chunk_limit 10とか指定してもそれ以上のbuffer保持してました</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/451018249442836483">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/tagomoris">@tagomoris</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> なるほど〜！</p>&mdash; ブラッド・ピット (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/451019439786307585">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>とのことです。</p>
+
+<p>こちらも参照してください。</p>
+
+<p><a href="http://togetter.com/li/650177">fluentd の buffer あふれ改善議論 - togetter</a></p>
+
+<p><code>flush_interval</code>はあくまでflushするだけであって<br/>
+貯まる分は</p>
+
+<p><code>buffer_chunk_limit x buffer_queue_limit</code></p>
+
+<p>が影響する。ということですね。</p>
+
+<p>update( 04/02 11:40 )</p>
+
+<h2>参考</h2>
+
+<p><a href="http://docs.fluentd.org/en/articles/buffer-plugin-overview">fluentd - Buffer Plugin Overview</a><br/>
+<a href="http://d.hatena.ne.jp/tagomoris/20130123/1358929254">tagomorisのメモ置き場 - FluentdでバッファつきOutputPluginを使うときのデフォルト値</a></p>
+
+<h3>構成</h3>
+
+<ul>
+<li>各ホストから集約サーバへ<code>foward</code>している</li>
+<li>集約サーバはログを受け取ってゴニョゴニョしている</li>
+</ul>
+
+
+<h3>Buffer</h3>
+
+<p><a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/buffer.rb#L116">BasicBuffer</a><br/>
+<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_file.rb#L76">FileBuffer</a><br/>
+<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_memory.rb#L67">MemoryBuffer</a></p>
+
+<h4>buffer_chunk_limit</h4>
+
+<p>FileBuffer = デフォルト(8MB)<br/>
+MemoryBuffer = デフォルト(8MB)</p>
+
+<h4>buffer_queue_limit</h4>
+
+<p>FileBuffer = デフォルト(256)<br/>
+MemoryBuffer = <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_memory.rb#L76">64</a></p>
+
+<h4>総バッファサイズ</h4>
+
+<ul>
+<li><p>FileBuffer<br/>
+= 8 * 256 = 2048(2GB)</p></li>
+<li><p>MemoryBuffer<br/>
+= 8 * 64 = 512(512MB)</p></li>
+</ul>
+
+
+<h4>flush_interval</h4>
+
+<p>flush_interval = デフォルト(<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L175">60s</a>)</p>
+
+<h3>Bufferされる値を算出する</h3>
+
+<p><a href="http://docs.fluentd.org/en/articles/buffer-plugin-overview">fluentd - Buffer Plugin Overview</a></p>
+
+<blockquote><p>When the top chunk exceeds the specified size or time limit<br/>
+(buffer_chunk_limit and flush_interval, respectively),<br/>
+a new empty chunk is pushed to the top of the queue.<br/>
+The bottom chunk is written out immediately when new chunk is pushed.</p></blockquote>
+
+<p>例えば</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if has('multi_byte_ime') || has('xim') 
-</span><span class='line'>  highlight Cursor guifg=NONE guibg=White
-</span><span class='line'>  highlight CursorIM guifg=NONE guibg=DarkRed
-</span><span class='line'>endif</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match **&gt;
+</span><span class='line'>  type forward
+</span><span class='line'>  flush_interval 1s
+</span><span class='line'>  buffer_queue_limit 128
+</span><span class='line'>  buffer_chunk_limit 1g
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host localhost
+</span><span class='line'>    port 24225
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>って書いたら</p>
+<p>と設定していた場合、<code>buffer_queue_limit 1G</code>と<code>flush_interval 1s</code>の<br/>
+どちらかの閾値を超えた場合にflushされます。</p>
 
-<p><img src="http://gifzo.net/hfBHJNAZR0.gif" alt="http://gifzo.net/hfBHJNAZR0.gif" /></p>
+<blockquote><p>If the bottom chunk write out fails,<br/>
+it will remain in the queue and Fluentd will<br/>
+retry after waiting several seconds (retry_wait).<br/>
+If the retry count exceeds the specified limit (retry_limit),<br/>
+the chunk is trashed. The retry wait time doubles each time<br/>
+(1.0sec, 2.0sec, 4.0sec, …).<br/>
+If the queue length exceeds the specified limit (buffer_queue_limit),<br/>
+new events are rejected.</p></blockquote>
 
-<p>こんな風に全角の時に赤色になるから<br/>
-ノーマルモードで全角で入力しちゃってうわああああ！！！<br/>
-っていうことなくなるのでおすすめです。</p>
+<p>例えば上記設定例で</p>
 
-<p>MacVimだと<code>multi_byte_ime</code>使えなくて<br/>
-<a href="https://code.google.com/p/macvim-kaoriya/">macvim-kaoriya</a>だと使えました。<br/>
-マコピーに教えてもらいました。ライフチェインジング！</p>
+<ul>
+<li><code>forward</code>先にデータが転送できなかった</li>
+<li>ログファイルは<code>1kB/sec</code>の書き込み</li>
+</ul>
+
+
+<p>である場合、<code>buffer_chunk_limit 1g</code>に達する前に<code>flush_interval 1s</code>に引っかかり<br/>
+<code>flush_interval 1s</code> x <code>buffer_queue_limit 128</code>(128kB)分のバッファを確保した後<br/>
+新しいqueueは受け付けられなくなるかと思いきや、flushはあくまでflushなので<br/>
+バッファする量は</p>
+
+<ul>
+<li>buffer_chunk_limit x buffer_queue_limit</li>
+</ul>
+
+
+<p>で決まるとのこと。</p>
+
+<p>forward時にログの転送元でどれだけのバッファを担保したいかは<br/>
+ログの流量と転送元と転送先のスペックによって変わるので<br/>
+みんなよしなにやっているのではないかと思います。</p>
+
+<h3>forward</h3>
+
+<p>結論から先に書いておくと</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match **&gt;
+</span><span class='line'>  type forward
+</span><span class='line'>  hard_timeout 180s
+</span><span class='line'>  phi_threshold 100
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host a
+</span><span class='line'>    port 24224
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host un
+</span><span class='line'>    port 24224
+</span><span class='line'>    standby
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>  &lt;secondary&gt;
+</span><span class='line'>    type file
+</span><span class='line'>    path /var/log/fluent/forward-failed
+</span><span class='line'>  &lt;/secondary&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のような冗長構成にできるのは、forward先が<br/>
+いずれのサーバであっても同様の処理が行える時に限る。<br/>
+ということです。</p>
+
+<p>例えば<code>a</code>に障害があって<code>hard_timeout</code>で設定している<br/>
+180秒を超えた場合、転送先が<code>un</code>に変わります。<br/>
+しかし、結局<code>a</code>で処理していたログと<code>un</code>に流れたログを<br/>
+どこかでmergeしたりする必要があるのであれば、<br/>
+冗長構成を設定しない方が運用は楽かと。</p>
+
+<p>デフォルトの設定であれば</p>
+
+<ul>
+<li>retry_limit <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L177">17</a></li>
+<li>retry_wait <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L178">1.0s</a></li>
+</ul>
+
+
+<p>となっており、最大<code>131072 sec</code>リトライしてくれます。<br/>
+ログの流量によってはその前に</p>
+
+<ul>
+<li><code>buffer_chunk_limit</code> x <code>buffer_queue_limit</code></li>
+</ul>
+
+
+<p>上記の閾値に引っかかる可能性がありますが、<br/>
+閾値に引っかかる前に<code>a</code>のサーバの状態を復活させた方が<br/>
+オペレーション的には楽だと思います。</p>
+
+<p>絶対ロストしてはいけないデータだから冗長構成は必須！！！<br/>
+という場合はそもそもfluentdの冗長構成の前にやることがあると思います。</p>
+
+<p>というようなことを書いたのですが、認識に誤りなどあれば<br/>
+ご指摘頂ければ幸いです。</p>
+
+<p><a href="http://togetter.com/li/650177">fluentd の buffer あふれ改善議論 - togetter</a></p>
 </div>
   
   
@@ -142,7 +336,7 @@ endif &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/11/music-20131009/">音楽</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/03/29/vyatta-pptp/">VyattaでVPN(PPTP)の設定</a></h1>
     
     
       <p class="meta">
@@ -158,40 +352,40 @@ endif &hellip;">
   
 
 
-<time datetime="2013-10-11T00:27:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-29T18:01:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2><a href="https://bleep.com/release/19779-bibio-ambivalence-avenue">Ambivalence Avenue / Bibio</a></h2>
+  <div class="entry-content"><p>iOS用にPPTPで接続できるようにしたら便利だったので<br/>
+VyattaでVPN(PPTP)設定したメモ。</p>
 
-<p><img src="https://bleep.com/media/images/r/g/19779.jpg" alt="https://bleep.com/media/images/r/g/19779.jpg" /></p>
+<p>参考：<a href="http://jedipunkz.github.io/blog/2012/06/13/vyatta-vpn/">Vyatta で構築する簡単 VPN サーバ</a></p>
 
-<h2><a href="https://bleep.com/release/42223-bibio-silver-wilkinson">Silver Wilkinson / Bibio</a></h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ configure
+</span><span class='line'># set vpn pptp remote-access authentication local-users username ${USER} password ${PASSWORD}
+</span><span class='line'># set vpn pptp remote-access authentication mode local
+</span><span class='line'># set vpn pptp remote-access client-ip-pool start ${IP_START}
+</span><span class='line'># set vpn pptp remote-access client-ip-pool stop ${IP_END}
+</span><span class='line'># commit
+</span><span class='line'># save</span></code></pre></td></tr></table></div></figure>
 
-<p><img src="https://bleep.com/media/images/r/g/42223.jpg" alt="https://bleep.com/media/images/r/g/42223.jpg" /></p>
 
-<h2><a href="https://itunes.apple.com/jp/album/fi/id475801572">Fi / Bibio</a></h2>
+<p>以上です。市販のルータ使っていたらGUIで設定して<br/>
+反映する為にはルータの再起動が必要です。1分待って下さいとか<br/>
+なかなか渋いことになりますが、VyattaはCLIで設定すれば<br/>
+再起動など必要なく即反映されます。最高のユーザ体験です。</p>
 
-<p><img src="http://a5.mzstatic.com/us/r1000/077/Music/c1/8e/5b/mzi.rggaplrp.170x170-75.jpg" alt="http://a5.mzstatic.com/us/r1000/077/Music/c1/8e/5b/mzi.rggaplrp.170x170-75.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/44880-funkinevil-ignorant-in-the-grid-ep">Ignorant - In the Grid EP / Funkinevil </a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/44880.jpg" alt="https://bleep.com/media/images/r/g/44880.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/38395-funkinevil-nightdusk">Night/Dusk / Funkinevil </a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/38395.jpg" alt="https://bleep.com/media/images/r/g/38395.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/44248-clark-feast-beast">Feast - Beast / Clark</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/44248.jpg" alt="https://bleep.com/media/images/r/g/44248.jpg" /></p>
-
-<h2><a href="http://www.amazon.co.jp/gp/product/B00E9E4EZA/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B00E9E4EZA&amp;linkCode=as2&amp;tag=13nightcrows-22">Hide / The Bloody Beetroots</a></h2>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B00E9E4EZA/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00E9E4EZA&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00E9E4EZA&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00E9E4EZA" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+<p>もう市販のルータ使うことはないと思います。　</p>
 </div>
   
   
@@ -204,7 +398,7 @@ endif &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/11/buddha-mountain/">「ブッダ・マウンテン 希望と祈りの旅」みてきた</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/03/28/chef-ruby-block/">Chefのruby_blockを利用してファイル更新時に条件によってログを出力する</a></h1>
     
     
       <p class="meta">
@@ -220,506 +414,30 @@ endif &hellip;">
   
 
 
-<time datetime="2013-10-11T00:17:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-28T01:59:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.buddha-mountain.com/">「ブッダ・マウンテン 希望と祈りの旅」</a></p>
+  <div class="entry-content"><p>Chefには冪等性という特徴がありますが、実際の運用では<br/>
+ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは<br/>
+自分の手で確認したい。という条件もあるかと思います。</p>
 
-<p>単館系久々に見に行ったけど気楽に見れてよかった。<br/>
-映画の内容も良かった。酒と煙草と女と音楽がほしくなる感じだった。</p>
+<ul>
+<li>設定ファイルは常に更新しても良い</li>
+<li>設定ファイルが更新された時だけミドルウェアを起動したい</li>
+<li>設定ファイルが更新された時にミドルウェアが起動済みであればログに出力</li>
+</ul>
 
-<p>中国でも人は一生懸命生きてるんだなって当たり前のこと考えた。</p>
-</div>
-  
-  
 
+<p>上記条件を満たすために実施した内容について共有します。</p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/10/value-domain-update-go/">Goでvalue Domainのアップデートスクリプトかいた</a></h1>
-    
-    
-      <p class="meta">
-        
+<ul>
+<li>chef/site-cookbooks/apache/recipes/default.rb</li>
+</ul>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T15:28:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>書き方あってるのか微妙なのでGoに明るい方のご指摘をお待ちしております。</p>
-
-<div><script src='https://gist.github.com/6914101.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>Goでpit使えないのかなって@soh335さんに聞いたらtype氏のリポジトリ見ろ<br/>
-って言われて見に行ったらあった。@typester++</p>
-
-<ol>
-<li><code>pitDomain</code>で設定されている<code>domain</code>と<code>password</code>を取得</li>
-<li><code>records</code>で現在のIPアドレスに変更したいレコードリストを入れる</li>
-<li>temple-kun.appspot.comで現在のIPを取得</li>
-<li>現在のIPとレコードに設定されているIPが違ったら更新、同じであればスルー</li>
-</ol>
-
-
-<p>という感じです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/07/isucon2013/">#isucon 2013 予選1日目に参加しました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-07T09:55:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://isucon.net/">isucon 2013</a>の1日目に参加しました。<br/>
-@fujiwaraさん、@acidlemonさんありがとうございました。<br/>
-本戦の問題作成頑張ってくださいね(・ω&lt;)</p>
-
-<p>細かいことは<a href="http://soh335.hatenablog.com/entry/2013/10/06/230741">isucon3 の予選に参加しました #isucon - @soh335 memo</a>に書いてあります。<br/>
-大切なことは<a href="http://hisaichi5518.hatenablog.jp/entry/2013/10/07/094347">#isucon の予選に参加してきた。 - パルカワ2</a>に書いてあります。</p>
-
-<p>補足としては、ひさいち君は335さんがあれ〜〜〜〜〜？？？なんで〜〜〜〜？？？<br/>
-って言い出したらコード見てこれがこうじゃない？？？って言って、<br/>
-あ〜〜〜〜〜〜〜〜〜！！！っていう<br/>
-デバッグ職人の役割とアプリケーションの細かい修正とかをやってもらってました。<br/>
-漫画読んでたのは残り時間2時間残して、5位以内当確間違いないでしょ〜みたいな<br/>
-奢りの象徴でした。</p>
-
-<p>残り2時間ぐらいやることなくなったのは、<br/>
-workload数を昔のISUCONのレギュレーションと勘違いして<br/>
-時間内の最高スコアが実スコアなのに、最後に運営側で回したスコアがそれだろ。<br/>
-って335さんと勘違いしてworkload 1しばりやってたからでした。<br/>
-これはひさいちが遅刻してこなければ免れたかもしれません。</p>
-
-<p>開始からいきなり忙しいぶってたり、攻殻機動隊のサントラをかけろ！！！<br/>
-gitの設定より先にそれやれ、gitはオレがやるから！！！な！！<br/>
-テンションあげてこ！！！？？とかやらずに<br/>
-開始と同時に、良い茶葉が入りましたので、<br/>
-ハーブティーでも飲みませんか？ぐらいの心の余裕が必要でした。</p>
-
-<p>それと、ベンチマーク走らせる度に <br/>
-「カムカムカムカム〜〜〜〜〜〜〜〜〜！！！！」「ノオ〜〜〜〜〜〜〜〜〜！！！！」<br/>
-「ワイワイワイワイワイエラー！！！」<br/>
-「きっとベンチマーク遅くなると思うけどやらせてくれッッ！！！！」<br/>
-「ヒュ〜〜〜〜〜〜！！！キマったぜ！！！」みたいに<br/>
-やたらテンションが高かったのも反省点でした。</p>
-
-<p>自分がやったことは<br/>
-1- nginx化はボトルネックわかってからやろう！って言ってたのに<br/>
-nginx化してもらわないとわからないみたいな<br/>
-当たり屋みたなこと言われて渋々ボトルネック探す前にnginx化し、<br/>
-ログフォーマットはLTSVを利用し、必要最低限のログだけ出すようにし、<br/>
-閲覧性を向上させていました。</p>
-
-<p>2- MySQLは、結局見ませんでしたが<br/>
-取り敢えずクエリを全部吐くようにしてログに出しておきました。</p>
-
-<p>3- ボトルネック探しはdstatとiotopでCPUとI/O周りを確認していました。<br/>
-一番効果があったのはDBIx::SunnyがどこのコードがそのSQL吐いてるのか<br/>
-クエリに出してくれるので、そこひたすら眺め<br/>
-335さんとこうした方が良い、ああした方が良い。って話していました。<br/>
-実装は全部335さんに任せていました。</p>
-
-<p>SQLで重い処理はRedisに持って行きました。<br/>
-Redis、長期的に運用すること考えない場合こんなに楽なのか〜って震えました。</p>
-
-<p>4- 335さんがRedisの実装書いてる時はチラチラコード読んで、データの中身確認して</p>
-
-<blockquote class="twitter-tweet"><p>こそ泥みたいなチューニングしてる <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386401079199399936">October 5, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>こんな感じのことをしていました。</p>
-
-<p>残り2時間ぐらいになってくると、innodb_buffer_pool_size上げるだけ上げたので<br/>
-ほとんどのデータがメモリに載り、Disk Readなどほとんどなくなり<br/>
-サーバの資源がだいぶ余る感じになってきて、nginxの受け口増やしたりアプリの起動数<br/>
-増やしたりしても変わらなくなってきてて、これはベンチマークツールの限界だな(笑)<br/>
-などとフラグを立てることに集中していました。</p>
-
-<blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a> 予選中間発表続き &#10;6. 335&#10;7. isuco&#10;8. 代々木の緑色の会社&#10;9. └(&#39;-&#39;└)&#10;10. Noder&#10;&#10;1位のスコアは14926.8点です</p>&mdash; 941 (@941) <a href="https://twitter.com/941/statuses/386386639297069056">October 5, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>この時の計測時点で8000とかで3位ぐらいには入れるな。みたな感じだったのですが<br/>
-ここからみなさん怒涛のスコアアップがはじまり、五桁台が当たり前になり</p>
-
-<p>エッエッ？？？？って完全にパニックに陥って、5位もあやしくなってきて<br/>
-「なにこれ？？？何が起こってるんです？？？」<br/>
-「5位以内じゃなきゃ死んだも同然だ！！！」<br/>
-「ディスクリードだ！！！ディスクリードさえなくせばええんや！！！」<br/>
-「もう温泉に行こう！！！」と完全に冷静さを失い、<br/>
-時間から逆算しても抜本的な対策もできなくなり</p>
-
-<p>残り1時間ぐらいはiptablesオフったりtcp_tw_recycle設定したり<br/>
-skip_innodb_doublewriteの設定いじったりして、微妙にスコア伸びましたが、<br/>
-全然5桁行く感じではなくて、時間ももうなくて<br/>
-もうダメだ！！！温泉行こう！！！温泉！！！な！！！みたいな感じになっていました。</p>
-
-<p>結果敵に</p>
-
-<blockquote class="twitter-tweet"><p>こそ泥みたいなチューニングで5位以内確定できるかと思ってたら無理っぽい <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386405476218314752">October 5, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>こうなりました。</p>
-
-<p>同じ会社という利点を利用して</p>
-
-<blockquote class="twitter-tweet"><p>チーム335、社内IRCでめっちゃつっかかってる <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386422737968705536">October 5, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>こんな感じでworkloadの文章がわかりづらいとつっかかっていました。<br/>
-どうしようもないですね。結果敵にNoderと50ms or die.チームもworkload 1縛りで<br/>
-我々より上位にランクインしているので、小物感が増しただけでした。</p>
-
-<p>本戦に出られたら、落ち着いて全体の実装全体確認して<br/>
-対応の方向性決めてから手を動かすようにしたいと思います。</p>
-
-<p>とても楽しかったです。<br/>
-ありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/06/tanjyobi/">誕生日とウィッシュリスト</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-06T00:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" /></p>
-
-<p>誕生日です〜とか言って<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT/ref=cm_sw_r_tw_ws_Hqdusb1ZKHAET">ウィッシュリスト</a>のURL送りまくってたら<br/>
-@hsbtさん、@soh335さん、@hisaichi5518くん、@Keita_Shiyaくんから誕生日プレゼント頂きました。<br/>
-ありがとうございます！</p>
-
-<p>勉強します！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/26/yapcasia2013/">YAPC::Asia Tokyo 2013に遊びに行ってきました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-26T23:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="http://yapcasia.org/2013/">http://yapcasia.org/2013/</a></h2>
-
-<p>前夜祭から３日間参加しました。<br/>
-今回は発表者の人たちの年齢も若く、大変刺激的でした。<br/>
-このような有意義な場を設けて頂き有難うございました。<br/>
-また、参加するにあたり、業務として参加することを許している会社にも<br/>
-合わせて感謝します。</p>
-
-<p>今回会場でお話させてもらったエンジニアの人たちはみな<br/>
-24歳〜26歳の方々ばかりで、年齢とは関係なしに第一線で活躍されていて<br/>
-私の目には、ただただ輝いて見えました。</p>
-
-<p>私は前職がライブドア関係ということもあり、現LINE社の方々にはよくして頂き<br/>
-面白法人の方々には、当たり前のようにオープンソースの活動をされている姿に<br/>
-刺激を与えてもらい、決して初心者扱いせず、一流のエンジニアとして<br/>
-プログラミングを教えて頂きました。</p>
-
-<p>学生時代は、オープンソースはインターネットの向こう側の話で<br/>
-情報系の専門学校を出たものの、プログラミングは一切せず、最近までは<br/>
-特に何をするでもなく面白おかしく生きていました。</p>
-
-<p>現在の私の環境も、最初は社内SEということで適当に仕事しようと思っていたら<br/>
-インターネットの向こう側のfujiwaraさんと同じ仕事をすることとなり、<br/>
-必死でプログラミングやサーバサイドの勉強をしたりと、<br/>
-意図せず竹槍一本でインターネットの最前線にいます。</p>
-
-<p>当たり前のことですが、最前線で活躍されているエンジニアの方々は日々誰よりも勉強をし<br/>
-日常の改善を行い、オープンソースにコミットする形で切磋琢磨されています。</p>
-
-<p>最近は私もプログラミングやサーバサイド、ウェッブサービスの勉強をしはじめ、<br/>
-色々なコミュニティの会にお声がけして頂く機会ももらえ、<br/>
-その度に、エッ？もっとバリバリやってきたのかと思ったら案外初心者なんですね！<br/>
-ってリアクションされています。</p>
-
-<p>その期待を良い意味で裏切れるよう、また、オープンソースのコミュニティの方々に<br/>
-もっとしっかりしろ！もっとできるだろ！さっさとこっちに来いよ！と<br/>
-激励のお言葉を頂いたりして、絶対全員ぶっ潰す。と内心思いながら<br/>
-たまに背伸びして会話に参加しては、何言っちゃってんのコイツ？？？というように<br/>
-空気を乱しつつ、精進している毎日でございます。</p>
-
-<p>私自身、既に30歳を過ぎ、エンジニアは30歳までに自分の基礎を築き<br/>
-そこからはどれだけその基礎に新しいものを乗せられるかだ。みたいな話を聞く度に<br/>
-基礎なんかねーよ、優秀な新卒氏らにいびられながら精一杯やるしかねーんだよクソが。<br/>
-と管を巻く毎日でございます。</p>
-
-<p>環境に活かされている。多分それはすたじおさんぐらいしか理解者がいないのですが<br/>
-環境によって活かされていて、結果的に一流のエンジニアの方々と面識があるだけで<br/>
-何かすごいコミットをしてきているわけではありません。</p>
-
-<p>それでも、つたないことでも良いから何かを発信して、誰かの琴線に触れたり<br/>
-どこにでもあるような基礎的な話でも、この話が役に立ったといってもらえる瞬間はあります。</p>
-
-<p>コミュニティの場で、スーパーなエンジニアの方に気軽に声をかけることよりも、<br/>
-声をかけるきっかけをつくることが大事なんじゃないのかなと<br/>
-最近は思うようになりました。</p>
-
-<p>2日目に、諸事情があってウロウロしていたらmizzyさんに声をかけて頂き<br/>
-serverspecのステッカーを貰いました。</p>
-
-<iframe src="//instagram.com/p/edwTJepqky/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<p></p>
-
-<p>ついでに<a href="http://blog.kenjiskywalker.org/blog/2013/09/20/serverspec-with-cron/">本番環境でのserverspecの運用方法</a>の話もしました。<br/>
-そしたらひろせおじさんがやってきて、ドラクエ氏が<br/>
-買ってきたばかりのiPhone5sを見せびらかしていて、<br/>
-いつの間にかスーパーなおじさんだらけでした。</p>
-
-<p>つらつら書きましたが、どうしようもないことでも発信したり<br/>
-発表したりすると、色んな人たちと話すきっかけができておすすめです。</p>
-
-<p>地域でやってるPerlのコミュニティ、<a href="http://atnd.org/events/43853">Hachioji.pm</a>や<a href="http://atnd.org/events/43990">Chiba.pm</a>はとてもフランクな場で<br/>
-Perlじゃないことを話している人も多いので、何かを発表してみる<br/>
-というチャレンジをするのに最適な環境だと思います。</p>
-
-<p>やらないことや、冷めること、諦めることに理由を付けるのは簡単なので、<br/>
-何も持てるものはなくても現状に抗ってみるってことが大切なのかな、<br/>
-と思う今日このごろです。</p>
-
-<h4>前夜祭</h4>
-
-<iframe src="//instagram.com/p/ecPGhlpqhm/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<p></p>
-
-<blockquote><p>らすた麺、麺硬め、ライス小</p></blockquote>
-
-<h4>1日目</h4>
-
-<iframe src="//instagram.com/p/ejvn-KJqsO/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<blockquote><p>pushし損ない。<br/>
-ラーメン、ノリまし、麺硬め、ライス中</p></blockquote>
-
-<h4>2日目</h4>
-
-<iframe src="//instagram.com/p/ehP9bQJquo/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<blockquote><p>ラーメン、ノリまし、麺硬め、油少なめ、ライス中</p></blockquote>
-
-<p>そろそろ塩分の摂取量とか考えよう。</p>
-
-<iframe class="embed-preview" src="http://gifboom.com/x/1c9c1116/embed_content" width="480" height="360" frameborder="0" scrolling="no"></iframe>
-
-
-<script async src="http://medias.gifboom.com/static/embed.1.js" charset="utf-8"></script>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/25/fluent-plugin-cloudwatch-1-2-4/">Fluent-plugin-cloudwatch 1.2.4 Release</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-25T23:06:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch">https://rubygems.org/gems/fluent-plugin-cloudwatch</a></h3>
-
-<p>リリースしました。<br/>
-CloudWatchのAPIが、値なしでレスポンス返してくることはよくあったのですが、<br/>
-リクエストに対してレスポンスが取得できずに詰まってしまう現象があり、<br/>
-その解決策としてtimeoutを追加しました。<br/>
-同現象でお悩みの方はバージョンアップをお願いいたします。</p>
-
-<blockquote><p>本件でアドバイスを頂いたfujiwaraさん有難うございます。</p></blockquote>
-
-<p>また、td-agentの<code>version 1.1.17</code>から正式に<code>configtest</code>が導入され<br/>
-設定に誤りがあった場合、エラー内容が出力され、<br/>
-<code>reload</code>、および<code>restart</code>が走らないようになっています。</p>
-
-<p>この変更により、運用中の設定ファイルの更新作業も楽しく行えるかと思います。</p>
-
-<p>合わせてアップデートをおすすめいたします。<br/>
-@repeatedly++</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/22/xslate-array/">Text::Xslateで配列</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-22T13:30:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>配列の要素数と配列の中身を渡したかっただけだったのに<br/>
-2時間ぐらい時間つかいました。<br/>
-<code>\@hoge</code>を<code>@hoge</code>で渡してたからだった。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -751,122 +469,53 @@ CloudWatchのAPIが、値なしでレスポンス返してくることはよく�
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env perl
+</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/httpd/conf/httpd.conf" do
+</span><span class='line'>  source "httpd.conf.erb"
+</span><span class='line'>  owner  "www"
+</span><span class='line'>  mode   0644
+</span><span class='line'>  notifies :run, "ruby_block[warn]", :immediately
+</span><span class='line'>end
 </span><span class='line'>
-</span><span class='line'>use strict;
-</span><span class='line'>use warnings;
-</span><span class='line'>use utf8;
-</span><span class='line'>use 5.010; 
+</span><span class='line'>ruby_block "warn" do
+</span><span class='line'>  block do
 </span><span class='line'>
-</span><span class='line'>use Text::Xslate;
-</span><span class='line'>use Data::Section::Simple;
+</span><span class='line'>    # httpdが起動中であればログ出力
+</span><span class='line'>    unless `pgrep httpd` == ""
+</span><span class='line'>      print &lt;&lt;"EOS"
 </span><span class='line'>
-</span><span class='line'>my @hoge = qw/foo bar baz hage/;
+</span><span class='line'>\e[33m===================================================================
+</span><span class='line'>recipe:apache
 </span><span class='line'>
-</span><span class='line'>my $vpath = Data::Section::Simple-&gt;new()-&gt;get_data_section();
-</span><span class='line'>my $tx = Text::Xslate-&gt;new(path =&gt; [$vpath]);
+</span><span class='line'>apacheが起動中です。
+</span><span class='line'>新しい設定を反映させるためにはapahceを再起動してください。
+</span><span class='line'>===================================================================\e[0m
+</span><span class='line'>EOS
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>  action :nothing
+</span><span class='line'>  notifies :start, "service[httpd]"
+</span><span class='line'>end
 </span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>my $template = $tx-&gt;render("template.tx",
-</span><span class='line'>    {
-</span><span class='line'>        hage =&gt; \@hoge
-</span><span class='line'>    }
-</span><span class='line'>);
-</span><span class='line'>
-</span><span class='line'>printf $template;
-</span><span class='line'>
-</span><span class='line'>1;
-</span><span class='line'>
-</span><span class='line'>__DATA__
-</span><span class='line'>
-</span><span class='line'>@@ template.tx
-</span><span class='line'>
-</span><span class='line'>: for $hage -&gt; $item {
-</span><span class='line'>   item is &lt;: $item :&gt;
-</span><span class='line'>   Number is &lt;: $~item.index :&gt;
-</span><span class='line'>
-</span><span class='line'>: }</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>service "httpd" do
+</span><span class='line'>  action :enable
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>ちなみにRubyだと</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
-</span><span class='line'>
-</span><span class='line'>require 'erb'
-</span><span class='line'>
-</span><span class='line'>hoge = ["foo", "bar", "baz", "hage"]
-</span><span class='line'>hage = 1
-</span><span class='line'>
-</span><span class='line'>puts ERB.new(DATA.read).result(binding)
-</span><span class='line'>
-</span><span class='line'>__END__
-</span><span class='line'>&lt;% hoge.each_with_index do |h, i| %&gt;item is &lt;%= h %&gt;
-</span><span class='line'>number is &lt;%= i %&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li><code>/etc/httpd/conf/httpd.conf</code> が更新される</li>
+<li><code>notifies :run, "ruby_block[warn]"</code>で<code>ruby_block</code>を実行</li>
+<li><code>ruby_block</code>内でミドルウェアが起動中かどうかRubyのコードで条件分岐</li>
+<li>起動中であればログを出力</li>
+<li><code>ruby_block</code>で<code>notifies :start, "service[httpd]"</code>を実行、ミドルウェアの起動を行う</li>
+</ol>
 
 
-<p>こんな感じでした。<br/>
-<code>$~item.index</code>と<code>each_with_index</code>を覚えました。</p>
+<p><code>ruby_block</code>は実行順序が最後になるというChefの設計上、<br/>
+<code>notifies :start, "service[httpd]"</code>という方法を選択しました。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my @list = (1, 4, 3, 2, 4, 6);
-</span><span class='line'>say $#list;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>$#</code>、趣きがありますね。<br/>
-Perl、どこか東山文化の風を感じますね。</p>
-
-<h3>追記</h3>
-
-<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> hage =&gt; に @ hoge を渡すと、展開されるから例えば @ hoge が ( dame, leon, bar) だとすると、( hage =&gt; &#39;dame&#39;, leon =&gt; &#39;bar&#39;) になるお</p>&mdash; soh335 (@soh335) <a href="https://twitter.com/soh335/statuses/381652207138902016">September 22, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-
-
-<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 合ってるよ。あと$<a href="https://twitter.com/search?q=%23%E3%81%AF%E8%AA%AD%E3%81%BF%E3%81%A5%E3%82%89%E3%81%84%E3%81%AE%E3%81%A7%E9%85%8D%E5%88%97%E3%81%AE%E8%A6%81%E7%B4%A0%E6%95%B0%E3%82%92%E6%B1%82%E3%82%81%E3%82%8B&amp;src=hash">#は読みづらいので配列の要素数を求める</a> scalar @ foo を使うほうがいいですね</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/statuses/381653503489220608">September 22, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-
-
-<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 基本リファレンスでやってれば解決</p>&mdash; 柴崎優季 (@shiba_yu36) <a href="https://twitter.com/shiba_yu36/statuses/381652730680332289">September 22, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>リファレンスで渡さないとハッシュ化します。おぼえました。<br/>
-要素数求める場合は<code>scalar(@hoge)</code>使います。<code>scalar()</code>おぼえました。<br/>
-ありがとうございます。</p>
-
-<p>某面白法人、YAPCスピーカーが多くて大変素晴らしい環境です。<br/>
-某はてな社、YAPCスピーカーが多くて大変素晴らしい環境です。</p>
+<p>もう少しマシな方法があれば是非とも教えてください。<br/>
+Chefは何か込み入ったことをしようとすると色々と工夫しないといけないのが難点ですね。</p>
 </div>
   
   
@@ -879,7 +528,7 @@ Perl、どこか東山文化の風を感じますね。</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/09/20/serverspec-with-cron/">本番環境でのserverspecの運用方法</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/03/27/get-extension-list/">対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々</a></h1>
     
     
       <p class="meta">
@@ -895,82 +544,313 @@ Perl、どこか東山文化の風を感じますね。</p>
   
 
 
-<time datetime="2013-09-20T02:18:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-27T03:00:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><ul>
-<li>ミドルウェアの管理はchefを使用している</li>
-<li>サーバへのデプロイはcapistranoを使用している</li>
-</ul>
-
-
-<p>上記2点が当てはまる場合、serverspecの使い方として</p>
+  <div class="entry-content"><p>bashの奥は深い。</p>
 
 <ul>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/31/serverspec-attribute/">serverspecでchefのjsonを読み込む / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について / さよならインターネット</a></li>
+<li>ext-list.sh</li>
 </ul>
 
-
-<p>上記エントリーを参考にして頂ければchef + serverspecである程度の<br/>
-インフラストラクチャの構築とテストが行えるかと思います。</p>
-
-<p>また、こちらのエントリーのように、chefのrecipeからserverspecのテスト自体を<br/>
-生成してしまうという素晴らしいアイデアもあります。最高ですね。</p>
-
-<h4><a href="http://tily.hatenablog.com/entry/2013/07/21/150404">Chef のレシピから serverspec のテストを自動生成する chef-serverspec-handler という gem を作ってみた</a></h4>
-
-<p>で、結局使えるのはわかったのですが、どのように運用すべきか<br/>
-というところは各所で試行錯誤中かと思います。<br/>
-一例として、基礎的な内容ではありますが、現在試している内容を<br/>
-記載してみようと思います。</p>
-
-<h2>前提条件</h2>
-
-<blockquote><p>capistranoを実行するサーバは、対象の全サーバのrootアカウントに<br/>
-鍵認証でノーパスワードでログインが可能である</p></blockquote>
-
-<h2>chefをcapistranoでdeploy時にテスト</h2>
-
-<p>capistranoの設定にserverspecの項目を増やすことで<br/>
-chef-soloなどが実行された後に、serverspecが実行されます。<br/>
-これは台数が多いと時間が結構かかるので良し悪しがあるかと思います。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  desc "run serverspec"
-</span><span class='line'>  task :run_serverspec do
-</span><span class='line'>    `cd /root/chef/ ; rake`
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>dir=`pwd`
+</span><span class='line'>list=`find ${dir} -type f -perm 755`
+</span><span class='line'>
+</span><span class='line'># not = !
+</span><span class='line'># list=`find ${dir} -type f ! -perm 755`
+</span><span class='line'>
+</span><span class='line'>for file in $list
+</span><span class='line'>do
+</span><span class='line'>    filename=`basename $file`
+</span><span class='line'>    ext=${filename##*.}
+</span><span class='line'>    ext_list=("${ext_list[@]}" ${ext})
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>cronで定時実行</h2>
+<p>などというスクリプトを作成しておいて<br/>
+確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
 
-<p><code>/etc/cron.d/serverspec</code></p>
+<p><strong>/usr/local/Cellar</strong>で実行したら</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0 */1 * * * root cd /root/chef/ ; rake 1&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% sh /tmp/ext-list.sh | tail -n10
+</span><span class='line'>   5 1
+</span><span class='line'>   5 6
+</span><span class='line'>   6 0
+</span><span class='line'>   7 py
+</span><span class='line'>  10 test
+</span><span class='line'>  11 sh
+</span><span class='line'>  16 pl
+</span><span class='line'>  27 result
+</span><span class='line'>  62 so
+</span><span class='line'> 116 la
+</span><span class='line'>['-']% </span></code></pre></td></tr></table></div></figure>
 
 
-<p>正常終了であればログを破棄、エラーが出力された際には<br/>
-メールにて通知するようにします。</p>
+<p>こんな感じの結果になりました。</p>
 
-<h2>とても簡単なことですが</h2>
+<h3>便利コマンド</h3>
 
-<p>取り敢えずの導入としては、上記２つの方法を実践しています。<br/>
-新しくミドルウェアを追加した際にテストがコケたりするので<br/>
-なかなか面白いです。</p>
+<ul>
+<li>basename</li>
+</ul>
 
-<p>serverspecでどのような監視をしているかなど話し合うの面白そうですよね。</p>
 
-<p>以上、ご参考になれば幸いです。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% basename /usr/local/bin/zsh
+</span><span class='line'>zsh
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>dirname</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% dirname /usr/local/bin/zsh
+</span><span class='line'>/usr/local/bin
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>シャープ</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge##*.}
+</span><span class='line'>so
+</span><span class='line'>['-']% echo ${hoge#*.}
+</span><span class='line'>0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>パーセント</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/26/immutableinfra-1/">Immutable Infrastructure Conference #1 に参加してきた #immutableinfra</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T00:54:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>とてもおもしろかったです。ありがとうございました！</p>
+
+<p>以下個人メモ</p>
+
+<h3>Chef</h3>
+
+<ul>
+<li>手順書の代わりにコードにする</li>
+<li>Communityモノは必要以上に汎用性を持たせて複雑化していたり<br/>
+include_recipeなど必要以上に密結合していたりするので基本的に利用しない</li>
+<li>複雑なコード、複雑な処理にならないようにする</li>
+<li>ShellScriptやSalt、Ansibleなどで問題が解決できるなら何でもいい</li>
+</ul>
+
+
+<h3>Golden Image</h3>
+
+<ul>
+<li>同じ環境のサーバが簡単にできる</li>
+<li>Golden Imageを常にゼロからつくれることが前提</li>
+<li>Golden Imageに変更があればドキュメントを更新する？</li>
+</ul>
+
+
+<h3>サービスを最新の状態にする</h3>
+
+<ul>
+<li>pull？</li>
+<li>rsync？</li>
+<li>ミドルウェアの変更は手動？</li>
+</ul>
+
+
+<h3>機能毎のサーバの理想型</h3>
+
+<ul>
+<li>インスタンスが勿体無いという理由で複数の機能を持たせている</li>
+<li>機能毎にインスタンスが分かれていれば疎結合で柔軟性を持たせることができる</li>
+<li>インスタンスに障害が発生した時に影響を最小限にしつつ、<br/>
+容易に同じインスタンスが作成できる</li>
+</ul>
+
+
+<h3>2014年にも存在している問題</h3>
+
+<ul>
+<li>秘伝のタレ化したサーバ</li>
+<li>更新されることのないサーバ構築手順書</li>
+<li>何が動いているかわからないサーバ</li>
+<li>担当者しかわからない構成</li>
+<li>入り組んだシンボリックリンク</li>
+<li>謎のパーミッション</li>
+<li>誰も知らないプロセス</li>
+</ul>
+
+
+<h3>Immutable Infrastructureで解決できるか</h3>
+
+<ul>
+<li>サーバは最小限の機能だけを持たせる</li>
+<li>機能が最小限なので何が動いているか理解しやすい</li>
+<li>サーバは最小限の機能だけを持つので<br/>
+サーバに問題があった場合、少ない工数で新しいサーバを起動できる</li>
+</ul>
+
+
+<h3>課題</h3>
+
+<ul>
+<li>サーバの状態のバージョニング管理(Docker以外で)</li>
+<li>メトリクスデータの管理方法(Host毎ではなくRole毎に管理する方法の確立)<br/>
+(@mirakuiさんとちょっと話したんですが、上手く動けばまたちゃんと書きます)</li>
+<li>機能毎のサーバとは言うものの、サーバが増えれば管理コストが増えたり<br/>
+費用が増えたりするので、そういうところに投資できる<br/>
+一部の余裕のある企業だけが導入できる話であって基本的な企業では不可能なのでは</li>
+</ul>
+
+
+<p>Immutable Infrastructure、海外だと<a href="http://techblog.netflix.com/2012/06/asgard-web-based-cloud-management-and.html">Netflix社</a>が圧倒的な感じでやっていて<br/>
+他にも<a href="http://www.slideshare.net/AmazonWebServices/arc205-28615575">こんな話</a>などちょくちょく見つかるけど、<br/>
+まだまだ色々試されている段階だと思う。</p>
+
+<p>個人的には、便利にする為の機械を扱う為に、1byteでも間違えると<br/>
+サービスが落ちたりデータが損失したりするのは原始的だと思う。<br/>
+本当なら影響の度合いによって、作業する前に祈りとか踊りとかする必要がある。<br/>
+そうすることで作業自体の重要性を理解して、集中することができる。</p>
+
+<p>しかし、現実はそんなことをしていたらサービスはどんどん腐っていく。</p>
+
+<p>例えば靴のことを考えると、<br/>
+靴を24時間365日履いて歩き続けたらどこかで問題が出ると思う。</p>
+
+<ul>
+<li>靴紐が解ける</li>
+<li>靴底に穴が開く</li>
+</ul>
+
+
+<p>その時に歩くのを止めるという選択肢がない場合</p>
+
+<ul>
+<li>別の靴を履く</li>
+<li>靴紐がほどけた時にすぐに結べるようにしておく</li>
+<li>靴底が簡単に外せて新品のものに簡単に交換できるとか</li>
+</ul>
+
+
+<p>そういうことを考える。</p>
+
+<p>技術によって、選択肢が増えた2014年の現在<br/>
+どのようにサービスを発展させて、運用を楽にするか考える良いタイミングだと思う。</p>
+
+<p>良いタイミングだけど、歴史を紐解くと<br/>
+革新的な出来事は常に一人の天才が行ってきたことで<br/>
+群衆はそれに感動する場合が多い。</p>
+
+<p>天才にはなれないけどああだこうだやるのはできるので、<br/>
+ああだこうだしていきたい。</p>
+
+<p>歴史を紐解くの紐と靴のくだりの紐は結果的に踏んだ感じになっただけです。</p>
 </div>
   
   
@@ -990,66 +870,7 @@ chef-soloなどが実行された後に、serverspecが実行されます。<br/
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
   
 </aside>
 

@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="run_listを渡してるところを探した。
+といってもほとんど@soh335が教えてくれた。さすが一流エンジニアだ。 /chef/lib/chef/run_list.rb 1
+2
+3
+4
+5
+6
+7
+8
+def expansion_for_data_source(environment, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/posts/30/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/17/chef-run_list/">Chefの中身読んで、外部からrun_listを利用する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T00:29:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>run_listを渡してるところを探した。<br/>
+といってもほとんど<a href="https://twitter.com/soh335">@soh335</a>が教えてくれた。さすが一流エンジニアだ。</p>
+
+<p><code>/chef/lib/chef/run_list.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def expansion_for_data_source(environment, data_source, opts={})
+</span><span class='line'>  case data_source.to_s
+</span><span class='line'>  when 'disk'
+</span><span class='line'>    RunListExpansionFromDisk.new(environment, @run_list_items)
+</span><span class='line'>  when 'server'
+</span><span class='line'>    RunListExpansionFromAPI.new(environment, @run_list_items, opts[:rest])
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここが怪しかった。</p>
+
+<p><code>/chef/spec/unit/run_list_spec.rb</code></p>
+
+<p>ここ見たら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe "from disk" do
+</span><span class='line'>  it "should load the role from disk" do
+</span><span class='line'>    Chef::Role.should_receive(:from_disk).with("stubby")
+</span><span class='line'>    @run_list.expand("_default", "disk")
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  it "should log a helpful error if the role is not available" do
+</span><span class='line'>    Chef::Role.stub!(:from_disk).and_raise(Chef::Exceptions::RoleNotFound)
+</span><span class='line'>    Chef::Log.should_receive(:error).with("Role stubby (included by 'top level') is in the runlist but does not exist. Skipping expand.")
+</span><span class='line'>    @run_list.expand("_default", "disk")
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんなん書いてあった。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
+</span><span class='line'>
+</span><span class='line'>require 'rubygems'
+</span><span class='line'>require 'pp'
+</span><span class='line'>require 'json'
+</span><span class='line'>require 'chef/run_list'
+</span><span class='line'>
+</span><span class='line'>json_file = "./json/yoshimasa.json"
+</span><span class='line'>
+</span><span class='line'>host_config = JSON.parse(File.read(json_file))
+</span><span class='line'>
+</span><span class='line'>Chef::Config[:cookbook_path] = '/root/chef/cookbook/'
+</span><span class='line'>Chef::Config[:role_path] = '/root/chef/json/'
+</span><span class='line'>
+</span><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
+</span><span class='line'>
+</span><span class='line'>p run_list
+</span><span class='line'># #&lt;Chef::RunList:0x7f6fb8732510 @run_list_items=[#&lt;Chef::RunList::RunListItem:0x7f6fb87323d0 @type=:recipe, @version=nil, @name="nginx"&gt;, #&lt;Chef::RunList::RunListItem:0x7f6fb87323a8 @type=:role, @version=nil, @name="hoge"&gt;]&gt;
+</span><span class='line'>
+</span><span class='line'>pp run_list.expand("_default", "disk")
+</span><span class='line'># #&lt;Chef::RunList::RunListExpansionFromDisk:0x7f6fb8732100
+</span><span class='line'>#  @applied_roles={"hage"=&gt;true, "hoge"=&gt;true},
+</span><span class='line'>#  @default_attrs={},
+</span><span class='line'>#  @environment="_default",
+</span><span class='line'>#  @missing_roles_with_including_role=[],
+</span><span class='line'>#  @override_attrs={},
+</span><span class='line'>#  @recipes=["nginx", "postfix", "yum"],
+</span><span class='line'>#  @run_list_items=[],
+</span><span class='line'>#  @run_list_trace=
+</span><span class='line'>#   {"role[hoge]"=&gt;["role[hage]", "recipe[postfix]", "recipe[yum]"],
+</span><span class='line'>#    "top level"=&gt;["recipe[nginx]", "role[hoge]"]},
+</span><span class='line'>#  @source=nil&gt;
+</span><span class='line'>
+</span><span class='line'>p run_list.expand("_default", "disk").recipes
+</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでrun_listを読める。何が便利かっていうと</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "role[hage]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[postfix]", "recipe[yum]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>p run_list.expand("_default", "disk").recipes
+</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という感じにroleの中のrun_listを読み込んでrecipesに突っ込んでくれる。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-13T13:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>serverspec use chef json file and cookbooks.<br/>
+serverspec take run_list of <code>host.json</code>,<br/>
+serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
+
+<hr />
+
+<h1>tools</h1>
+
+<ul>
+<li><a href="http://serverspec.org/">serverspec</a></li>
+<li><a href="http://www.opscode.com/chef/">chef</a></li>
+</ul>
+
+
+<p>The configurations, please read at each document.</p>
+
+<hr />
+
+<h1>howto</h1>
+
+<ul>
+<li><h2>chef cookbooks</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/recipes/default.rb</code>
+<code>/root/chef/cookbooks/{bar}/recipes/default.rb</code><br/>
+&hellip;</p></li>
+<li><h2>serverspec file</h2>
+
+<p><code>/root/Rakefile</code><br/>
+<code>/root/spec/spec_helper.rb</code><br/>
+<code>/root/spec/{host_a}/host_a_mysql_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_a}/host_a_redis_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_b}/host_b_redis_spec.rb</code>   # host b specific test</p></li>
+<li><h2>test file</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/spec/default_spec.rb</code><br/>
+<code>/root/chef/cookbooks/{bar}/spec/default_spec.rb</code></p></li>
+</ul>
+
+
+<p> exp)<br/>
+ <code>/root/chef/cookbooks/redis/spec/setting_spec.rb</code><br/>
+ <code>/root/chef/cookbooks/redis/spec/process_spec.rb</code></p>
+
+<h2><code>spec_helper.rb</code></h2>
+
+<p><a href="http://serverspec.org/advanced_tips.html">Reference</a></p>
+
+<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<h2><code>Rakefile</code></h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=Rakefile'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>this Rakefile read <code>/root/chef/json/*.json</code> and <code>/root/chef/spec/host_name/*_spec.rb</code></p>
+
+<p>Please match it with your environment.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>json_files = Dir::glob("./json/*.json")
+</span><span class='line'> 
+</span><span class='line'>Chef::Config[:cookbook_path] = './cookbook/'
+</span><span class='line'>Chef::Config[:role_path]     = './json/'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>serverspec tests it look run_list of <code>host.json</code></p>
+
+<p>exp</p>
+
+<p><code>/root/chef/cookbooks/postfix/spec/default_spec.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require "/root/chef/spec/spec_helper"
+</span><span class='line'>
+</span><span class='line'>describe package('postfix') do
+</span><span class='line'>    it { should be_installed }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe service('postfix') do
+</span><span class='line'>    it { should be_enabled }
+</span><span class='line'>    it { should be_running }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe port(25) do
+</span><span class='line'>    it { should be_listening }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># log file
+</span><span class='line'>describe file('/var/log/maillog') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe file('/etc/postfix/main.cf') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe file('/etc/postfix/master.cf') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://gifzo.net/BIpiApSbg1E.gif" alt="http://gifzo.net/BIpiApSbg1E.gif" /></p>
+
+<hr />
+
+<p>英語でちゃんと書こうと思ったけど<br/>
+取り敢えず出してあとでブラッシュアップする感じにしようと思った。<br/>
+<code>Rakefile</code>いじくるだけで<code>chef</code>の<code>host.json</code>のrun_list見て<br/>
+そのcookbookのspecディレクトリ見てテスト回してくれる。<br/>
+roleとかも考慮されてるし、一括で入れられないテストについては<br/>
+<code>/root/chef/spec/hostname/hoge_spec.rb</code>に入れればよしなに読み込んでくれる。<br/>
+便利っぽい。</p>
+
+<p>便利アピール海外にもしようと思ったら全然英語書けなくて頑張ろうって思った</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/readability-hatebu-ifttt/">IFTTTを使ってReadabilityでFavったエントリーをはてブする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T22:10:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://podcast.bulknews.net/">ep15: After Google Reader, DIY Blogging, The Go language (typester)</a><br/>
+を聞いてて、<a href="http://ifttt.com/">IFTTT</a>使って<a href="http://www.readability.com/">Readability</a>と<a href="http://b.hatena.ne.jp/">はてブ</a>の連携するの思い出した。</p>
+
+<p><a href="http://weblog.bulknews.net/post/13811211811">快適に「あとで読む」ための環境 - TATSUHIKO MIYAGAWA&rsquo;S BLOG</a><br/>
+このmiyagawaさんのエントリーを参考にして設定した。</p>
+
+<p>やっていることは全部同じで、Gmailの設定して、PINコード受けて登録して
+<img src="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" alt="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" /></p>
+
+<p>こんな感じで本文にURLが入るようにして<br/>
+<code>To address</code>にはてブの投稿用のメールアドレスを指定する。</p>
+
+<p>この設定を入れると</p>
+
+<p>ReadabilityでFav => はてブに登録</p>
+
+<p>されるようになる。<br/>
+ライフチェインジングだ。</p>
+
+<p>長そうだな、後で読みたいなって思ったものは片っ端からReadabilityに突っ込む。<br/>
+突っ込んだエントリーを移動中とか合間の時間に読んで、<br/>
+良かったものははてブに登録するということをしていたので、<br/>
+それがReadability側で完結するのとても捗る。おすすめです。</p>
+
+<p>また、画像の一部を黒でマスキングすると昭和のエロ本みたいで趣が出る。<br/>
+こちらも合わせておすすめしたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/hisaichi-tweet/">earthquake.gemプラグイン３つ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T00:07:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://hisaichi5518.hatenablog.jp/entry/2013/07/09/111503">Twitterで言いたいけど、言えないようなツイートを楽に言えるようにした。 - パルカワ２</a></p>
+
+<p>このearthquake.gemのpluginつくった。<br/>
+<a href="https://gist.github.com/kenjiskywalker/5955552">https://gist.github.com/kenjiskywalker/5955552</a></p>
+
+<p>この前日光でハッカソンしようとか話してて<br/>
+結局つくりあげられなくて、メシ食う前の３０分でつくったプラグインもある。</p>
+
+<p><a href="https://gist.github.com/kenjiskywalker/5787351">https://gist.github.com/kenjiskywalker/5787351</a><br/>
+POSTを逆にするヤツ。</p>
+
+<p><a href="https://gist.github.com/kenjiskywalker/5787448">https://gist.github.com/kenjiskywalker/5787448</a><br/>
+POSTをランダムに並べ替えるヤツ。</p>
+
+<p>もう少し生産的なものをつくりたい</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-30T02:47:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今流行りの<a href="http://serverspec.org/">serverspec</a>、みなさんどうやって活用しているのでしょうか。<br/>
+インフラもCIだ！みたいな話最近よく聞くので、CIといえばJenkins！<br/>
+的な感じで試してみました。</p>
+
+<p>ほんのさわり程度やってみたところで、工夫が必要だと感じたのは<br/>
+Jenkinsをどうやって回すか。という根本的なところです。</p>
+
+<p>Jenkinsのアカウントをsudo許可するのか、別アカウントを用意するのか、<br/>
+もうなんだったらルート権限付与してしまうのか。色々方法はあるかと思います。</p>
+
+<p>ほんのさわり程度ですが、良さそうだなと感じたのは<br/>
+<a href="https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin">Publish Over SSH Plugin</a>このプラグインを利用して<br/>
+NOPASS sudo権限のあるアカウントを作成し、秘密鍵を設定して<br/>
+Jenkins用のアカウントとしてSSHログインさせてテストを回すのが良いかなと。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/ea0d7aa2ae77caf8623cead6fdfa522e.png" alt="https://dl.dropboxusercontent.com/u/5390179/ea0d7aa2ae77caf8623cead6fdfa522e.png" /></p>
+
+<p>ほんのさわり程度なので、もっと良い方法ありそうですね。</p>
+
+<p>あと<a href="https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin">IRC Plugin</a>これ、動かなくて<br/>
+どっちかっていうとIRCでserverspecのテストの結果チラチラ見たいんんだよぉ〜<br/>
+むしろその為にやってたんだよぉ〜ってなって、3時間ぐらいああだこうだやってて<br/>
+なんで〜！！！ってなってたけど</p>
+
+<ul>
+<li><a href="http://ikasama.hateblo.jp/entry/2011/12/21/033421">Jenkins casual notification using Remote access API / 烏賊様</a></li>
+</ul>
+
+
+<p>ikasam_aさんのおかげでできるようになった！！！ありがたい！！！<br/>
+もうちょっと触っていったら色々やりたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="31">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="29">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

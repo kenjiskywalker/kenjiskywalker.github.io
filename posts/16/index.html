@@ -9,13 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Jenkins氏、存在は知ってるけど自分で使ったことなかったので
-取り敢えずインストールしてみた。 さくらVPSだとグローバル経由でアクセスすることになって
-誰でも見れちゃうので悲しい感じになる。
-ということでVPNを貼って内部で接続しに行く。 1
-2
-3
-4 &hellip;">
+  <meta name="description" content="AWSとLVMを利用することによって、オンラインで
+EBSをアタッチして、pvmoveでデータを新しいEBSへ移行し
+元のEBSを切り離すことができる。 参考 redhat カスタマーポータル - 6 5.4. 論理ボリュームからのディスクの削除 pvmoveは同一VG内の空きPVに移動するのか。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -58,19 +54,7 @@
 </hgroup>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.kenjiskywalker.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+  <nav role="navigation"><ul class="main-navigation">
   <li><a href="/">Goodbye The Internet.</a></li>
 </ul>
 
@@ -85,7 +69,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/01/11/lvm-pvmove/">Pvmoveを利用して物理ディスクのデータを別の物理ディスクへオンラインで移設する</a></h1>
     
     
       <p class="meta">
@@ -101,52 +85,38 @@
   
 
 
-<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-01-11T13:31:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
-取り敢えずインストールしてみた。</p>
+  <div class="entry-content"><p>AWSとLVMを利用することによって、オンラインで<br/>
+EBSをアタッチして、pvmoveでデータを新しいEBSへ移行し<br/>
+元のEBSを切り離すことができる。</p>
 
-<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
-誰でも見れちゃうので悲しい感じになる。<br/>
-ということでVPNを貼って内部で接続しに行く。</p>
+<h2>参考</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
-</span><span class='line'>| sakura | --- vpn --- | MBA |
-</span><span class='line'>+--------+             +-----+
-</span><span class='line'>[10.9.0.1]             [10.9.0.6]
-</span></code></pre></td></tr></table></div></figure>
+<p><a href="https://access.redhat.com/site/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/disk_remove_ex.html">redhat カスタマーポータル - 6 5.4. 論理ボリュームからのディスクの削除</a></p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>pvmoveは同一VG内の空きPVに移動するのか。ということは旧ディスクから新ディスクへの移行は 1.新ディスクをLVMフォーマットで作成して 2.新ディスクをPV化して 3.旧ディスクがアサインされいるVGにvgexendでPVを追加して 4.pvmoveか</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/420484347779489792">2014, 1月 7</a></blockquote>
 
 
-<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
-
-<h3>Jenkins氏</h3>
-
-<ul>
-<li>/etc/sysconfig/jenkins</li>
-</ul>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>として、自分自身のアクセスだけ許可</p>
+<blockquote class="twitter-tweet" lang="ja"><p>pvremoveするときはVGにアサインされているからまずvgreduceで対象のPVを切り離してからpvremoveか。当たり前っちゃあ当たり前か</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/420486502531874816">2014, 1月 7</a></blockquote>
 
-<h3>nginx氏</h3>
 
-<ul>
-<li>/etc/nginx/conf.d/hoge.conf</li>
-</ul>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+
+<p>とのことです。</p>
+
+<h2>検証環境</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -159,433 +129,21 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
-</span><span class='line'>    root /home/skywalker/www;
+</pre></td><td class='code'><pre><code class=''><span class='line'>- ルートパーティション
+</span><span class='line'>/dev/xvda1 16GB 
 </span><span class='line'>
-</span><span class='line'>    location /{
-</span><span class='line'>        proxy_pass http://localhost:8080;
-</span><span class='line'>        allow 10.9.0.0/16;
-</span><span class='line'>        deny all;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
-
-<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
-
-<ul>
-<li>/usr/local/etc/dnsmasq.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
-<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
-<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
-
-<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/26/ajisai-2013/">2013 / あじさい / 鎌倉</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-26T00:47:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>あかっぽいあじさい</h3>
-
-<p><img src="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" alt="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" /></p>
-
-<h3>あおっぽいあじさい</h3>
-
-<p><img src="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" alt="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" /></p>
-
-<p>一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。<br/>
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし<br/>
-家で見ると７割ぐらいピント合ってなくて面白い。</p>
-
-<p>確実性求めすぎない方が心に余裕生まれる気がする。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/18/reserved-instances/">AWSのリザーブドインスタンスについて理解していなかったので理解した</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-18T15:21:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="http://aws.amazon.com/jp/ec2/reserved-instances/">Amazon EC2 リザーブドインスタンス</a></h2>
-
-<p>先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで<br/>
-割り引いてもらえるサービス。</p>
-
-<p>詳しくはこちら</p>
-
-<h4><a href="http://aws.typepad.com/aws_japan/2011/12/additional-reserved-instance-options-for-amazon-ec2-.html">【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加</a></h4>
-
-<p>古い情報なので値段など変更されている場合があるので<br/>
-あくまで参考までに。</p>
-
-<h4>リザーブドインスタンスの種類</h4>
-
-<ul>
-<li>軽度使用(Light)  RI</li>
-<li>中度使用(Medium) RI</li>
-<li>重度使用(Heavy)  RI</li>
-</ul>
-
-
-<h4>何が違うの？</h4>
-
-<blockquote><p>15%以下:          オンデマンドインスタンス<br/>
-15% - 40%:        ライトユース・リザーブドインタンス<br/>
-40%-80%:          ミディアムユース・リザーブドインタンス<br/>
-80%以上:          ヘビーユース・リザーブドインタンス</p></blockquote>
-
-<p>上のパーセンテージは年間で使用するパーセント。<br/>
-雑な計算をすると、365日中の15%だから、54.75日。<br/>
-<code>54.75日以下</code>しか使わない場合はリザーブドインスタンスの方が損をしてしまう。<br/>
-<code>15%以上(54.75) - 40%以内(146日)以内</code>であれば、軽度使用RIを使った方がお得。<br/>
-どれぐらいお得かは参考ページに記載されている。</p>
-
-<p>取り敢えず2ヶ月以上使う予定があれば軽度使用で安くなる。<br/>
-ただ当たり前だけどインスタンスサイズ変更できないので<br/>
-カジュアルにスケールアップすることができなくなる。<br/>
-EC2が単体でスケールアウトができる構成じゃない場合つらくなる可能性ある。<br/>
-不要になったRIはマーケットプレイスで販売もできるらしいけど<br/>
-今はまだ米国専用って感じっぽい。</p>
-
-<p>なにはともあれ選択ができるっていうのはありがたいことだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/05/daijinjyaten/">大神社展行ってきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-05T23:57:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg" alt="https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg" /></p>
-
-<h2><a href="http://daijinja.jp/">国宝 大神社展</a></h2>
-
-<p>神道、基本アニミズム信仰だから仏教と違って<br/>
-神を象ることはないんだけど、祀ることに関するものが色々あった。</p>
-
-<p>色々あったけどどれも地味だったからあんまり面白くなかった。<br/>
-そもそも神道が地味だからそんなもんだと思う。</p>
-
-<p>秀吉の字がめちゃくちゃ汚いとか、空海の字がめちゃめちゃ綺麗だとか<br/>
-そういう感じの面白さあんまりなかった。最終日に行ったから<br/>
-人多くてそんなにちゃんと見なかったのが原因だと思う。</p>
-
-<p>いずれにせよ原始的な宗教に変わりはないから<br/>
-それはすごいなーって思った。<br/>
-仏教、大乗仏教になって仏像とか彫っちゃってみんな好き勝手やりだしたけど<br/>
-本来は神道みたいな地味なもんだったと思う。</p>
-
-<p>隣りでやってた<a href="http://gj2013.jp/">グレートジャーニー人類の旅</a>が面白かった。<br/>
-カミさんが異常に干し首に執着してて気持ち悪かった。<br/>
-どうやって干し首つくったのか、みたいな映像熱心に見てた。</p>
-
-<p>関野さんがイヌイットの人たちと生活していた映像あって、<br/>
-セイウチの皮を綺麗に剥いで、捨てるものはなにもない。ってやってて<br/>
-ああいうのもっとちゃんとやった方が良いって思った。<br/>
-普段口にしてるもの、加工されてて死の実感ないのはよくない。<br/>
-けど実際やれって言われたらだいぶ厳しい。イソメもちょっと厳しい。</p>
-
-<p>NHKスペシャルで昔、<a href="http://www.nhk.or.jp/special/onair/110828.html">「日本人イヌイット　北極圏に生きる」</a>って番組やってて<br/>
-よくこんなところに暮らせるなーって思った。</p>
-
-<p>インカとかアマゾンとかで自然と共に生きるのと<br/>
-経済社会の中で生きるの、幸せとは〜とか考えた。</p>
-
-<p>最後に、人生とは旅なのかもしれない<br/>
-「life is journey」って言葉があって、在り来りかもしれないけど<br/>
-日々冒険だなって。</p>
-
-<p>関係ないけど与論島行きたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/22/chataromameoh/">「サードウェーブ！：サンフランシスコ周辺で体験した最新コーヒーカルチャー」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-22T23:36:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00CQW6XLK/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B00CQW6XLK&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=B00CQW6XLK&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00CQW6XLK" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>めちゃくちゃ面白くて、サラサラ〜って読んだ。<br/>
-会社、typester氏とかkameda氏とかSOMTD氏とかバリスタいて<br/>
-影響されて豆だけ持ってきて、飲む時は豆挽いてドリップしてるんだけど<br/>
-色々と良い感じなので、会社で豆挽いて飲むのおすすめしたい。</p>
-
-<p>私の行きつけの豆売ってるお店は<br/>
-横浜は白楽にある<a href="http://www.teracoffee.jp/">TERA COFFEE and ROASTER</a>。<br/>
-おじさんめちゃ良い人でどれも良い豆使ってて、<br/>
-エチオピア・ナチュラル最高で、近くまで行ったら<br/>
-是非足をはこんでほしいお店だ。</p>
-
-<p>コーヒー、淹れ方も色々あってこってくると色々と面白い。<br/>
-とかいって私は<a href="http://www.amazon.co.jp/gp/product/B000PK50QO/ref=as_li_qf_sp_asin_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=B000PK50QO&linkCode=as2&tag=13nightcrows-22">クレバーコーヒードリッパー</a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=B000PK50QO" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />で時間適当で<br/>
-スプーンで適当にまぜまぜして飲んでる。楽で良い。</p>
-
-<p>みんな忙しい感じだから、コーヒー飲んでゆっくりする時間つくると良さそう。</p>
-
-<h2>あわせてよみたい</h2>
-
-<p><a href="http://soh335.hatenablog.com/entry/2013/05/23/003124">サードウェーブ！ ： サンフランシスコ周辺で体験した最新コーヒーカルチャー - soh335 memo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/22/music-20130522/">音楽</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-22T00:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://bleep.com/release/43946-hvl-flats">Flats / HVL</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43946.jpg" alt="https://bleep.com/media/images/r/g/43946.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43967-pvgvn-black">Black / PVGVN</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43967.jpg" alt="https://bleep.com/media/images/r/g/43967.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43292-the-last-skeptik-thanks-for-trying">The Last Skeptik / Thanks For Trying</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43292.jpg" alt="https://bleep.com/media/images/r/g/43292.jpg" /></p>
-
-<p>どれも良かった</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/20/chef-databag/">Chefで公開したくないJSONデータを暗号化するためにDataBagsを利用してみた記録</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-20T18:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>ruby 1.8.7<br/>
-chef 11.4.4<br/>
-knife-solo_data_bag 0.3.2</p></blockquote>
-
-<p>2013/05/20 現在</p>
-
-<blockquote><p>knife-solo 0.2.0 では &ldquo;knife solo data bag&rdquo; は使えず<br/>
-<a href="https://github.com/thbishop/knife-solo_data_bag">https://github.com/thbishop/knife-solo_data_bag</a> こちらを利用</p></blockquote>
-
-<hr />
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://docs.opscode.com/essentials_data_bags.html">About Data Bags — Chef Docs</a></li>
-<li><a href="http://docs.opscode.com/essentials_data_bags_encrypt.html">Encrypt a Data Bag — Chef Docs</a></li>
-</ul>
-
-
-<h2>knife-solo_data_bagのインストール</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># gem install knife-solo_data_bag 
-</span><span class='line'># cd /root/chef/ ; pwd</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>暗号化用の鍵を用意</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># openssl rand -base64 512 &gt; encrypted_data_bag_secret</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>環境整備</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># mkdir /root/chef/data_bags
-</span><span class='line'># cat /root/.chef/knife.rb
-</span><span class='line'>cookbook_path '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path '/root/chef/data_bags'
-</span><span class='line'>encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret'
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のような感じでknifeの設定を整えます</p>
-
-<h2>data_bagをつくる</h2>
+</span><span class='line'>- EBS
+</span><span class='line'>/dev/xvdb  64GB EBS
+</span><span class='line'>
+</span><span class='line'>- RAID0用EBS
+</span><span class='line'>/dev/xvdc  16GB EBS
+</span><span class='line'>/dev/xvdd  16GB EBS
+</span><span class='line'>/dev/xvde  16GB EBS
+</span><span class='line'>/dev/xvdf  16GB EBS</span></code></pre></td></tr></table></div></figure>
+
+
+<p>xvdbに既存データが存在していており<br/>
+そのデータをmd127に移設する。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -620,60 +178,78 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 <span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#
-</span><span class='line'># knife solo data bag create data_hoge bag_hoge --secret-file ./encrypted_data_bags_secret
-</span><span class='line'>ERROR: RuntimeError: Please set EDITOR environment variable
-</span><span class='line'>#
-</span><span class='line'># export EDITOR=vim
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag create data_hoge bag_hoge --secret-file ./encrypted_data_bags_secret
-</span><span class='line'>{
-</span><span class='line'>    "id": "bag_hoge",
-</span><span class='line'>  "data": "bagbag"
-</span><span class='line'>}
-</span><span class='line'># 
-</span><span class='line'># cat /root/chef/data_bags/data_hoge/bag_hoge.json
-</span><span class='line'>{
-</span><span class='line'>  "data_bag": "data_hoge",
-</span><span class='line'>  "chef_type": "data_bag_item",
-</span><span class='line'>  "name": "data_bag_item_data_hoge_bag_hoge",
-</span><span class='line'>  "json_class": "Chef::DataBagItem",
-</span><span class='line'>  "raw_data": {
-</span><span class='line'>    "id": "bag_hoge",
-</span><span class='line'>    "data": {
-</span><span class='line'>      "iv": "++q0Yc6EHUu8bdAxb/Ekuw==\n",
-</span><span class='line'>      "version": 1,
-</span><span class='line'>      "encrypted_data": "ErOwQM7QzvSJavsHPQovjwmRk7egm6EOCvDz2cUMd0Y=\n",
-</span><span class='line'>      "cipher": "aes-256-cbc"
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}#
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data: bagbag
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>bag_hoge.json</code>の実ファイルを開いても中身は暗号化されている</p>
-
-<h2>秘密鍵が利用されているか確認</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># cat /root/.chef/knife.rb
-</span><span class='line'>cookbook_path '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path '/root/chef/data_bags'
-</span><span class='line'># encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret' 
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# fdisk -l
 </span><span class='line'>
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvde: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdd: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdc: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 8354 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdf: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
-<p>コメントアウトしてみる</p>
+<h3>EBS x4をまとめてRAID0を組む</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -686,92 +262,36 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aws_keys = Chef::EncryptedDataBagItem.load(, secret)
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data:
-</span><span class='line'>  cipher:         aes-256-cbc
-</span><span class='line'>  encrypted_data: ErOwQM7QzvSJavsHPQovjwmRk7egm6EOCvDz2cUMd0Y=
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[cdef]
+</span><span class='line'>mdadm: /dev/xvdc appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>mdadm: /dev/xvdd appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>mdadm: /dev/xvdf appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>Continue creating array? mdadm: Defaulting to version 1.2 metadata
+</span><span class='line'>mdadm: array /dev/md127 started.
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# cat /proc/mdstat
+</span><span class='line'>Personalities : [raid0]
+</span><span class='line'>md127 : active raid0 xvdf[3] xvde[2] xvdd[1] xvdc[0]
+</span><span class='line'>      67106816 blocks super 1.2 512k chunks
 </span><span class='line'>
-</span><span class='line'>  iv:             ++q0Yc6EHUu8bdAxb/Ekuw==
-</span><span class='line'>
-</span><span class='line'>  version:        1
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>unused devices: &lt;none&gt;
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
-<p>復号化されない。秘密鍵が使われていることがわかる</p>
-
-<h2>recipeから呼び出す</h2>
-
-<p><code>solo.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>file_cache_path '/tmp/chef-solo'
-</span><span class='line'>cookbook_path   '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path   '/root/chef/data_bags'
-</span><span class='line'>encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret'</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>data_bag_path</code>と<code>encrypted_data_bag_secret</code>でファイルの位置をsoloに教える。</p>
-
-<p><code>/root/chef/cookbooks/data_bag_test/recipes/default.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>data_bag = Chef::EncryptedDataBagItem.load('data_hoge','bag_hoge')
-</span><span class='line'>hoge = data_bag['data']
-</span><span class='line'>
-</span><span class='line'>p "data_bag is [#{hoge}]"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じのrecipeをつくる</p>
-
-<p><code>data_bag_test.json</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>   "run_list": [
-</span><span class='line'>    "data_bag_test"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようなテストJSONを作成し、chef-soloを走らせる</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># chef-solo -j data_bag_test.json -c solo.rb
-</span><span class='line'>Starting Chef Client, version 11.4.4
-</span><span class='line'>Compiling Cookbooks...
-</span><span class='line'>"data_bag is [bagbag]"
-</span><span class='line'>Converging 0 resources
-</span><span class='line'>Chef Client finished, 0 resources updated
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のようにdata_bagの値が取得できれば成功。<br/>
-秘密鍵をcookbooksとは別で管理することにより<br/>
-漏洩してほしくない情報を暗号化することが可能になる。</p>
-
-<p>とても便利。</p>
-
-<h2>暗号化しないで保存するパターン (05/28 追記)</h2>
-
-<p><code>--secret-file</code>鍵を指定しなければ暗号化はされない。</p>
+<h3>既存のVG（引っ越し元のディスクが入っているVG）にRAID0のPVをアサイン</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -782,33 +302,315 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># knife solo data bag create data_hoge bag_hoge
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data: bagbag
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#
-</span><span class='line'># cat /root/chef/data_bags/data_hoge/bag_hoge.json
-</span><span class='line'>{"name":"data_bag_item_data_hoge_bag_hoge","data_bag":"data_hoge","chef_type":"data_bag_item","raw_data":{"id":"bag_hoge","data":"bagbag"},"json_class":"Chef::DataBagItem"}
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/md127
+</span><span class='line'>  Physical volume "/dev/md127" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  2
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               63.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16381
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
+</span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgextend vgrp0 /dev/md127
+</span><span class='line'>  Volume group "vgrp0" successfully extended
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  3
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               127.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              32766
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvs -o+pv_used
+</span><span class='line'>  PV         VG    Fmt  Attr PSize  PFree Used
+</span><span class='line'>  /dev/md127 vgrp0 lvm2 a--  64.00g    0  64.00g
+</span><span class='line'>  /dev/xvdb1 vgrp0 lvm2 a--  64.00g    0  64.00g
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>recipe</h3>
+<p>この時点でxvdb1(64GB)とmd127(128GB)がVGにアサインされている。</p>
+
+<h3>PVからPVへデータを移行</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aws_keys = data_bag_item("data_hoge","bag_hoge")
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvmove /dev/xvdb1
+</span><span class='line'>  /dev/xvdb1: Moved: 0.0%
+</span><span class='line'>  /dev/xvdb1: Moved: 0.4%
+</span><span class='line'>  /dev/xvdb1: Moved: 0.7%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.4%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.5%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 3.2%
 </span><span class='line'>
-</span><span class='line'>p "data_bag is [#{hoge}]"</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>  /dev/xvdb1: Moved: 99.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 99.5%
+</span><span class='line'>  /dev/xvdb1: Moved: 99.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 100.0%
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Loading vgrp0-lvol0 table (253:0)
+</span><span class='line'>    Loading vgrp0-pvmove0 table (253:2)
+</span><span class='line'>    Suspending vgrp0-lvol0 (253:0) with device flush
+</span><span class='line'>    Suspending vgrp0-pvmove0 (253:2) with device flush
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Resuming vgrp0-pvmove0 (253:2)
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Resuming vgrp0-lvol0 (253:0)
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Removing vgrp0-pvmove0 (253:2)
+</span><span class='line'>    Removing temporary pvmove LV
+</span><span class='line'>    Writing out final volume group after pvmove
+</span><span class='line'>    Creating volume group backup "/etc/lvm/backup/vgrp0" (seqno 6).
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvs -o+pv_used
+</span><span class='line'>  PV         VG    Fmt  Attr PSize  PFree  Used
+</span><span class='line'>  /dev/md127 vgrp0 lvm2 a--  64.00g     0  64.00g
+</span><span class='line'>  /dev/xvdb1 vgrp0 lvm2 a--  64.00g 64.00g     0
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
 
-<p>でいける</p>
+<p>PFreeになっていることを確認</p>
 
-<h3>あわせて読みたい</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  6
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               127.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              32766
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
 
-<p><a href="http://d.hatena.ne.jp/toritori0318/20130516/1368722444">アルパカchef日記３日目　data bagについて / またはユーザ管理クックブックなど &ndash; アルパカDiary</a><br/>
-大変勉強になるエントリーだ</p>
+
+<h3>xvdb1をVGから切り離す</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgreduce vgrp0 /dev/xvdb1
+</span><span class='line'>  Removed "/dev/xvdb1" from volume group "vgrp0"
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        1
+</span><span class='line'>  Metadata Sequence No  7
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                1
+</span><span class='line'>  Act PV                1
+</span><span class='line'>  VG Size               64.00 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16383
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       0 / 0
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Allocサイズが変わっていることを確認。<br/>
+この後はPVを削除してEBSをデタッチすればデータの移設が完了します。</p>
 </div>
   
   
@@ -821,7 +623,7 @@ knife-solo_data_bag 0.3.2</p></blockquote>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/05/07/zabbix-proxy-not-many-server/">zabbix-proxyに複数のServerを設定することはできない</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/01/11/intro-lvm/">LVM入門</a></h1>
     
     
       <p class="meta">
@@ -837,29 +639,1462 @@ knife-solo_data_bag 0.3.2</p></blockquote>
   
 
 
-<time datetime="2013-05-07T17:50:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-01-11T11:39:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>忘れそうだから書いておく。</p>
+  <div class="entry-content"><p>LVMについては、きちんと学習したことがなかったので<br/>
+今回改めて学習した内容をまとめました。</p>
+
+<h2>参考</h2>
 
 <ul>
-<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_agentd">3.2.3 Zabbixエージェント (UNIX、スタンドアロンデーモン)</a></li>
-<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_proxy">3.2.2 Zabbixプロキシ</a></li>
+<li><a href="https://access.redhat.com/site/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html-single/Logical_Volume_Manager_Administration/">redhat カスタマーポータル - Red Hat Enterprise Linux 6 論理ボリュームマネージャの管理</a></li>
+<li><a href="http://www2.it-shikaku.jp/top30.php?hidari=201-04-03.php&amp;migi=km201-04.php&amp;title=204.3%20%E8%AB%96%E7%90%86%E3%83%9C%E3%83%AA%E3%83%A5%E3%83%BC%E3%83%A0%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%A3">it-資格.jp - LPIC対策</a></li>
+<li><a href="http://pantora.net/pages/lvm/2/">Pantora Networks - 2章 LVM操作 基本編</a></li>
 </ul>
 
 
-<blockquote><p>ZabbixサーバのIPアドレス(またはホスト名)をカンマ区切りで指定します。</p></blockquote>
+<h2>わかりやすかったRedhat社のLVM解説図</h2>
 
-<p>っていう文言の有無で確認すればよかった。<br/>
-けど、書いてないのは「わざわざ言わせんな恥ずかしい・・・///」<br/>
-みたいな感じにも受け取れるけど、取り敢えず送れない。</p>
+<p><img src="https://access.redhat.com/site/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html-single/Logical_Volume_Manager_Administration/images/overview/basic-lvm-volume.png" alt="https://access.redhat.com/site/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html-single/Logical_Volume_Manager_Administration/images/overview/basic-lvm-volume.png" /></p>
 
-<p>2時間ぐらいあーだこーだしてた。最終的にngrepして<br/>
-パケットの送受信されていないこと確認して終わった。ngrep便利だ。</p>
+<h3>取り敢えずざっくりと</h3>
+
+<p>PV = 物理ディスク<br/>
+VG = PVを束ねたもの。VGを利用して複数のディスクをまたいで利用できる<br/>
+LV = VGの中から指定したディスクサイズを仮想ディスクとして利用できる</p>
+
+<h2>検証環境</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- ルートパーティション
+</span><span class='line'>/dev/xvda1 16GB 
+</span><span class='line'>
+</span><span class='line'>- 元々存在していたと仮定するディスク
+</span><span class='line'>/dev/xvdb  64GB EBS
+</span><span class='line'>
+</span><span class='line'>- RAID0用のディスク
+</span><span class='line'>/dev/xvdc  16GB EBS
+</span><span class='line'>/dev/xvdd  16GB EBS
+</span><span class='line'>/dev/xvde  16GB EBS
+</span><span class='line'>/dev/xvdf  16GB EBS</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# fdisk -l
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvde: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdd: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdc: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 8354 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdf: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>PV</h2>
+
+<h3>PVの作成(pvcreate)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# fdisk /dev/xvdb
+</span><span class='line'>Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
+</span><span class='line'>Building a new DOS disklabel with disk identifier 0x64007579.
+</span><span class='line'>Changes will remain in memory only, until you decide to write them.
+</span><span class='line'>After that, of course, the previous content won't be recoverable.
+</span><span class='line'>
+</span><span class='line'>Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+</span><span class='line'>
+</span><span class='line'>WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+</span><span class='line'>         switch off the mode (command 'c') and change display units to
+</span><span class='line'>         sectors (command 'u').
+</span><span class='line'>
+</span><span class='line'>Command (m for help): n
+</span><span class='line'>Command action
+</span><span class='line'>   e   extended
+</span><span class='line'>   p   primary partition (1-4)
+</span><span class='line'>p
+</span><span class='line'>Partition number (1-4): 1
+</span><span class='line'>First cylinder (1-8354, default 1):
+</span><span class='line'>Using default value 1
+</span><span class='line'>Last cylinder, +cylinders or +size{K,M,G} (1-8354, default 8354):
+</span><span class='line'>Using default value 8354
+</span><span class='line'>
+</span><span class='line'>Command (m for help): t
+</span><span class='line'>Selected partition 1
+</span><span class='line'>Hex code (type L to list codes): L
+</span><span class='line'>
+</span><span class='line'> 0  Empty           24  NEC DOS         81  Minix / old Lin bf  Solaris
+</span><span class='line'> 1  FAT12           39  Plan 9          82  Linux swap / So c1  DRDOS/sec (FAT-
+</span><span class='line'> 2  XENIX root      3c  PartitionMagic  83  Linux           c4  DRDOS/sec (FAT-
+</span><span class='line'> 3  XENIX usr       40  Venix 80286     84  OS/2 hidden C:  c6  DRDOS/sec (FAT-
+</span><span class='line'> 4  FAT16 &lt;32M      41  PPC PReP Boot   85  Linux extended  c7  Syrinx
+</span><span class='line'> 5  Extended        42  SFS             86  NTFS volume set da  Non-FS data
+</span><span class='line'> 6  FAT16           4d  QNX4.x          87  NTFS volume set db  CP/M / CTOS / .
+</span><span class='line'> 7  HPFS/NTFS       4e  QNX4.x 2nd part 88  Linux plaintext de  Dell Utility
+</span><span class='line'> 8  AIX             4f  QNX4.x 3rd part 8e  Linux LVM       df  BootIt
+</span><span class='line'> 9  AIX bootable    50  OnTrack DM      93  Amoeba          e1  DOS access
+</span><span class='line'> a  OS/2 Boot Manag 51  OnTrack DM6 Aux 94  Amoeba BBT      e3  DOS R/O
+</span><span class='line'> b  W95 FAT32       52  CP/M            9f  BSD/OS          e4  SpeedStor
+</span><span class='line'> c  W95 FAT32 (LBA) 53  OnTrack DM6 Aux a0  IBM Thinkpad hi eb  BeOS fs
+</span><span class='line'> e  W95 FAT16 (LBA) 54  OnTrackDM6      a5  FreeBSD         ee  GPT
+</span><span class='line'> f  W95 Ext'd (LBA) 55  EZ-Drive        a6  OpenBSD         ef  EFI (FAT-12/16/
+</span><span class='line'>10  OPUS            56  Golden Bow      a7  NeXTSTEP        f0  Linux/PA-RISC b
+</span><span class='line'>11  Hidden FAT12    5c  Priam Edisk     a8  Darwin UFS      f1  SpeedStor
+</span><span class='line'>12  Compaq diagnost 61  SpeedStor       a9  NetBSD          f4  SpeedStor
+</span><span class='line'>14  Hidden FAT16 &lt;3 63  GNU HURD or Sys ab  Darwin boot     f2  DOS secondary
+</span><span class='line'>16  Hidden FAT16    64  Novell Netware  af  HFS / HFS+      fb  VMware VMFS
+</span><span class='line'>17  Hidden HPFS/NTF 65  Novell Netware  b7  BSDI fs         fc  VMware VMKCORE
+</span><span class='line'>18  AST SmartSleep  70  DiskSecure Mult b8  BSDI swap       fd  Linux raid auto
+</span><span class='line'>1b  Hidden W95 FAT3 75  PC/IX           bb  Boot Wizard hid fe  LANstep
+</span><span class='line'>1c  Hidden W95 FAT3 80  Old Minix       be  Solaris boot    ff  BBT
+</span><span class='line'>1e  Hidden W95 FAT1
+</span><span class='line'>Hex code (type L to list codes): 8e
+</span><span class='line'>Changed system type of partition 1 to 8e (Linux LVM)
+</span><span class='line'>
+</span><span class='line'>Command (m for help): p
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 8354 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x64007579
+</span><span class='line'>
+</span><span class='line'>    Device Boot      Start         End      Blocks   Id  System
+</span><span class='line'>/dev/xvdb1               1        8354    67103473+  8e  Linux LVM
+</span><span class='line'>
+</span><span class='line'>Command (m for help): w
+</span><span class='line'>The partition table has been altered!
+</span><span class='line'>
+</span><span class='line'>Calling ioctl() to re-read partition table.
+</span><span class='line'>Syncing disks.
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/xvdb1
+</span><span class='line'>  Physical volume "/dev/xvdb1" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>  "/dev/sdb1" is a new physical volume of "63.99 GiB"
+</span><span class='line'>  --- NEW Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb1
+</span><span class='line'>  VG Name
+</span><span class='line'>  PV Size               63.99 GiB
+</span><span class='line'>  Allocatable           NO
+</span><span class='line'>  PE Size               0
+</span><span class='line'>  Total PE              0
+</span><span class='line'>  Free PE               0
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               gyJLPn-FMuy-0b9h-yeYN-6AB2-OFTj-pQLh5W
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay -c
+</span><span class='line'>  "/dev/sdb1" is a new physical volume of "63.99 GiB"
+</span><span class='line'>  /dev/sdb1:#orphans_lvm2:134206947:-1:8:8:-1:0:0:0:0:gyJLPn-FMuy-0b9h-yeYN-6AB2-OFTj-pQLh5W
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay -C
+</span><span class='line'>  PV         VG   Fmt  Attr PSize  PFree
+</span><span class='line'>  /dev/sdb1       lvm2 a--  63.99g 63.99g
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>パーティションではなくディスク全体をPVにすることも可能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/xvdb
+</span><span class='line'>  Physical volume "/dev/xvdb" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay -c
+</span><span class='line'>  "/dev/sdb" is a new physical volume of "64.00 GiB"
+</span><span class='line'>  /dev/sdb:#orphans_lvm2:134217728:-1:8:8:-1:0:0:0:0:99H0KX-HZSK-IYfI-j1Mn-KjLf-UlIz-ZNRANd
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay -C
+</span><span class='line'>  PV         VG   Fmt  Attr PSize  PFree
+</span><span class='line'>  /dev/sdb        lvm2 a--  64.00g 64.00g
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>  "/dev/sdb" is a new physical volume of "64.00 GiB"
+</span><span class='line'>  --- NEW Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb
+</span><span class='line'>  VG Name
+</span><span class='line'>  PV Size               64.00 GiB
+</span><span class='line'>  Allocatable           NO
+</span><span class='line'>  PE Size               0
+</span><span class='line'>  Total PE              0
+</span><span class='line'>  Free PE               0
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               99H0KX-HZSK-IYfI-j1Mn-KjLf-UlIz-ZNRANd
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>PVの削除(pvremove)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/xvdb
+</span><span class='line'>  Labels on physical volume "/dev/xvdb" successfully wiped
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>VG</h2>
+
+<h3>VGの作成(vgcreate)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/xvdb
+</span><span class='line'>  Volume group "vgrp0" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay -c
+</span><span class='line'>  vgrp0:r/w:772:-1:0:0:0:-1:0:1:1:67104768:4096:16383:0:16383:spCzJn-CU9u-Fim0-Zonl-Lr0v-8ADc-elBfk5
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay -C
+</span><span class='line'>  VG    #PV #LV #SN Attr   VSize  VFree
+</span><span class='line'>  vgrp0   1   0   0 wz--n- 64.00g 64.00g
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        1
+</span><span class='line'>  Metadata Sequence No  1
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                1
+</span><span class='line'>  Act PV                1
+</span><span class='line'>  VG Size               64.00 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16383
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  VG UUID               spCzJn-CU9u-Fim0-Zonl-Lr0v-8ADc-elBfk5
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>VGの削除(vgremove)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgremove vgrp0
+</span><span class='line'>  Volume group "vgrp0" successfully removed
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  No volume groups found
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>パーティション毎にPVを複数作成してVGにまとめる(vgcreate)</h3>
+
+<h4>パーティション毎にPVを作成する</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# fdisk /dev/xvdb
+</span><span class='line'>Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
+</span><span class='line'>Building a new DOS disklabel with disk identifier 0x7224e6ea.
+</span><span class='line'>Changes will remain in memory only, until you decide to write them.
+</span><span class='line'>After that, of course, the previous content won't be recoverable.
+</span><span class='line'>
+</span><span class='line'>Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+</span><span class='line'>
+</span><span class='line'>WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+</span><span class='line'>         switch off the mode (command 'c') and change display units to
+</span><span class='line'>         sectors (command 'u').
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Command (m for help): p
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 8354 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x7224e6ea
+</span><span class='line'>
+</span><span class='line'>    Device Boot      Start         End      Blocks   Id  System
+</span><span class='line'>/dev/xvdb1               1        3917    31463271   8e  Linux LVM
+</span><span class='line'>/dev/xvdb2            3918        8354    35640202+  8e  Linux LVM
+</span><span class='line'>
+</span><span class='line'>Command (m for help): w
+</span><span class='line'>The partition table has been altered!
+</span><span class='line'>
+</span><span class='line'>Calling ioctl() to re-read partition table.
+</span><span class='line'>Syncing disks.
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/xvdb1 /dev/xvdb2
+</span><span class='line'>  Physical volume "/dev/sdb1" successfully created
+</span><span class='line'>  Physical volume "/dev/sdb2" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>  "/dev/sdb1" is a new physical volume of "30.01 GiB"
+</span><span class='line'>  --- NEW Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb1
+</span><span class='line'>  VG Name
+</span><span class='line'>  PV Size               30.01 GiB
+</span><span class='line'>  Allocatable           NO
+</span><span class='line'>  PE Size               0
+</span><span class='line'>  Total PE              0
+</span><span class='line'>  Free PE               0
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
+</span><span class='line'>
+</span><span class='line'>  "/dev/sdb2" is a new physical volume of "33.99 GiB"
+</span><span class='line'>  --- NEW Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb2
+</span><span class='line'>  VG Name
+</span><span class='line'>  PV Size               33.99 GiB
+</span><span class='line'>  Allocatable           NO
+</span><span class='line'>  PE Size               0
+</span><span class='line'>  Total PE              0
+</span><span class='line'>  Free PE               0
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>複数のPVをVGにまとめる</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/sdb1 /dev/sdb2
+</span><span class='line'>  Volume group "vgrp0" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  1
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               63.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16381
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
+</span><span class='line'>  VG UUID               HMii83-udZK-dNPR-7O7p-ybOC-8XeX-9eITD0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>既存のVGにPVを追加(vgextend)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgremove vgrp0
+</span><span class='line'>  Volume group "vgrp0" successfully removed
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  No volume groups found
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgcreate vgrp0 /dev/sdb1
+</span><span class='line'>  Volume group "vgrp0" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        1
+</span><span class='line'>  Metadata Sequence No  1
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                1
+</span><span class='line'>  Act PV                1
+</span><span class='line'>  VG Size               30.00 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              7681
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       7681 / 30.00 GiB
+</span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgextend vgrp0 /dev/sdb2
+</span><span class='line'>  Volume group "vgrp0" successfully extended
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  2
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               63.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16381
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
+</span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>既存のVGからPVを切り離す(vgreduce)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvremove /dev/sdb2
+</span><span class='line'>  PV /dev/sdb2 belongs to Volume Group vgrp0 so please use vgreduce first.
+</span><span class='line'>  (If you are certain you need pvremove, then confirm by using --force twice.)
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgreduce vgrp0 /dev/sdb2
+</span><span class='line'>  Removed "/dev/sdb2" from volume group "vgrp0"
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        1
+</span><span class='line'>  Metadata Sequence No  9
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                1
+</span><span class='line'>  Act PV                1
+</span><span class='line'>  VG Size               30.00 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              7681
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       7681 / 30.00 GiB
+</span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>  --- Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb1
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  PV Size               30.01 GiB / not usable 1.85 MiB
+</span><span class='line'>  Allocatable           yes
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              7681
+</span><span class='line'>  Free PE               7681
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
+</span><span class='line'>
+</span><span class='line'>  "/dev/sdb2" is a new physical volume of "33.99 GiB"
+</span><span class='line'>  --- NEW Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb2
+</span><span class='line'>  VG Name
+</span><span class='line'>  PV Size               33.99 GiB
+</span><span class='line'>  Allocatable           NO
+</span><span class='line'>  PE Size               0
+</span><span class='line'>  Total PE              0
+</span><span class='line'>  Free PE               0
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               LyAp4h-fQtA-30vD-u2jb-3PSt-oaEk-W6nowQ
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvremove /dev/sdb2
+</span><span class='line'>  Labels on physical volume "/dev/sdb2" successfully wiped
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvdisplay
+</span><span class='line'>  --- Physical volume ---
+</span><span class='line'>  PV Name               /dev/sdb1
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  PV Size               30.01 GiB / not usable 1.85 MiB
+</span><span class='line'>  Allocatable           yes
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              7681
+</span><span class='line'>  Free PE               7681
+</span><span class='line'>  Allocated PE          0
+</span><span class='line'>  PV UUID               mizQ5k-ln0l-X9SS-2Hbd-QqUj-ZpSY-PsGQPa
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>LV</h2>
+
+<h3>LVの作成</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate vgrp0
+</span><span class='line'>  Please specify either size or extents
+</span><span class='line'>  Run `lvcreate --help' for more information.
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>
+</span><span class='line'>サイズ指定しないと怒られる
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]# lvcreate -L 10G -n vgrp0
+</span><span class='line'>  Logical volume "lvol0" created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>
+</span><span class='line'>100%使い切る場合にはこれ
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]# lvcreate -l 100%FREE -n vgrp0
+</span><span class='line'>  Logical volume "lvol0" created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay -c
+</span><span class='line'>  /dev/vgrp0/lvol0:vgrp0:3:1:-1:0:20971520:2560:-1:0:-1:253:0
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay -C
+</span><span class='line'>  LV    VG    Attr      LSize  Pool Origin Data%  Move Log Cpy%Sync Convert
+</span><span class='line'>  lvol0 vgrp0 -wi-a---- 10.00g
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay
+</span><span class='line'>  --- Logical volume ---
+</span><span class='line'>  LV Path                /dev/vgrp0/lvol0
+</span><span class='line'>  LV Name                lvol0
+</span><span class='line'>  VG Name                vgrp0
+</span><span class='line'>  LV UUID                4VNA2l-dgiU-p36w-kfS8-HP7P-eIfy-nfaPe4
+</span><span class='line'>  LV Write Access        read/write
+</span><span class='line'>  LV Creation host, time lvm-test-server, 2014-01-07 08:16:54 +0000
+</span><span class='line'>  LV Status              available
+</span><span class='line'>  # open                 0
+</span><span class='line'>  LV Size                10.00 GiB
+</span><span class='line'>  Current LE             2560
+</span><span class='line'>  Segments               1
+</span><span class='line'>  Allocation             inherit
+</span><span class='line'>  Read ahead sectors     auto
+</span><span class='line'>  - currently set to     256
+</span><span class='line'>  Block device           253:0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>LVをmountする</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# mkfs.ext4 /dev/vgrp0/lvol0
+</span><span class='line'>mke2fs 1.42.3 (14-May-2012)
+</span><span class='line'>Filesystem label=
+</span><span class='line'>OS type: Linux
+</span><span class='line'>Block size=4096 (log=2)
+</span><span class='line'>Fragment size=4096 (log=2)
+</span><span class='line'>Stride=0 blocks, Stripe width=0 blocks
+</span><span class='line'>655360 inodes, 2621440 blocks
+</span><span class='line'>131072 blocks (5.00%) reserved for the super user
+</span><span class='line'>First data block=0
+</span><span class='line'>Maximum filesystem blocks=2684354560
+</span><span class='line'>80 block groups
+</span><span class='line'>32768 blocks per group, 32768 fragments per group
+</span><span class='line'>8192 inodes per group
+</span><span class='line'>Superblock backups stored on blocks:
+</span><span class='line'>        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+</span><span class='line'>
+</span><span class='line'>Allocating group tables: done
+</span><span class='line'>Writing inode tables: done
+</span><span class='line'>Creating journal (32768 blocks): done
+</span><span class='line'>Writing superblocks and filesystem accounting information: done
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# mount /dev/vgrp0/lvol0 /mnt
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# df -h
+</span><span class='line'>Filesystem            Size  Used Avail Use% Mounted on
+</span><span class='line'>/dev/xvda1             16G  2.9G   13G  19% /
+</span><span class='line'>tmpfs                 1.9G     0  1.9G   0% /dev/shm
+</span><span class='line'>/dev/mapper/vgrp0-lvol0
+</span><span class='line'>                      9.9G  151M  9.2G   2% /mnt
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>LVを拡張する(lvextend)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# lvcreate -L 10G vgrp0
+</span><span class='line'>  Logical volume "lvol1" created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay
+</span><span class='line'>  --- Logical volume ---
+</span><span class='line'>  LV Path                /dev/vgrp0/lvol0
+</span><span class='line'>  LV Name                lvol0
+</span><span class='line'>  VG Name                vgrp0
+</span><span class='line'>  LV UUID                4VNA2l-dgiU-p36w-kfS8-HP7P-eIfy-nfaPe4
+</span><span class='line'>  LV Write Access        read/write
+</span><span class='line'>  LV Creation host, time lvm-test-server, 2014-01-07 08:16:54 +0000
+</span><span class='line'>  LV Status              available
+</span><span class='line'>  # open                 1
+</span><span class='line'>  LV Size                10.00 GiB
+</span><span class='line'>  Current LE             2560
+</span><span class='line'>  Segments               1
+</span><span class='line'>  Allocation             inherit
+</span><span class='line'>  Read ahead sectors     auto
+</span><span class='line'>  - currently set to     256
+</span><span class='line'>  Block device           253:0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvextend -L +10G /dev/vgrp0/lvol0
+</span><span class='line'>  Extending logical volume lvol0 to 20.00 GiB
+</span><span class='line'>  Logical volume lvol0 successfully resized
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay
+</span><span class='line'>  --- Logical volume ---
+</span><span class='line'>  LV Path                /dev/vgrp0/lvol0
+</span><span class='line'>  LV Name                lvol0
+</span><span class='line'>  VG Name                vgrp0
+</span><span class='line'>  LV UUID                4VNA2l-dgiU-p36w-kfS8-HP7P-eIfy-nfaPe4
+</span><span class='line'>  LV Write Access        read/write
+</span><span class='line'>  LV Creation host, time lvm-test-server, 2014-01-07 08:16:54 +0000
+</span><span class='line'>  LV Status              available
+</span><span class='line'>  # open                 1
+</span><span class='line'>  LV Size                20.00 GiB
+</span><span class='line'>  Current LE             5120
+</span><span class='line'>  Segments               1
+</span><span class='line'>  Allocation             inherit
+</span><span class='line'>  Read ahead sectors     auto
+</span><span class='line'>  - currently set to     256
+</span><span class='line'>  Block device           253:0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# df -h
+</span><span class='line'>Filesystem            Size  Used Avail Use% Mounted on
+</span><span class='line'>/dev/xvda1             16G  2.9G   13G  19% /
+</span><span class='line'>tmpfs                 1.9G     0  1.9G   0% /dev/shm
+</span><span class='line'>/dev/mapper/vgrp0-lvol0
+</span><span class='line'>                      9.9G  151M  9.2G   2% /mnt
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ext3の場合は<code>ext2online /dev/testvg/LVName</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0
+</span><span class='line'>resize2fs 1.42.3 (14-May-2012)
+</span><span class='line'>Filesystem at /dev/vgrp0/lvol0 is mounted on /mnt; on-line resizing required
+</span><span class='line'>old_desc_blocks = 1, new_desc_blocks = 2
+</span><span class='line'>The filesystem on /dev/vgrp0/lvol0 is now 5242880 blocks long.
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# df -h
+</span><span class='line'>Filesystem            Size  Used Avail Use% Mounted on
+</span><span class='line'>/dev/xvda1             16G  2.9G   13G  19% /
+</span><span class='line'>tmpfs                 1.9G     0  1.9G   0% /dev/shm
+</span><span class='line'>/dev/mapper/vgrp0-lvol0
+</span><span class='line'>                       20G  156M   19G   1% /mnt
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>LVを減少(lvextend)</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# umount /mnt
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# df
+</span><span class='line'>Filesystem           1K-blocks      Used Available Use% Mounted on
+</span><span class='line'>/dev/xvda1            16513960   2980776  13365588  19% /
+</span><span class='line'>tmpfs                  1922292         0   1922292   0% /dev/shm
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0 10G
+</span><span class='line'>resize2fs 1.42.3 (14-May-2012)
+</span><span class='line'>Please run 'e2fsck -f /dev/vgrp0/lvol0' first.
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]# e2fsck -f /dev/vgrp0/lvol0
+</span><span class='line'>e2fsck 1.42.3 (14-May-2012)
+</span><span class='line'>Pass 1: Checking inodes, blocks, and sizes
+</span><span class='line'>Pass 2: Checking directory structure
+</span><span class='line'>Pass 3: Checking directory connectivity
+</span><span class='line'>Pass 4: Checking reference counts
+</span><span class='line'>Pass 5: Checking group summary information
+</span><span class='line'>/dev/vgrp0/lvol0: 11/1310720 files (0.0% non-contiguous), 122065/5242880 blocks
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# resize2fs /dev/vgrp0/lvol0 10G
+</span><span class='line'>resize2fs 1.42.3 (14-May-2012)
+</span><span class='line'>Resizing the filesystem on /dev/vgrp0/lvol0 to 2621440 (4k) blocks.
+</span><span class='line'>The filesystem on /dev/vgrp0/lvol0 is now 2621440 blocks long.
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay
+</span><span class='line'>  --- Logical volume ---
+</span><span class='line'>  LV Path                /dev/vgrp0/lvol0
+</span><span class='line'>  LV Name                lvol0
+</span><span class='line'>  VG Name                vgrp0
+</span><span class='line'>  LV UUID                4VNA2l-dgiU-p36w-kfS8-HP7P-eIfy-nfaPe4
+</span><span class='line'>  LV Write Access        read/write
+</span><span class='line'>  LV Creation host, time lvm-test-server, 2014-01-07 08:16:54 +0000
+</span><span class='line'>  LV Status              available
+</span><span class='line'>  # open                 0
+</span><span class='line'>  LV Size                20.00 GiB
+</span><span class='line'>  Current LE             5120
+</span><span class='line'>  Segments               1
+</span><span class='line'>  Allocation             inherit
+</span><span class='line'>  Read ahead sectors     auto
+</span><span class='line'>  - currently set to     256
+</span><span class='line'>  Block device           253:0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvreduce -L -10G /dev/vgrp0/lvol0
+</span><span class='line'>  WARNING: Reducing active logical volume to 10.00 GiB
+</span><span class='line'>  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+</span><span class='line'>Do you really want to reduce lvol0? [y/n]: y
+</span><span class='line'>  Reducing logical volume lvol0 to 10.00 GiB
+</span><span class='line'>  Logical volume lvol0 successfully resized
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# lvdisplay
+</span><span class='line'>  --- Logical volume ---
+</span><span class='line'>  LV Path                /dev/vgrp0/lvol0
+</span><span class='line'>  LV Name                lvol0
+</span><span class='line'>  VG Name                vgrp0
+</span><span class='line'>  LV UUID                4VNA2l-dgiU-p36w-kfS8-HP7P-eIfy-nfaPe4
+</span><span class='line'>  LV Write Access        read/write
+</span><span class='line'>  LV Creation host, time lvm-test-server, 2014-01-07 08:16:54 +0000
+</span><span class='line'>  LV Status              available
+</span><span class='line'>  # open                 0
+</span><span class='line'>  LV Size                10.00 GiB
+</span><span class='line'>  Current LE             2560
+</span><span class='line'>  Segments               1
+</span><span class='line'>  Allocation             inherit
+</span><span class='line'>  Read ahead sectors     auto
+</span><span class='line'>  - currently set to     256
+</span><span class='line'>  Block device           253:0
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
   
   
@@ -872,7 +2107,7 @@ knife-solo_data_bag 0.3.2</p></blockquote>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/04/30/asura/">「アシュラ」劇場版と原作両方みた</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/01/07/201312-book/">2013/12読んだ本</a></h1>
     
     
       <p class="meta">
@@ -888,55 +2123,48 @@ knife-solo_data_bag 0.3.2</p></blockquote>
   
 
 
-<time datetime="2013-04-30T21:53:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-01-07T22:21:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00A9PTEJE/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B00A9PTEJE&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=B00A9PTEJE&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00A9PTEJE" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E9%80%B2%E6%92%83%E3%81%AE%E5%B7%A8%E4%BA%BA-12-%E8%AC%9B%E8%AB%87%E7%A4%BE%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E8%AB%AB%E5%B1%B1-%E5%89%B5/dp/4063949761%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063949761" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51YseUTwzIL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E9%80%B2%E6%92%83%E3%81%AE%E5%B7%A8%E4%BA%BA-12-%E8%AC%9B%E8%AB%87%E7%A4%BE%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E8%AB%AB%E5%B1%B1-%E5%89%B5/dp/4063949761%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063949761" target="_blank">進撃の巨人(12) (講談社コミックス)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E8%AB%AB%E5%B1%B1%E5%89%B5" target="_blank">諫山創</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-12-09</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063949761" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
-<p>劇場版見た。期待してたけどそこまでじゃなかった。<br/>
-原作、Kindleで買えたので買った。</p>
 
-<p><a href="http://www.amazon.co.jp/gp/product/4344407539/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4344407539&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4344407539&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=4344407539" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
 
-<p><a href="http://www.amazon.co.jp/gp/product/4344407547/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4344407547&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4344407547&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=4344407547" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
 
-<p>京都の寺とか仏像のこと調べると、大抵応仁の乱の時に焼かれたとか書いてあって<br/>
-応仁の乱、1467~1477まで京都で戦争してたって書いてあって、それだけでも悲惨なのに</p>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%AC%E3%83%BC%E3%82%B9-%E5%B0%8F%E5%AD%A6%E9%A4%A8%E6%96%87%E5%BA%AB-%E3%82%BF%E3%82%A4%E3%83%A9%E3%83%BC-%E3%83%8F%E3%83%9F%E3%83%AB%E3%83%88%E3%83%B3/dp/4094088016%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4094088016" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51nNXE4UM2L._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88%E3%83%BB%E3%83%AC%E3%83%BC%E3%82%B9-%E5%B0%8F%E5%AD%A6%E9%A4%A8%E6%96%87%E5%BA%AB-%E3%82%BF%E3%82%A4%E3%83%A9%E3%83%BC-%E3%83%8F%E3%83%9F%E3%83%AB%E3%83%88%E3%83%B3/dp/4094088016%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4094088016" target="_blank">シークレット・レース (小学館文庫)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%82%BF%E3%82%A4%E3%83%A9%E3%83%BC%E3%83%BB%E3%83%8F%E3%83%9F%E3%83%AB%E3%83%88%E3%83%B3" target="_blank">タイラー・ハミルトン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">小学館</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-05-08</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4094088016" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
-<blockquote><p>&ldquo;京都では長禄3年（1459年）旧暦8月に台風が直撃し、賀茂川が氾濫して多数の家屋が流出し、<br/>
-数え切れないほどの死者が出たほか、飢饉がより深刻化した寛正2年（1461年）には、<br/>
-大量の流民が市中に流れ込み更に事態は悪化した。<br/>
-飢餓と疫病によって、寛正2年の最初の2ヶ月で京都で8万2千人の死者が出たと言われている。<br/>
-だが、室町幕府の将軍足利義政はこの最中に花の御所を改築し、世事に全く関心を示さず、<br/>
-堪りかねた後花園天皇の勧告をも無視した。<br/>
-こうした混乱は、5年後に発生する応仁の乱への下敷きともなった。&rdquo;</p></blockquote>
 
-<p><a href="http://ja.wikipedia.org/wiki/%E9%95%B7%E7%A6%84%E3%83%BB%E5%AF%9B%E6%AD%A3%E3%81%AE%E9%A3%A2%E9%A5%89">長禄・寛正の飢饉</a></p>
 
-<p>日本文化のルーツ、義政とか東山文化は重要な位置にあると思うけど、<br/>
-その背景には、鴨川が氾濫して家屋が全部流されて、人が人を食ってたり、<br/>
-鴨川に死体の山ができて流れが止まったりとか、そういう狂気じみた世界があるし<br/>
-そういう背景を理解した上で歴史見ると、また色々と違った見え方ができると思う。</p>
 
-<p>平安時代、優雅な時代とか書いてあるの見ても、その頃もやっぱり都は</p>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%8C%BB%E8%80%85%E3%81%AB%E6%AE%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%8447%E3%81%AE%E5%BF%83%E5%BE%97-%E5%8C%BB%E7%99%82%E3%81%A8%E8%96%AC%E3%82%92%E9%81%A0%E3%81%96%E3%81%91%E3%81%A6%E3%80%81%E5%85%83%E6%B0%97%E3%81%AB%E3%80%81%E9%95%B7%E7%94%9F%E3%81%8D%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E8%BF%91%E8%97%A4-%E8%AA%A0/dp/4776207648%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4776207648" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51bHYxcIkhL._SL160_.jpg" width="97" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%8C%BB%E8%80%85%E3%81%AB%E6%AE%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%8447%E3%81%AE%E5%BF%83%E5%BE%97-%E5%8C%BB%E7%99%82%E3%81%A8%E8%96%AC%E3%82%92%E9%81%A0%E3%81%96%E3%81%91%E3%81%A6%E3%80%81%E5%85%83%E6%B0%97%E3%81%AB%E3%80%81%E9%95%B7%E7%94%9F%E3%81%8D%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-%E8%BF%91%E8%97%A4-%E8%AA%A0/dp/4776207648%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4776207648" target="_blank">医者に殺されない47の心得 医療と薬を遠ざけて、元気に、長生きする方法</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E8%BF%91%E8%97%A4%E8%AA%A0" target="_blank">近藤誠</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">アスコム</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-12-13</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4776207648" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
-<blockquote><p>『方丈記』では京都市中の死者を4万2300人と記し、「築地のつら、道のほとりに、飢ゑ死ぬもののたぐひ、<br/>
-数も知らず。取り捨つるわざも知らねば、くさき香世界に満ち満ちて、変わりゆくかたち有様、<br/>
-目もあてられぬ事多かり」として、市中に遺体があふれ、各所で異臭を放っていたことが記されている。<br/>
-また、死者のあまりの多さに供養が追いつかず、仁和寺の僧が死者の額に「阿」の字を記して回ったとも伝える。</p></blockquote>
 
-<p><a href="https://ja.wikipedia.org/wiki/%E9%A4%8A%E5%92%8C%E3%81%AE%E9%A3%A2%E9%A5%89">養和の飢饉</a></p>
 
-<p>こんな感じで悲惨なことになってる。アシュラ、連載打ち切りになったらしいんだけど<br/>
-物事の表面ばっかりなぞってもの本質見えてこないし、そういうのちゃんと教えた方が良い。</p>
 
-<p>生活水準は遥かに向上してるけど<br/>
-やっぱり人が人と生きるっていうのは<br/>
-修羅の世界に生きるみたいなもんなんだなって思う。</p>
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41qg6STGdqL._SL160_.jpg" width="102" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank">アジャイル開発とスクラム 顧客・技術・経営をつなぐ協調的ソフトウェア開発マネジメント</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B9%B3%E9%8D%8B%E5%81%A5%E5%85%90" target="_blank">平鍋健児</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">翔泳社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-01-18</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4798129704" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51uNC60Jm4L._SL160_.jpg" width="160" height="124" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank">Working With TCP Sockets</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Jesse+Storimer" target="_blank">Jesse Storimer</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00BPYT6PK" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<p></p>
+
+<p>WorkingシリーズのSocketsがとてもよかった。<br/>
+Socketsいまいち理解していないところあったけど手を動かして学習できてよかった。<br/>
+Goで書きなおしたい。</p>
+
+<p>アジャイル開発とスクラムは@hbstさんに頂いた書籍で<br/>
+細かいことは<a href="http://blog.kenjiskywalker.org/blog/2013/12/29/agile-and-scram/">「アジャイル開発とスクラム」をよんだ</a>に書いてある。<br/>
+会社のみんなで回し読みさせて頂きます。ありがとうございます。</p>
+
+<p>シークレット・レースはモリスさんとあんちぽさんのレビュー読んで<br/>
+図書館で借りてみた。社会の厳しさが凝縮された感じだった。</p>
 </div>
   
   
@@ -949,7 +2177,7 @@ knife-solo_data_bag 0.3.2</p></blockquote>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/04/30/repair-buddha/">「壊れた仏像直しマス」１巻読んだ</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/01/07/aws-cli-request-spot-instances/">AWS CLIでスポットインスタンスリクエストを送る</a></h1>
     
     
       <p class="meta">
@@ -965,20 +2193,475 @@ knife-solo_data_bag 0.3.2</p></blockquote>
   
 
 
-<time datetime="2013-04-30T21:44:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2014-01-07T20:39:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/4832232894/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4832232894&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=4832232894&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=4832232894" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+  <div class="entry-content"><p>日本語の情報があまりなかったので共有しておきます。</p>
 
-<p>@soh335さんから貰った。<br/>
-ハートフルな話だった。</p>
+<blockquote><p>aws cli 1.2.9</p></blockquote>
 
-<p>仏師、仏像を彫るだけじゃなくて人を助ける仕事でもあった。<br/>
-今の仕事も誰かの助けになるように頑張って生きたい。</p>
+<h2>参考</h2>
+
+<ul>
+<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-instances.html">AWS CLI / request-spot-instances</a><br/>
+基本のドキュメント。</p></li>
+<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html">AWS CLI / run-instances</a></p>
+
+<blockquote><p>&ndash;user-data (blob)</p>
+
+<p>Specifies additional information to make available to the instance(s). This parameter must be passed as a Base64-encoded string.</p></blockquote></li>
+</ul>
+
+
+<p>user-dataをbase64で送らなければいけないことはこちらに書いてあった。</p>
+
+<ul>
+<li><a href="http://blog.awsapi.com/blog/2013/09/17/launch-your-own-nat-instance-under-vpc/">Launch Your Own NAT Instance in VPC - Indefinable Hacking</a><br/>
+ヘンリーさんのやり方がとてもセンスがあった。ほぼヘンリーさんのやり方を踏襲した。</li>
+</ul>
+
+
+<h2>exp) spot_instance_request.sh</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HOST=$1
+</span><span class='line'>AMI="AMI"
+</span><span class='line'>INSTANCE_TYPE="t1.micro"
+</span><span class='line'>PRICE="0.1"
+</span><span class='line'>KEYPAIR="KEYPAIR"
+</span><span class='line'>AZ="AZ"
+</span><span class='line'>USER_DATA=`echo "${HOST}" | openssl enc -base64`
+</span><span class='line'>REGION="REGION"
+</span><span class='line'>SECURITY_GROUPS="\"default\", \"image\""
+</span><span class='line'>
+</span><span class='line'>### jq check
+</span><span class='line'>JQ_COMMAND=`which jq`
+</span><span class='line'>if [ -z ${JQ_COMMAND} ]; then
+</span><span class='line'>    echo "jq command not found"
+</span><span class='line'>    exit 1
+</span><span class='line'>fi
+</span><span class='line'>
+</span><span class='line'>### SET JSON
+</span><span class='line'>rm -f /tmp/launch_config.json
+</span><span class='line'>cat &lt;&lt; EOF &gt;&gt; /tmp/launch_config.json
+</span><span class='line'>{
+</span><span class='line'>  "ImageId": "${AMI}",
+</span><span class='line'>  "KeyName": "${KEYPAIR}",
+</span><span class='line'>  "InstanceType": "${INSTANCE_TYPE}",
+</span><span class='line'>  "Placement": {
+</span><span class='line'>    "AvailabilityZone": "${AZ}"
+</span><span class='line'>  },
+</span><span class='line'>  "Monitoring": {
+</span><span class='line'>    "Enabled": true
+</span><span class='line'>  },
+</span><span class='line'>  "UserData": "${USER_DATA}",
+</span><span class='line'>  "SecurityGroups": [
+</span><span class='line'>    ${SECURITY_GROUPS}
+</span><span class='line'>  ]
+</span><span class='line'>}
+</span><span class='line'>EOF
+</span><span class='line'>
+</span><span class='line'>### PUT SPOT_REQUEST
+</span><span class='line'>aws ec2 request-spot-instances --spot-price ${PRICE} --region ${REGION} --launch-specification file:///tmp/launch_config.json &gt; /tmp/spot_request.json
+</span><span class='line'>SIR_ID=`jq '.SpotInstanceRequests[0] | .SpotInstanceRequestId' /tmp/spot_request.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>echo "[INFO] SpotInstanceRequestID: ${SIR_ID}";
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>### GET SPOT_INSTANCE INSTANCE_ID
+</span><span class='line'>rm -f /tmp/spot_instance.json
+</span><span class='line'>
+</span><span class='line'>aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
+</span><span class='line'>INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>while [ "${INSTANCE_ID}" == "null" ]
+</span><span class='line'>do
+</span><span class='line'>    aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
+</span><span class='line'>    INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>    sleep 10
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo "[INFO] INSTANCE_ID: ${INSTANCE_ID}";
+</span><span class='line'>
+</span><span class='line'># つづく</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで取得できます。</p>
+
+<ul>
+<li>Monitoringが渡せなかった。(バージョンを1.2.9にしたら渡せるようになった)</li>
+<li>JSON祭り</li>
+<li>UserDataをbase64にencodeしないといけない</li>
+<li>SecurityGroupsの渡し方がアレだ</li>
+</ul>
+
+
+<p>などなどやっていました。今後は<code>DeleteOnTermination</code>も有効にしたいです。<br/>
+aws cliはバージョンがどんどん上がっているので、そのうち<br/>
+JSON祭りもなくなるのではないかと思います。</p>
+
+<p>参考になれば幸いです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/05/sensu-centos6-4-erlang-install/">CentOS 6.5でChefからSensuをインストールしようとするとRabbitMQでコケる回避策</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>date       : 2014/01/05<br/>
+OS         : CentOS 6.5<br/>
+Sensu      : sensu-0.12.3-1.x86_64<br/>
+sensu-chef : 0.8.0</p></blockquote>
+
+<p>=== (2014/01/06)追記 =======================</p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> CentOS 6.4 → 6.5 にしたら出なくなった･･･うーむ</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/420100517943967744">January 6, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>ドラクエ氏によると、この解決策だと6.4は別のエラーがでるとのこと。</p>
+
+<hr />
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> centos?</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419716838642032641">January 5, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> CentOS 6.4 の openssl のビルド設定が変わってて Erlang が crypto モジュールを読むところで落ちるです</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419717299747037184">January 5, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/naoya_ito">@naoya_ito</a> まさにこれですw どうにかできないかやってみます</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/419717712474959872">January 5, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> うまくいったら教えてくださいｗ</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419717651015823360">January 5, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/voluntas">@voluntas</a> ありがとうございます。R16B02-0.1でいけるならerlang-solutionsでyumインストール時にバージョン指定すれば回避できるのかなと思ってChefでどうやるのか調べております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/419730565164580864">January 5, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>という感じでうまくいかなかったのでBKっぽいけど取り敢えず回避策を</p>
+
+<h2><a href="https://github.com/sensu/sensu-chef">https://github.com/sensu/sensu-chef</a></h2>
+
+<p>このSensuのリポジトリは<a href="http://community.opscode.com/cookbooks/sensu">opscode</a>に上がっているので<br/>
+knifeで取ってきます。他にも必要なrecipeを合わせて持ってこれるので便利です。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>knife cookbook site vendor sensu -o cookbooks/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>関係するrecipeがダウンロードされたことを確認してください。<br/>
+次にREADMEに書いてあるようにSSL証明書を作成します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ./cookbooks/sensu/examples/ssl/
+</span><span class='line'>./ssl_certs.sh generate
+</span><span class='line'>knife data bag create sensu
+</span><span class='line'>knife data bag from file sensu ssl.json</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などとSSLを作成しますが
+knifeが上手く動かない場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ./data_bags/sensu
+</span><span class='line'>cp ./cookbooks/sensu/examples/ssl/ssl.json data_bags/sensu/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすることで同じ結果を得られます。
+次に<code>run_list</code>を作成します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "sensu",
+</span><span class='line'>    "sensu::redis",
+</span><span class='line'>    "sensu::rabbitmq"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この状態でChefを廻します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Recipe: rabbitmq::default
+</span><span class='line'>  * service[rabbitmq-server] action restart
+</span><span class='line'>================================================================================
+</span><span class='line'>Error executing action `restart` on resource 'service[rabbitmq-server]'
+</span><span class='line'>================================================================================
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Mixlib::ShellOut::ShellCommandFailed
+</span><span class='line'>------------------------------------
+</span><span class='line'>Expected process to exit with [0], but received '1'
+</span><span class='line'>---- Begin output of /sbin/service rabbitmq-server start ----
+</span><span class='line'>STDOUT: Starting rabbitmq-server: FAILED - check /var/log/rabbitmq/startup_{log, _err}
+</span><span class='line'>rabbitmq-server.
+</span><span class='line'>STDERR:
+</span><span class='line'>---- End output of /sbin/service rabbitmq-server start ----
+</span><span class='line'>Ran /sbin/service rabbitmq-server start returned 1
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Resource Declaration:
+</span><span class='line'>---------------------
+</span><span class='line'># In /root/chef-solo/cookbooks-3/rabbitmq/recipes/default.rb
+</span><span class='line'>
+</span><span class='line'>106:   service node['rabbitmq']['service_name'] do
+</span><span class='line'>107:     action [:enable, :start]
+</span><span class='line'>108:   end
+</span><span class='line'>109:
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Compiled Resource:
+</span><span class='line'>------------------
+</span><span class='line'># Declared in /root/chef-solo/cookbooks-3/rabbitmq/recipes/default.rb:106:in `from_file'
+</span><span class='line'>
+</span><span class='line'>service("rabbitmq-server") do
+</span><span class='line'>  action [:enable, :start]
+</span><span class='line'>  updated true
+</span><span class='line'>  supports {:restart=&gt;false, :reload=&gt;false, :status=&gt;true}
+</span><span class='line'>  retries 0
+</span><span class='line'>  retry_delay 2
+</span><span class='line'>  service_name "rabbitmq-server"
+</span><span class='line'>  enabled true
+</span><span class='line'>  running true
+</span><span class='line'>  pattern "rabbitmq-server"
+</span><span class='line'>  startup_type :automatic
+</span><span class='line'>  cookbook_name :rabbitmq
+</span><span class='line'>  recipe_name "default"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と、このようにエラーになります。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diff --git cookbooks/erlang/recipes/package.rb cookbooks/erlang/recipes/package.rb
+</span><span class='line'>index 19f9fce..6cec68f 100644
+</span><span class='line'>--- cookbooks/erlang/recipes/package.rb
+</span><span class='line'>+++ cookbooks/erlang/recipes/package.rb
+</span><span class='line'>@@ -43,5 +43,9 @@ when 'rhel'
+</span><span class='line'>     include_recipe 'yum-erlang_solutions'
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>-  package 'erlang'
+</span><span class='line'>+  execute "yum install -y erlang-R16B02" do
+</span><span class='line'>+    user "root"
+</span><span class='line'>+    command "yum install -y erlang-R16B02"
+</span><span class='line'>+    not_if { File.exists? "/usr/bin/erl" }
+</span><span class='line'>+  end
+</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のようにバージョンを含めたパッケージの指定をすることで回避できました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package 'erlang' do
+</span><span class='line'>  version "R16B02"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この方法でイケるかと思ったのですがそんなバージョンはない。とエラーになりました。<br/>
+以上、取り敢えずの回避策としてご利用下さい。</p>
 </div>
   
   
@@ -998,66 +2681,7 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/12/29/201412-book/">2014/12読んだ本</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/12/login-notification/">fluentdを利用してsshログインを通知する</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/kenjiskywalker">@kenjiskywalker</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'kenjiskywalker',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
   
 </aside>
 
