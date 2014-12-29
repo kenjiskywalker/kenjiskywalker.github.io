@@ -73,7 +73,7 @@ set :ssh_options, {
 
 # ここのオプションは ssh_config に記載されていれば不要
 # port: 2222,
-# keys: [File.expand_path('~/.ssh/classi-san')],
+# keys: [File.expand_path('~/.ssh/hoge.key')],
 
 }
 
@@ -194,7 +194,7 @@ working_directory "#{app_path}/current"
 pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 
 # listen
-listen "/tmp/class-api.socket", :backlog => 64
+listen "/tmp/hoge-api.socket", :backlog => 64
 
 # logging
 stderr_path "log/unicorn.stderr.log"
