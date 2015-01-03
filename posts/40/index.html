@@ -9,9 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="某社ではRedisをKeepalivedでフェイルオーバーする構成案 / 酒日記 はてな支店
-みたいな構成が使われているとか使われていないとかで、Sentinelはどうなのだろうか
-というお話がわいたので、カジュアルに試してみました。 参考：Redis Sentinel Documentation &hellip;">
+  <meta name="description" content="はじめてのOSコードリーディング　――UNIX V6で学ぶカーネルのしくみ 参考のソースコードが書いてあって
+次の次のページに解説が書いてあったりするので書籍の方が読みやすいとおもいます。 まだ読み始めですが、ユルフワなので3周ぐらいしないと理解できなさそうです。
+けど面白いです。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +64,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/17/fist-os-code-reading/">はじめてのOSコードリーディング ――UNIX V6で学ぶカーネルのしくみを電子書籍で買ったのですが</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T10:16:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://gihyo.jp/book/2013/978-4-7741-5464-0">はじめてのOSコードリーディング　――UNIX V6で学ぶカーネルのしくみ</a></p>
+
+<p>参考のソースコードが書いてあって<br/>
+次の次のページに解説が書いてあったりするので書籍の方が読みやすいとおもいます。</p>
+
+<p>まだ読み始めですが、ユルフワなので3周ぐらいしないと理解できなさそうです。<br/>
+けど面白いです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -472,57 +515,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/07/zabbix-min/">Zabbixで5分間閾値以下だったらアラート</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-07T10:53:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(#10)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかで設定すると、アイテムが30秒間隔の場合<br/>
-<code>30sec * 10 = 300sec</code>の間の最大値が全て<code>50Kbps以下</code>であれば<br/>
-トリガーを発動する。みたいな設定ができる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(300)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こっちの方がシンプルでわかりやすいかもしれない。</p>
-
-<p>@fujiwara++<br/>
-@qryuu++</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="41">&larr; Older</a>
@@ -542,7 +534,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

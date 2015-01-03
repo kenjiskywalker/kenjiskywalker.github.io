@@ -9,7 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="太平記、いよいよ尊氏がのし上がってきた。 kenjiskywalkerの本棚 - 2014年10月 (7作品) 本を読む本 (講談社学術文庫)J・モーティマー・アドラー読了日：10月10日 私本太平記 07 千早帖吉川英治読了日：10月10日 GIANT KILLING(33) (モーニング KC &hellip;">
+  <meta name="description" content="TL;DR シェルスクリプトでbackquoteを見つけたら
+オールドスタイルおじさんを探し、矯正させよう GNU Bash-2.05 manual 1
+2
+3
+4 When the old-style backquote form of substitution is used, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +65,104 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/10/shellscript-old-style/">シェルスクリプトで外部コマンドを利用する場合の注意点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-10T15:37:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>シェルスクリプトでbackquoteを見つけたら<br/>
+オールドスタイルおじさんを探し、矯正させよう</p>
+
+<blockquote><p>GNU Bash-2.05 manual</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
+</span><span class='line'>   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
+</span><span class='line'>   a backslash terminates the command substitution.  When using the $(command) form,  all  
+</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">a</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s1">&#39;\&#39;`</span>
+</span><span class='line'><span class="s1">echo ${a} # \</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">b=`echo &quot;\\&quot;`</span>
+</span><span class='line'><span class="s1">echo ${b} # unexpected EOF while looking for matching `&quot;&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">c</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="err">&#39;</span><span class="se">\&#39;</span><span class="k">)</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">c</span><span class="k">}</span> <span class="c"># \</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">d</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;\\&quot;</span><span class="k">)</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">d</span><span class="k">}</span> <span class="c"># \</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考</h2>
+
+<p><a href="http://hyperpolyglot.org/unix-shells#cmd-subst-note">http://hyperpolyglot.org/unix-shells#cmd-subst-note</a></p>
+
+<h2>追記</h2>
+
+<blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1097,88 +1199,6 @@ ansibleが実行されます.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/06/isucon4/">#isucon 4の予選に出た</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-06T13:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ISUCON4に参加してきました。</p>
-
-<ul>
-<li><a href="http://isucon.net/archives/40576269.html">ISUCON4 本戦出場者決定のお知らせと本選出場者の利用言語比率</a></li>
-</ul>
-
-
-<p>上記の結果本戦出場にはたどり着けませんでした。<br/>
-もし次回ISUCONがあれば、AMI提出の確認は全員で行いたいと思います。</p>
-
-<blockquote><p>競技終了前に、全員でレギュレーション音読<br/>
-競技終了後に、全員でAMI提出指差し確認実施</p></blockquote>
-
-<h3>やったこと</h3>
-
-<ul>
-<li>とくになし</li>
-</ul>
-
-
-<h3>振り返り</h3>
-
-<p>チームとして前進した気がする。</p>
-
-<ul>
-<li>走りだす前に全体つかむことができてよかった</li>
-<li>実装前にその実装が可能かどうか確認することができてよかった</li>
-<li>再起動を終了1時間前に実施できたのはよかった</li>
-<li>全体のアクセスの統計とレスポンスタイムが遅いアクセスの割合を出した</li>
-<li>335さんとひさいちが読んでコード書いててくれたのでここオンメモリやろ〜ヤジってればよかった</li>
-<li>コンテキストスイッチ気にしすぎた。それよりもindexの改善はオレの役割だった</li>
-</ul>
-
-
-<p>4になって、事前に準備できることはしておかないといけない<br/>
-リアル競技になってきた感が強い。</p>
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://hisaichi5518.hatenablog.jp/entry/2014/09/30/001034">#isucon 4の予選に出た - パルカワ2</a></li>
-<li><a href="http://soh335.hatenablog.com/entry/2014/09/30/003912">#isucon 4 の予選に参加した- @soh335 memo</a></li>
-</ul>
-
-
-<p>運営の方、お疲れ様でした！<br/>
-データホテルチームがんばれ〜</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="4">&larr; Older</a>
@@ -1198,7 +1218,7 @@ ansibleが実行されます.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

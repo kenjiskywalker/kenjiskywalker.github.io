@@ -9,10 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="テレビでお坊さんが、写経をすることで別世界へ行くことができる。
-言葉を永遠と写すことで精神の深いところへたどり着ける。
-という話をされていた。 禅と瞑想も同じで、今日気になっていた茶の湯の本読んでいたら
-決められた動作を静かに正確に行うことによって、精神の深いところへたどり着ける。 &hellip;">
+  <meta name="description" content="2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections
+https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149 Sentinel &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +62,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/12/redis-2-8-sentinel-split-brain/">Redisの2.8.2からsplit Brainの対策がされているようです</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-12T01:46:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections
+<a href="https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149">https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149</a></p>
+
+<p>Sentinel: better time desynchronization.
+<a href="https://github.com/antirez/redis/commit/75347ada7f431925b97b037b56b5e3801e3fd16d">https://github.com/antirez/redis/commit/75347ada7f431925b97b037b56b5e3801e3fd16d</a></p>
+
+<blockquote><p>Sentinels are now desynchronized in a better way changing the time
+handler frequency between 10 and 20 HZ. This way on average a
+desynchronization of 25 milliesconds is produced that should be larger
+enough compared to network latency, avoiding most split-brain condition
+during the vote.</p>
+
+<p>Now that the clocks are desynchronized, to have larger random delays when
+performing operations can be easily achieved in the following way.
+Take as example the function that starts the failover, that is
+called with a frequency between 10 and 20 HZ and will start the
+failover every time there are the conditions. By just adding as an
+additional condition something like rand()%4 == 0, we can amplify the
+desynchronization between Sentinel instances easily.</p></blockquote>
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -608,61 +662,6 @@ nginxのinit scriptでも</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/05/about-smtp/">SMTPが何故嫌いか</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-05T18:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>雑談です。</p>
-
-<ul>
-<li>送り先を間違えると二度と取り戻せない(メールサーバを管理している場合を除く)</li>
-<li>そのSMTPのトラフィックの半分以上はスパム(<a href="http://www.securelist.com/en/analysis/204792322/Kaspersky_Security_Bulletin_Spam_evolution_2013">Kaspersky Security Bulletin. Spam evolution 2013</a>)</li>
-</ul>
-
-
-<p>送り先を間違えると二度と取り戻せないのは、人間に対して厳しい仕様ではないのかなと。<br/>
-万が一間違えた場合、インターネットは無力なことが多くて<br/>
-該当のメールを削除してくださいと電話したり、メール誤送信についてのFAXを送ったりする。</p>
-
-<p>インターネットでは物騒が当たり前なようですが、大半がSPAMのトラフィックを捌く方も大変ですね。</p>
-
-<p>で、どうしたら良いって話なんですが<br/>
-メールアドレスじゃなくてhash値生成してそこのURLへアクセスすると <br/>
-メッセージが見れてやり取りができる。万が一内容を間違えた場合は<br/>
-誤った内容のメッセージを削除して再生成する。とかが良いのかなと。</p>
-
-<p>そしてそのURLをどうやって送るかっていうとSMT(この文章はここで終わっている)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="15">&larr; Older</a>
@@ -682,7 +681,7 @@ nginxのinit scriptでも</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

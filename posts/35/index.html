@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013年の梅。 1 2 3 ">
+  <meta name="description" content="chefspec 1.0.0.rc1 Chefのcookbookのテストどうしたらいいんだろうって悩んでいたのですが
+chefspecが良さそうだったので試してみました。 テストしたいことは cookbookのrecipeに書いてあることが期待通り実行されるか &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +62,311 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/26/chefspec/">Chefspecを利用したcookbookの動作テスト</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-26T16:34:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>chefspec 1.0.0.rc1</p></blockquote>
+
+<p>Chefのcookbookのテストどうしたらいいんだろうって悩んでいたのですが<br/>
+chefspecが良さそうだったので試してみました。</p>
+
+<p>テストしたいことは</p>
+
+<ul>
+<li>cookbookのrecipeに書いてあることが期待通り実行されるか</li>
+<li>ホスト名やプラットフォーム別のrecipeが期待通り実行されるか</li>
+</ul>
+
+
+<p>この2点です。</p>
+
+<p>下記のようなcookbookがあるとして</p>
+
+<p><code>cookbook/yum/recipe/default.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/yum.conf" do
+</span><span class='line'>  source "yum.conf.erb"
+</span><span class='line'>  owner  "root"
+</span><span class='line'>  mode   0644
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>file "/etc/yum/exclude.conf" do
+</span><span class='line'>  owner "root"
+</span><span class='line'>  mode  0644
+</span><span class='line'>  only_if { node[:platform_version].to_i == 5}
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>file "/etc/yum/installonlypkgs.conf" do
+</span><span class='line'>  owner "root"
+</span><span class='line'>  mode  0644
+</span><span class='line'>  only_if { node[:platform_version].to_i &gt;= 6 }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>cookbook/yum/recipe/default.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[main]
+</span><span class='line'>cachedir=/var/cache/yum/$basearch/$releasever
+</span><span class='line'>keepcache=0
+</span><span class='line'>debuglevel=2
+</span><span class='line'>logfile=/var/log/yum.log
+</span><span class='line'>exactarch=1
+</span><span class='line'>obsoletes=1
+</span><span class='line'>gpgcheck=1
+</span><span class='line'>plugins=1
+</span><span class='line'>installonly_limit=3
+</span><span class='line'>
+</span><span class='line'>#  This is the default, if you make this bigger yum won't see if the metadata
+</span><span class='line'># is newer on the remote and so you'll "gain" the bandwidth of not having to
+</span><span class='line'># download the new metadata and "pay" for it by yum not having correct
+</span><span class='line'># information.
+</span><span class='line'>#  It is esp. important, to have correct metadata, for distributions like
+</span><span class='line'># Fedora which don't keep old packages around. If you don't like this checking
+</span><span class='line'># interupting your command line usage, it's much better to have something
+</span><span class='line'># manually check the metadata once an hour (yum-updatesd will do this).
+</span><span class='line'># metadata_expire=90m
+</span><span class='line'>
+</span><span class='line'># PUT YOUR REPOS HERE OR IN separate files named file.repo
+</span><span class='line'># in /etc/yum.repos.d
+</span><span class='line'>&lt;% if node[:platform_version].to_i == 5 %&gt;
+</span><span class='line'>include=/etc/yum/exclude.conf
+</span><span class='line'>&lt;% elsif node[:platform_version].to_i &gt;= 6 %&gt;
+</span><span class='line'>include=/etc/yum/installonlypkgs.conf
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>platform_versionが <strong>5</strong> のときは</h4>
+
+<ul>
+<li><em>/etc/yum/exclude.conf</em>をつくる</li>
+<li><em>/etc/yum.conf</em>に<em>&ldquo;include=/etc/yum/exclude.conf&rdquo;</em>の設定を追加</li>
+</ul>
+
+
+<h4>platform_versionが <strong>6</strong> のときは</h4>
+
+<ul>
+<li><em>/etc/yum/installonlypkgs.conf</em>をつくる</li>
+<li><em>/etc/yum.conf</em>に<em>&ldquo;include=/etc/yum/installonlypkgs.conf&rdquo;</em>の設定を追加</li>
+</ul>
+
+
+<p>という動作をテストします。</p>
+
+<h2>Specファイルの書き方</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install chefspec -v1.0.0.rc1</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>v1.0.0じゃないとChef v11では動かなかった <a href="https://github.com/acrmp/chefspec/issues/109">https://github.com/acrmp/chefspec/issues/109</a></p></blockquote>
+
+<p>使い方は<a href="https://github.com/acrmp/chefspec/blob/master/README.md">README</a>を読めば大体わかります。<br/>
+Specファイルは <code>cookbook/*/spec/default_spec.rb</code> というファイルとして置きます。</p>
+
+<p><code>cookbook/yum/spec/default_spec.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'chefspec'
+</span><span class='line'>
+</span><span class='line'># mock versions: https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/
+</span><span class='line'># 5.8 or 6.2
+</span><span class='line'>
+</span><span class='line'>describe 'yum::defaults platform version 5' do
+</span><span class='line'>  chef_run = ChefSpec::ChefRunner.new(platform:'centos', version:'5.8')
+</span><span class='line'>  chef_run.converge 'yum::default'
+</span><span class='line'>  it 'platform_version 5 yum include' do
+</span><span class='line'>    expect(chef_run).to create_file_with_content '/etc/yum.conf' , 'include=/etc/yum/exclude.conf'
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe 'yum::defaults platform version 6' do
+</span><span class='line'>  chef_run = ChefSpec::ChefRunner.new(platform:'centos', version:'6.2')
+</span><span class='line'>  chef_run.converge 'yum::default'
+</span><span class='line'>  it 'platform_version 6 yum include' do
+</span><span class='line'>    expect(chef_run).to create_file_with_content '/etc/yum.conf' , 'include=/etc/yum/installonlypkgs.conf'
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>chefspecはモックデータとしてfauxhaiのplatformsから、テストデータを引っ張ってきます。<br/>
+なので、CentOS系であれば</p>
+
+<ul>
+<li><a href="https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/centos">https://github.com/customink/fauxhai/tree/master/lib/fauxhai/platforms/centos</a></li>
+</ul>
+
+
+<p>この中から近いバージョンを選ぶ感じになるかと思います。</p>
+
+<p>このデータを利用することで<br/>
+プラットフォーム毎のテストを行うことができてだいぶ捗る印象があります。</p>
+
+<p>また、<em>create_file_with_content</em>で作成されるファイルと、その中にかかれてほしい文字列<br/>
+をテストすることができてなかなか良い感じっぽいです。</p>
+
+<h2>Rakeでテスト回す</h2>
+
+<p><code>Rakefile</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>task :default =&gt; [:chefspec]
+</span><span class='line'>begin
+</span><span class='line'>  require 'rspec/core/rake_task'
+</span><span class='line'>    RSpec::Core::RakeTask.new(:chefspec) do |spec|
+</span><span class='line'>      spec.pattern = 'cookbooks/*/spec/default_spec.rb'
+</span><span class='line'>      spec.rspec_opts = ['-cfs']
+</span><span class='line'>  end
+</span><span class='line'>rescue LoadError =&gt; e
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Rakefileを上記な感じで記述して</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake
+</span><span class='line'>/Users/kenjiskywalker/.rbenv/versions/1.9.3-p392/bin/ruby -S rspec cookbooks/ntp/spec/default_spec.rb cookbooks/yum/spec/default_spec.rb -cfs
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>
+</span><span class='line'>ntp::defaults
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>  should ntp package install
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>  should ntp.conf setting
+</span><span class='line'>
+</span><span class='line'>yum::defaults platform version 5
+</span><span class='line'>  platform_version 5 yum include
+</span><span class='line'>
+</span><span class='line'>yum::defaults platform version 6
+</span><span class='line'>  platform_version 6 yum include
+</span><span class='line'>
+</span><span class='line'>Finished in 0.15855 seconds</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じで一発でテストを通すことができて便利っぽいです。<br/>
+以上、簡単なchefspec情報でした。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -447,64 +753,6 @@ update: 2013/03/22</p></blockquote>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/20/zabbix-action-setting/">ZABBIXでアラートメールを受け取るためにする設定メモ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-20T01:53:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>新しくグループとかつくる時に<br/>
-アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
-
-<ol>
-<li>ユーザつくる</li>
-<li>ユーザのメディアにアラート通知先登録する</li>
-<li>ユーザグループつくる</li>
-<li>ユーザグループにユーザ入れる</li>
-<li>ホストつくる</li>
-<li>ホストグループつくる</li>
-<li>ホストグループにホスト入れる</li>
-<li>アクションのコンディションのホストグループにホストグループを指定</li>
-<li>アクションのオペレーションにユーザグループを指定</li>
-</ol>
-
-
-<p>で、大丈夫のはず。</p>
-
-<p>コピーとかでやるとコンディションとか通知先とか変え忘れるので<br/>
-新規でちゃんとつくった方が確実だしなんか通知こねー！とかなるので<br/>
-ちゃんと確認しないといけない。</p>
-
-<p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="36">&larr; Older</a>
@@ -524,7 +772,7 @@ update: 2013/03/22</p></blockquote>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

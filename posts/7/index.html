@@ -9,10 +9,18 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="TL;DR Monitor the state of the Fluentd by Sensu.
-SensuでFluentdの状態を監視する 利用するソフトウェア(Using Software) fluentd
-Sensu
-check-fluentd-monitor-agent.rb 監視設定( &hellip;">
+  <meta name="description" content="OSXでsedコマンドを実行した際に、正規表現が上手く動作しなかった。 TL;DR BSD sedがイケてないのではなく、
+GNU sedが独自で拡張正規表現を実装していただけっぽい。 OSX 1
+2
+3
+4
+5
+6
+7
+8
+9
+['-']%
+['-']% echo "hogeee" | sed &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +72,135 @@ check-fluentd-monitor-agent.rb 監視設定( &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/18/sed-bre/">GNUのsedとBSDのsed</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-18T10:57:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>OSXでsedコマンドを実行した際に、正規表現が上手く動作しなかった。</p>
+
+<h2>TL;DR</h2>
+
+<p>BSD sedがイケてないのではなく、<br/>
+GNU sedが独自で拡張正規表現を実装していただけっぽい。</p>
+
+<ul>
+<li>OSX</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% echo "hogeee" | sed -e 's/e\+//'
+</span><span class='line'>hogeee
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% sed --version
+</span><span class='line'>sed: illegal option -- -
+</span><span class='line'>usage: sed script [-Ealn] [-i extension] [file ...]
+</span><span class='line'>       sed [-Ealn] [-i extension] [-e script] ... [-f script_file] ... [file ...]
+</span><span class='line'>['x']% </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Linux</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']#
+</span><span class='line'>['-']# echo "hogeee" | sed -e 's/e\+//'
+</span><span class='line'>hog
+</span><span class='line'>['-']#
+</span><span class='line'>['-']#
+</span><span class='line'>['-']# sed --version
+</span><span class='line'>GNU sed version 4.2.1
+</span><span class='line'>Copyright (C) 2009 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
+</span><span class='line'>to the extent permitted by law.
+</span><span class='line'>
+</span><span class='line'>GNU sed home page: &lt;http://www.gnu.org/software/sed/&gt;.
+</span><span class='line'>General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;.
+</span><span class='line'>E-mail bug reports to: &lt;bug-gnu-utils@gnu.org&gt;.
+</span><span class='line'>Be sure to include the word ``sed'' somewhere in the ``Subject:'' field.
+</span><span class='line'>['-']#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reference</h3>
+
+<p><a href="http://www.gnu.org/software/sed/manual/html_node/Regular-Expressions.html#Regular-Expressions">3.3 Overview of Regular Expression Syntax - GNU sed Programs</a><br/>
+<a href="http://www.regular-expressions.info/posix.html">POSIX Basic Regular Expressions - Regular-Expressions.info</a></p>
+
+<p>そもそもPOSIXで定義されている基本的な正規表現(<em>Basic Regular Expressions</em>)に<br/>
+<code>+</code>やら<code>?</code>やら<code>|</code>はなくて(<em>Extended Reuglar Exression</em>)<br/>
+GNU sedはそれを独自で使えるようにしている(<em>GNU extension</em>)。<br/>
+BSD sedは拡張はしていないから使えない。<br/>
+使うなら<code>-E</code>のオプションを利用する。って感じなのかな。</p>
+
+<h2>追記</h2>
+
+<p>そういえばBSDのsedで上書きしようとする場合は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sed -i '' -e 's/foo/bar/' FILENAME</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいに<code>-i ''</code>でファイル名に空文字与えないと<br/>
+ファイルに上書きされないのもハマった記憶ある。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -441,124 +578,6 @@ packageを作成してインストールする方法を記載します。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/18/peco-get-aws-instance-list/">pecoを利用してAWSのインスタンスを取得する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-18T12:19:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://github.com/lestrrat/peco">peco</a> を利用してAWSのEC2に簡単ログイン</h2>
-
-<p>zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。</p>
-
-<h3>TL;DR</h3>
-
-<p>zsh使っててaws-cli使っていてshellscriptを利用できるなら<br/>
-aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの</p>
-
-<h3>設定</h3>
-
-<ul>
-<li>shellscriptを起きます(get-ec2-list.sh)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>instances=$(aws ec2 describe-instances \
-</span><span class='line'>    --filters 'Name=instance-state-name,Values=running' \
-</span><span class='line'>    --query 'Reservations[].Instances[?PublicDnsName!=`null`].[Tags[*][?Key==`Name`].Value[],PublicDnsName]' \
-</span><span class='line'>    --output text)
-</span><span class='line'>
-</span><span class='line'>for item in ${instances[@]}; do
-</span><span class='line'>    if [[ `echo $item | grep 'compute.amazonaws.com'` ]]; then
-</span><span class='line'>        printf "$item\n"
-</span><span class='line'>    else
-</span><span class='line'>        printf "$item "
-</span><span class='line'>    fi
-</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>zshの設定にこんな感じのものを書きます(zshrc)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function get_ec2_list() {
-</span><span class='line'>    local get_list
-</span><span class='line'>    get_list="/home/hoge/get-ec2-list.sh"
-</span><span class='line'>    BUFFER=$(eval $get_list | peco  | awk '{print $2}')
-</span><span class='line'>    CURSOR=$#BUFFER
-</span><span class='line'>    zle clear-screen
-</span><span class='line'>}
-</span><span class='line'>zle -N get_ec2_list
-</span><span class='line'>bindkey '^v' get_ec2_list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じのものをつくると</p>
-
-<blockquote><p>QUERY><br/>
-web  ec2-192-0-2-1.region.compute.amazonaws.com<br/>
-db   ec2-192-0-2-2.region.compute.amazonaws.com<br/>
-app1 ec2-192-0-2-3.region.compute.amazonaws.com<br/>
-app2 ec2-192-0-2-4.region.compute.amazonaws.com</p></blockquote>
-
-<p>こんな感じでEC2のNameを利用してPublic DNSを絞り込める。<br/>
-awkを利用して、選択したら<br/>
-Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br/>
-便利。便利だけど落書きレベルなのでGoで完結できるようにした方が良い。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="8">&larr; Older</a>
@@ -578,7 +597,7 @@ Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択さ
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

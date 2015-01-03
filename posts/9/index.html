@@ -9,13 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="1
-2
-3
-4
-5
-#!/bin/bash FOO=`command` echo ${FOO} | mail -s "foo command dayo" foo@example.com のようなスクリプトを作成した時に、送信先である
-Gmailで受信すると本文にコマンドの結果が出力されるのではなく &hellip;">
+  <meta name="description" content="AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。 TL;DR 同一のレコードをPrimaryとSecondaryで作成し
+Primary、SecondaryそれぞれでHealth Check to Associateを設定する。
+PrimaryのHealth &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +63,114 @@ Gmailで受信すると本文にコマンドの結果が出力されるのでは
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/06/route53-healthcheck-failover/">Route53を利用したフェイルオーバーシステムの作成</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T00:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。</p>
+
+<h2>TL;DR</h2>
+
+<p>同一のレコードをPrimaryとSecondaryで作成し<br/>
+Primary、SecondaryそれぞれでHealth Check to Associateを設定する。<br/>
+PrimaryのHealth Checkが失敗した場合、Secondaryに遷移する。<br/>
+SecondaryもダメだったらPrimaryに変わる。<br/>
+両方同じタイミングでダメになったらPrimaryのまま。</p>
+
+<h2>手順</h2>
+
+<h3>Health Checkの設定</h3>
+
+<h5>1. <em>Health Checks</em> にてヘルスチェック対象のホスト・サービスを設定</h5>
+
+<h3>Health Checkを利用するレコードの作成</h3>
+
+<h5>2-1. <em>Hosted Zones</em> にてフェイルオーバーを行いたいDNSを設定</h5>
+
+<h5>2-2. <em>Create Record Set</em> にてレコードの作成(Primary)</h5>
+
+<h5>2-3. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
+
+<h5>2-4. <em>Failover Record Type</em> にて <em>Primary</em> を選択</h5>
+
+<h5>2-5. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
+
+<h5>2-6. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
+
+<h5>2-7. <em>Create Record Set</em> にてレコードの作成(Secondary)</h5>
+
+<h5>2-8. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
+
+<h5>2-9. <em>Failover Record Type</em> にて <em>Secondary</em> を選択</h5>
+
+<h5>2-10. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
+
+<h5>2-11. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
+
+<p>２つの同じレコードを作成し、応答するレコードをそれぞれ<br/>
+Primary, Secondaryと指定することでフェイルオーバーする仕組み。</p>
+
+<blockquote><p>www.example.com:80</p>
+
+<p>  => Primary
+   hoge01.example.com:80 (health check <a href="http://hoge01.example.com">http://hoge01.example.com</a>)</p>
+
+<p>  => Secondary
+   hoge02.example.com:80 (health check <a href="http://hoge02.example.com">http://hoge02.example.com</a>)</p></blockquote>
+
+<p>こんな構成で <em><a href="http://www.example.com_">http://www.example.com_</a> へのアクセスは通常だと<br/>
+</em>hoge01<em> へアクセスが行くようになっていて、 </em>hoge01<em> の<br/>
+レスポンスに異常があった場合に </em>hoge02_ へ行くようになる。</p>
+
+<p>試しに ヘルスチェックを <em>tcp:24224</em> にしても問題なく認識したので<br/>
+fluentdの集約サーバを冗長構成にしておいて</p>
+
+<blockquote><p>log.example.com:24224</p>
+
+<p>  => Primary
+   hoge01.example.com (health check tcp://hoge01.example.com:24224)</p>
+
+<p>  => Secondary
+   hoge02.example.com (health check tcp://hoge02.example.com:24224)</p></blockquote>
+
+<p>通常は <em>hoge01</em> にて集約し、メンテナンスなど<br/>
+行いたい場合に <em>hoge01</em> のfluentdを落としたら、自動的に<br/>
+レコードが切り替わり、 <em>hoge02</em> の方へログが流れていくような構成が組めたりする。<br/>
+<em>hoge01</em> のfluentd を立ち上げるとPrimaryが正常になったことが認識され<br/>
+レコードは元の <em>hoge01</em> へ向き直る。</p>
+
+<p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -782,163 +886,6 @@ BlueGreenDeploymentなシステムをつくるなら<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/">AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-12T18:13:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
-存在しない場合は無視されるので、下記のように4本など<br/>
-事前に指定しておくのが良いかと思います。</p>
-
-<ul>
-<li>create-launch-configuration</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \
-</span><span class='line'>                  --image-id AMI \
-</span><span class='line'>                  --instance-type m1.small \
-</span><span class='line'>                  --key-name KEYNAME \
-</span><span class='line'>                  --security-groups sg-00000000 sg-00000001 \
-</span><span class='line'>                  --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
-</span><span class='line'>                                             {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
-</span><span class='line'>                                             {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
-</span><span class='line'>                                             {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
-</span><span class='line'>                                           ]'
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>aws autoscaling &ndash;region REGION describe-launch-configurations</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    "LaunchConfigurations": [
-</span><span class='line'>        {
-</span><span class='line'>            "UserData": null,
-</span><span class='line'>            "EbsOptimized": false,
-</span><span class='line'>            "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
-</span><span class='line'>            "InstanceMonitoring": {
-</span><span class='line'>                "Enabled": true
-</span><span class='line'>            },
-</span><span class='line'>            "ImageId": "AMI",
-</span><span class='line'>            "CreatedTime": "2014-01-01T01:00:00.000Z",
-</span><span class='line'>            "BlockDeviceMappings": [
-</span><span class='line'>                {
-</span><span class='line'>                    "DeviceName": "/dev/sdd",
-</span><span class='line'>                    "VirtualName": "ephemeral2"
-</span><span class='line'>                },
-</span><span class='line'>                {
-</span><span class='line'>                    "DeviceName": "/dev/sdb",
-</span><span class='line'>                    "VirtualName": "ephemeral0"
-</span><span class='line'>                },
-</span><span class='line'>                {
-</span><span class='line'>                    "DeviceName": "/dev/sde",
-</span><span class='line'>                    "VirtualName": "ephemeral3"
-</span><span class='line'>                },
-</span><span class='line'>                {
-</span><span class='line'>                    "DeviceName": "/dev/sdc",
-</span><span class='line'>                    "VirtualName": "ephemeral1"
-</span><span class='line'>                }
-</span><span class='line'>            ],
-</span><span class='line'>            "KeyName": "KEYNAME",
-</span><span class='line'>            "SecurityGroups": [
-</span><span class='line'>                "sg-00000000",
-</span><span class='line'>                "sg-00000001"
-</span><span class='line'>            ],
-</span><span class='line'>            "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
-</span><span class='line'>            "KernelId": null,
-</span><span class='line'>            "RamdiskId": null,
-</span><span class='line'>            "InstanceType": "m1.small"
-</span><span class='line'>        }
-</span><span class='line'>    ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="10">&larr; Older</a>
@@ -958,7 +905,7 @@ BlueGreenDeploymentなシステムをつくるなら<br/>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - kenjiskywalker -
+  Copyright &copy; 2015 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
