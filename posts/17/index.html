@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="date : 2014/01/05
-OS : CentOS 6.5
-Sensu : sensu-0.12.3-1.x86_64
-sensu-chef : 0.8.0 === (2014/01/06)追記 ======================= @kenjiskywalker CentOS &hellip;">
+  <meta name="description" content="去年の振り返り 発表したこと #qpstudyと仏教とわたし
+mizzyさんと初めてガッツリ話すことができた。貴重な体験だった。
+その後、カヤックの勉強会でhsbtさん、kentaroさんともお会いすることができて
+本当に貴重だった。 #monitoringcasual Vol3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,302 +64,6 @@ sensu-chef : 0.8.0 === (2014/01/06)追記 ======================= @kenjiskywalke
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/05/sensu-centos6-4-erlang-install/">CentOS 6.5でChefからSensuをインストールしようとするとRabbitMQでコケる回避策</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-05T18:33:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>date       : 2014/01/05<br/>
-OS         : CentOS 6.5<br/>
-Sensu      : sensu-0.12.3-1.x86_64<br/>
-sensu-chef : 0.8.0</p></blockquote>
-
-<p>=== (2014/01/06)追記 =======================</p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> CentOS 6.4 → 6.5 にしたら出なくなった･･･うーむ</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/420100517943967744">January 6, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>ドラクエ氏によると、この解決策だと6.4は別のエラーがでるとのこと。</p>
-
-<hr />
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> centos?</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419716838642032641">January 5, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> CentOS 6.4 の openssl のビルド設定が変わってて Erlang が crypto モジュールを読むところで落ちるです</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419717299747037184">January 5, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/naoya_ito">@naoya_ito</a> まさにこれですw どうにかできないかやってみます</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/419717712474959872">January 5, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> うまくいったら教えてくださいｗ</p>&mdash; Naoya Ito (@naoya_ito) <a href="https://twitter.com/naoya_ito/statuses/419717651015823360">January 5, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/voluntas">@voluntas</a> ありがとうございます。R16B02-0.1でいけるならerlang-solutionsでyumインストール時にバージョン指定すれば回避できるのかなと思ってChefでどうやるのか調べております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/419730565164580864">January 5, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>という感じでうまくいかなかったのでBKっぽいけど取り敢えず回避策を</p>
-
-<h2><a href="https://github.com/sensu/sensu-chef">https://github.com/sensu/sensu-chef</a></h2>
-
-<p>このSensuのリポジトリは<a href="http://community.opscode.com/cookbooks/sensu">opscode</a>に上がっているので<br/>
-knifeで取ってきます。他にも必要なrecipeを合わせて持ってこれるので便利です。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>knife cookbook site vendor sensu -o cookbooks/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>関係するrecipeがダウンロードされたことを確認してください。<br/>
-次にREADMEに書いてあるようにSSL証明書を作成します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd ./cookbooks/sensu/examples/ssl/
-</span><span class='line'>./ssl_certs.sh generate
-</span><span class='line'>knife data bag create sensu
-</span><span class='line'>knife data bag from file sensu ssl.json</span></code></pre></td></tr></table></div></figure>
-
-
-<p>などとSSLを作成しますが
-knifeが上手く動かない場合は</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ./data_bags/sensu
-</span><span class='line'>cp ./cookbooks/sensu/examples/ssl/ssl.json data_bags/sensu/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とすることで同じ結果を得られます。
-次に<code>run_list</code>を作成します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "default_attributes": {
-</span><span class='line'>  },
-</span><span class='line'>  "override_attributes": {
-</span><span class='line'>  },
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "sensu",
-</span><span class='line'>    "sensu::redis",
-</span><span class='line'>    "sensu::rabbitmq"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この状態でChefを廻します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Recipe: rabbitmq::default
-</span><span class='line'>  * service[rabbitmq-server] action restart
-</span><span class='line'>================================================================================
-</span><span class='line'>Error executing action `restart` on resource 'service[rabbitmq-server]'
-</span><span class='line'>================================================================================
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>Mixlib::ShellOut::ShellCommandFailed
-</span><span class='line'>------------------------------------
-</span><span class='line'>Expected process to exit with [0], but received '1'
-</span><span class='line'>---- Begin output of /sbin/service rabbitmq-server start ----
-</span><span class='line'>STDOUT: Starting rabbitmq-server: FAILED - check /var/log/rabbitmq/startup_{log, _err}
-</span><span class='line'>rabbitmq-server.
-</span><span class='line'>STDERR:
-</span><span class='line'>---- End output of /sbin/service rabbitmq-server start ----
-</span><span class='line'>Ran /sbin/service rabbitmq-server start returned 1
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>Resource Declaration:
-</span><span class='line'>---------------------
-</span><span class='line'># In /root/chef-solo/cookbooks-3/rabbitmq/recipes/default.rb
-</span><span class='line'>
-</span><span class='line'>106:   service node['rabbitmq']['service_name'] do
-</span><span class='line'>107:     action [:enable, :start]
-</span><span class='line'>108:   end
-</span><span class='line'>109:
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>Compiled Resource:
-</span><span class='line'>------------------
-</span><span class='line'># Declared in /root/chef-solo/cookbooks-3/rabbitmq/recipes/default.rb:106:in `from_file'
-</span><span class='line'>
-</span><span class='line'>service("rabbitmq-server") do
-</span><span class='line'>  action [:enable, :start]
-</span><span class='line'>  updated true
-</span><span class='line'>  supports {:restart=&gt;false, :reload=&gt;false, :status=&gt;true}
-</span><span class='line'>  retries 0
-</span><span class='line'>  retry_delay 2
-</span><span class='line'>  service_name "rabbitmq-server"
-</span><span class='line'>  enabled true
-</span><span class='line'>  running true
-</span><span class='line'>  pattern "rabbitmq-server"
-</span><span class='line'>  startup_type :automatic
-</span><span class='line'>  cookbook_name :rabbitmq
-</span><span class='line'>  recipe_name "default"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と、このようにエラーになります。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>diff --git cookbooks/erlang/recipes/package.rb cookbooks/erlang/recipes/package.rb
-</span><span class='line'>index 19f9fce..6cec68f 100644
-</span><span class='line'>--- cookbooks/erlang/recipes/package.rb
-</span><span class='line'>+++ cookbooks/erlang/recipes/package.rb
-</span><span class='line'>@@ -43,5 +43,9 @@ when 'rhel'
-</span><span class='line'>     include_recipe 'yum-erlang_solutions'
-</span><span class='line'>   end
-</span><span class='line'>
-</span><span class='line'>-  package 'erlang'
-</span><span class='line'>+  execute "yum install -y erlang-R16B02" do
-</span><span class='line'>+    user "root"
-</span><span class='line'>+    command "yum install -y erlang-R16B02"
-</span><span class='line'>+    not_if { File.exists? "/usr/bin/erl" }
-</span><span class='line'>+  end
-</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のようにバージョンを含めたパッケージの指定をすることで回避できました。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package 'erlang' do
-</span><span class='line'>  version "R16B02"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>この方法でイケるかと思ったのですがそんなバージョンはない。とエラーになりました。<br/>
-以上、取り敢えずの回避策としてご利用下さい。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -733,6 +437,52 @@ EventMachineどうなってるんだろう。って思って調べたら</p>
 
 <div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61lV8UYViNL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank">WEB+DB PRESS Vol.78</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/WEB%2BDBPRESS%E7%B7%A8%E9%9B%86%E9%83%A8%E7%B7%A8" target="_blank">WEB+DBPRESS編集部編</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">技術評論社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-12-21</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4774161209" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/29/gravity/">「ゼロ・グラビティ」をみた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-29T03:25:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://wwws.warnerbros.co.jp/gravity/">http://wwws.warnerbros.co.jp/gravity/</a></p>
+
+<p>IMAX 3Dで見た方が良いって言われたので見てきた。<br/>
+アバターを見てから、3Dは残念感があって今回も飛び出す絵本だろうなって思っていた。</p>
+
+<p>全くの見当違いだった。本当に宇宙に行ってきた感覚だった。<br/>
+映画館でしか体験できないので是非体験してもらいたい。<br/>
+座席は前から３、４列目をおすすめします。<br/>
+視野全体がIMAXのスクリーンに覆われるぐらいがちょうどいい。</p>
+
+<p>久々にエンドロール流れて３分ぐらい身動き取れなかった。</p>
 </div>
   
   

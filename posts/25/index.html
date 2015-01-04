@@ -9,8 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="ミドルウェアの管理はchefを使用している
-サーバへのデプロイはcapistranoを使用している 上記2点が当てはまる場合、serverspecの使い方として Testing #chef Cookbook by #serverspec #devops / さよならインターネット &hellip;">
+  <meta name="description" content="デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。
+一つの例として私の方法を載せますので、よりよい方法などあれば教えて頂きたいです。 backup dir /var/log/backup/nginx/YYYYMMDD/
+/var/log/backup/app/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,110 +63,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/20/serverspec-with-cron/">本番環境でのserverspecの運用方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-20T02:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>ミドルウェアの管理はchefを使用している</li>
-<li>サーバへのデプロイはcapistranoを使用している</li>
-</ul>
-
-
-<p>上記2点が当てはまる場合、serverspecの使い方として</p>
-
-<ul>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/31/serverspec-attribute/">serverspecでchefのjsonを読み込む / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について / さよならインターネット</a></li>
-</ul>
-
-
-<p>上記エントリーを参考にして頂ければchef + serverspecである程度の<br/>
-インフラストラクチャの構築とテストが行えるかと思います。</p>
-
-<p>また、こちらのエントリーのように、chefのrecipeからserverspecのテスト自体を<br/>
-生成してしまうという素晴らしいアイデアもあります。最高ですね。</p>
-
-<h4><a href="http://tily.hatenablog.com/entry/2013/07/21/150404">Chef のレシピから serverspec のテストを自動生成する chef-serverspec-handler という gem を作ってみた</a></h4>
-
-<p>で、結局使えるのはわかったのですが、どのように運用すべきか<br/>
-というところは各所で試行錯誤中かと思います。<br/>
-一例として、基礎的な内容ではありますが、現在試している内容を<br/>
-記載してみようと思います。</p>
-
-<h2>前提条件</h2>
-
-<blockquote><p>capistranoを実行するサーバは、対象の全サーバのrootアカウントに<br/>
-鍵認証でノーパスワードでログインが可能である</p></blockquote>
-
-<h2>chefをcapistranoでdeploy時にテスト</h2>
-
-<p>capistranoの設定にserverspecの項目を増やすことで<br/>
-chef-soloなどが実行された後に、serverspecが実行されます。<br/>
-これは台数が多いと時間が結構かかるので良し悪しがあるかと思います。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  desc "run serverspec"
-</span><span class='line'>  task :run_serverspec do
-</span><span class='line'>    `cd /root/chef/ ; rake`
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>cronで定時実行</h2>
-
-<p><code>/etc/cron.d/serverspec</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0 */1 * * * root cd /root/chef/ ; rake 1&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>正常終了であればログを破棄、エラーが出力された際には<br/>
-メールにて通知するようにします。</p>
-
-<h2>とても簡単なことですが</h2>
-
-<p>取り敢えずの導入としては、上記２つの方法を実践しています。<br/>
-新しくミドルウェアを追加した際にテストがコケたりするので<br/>
-なかなか面白いです。</p>
-
-<p>serverspecでどのような監視をしているかなど話し合うの面白そうですよね。</p>
-
-<p>以上、ご参考になれば幸いです。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -475,6 +372,99 @@ nginx、アプリケーションのログがあるとします。</p>
 <p><a href="http://golang.org/pkg/net/http/">http://golang.org/pkg/net/http/</a></p>
 
 <p>プログラミング面白いのでちまちま色々つくって行くの楽しい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/13/the-unix-philosophy/">「UNIXという考え方」を読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-13T00:02:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/4274064069/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=4274064069&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4274064069&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=4274064069" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p><a href="http://soh335.hatenablog.com/entry/2013/09/01/151758">UNIXという考え方―その設計思想と哲学 / @soh335 memo</a></p>
+
+<p>面白くないだろうなと思って読んだけど面白かった。<br/>
+ただ時代背景をちゃんと理解しないと何言ってんだオッサンみたいになる。</p>
+
+<p>移植性の話でシェルスクリプトが礼賛されてるけど<br/>
+今だとクロスコンパイルの効くgolangが良いと思う。</p>
+
+<p>UNIXというか、Linuxを使ってると、入力コマンドをたった1byte間違えただけで<br/>
+OSが吹っ飛んだり、ちょっと間違えた時に昔の状態に戻れないの<br/>
+もしかしたら何十年後かにはそんなこともあったね。みたいな話になってるかもしれない。</p>
+
+<p>コマンドの成否をOSがフォローするよりも、バージョン管理システムみたいに<br/>
+そのコマンドによってファイルシステム上のファイルに変更があった場合、<br/>
+コマンド実行以前の状態に戻す。みたいなのできたら最高だと思う。</p>
+
+<p>シェルスクリプト、とても便利で<code>system()</code>とか<code>echo ~</code>のように<br/>
+外部コマンド呼び出さなくても良いのが利点だけど、<br/>
+テストするのに毎回<code>echo "command"</code>みたいにprint debugぐらいしかできなくて<br/>
+石器時代の代物にはかわりないと思う。</p>
+
+<p>けど、その辺はわりかしどうでもよくてこの本の面白かったところは他にあった。</p>
+
+<h3>スモール・イズ・ビューティフル</h3>
+
+<p>プログラミング初心者なので、ゴリっとしたでかいコード見ると<br/>
+おお、すげぇ。。。って思うけど、実際は目的に対して少ないコードが良いし<br/>
+行き着く先は無刀の境地みたいに、1行もコード書かないで目的が達成されるのが最高で<br/>
+プログラムを書く場合に、量は少なくシンプルに、読んでわかりやすいコードを目標にすべきなんだ。</p>
+
+<h3>ひとつのプログラムにはひとつのことだけさせる</h3>
+
+<p>ひとつのメソッドで色んな機能盛り込まない的な話だ。</p>
+
+<h3>できるだけ早く試作を作成する</h3>
+
+<p>アジャイルだ。</p>
+
+<h3>ソフトウェアの梃子を使う</h3>
+
+<p>先人が書いたコード、拝借できるものは拝借した方が効率が良いって話だ。</p>
+
+<h3>対話的プログラムの危険性</h3>
+
+<p>おしゃべりなプログラムは例外発生させた時にわけわからん動作したりするから<br/>
+最低限の機能にすべきって話だ。</p>
+
+<h2>感想</h2>
+
+<p>色々面白いところはあったけど、lsのコマンドオプションの多さの問題点や、<br/>
+100％を完成としないで90%で完成とした方が良いみたいなことは昔から言われていたんだ。<br/>
+っていうことを知れて面白かった。</p>
+
+<p>本書の中の抜粋なんだけど「人月の神話」に<br/>
+<em>「開発プロジェクトがある程度進行した段階でプログラマを追加投入すると、完成は早まらずむしろ遅れる」</em><br/>
+っていうことが書いてあるらしく、電車の中で笑ってしまった。</p>
 </div>
   
   

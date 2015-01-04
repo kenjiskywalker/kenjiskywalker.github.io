@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="perl-buildまでやるやつ書いた。 参考元：plenvによるPerl環境を構築するchefのオレオレサンプルレシピ - hirobanex.net https://github.com/kenjiskywalker/mychefrepo/tree/master/site-cookbooks/ &hellip;">
+  <meta name="description" content="前提条件 グローバルにアクセスできる管理サーバが一台ある
+対象のVPCにアサイン可能なEIPがある(AssociateされていないEIPがある) という前提条件が成立していれば、管理サーバで このようなスクリプトを 1
+*/1 * * * * root /root/set_eip.sh 2&gt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,48 +63,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/31/plenv-chef-cookbook/">Plenvとperl-buildを走らせるchefのcookbookを書いた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-31T03:03:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>perl-buildまでやるやつ書いた。</p>
-
-<p>参考元：<a href="http://hirobanex.net/article/2013/06/1372382206">plenvによるPerl環境を構築するchefのオレオレサンプルレシピ - hirobanex.net</a></p>
-
-<p><a href="https://github.com/kenjiskywalker/mychefrepo/tree/master/site-cookbooks/plenv">https://github.com/kenjiskywalker/mychefrepo/tree/master/site-cookbooks/plenv</a></p>
-
-<p>これでchef使って一撃でPerlの環境用意できます。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -318,6 +278,64 @@ Thank you GitHub!</p>
 今刺さってるCFDのメモリ4GB x2と全く同じもの買った。</p>
 
 <p>これで認識しなかったら泣いちゃう。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/20/ebs-terminate-remove/">EC2をTerminateした時にEBSも削除してほしい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-20T19:35:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー</p>&mdash; con_mame (@con_mame) <a href="https://twitter.com/con_mame/statuses/369439049037017089">August 19, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>AWSで悩みがあったら大体@con_mameさんが解決してくれるんだ。<br/>
+お会いしたらbeerをおごりたい。</p>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/08/14/aws-vpc-autoscaling/">先日のAuto Scalingの検証時</a>に、インスタンスがTerminateされても<br/>
+利用されたEBSがうんちみたいに残ってしまうことがあった。</p>
+
+<p>残したくない場合は、AMI作成時に</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" alt="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" /></p>
+
+<p>上記のように<code>DeleteOnTermination</code>を有効化すれば良い。<br/>
+Auto Scalingで<code>DeleteOnTermination</code>を有効化したAMIを指定すれば<br/>
+EC2のインスタンスがTerminateされた時に、同時にEBSボリュームも削除してくれる。</p>
+
+<p>便利だ。</p>
 </div>
   
   
