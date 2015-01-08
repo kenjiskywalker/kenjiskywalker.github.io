@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-04T14:34:23+09:00</updated>
+  <updated>2015-01-08T12:51:35+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ansibleはcheck modeだとshellやcommandは実行されない]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode/"/>
+    <updated>2015-01-08T11:46:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode</id>
+    <content type="html"><![CDATA[<p>最近は深刻なjinja2とAnsible疲れです。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
+</span><span class='line'>skipping: [192.0.2.100]
+</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
+</span><span class='line'>
+</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
+</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
+</span><span class='line'>
+</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんなエラーが出た。</p>
+
+<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
+
+<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
+</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
+</span><span class='line'>  register: ruby_installed
+</span><span class='line'>  always_run: yes
+</span><span class='line'>  ignore_errors: yes
+</span><span class='line'>  tags:
+</span><span class='line'>    - ruby
+</span><span class='line'>    - ruby:install
+</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のように<code>always_run: yes</code>にしなければならない。<br/>
+自分メモ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「齋藤孝の速読塾」と「超高速勉強法」を読んだ]]></title>
@@ -2208,280 +2264,6 @@ sensuに乗り換えるのは無駄だと思う。</p>
 
 
 <blockquote><p>※1… 個人差があります</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Consulでkey/valueを叩く]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/09/09/consul-key-value/"/>
-    <updated>2014-09-09T23:09:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/09/09/consul-key-value</id>
-    <content type="html"><![CDATA[<h2>TL;DR</h2>
-
-<p>Consulでkey/valueを叩く</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
-</span><span class='line'>true
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foo | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 538,
-</span><span class='line'>    "ModifyIndex": 538,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": "YmFy"
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foo | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 538,
-</span><span class='line'>    "ModifyIndex": 538,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": "YmFy"
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
-</span><span class='line'>true
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 540,
-</span><span class='line'>    "ModifyIndex": 540,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foofoo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": "YmFyYmFy"
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>delete</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
-</span><span class='line'>['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
-</span><span class='line'>true%                                                                                                  ['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>再帰もいける</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 555,
-</span><span class='line'>    "ModifyIndex": 555,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foofoo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": "YmFyYmFy"
-</span><span class='line'>  },
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 538,
-</span><span class='line'>    "ModifyIndex": 538,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": "YmFy"
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>flags</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 555,
-</span><span class='line'>    "ModifyIndex": 559,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foofoo",
-</span><span class='line'>    "Flags": 0,
-</span><span class='line'>    "Value": null
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -X PUT 'barbar' -s 'http://127.0.0.1:8500/v1/kv/foofoo?flags=1' | jq .
-</span><span class='line'>true
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
-</span><span class='line'>[
-</span><span class='line'>  {
-</span><span class='line'>    "CreateIndex": 555,
-</span><span class='line'>    "ModifyIndex": 560,
-</span><span class='line'>    "LockIndex": 0,
-</span><span class='line'>    "Key": "foofoo",
-</span><span class='line'>    "Flags": 1,
-</span><span class='line'>    "Value": null
-</span><span class='line'>  }
-</span><span class='line'>]
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>階層化とdecode</h3>
-
-<blockquote><p>BSD の base64 コマンドだと<br/>
--dがdebugで-Dがdecodeだった</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
-</span><span class='line'>true
-</span><span class='line'>['x']%
-</span><span class='line'>['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
-</span><span class='line'>{
-</span><span class='line'>  "CreateIndex": 565,
-</span><span class='line'>  "ModifyIndex": 568,
-</span><span class='line'>  "LockIndex": 0,
-</span><span class='line'>  "Key": "foo/bar/baz",
-</span><span class='line'>  "Flags": 0,
-</span><span class='line'>  "Value": "YmF6YmF6YmF6"
-</span><span class='line'>}
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
-</span><span class='line'>bazbazbaz
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   

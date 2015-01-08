@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ansible | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/ansible/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-04T14:34:23+09:00</updated>
+  <updated>2015-01-08T12:51:35+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ansibleはcheck modeだとshellやcommandは実行されない]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode/"/>
+    <updated>2015-01-08T11:46:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode</id>
+    <content type="html"><![CDATA[<p>最近は深刻なjinja2とAnsible疲れです。</p>
+
+<pre><code>TASK: [ruby | check ruby rbenv installed] *************************************
+skipping: [192.0.2.100]
+ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
+
+TASK: [ruby | rbenv install ] *******************************
+fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
+
+FATAL: all hosts have already failed -- aborting
+</code></pre>
+
+<p>こんなエラーが出た。</p>
+
+<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
+
+<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
+
+<pre><code>- name: check ruby rbenv installed
+  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
+  register: ruby_installed
+  always_run: yes
+  ignore_errors: yes
+  tags:
+    - ruby
+    - ruby:install
+    - install
+</code></pre>
+
+<p>のように<code>always_run: yes</code>にしなければならない。<br/>
+自分メモ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ansible Vaultで暗号化されたファイルをCircleCIで利用する]]></title>

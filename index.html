@@ -9,10 +9,17 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="おじさんなので時間がない。時間がないので
-時間をつくる工夫が必要になる。
-その時間を有効化するためにどうするか、みたいなことを考えて
-情報量を増やしたり行動力を高めたりするのが良いと考えた。 そこで取り敢えず本を速く読む為には、みたいな本を２冊読んだ。 超高速勉強法著者 : 椋木修三経済界発売日 &hellip;">
+  <meta name="description" content="最近は深刻なjinja2とAnsible疲れです。 1
+2
+3
+4
+5
+6
+7
+8
+TASK: [ruby | check ruby rbenv installed] *************************************
+skipping: [192.0.2.100]
+ok &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +71,89 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/08/ansible-check-mode/">Ansibleはcheck Modeだとshellやcommandは実行されない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-08T11:46:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近は深刻なjinja2とAnsible疲れです。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
+</span><span class='line'>skipping: [192.0.2.100]
+</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
+</span><span class='line'>
+</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
+</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
+</span><span class='line'>
+</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんなエラーが出た。</p>
+
+<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
+
+<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
+</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
+</span><span class='line'>  register: ruby_installed
+</span><span class='line'>  always_run: yes
+</span><span class='line'>  ignore_errors: yes
+</span><span class='line'>  tags:
+</span><span class='line'>    - ruby
+</span><span class='line'>    - ruby:install
+</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のように<code>always_run: yes</code>にしなければならない。<br/>
+自分メモ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -481,58 +571,6 @@ sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep
 
 <p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
 このような設定を入れておくと良いのではないでしょうか。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-08T21:17:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>雑記</h2>
-
-<p>youtubeもtwitterの広告も、ただ間に挟んでいるだけで<br/>
-普通に不快な印象しかない。不快ではない広告などこの世にあるのか<br/>
-って考えたらその広告自体が面白いとか興味があるとかの場合は<br/>
-不快ではなかったりする。受け取り手次第な感じもする。</p>
-
-<p>私はサッカーが好きで、いろんなサッカーの話を聞くのが好きなのだが<br/>
-南米のサッカー中継のラジオで、得点が入ると、<br/>
-ゴールに絡めて広告してくるらしい話が好きだ。どんな感じかというと</p>
-
-<p>ゴールゴルゴルゴルゴール！まるで◯◯社のスプライトのような爽快感！みたいな感じで<br/>
-若干無理があるだろうっていう感じでこじつけるらしい。</p>
-
-<p>こういうアイデアのある話は好きだ。<br/>
-優秀な人がたくさん在籍しているんだろうし、<br/>
-もうちょっと変わった広告の仕方はないのだろうか</p>
 </div>
   
   
