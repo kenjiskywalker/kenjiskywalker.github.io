@@ -9,10 +9,16 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="とてもおもしろかったです。ありがとうございました！ 以下個人メモ Chef 手順書の代わりにコードにする
-Communityモノは必要以上に汎用性を持たせて複雑化していたり
-include_recipeなど必要以上に密結合していたりするので基本的に利用しない
-複雑なコード、 &hellip;">
+  <meta name="description" content="iOS用にPPTPで接続できるようにしたら便利だったので
+VyattaでVPN(PPTP)設定したメモ。 参考：Vyatta で構築する簡単 VPN サーバ 1
+2
+3
+4
+5
+6
+7
+$ configure
+# set vpn pptp remote-access authentication &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +70,378 @@ include_recipeなど必要以上に密結合していたりするので基本的
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/29/vyatta-pptp/">VyattaでVPN(PPTP)の設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-29T18:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS用にPPTPで接続できるようにしたら便利だったので<br/>
+VyattaでVPN(PPTP)設定したメモ。</p>
+
+<p>参考：<a href="http://jedipunkz.github.io/blog/2012/06/13/vyatta-vpn/">Vyatta で構築する簡単 VPN サーバ</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ configure
+</span><span class='line'># set vpn pptp remote-access authentication local-users username ${USER} password ${PASSWORD}
+</span><span class='line'># set vpn pptp remote-access authentication mode local
+</span><span class='line'># set vpn pptp remote-access client-ip-pool start ${IP_START}
+</span><span class='line'># set vpn pptp remote-access client-ip-pool stop ${IP_END}
+</span><span class='line'># commit
+</span><span class='line'># save</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上です。市販のルータ使っていたらGUIで設定して<br/>
+反映する為にはルータの再起動が必要です。1分待って下さいとか<br/>
+なかなか渋いことになりますが、VyattaはCLIで設定すれば<br/>
+再起動など必要なく即反映されます。最高のユーザ体験です。</p>
+
+<p>もう市販のルータ使うことはないと思います。　</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/28/chef-ruby-block/">Chefのruby_blockを利用してファイル更新時に条件によってログを出力する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-28T01:59:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chefには冪等性という特徴がありますが、実際の運用では<br/>
+ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは<br/>
+自分の手で確認したい。という条件もあるかと思います。</p>
+
+<ul>
+<li>設定ファイルは常に更新しても良い</li>
+<li>設定ファイルが更新された時だけミドルウェアを起動したい</li>
+<li>設定ファイルが更新された時にミドルウェアが起動済みであればログに出力</li>
+</ul>
+
+
+<p>上記条件を満たすために実施した内容について共有します。</p>
+
+<ul>
+<li>chef/site-cookbooks/apache/recipes/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/httpd/conf/httpd.conf" do
+</span><span class='line'>  source "httpd.conf.erb"
+</span><span class='line'>  owner  "www"
+</span><span class='line'>  mode   0644
+</span><span class='line'>  notifies :run, "ruby_block[warn]", :immediately
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>ruby_block "warn" do
+</span><span class='line'>  block do
+</span><span class='line'>
+</span><span class='line'>    # httpdが起動中であればログ出力
+</span><span class='line'>    unless `pgrep httpd` == ""
+</span><span class='line'>      print &lt;&lt;"EOS"
+</span><span class='line'>
+</span><span class='line'>\e[33m===================================================================
+</span><span class='line'>recipe:apache
+</span><span class='line'>
+</span><span class='line'>apacheが起動中です。
+</span><span class='line'>新しい設定を反映させるためにはapahceを再起動してください。
+</span><span class='line'>===================================================================\e[0m
+</span><span class='line'>EOS
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>  action :nothing
+</span><span class='line'>  notifies :start, "service[httpd]"
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>service "httpd" do
+</span><span class='line'>  action :enable
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><code>/etc/httpd/conf/httpd.conf</code> が更新される</li>
+<li><code>notifies :run, "ruby_block[warn]"</code>で<code>ruby_block</code>を実行</li>
+<li><code>ruby_block</code>内でミドルウェアが起動中かどうかRubyのコードで条件分岐</li>
+<li>起動中であればログを出力</li>
+<li><code>ruby_block</code>で<code>notifies :start, "service[httpd]"</code>を実行、ミドルウェアの起動を行う</li>
+</ol>
+
+
+<p><code>ruby_block</code>は実行順序が最後になるというChefの設計上、<br/>
+<code>notifies :start, "service[httpd]"</code>という方法を選択しました。</p>
+
+<p>もう少しマシな方法があれば是非とも教えてください。<br/>
+Chefは何か込み入ったことをしようとすると色々と工夫しないといけないのが難点ですね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/27/get-extension-list/">対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-27T03:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>bashの奥は深い。</p>
+
+<ul>
+<li>ext-list.sh</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>dir=`pwd`
+</span><span class='line'>list=`find ${dir} -type f -perm 755`
+</span><span class='line'>
+</span><span class='line'># not = !
+</span><span class='line'># list=`find ${dir} -type f ! -perm 755`
+</span><span class='line'>
+</span><span class='line'>for file in $list
+</span><span class='line'>do
+</span><span class='line'>    filename=`basename $file`
+</span><span class='line'>    ext=${filename##*.}
+</span><span class='line'>    ext_list=("${ext_list[@]}" ${ext})
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などというスクリプトを作成しておいて<br/>
+確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
+
+<p><strong>/usr/local/Cellar</strong>で実行したら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% sh /tmp/ext-list.sh | tail -n10
+</span><span class='line'>   5 1
+</span><span class='line'>   5 6
+</span><span class='line'>   6 0
+</span><span class='line'>   7 py
+</span><span class='line'>  10 test
+</span><span class='line'>  11 sh
+</span><span class='line'>  16 pl
+</span><span class='line'>  27 result
+</span><span class='line'>  62 so
+</span><span class='line'> 116 la
+</span><span class='line'>['-']% </span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じの結果になりました。</p>
+
+<h3>便利コマンド</h3>
+
+<ul>
+<li>basename</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% basename /usr/local/bin/zsh
+</span><span class='line'>zsh
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>dirname</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% dirname /usr/local/bin/zsh
+</span><span class='line'>/usr/local/bin
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>シャープ</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge##*.}
+</span><span class='line'>so
+</span><span class='line'>['-']% echo ${hoge#*.}
+</span><span class='line'>0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>パーセント</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -327,267 +705,6 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
 
 
 <p>以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/16/ant-and-grasshopper/">アリとキリギリス</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T16:33:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>たくさんのすごい話と、すごいことをしているすごい人たちと話す機会があって<br/>
-アリとキリギリスについて考えることがあったので書いてみる。</p>
-
-<p>きっかけは色々あった。常に高い、正しいモチベーションを<br/>
-持ち合わせていたわけではない。</p>
-
-<p>今でもそうだ、何事に対してもその中で頂点を取ろうとか<br/>
-有名になりたいとか、そういう強い志を持ち合わせているわけではない。</p>
-
-<p>選択の連続が、奇跡的に、高いモチベーションを持ち合わす人たちと<br/>
-出会うことができた現在に繋がっている。<br/>
-もちろん、ある地点では自分の限界を越えてやろうと挑戦したこともあった。</p>
-
-<p>選択の連続が世界を生んだが、自分の手で何かを切り開いてきたことではない。<br/>
-一歩を踏み出すチャンスはあった、しかし現実はそう簡単に選択できることはない。<br/>
-覚悟を産むのは自信だ。自信を産むのは何だ？自信を産むものは行動だ。</p>
-
-<p>先人たちは常に自分に挑戦し続けた人だ。アリはキリギリスを意識したことはない。<br/>
-アリは常に最善を選択し、目標を持ち、その目標にチャレンジし続けてきた結果だ。</p>
-
-<p>キリギリスの結末は飢えて死ぬことだ。当然の結果だ。<br/>
-何もせずに何かを得ることはそう簡単なことではない。</p>
-
-<p>私はキリギリスだ。私を特定できるものは何もない。</p>
-
-<p>先人たちは常に未来を見せてくれる。先人たちは常にチャレンジした結果を<br/>
-我々に教えてくれる。世界は常に開かれていると教えてくれる。</p>
-
-<p>生まれた時から閉ざされた世界に生まれた人もいる。<br/>
-環境が閉ざされた世界だ。</p>
-
-<iframe width="420" height="315" src="//www.youtube.com/embed/DV1hQSt2hSE" frameborder="0" allowfullscreen></iframe>
-
-
-<p>人間は環境によって影響される、毎日が映画のような素晴らしい日々ではない。<br/>
-目を背けたくなるような現実が今日も目の前にぶら下がっている。</p>
-
-<p>先人たちは常にチャレンジをし続けてきたからあの世界があり、<br/>
-これからもきっと辿り着くことはできないだろう。</p>
-
-<p>キリギリスの結末は飢えて死ぬことだ。当然の結果だ。</p>
-
-<p>自分の置かれた環境が、妥協の連続しかなかったんだ。<br/>
-そういう人が周りにいたら気付けたのかもしれない。しかしもう遅い。<br/>
-仕方ない結果だ。目を背けたくなるような現実が<br/>
-今日も目の前にぶら下がっているからだ。</p>
-
-<p>環境の違いだ。仕方ない。仕方のないことなんだ。<br/>
-どこかのタイミングで気付けていれば、何か突き抜けたものがありさえすれば<br/>
-今いる世界は違うだろう。<br/>
-私もアリの世界にいたのかもしれない。しかし現実は違う。</p>
-
-<p>始めるのが遅かったんだ。自分が置かれた環境が<br/>
-妥協の連続を選択してきた人間しかいなかったんだ。仕方のない結果だ。</p>
-
-<p>私はキリギリスだ。私を特定できるものは何もない。<br/>
-キリギリスの結末は飢えて死ぬことだ。当然の結果だ。</p>
-
-<p>キリギリスが動き出すのはアリが動くよりも大変なことだ。<br/>
-妥協の連続に慣れきった身体が鉛のように身動きを妨げるから。</p>
-
-<p>キリギリスが動き出すのはアリが動くよりも大変なことだ。<br/>
-目標なんてものを持ったこともなければ、達成した経験もない。</p>
-
-<p>環境さえ違えば、別の道があったのかもしれない。<br/>
-私はキリギリスの中で生まれてキリギリスのように死んでいく。</p>
-
-<p>力があれば、経験があれば、知識が、体験があれば。</p>
-
-<p>人間はいつか死ぬ。キリギリスはアリにはなれない。<br/>
-私はキリギリスだ。キリギリスの結末は飢えて死ぬことだ。<br/>
-当然の結果だ。</p>
-
-<p>言い分はわかった。キリギリスはアリにはなれない。<br/>
-環境が悪かった。周りの人間が悪かった。そうだろう。<br/>
-結局お前はキリギリスとして何も行動をせず、<br/>
-困難を受け入れるわけでもなく、目の前の現実に目を背け<br/>
-誰に喜ばれるわけでもなく死んでいくんだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/15/201402-book/">2014/02読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-15T21:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB1-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194280%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194280" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51eRw7Xha8L._SL160_.jpg" width="104" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB1-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194280%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194280" target="_blank">基本にカエル英語の本 英文法入門 レベル1</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-07</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194280" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB2-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194299%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194299" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51BNO%2B%2BCijL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB2-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194299%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194299" target="_blank">基本にカエル英語の本 英文法入門 レベル2</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-09</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194299" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB3-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194302%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194302" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Fo8Uu0GNL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB3-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194302%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194302" target="_blank">基本にカエル英語の本 英文法入門 レベル3</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-10</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194302" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51b6JBk8CcL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank">私本太平記 01 あしかが帖</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-22</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00G3QMEZY" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/14/hatena-lunch/">はてなの東京オフィスに美味しいランチをたべさせてもらいに行ってきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T00:41:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" alt="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" /></p>
-
-<p>エントランスがスタイリッシュ</p>
-
-<p><img src="http://i.gyazo.com/52f29e4701ec70b36c206d837c297f88.png" alt="http://i.gyazo.com/52f29e4701ec70b36c206d837c297f88.png" /></p>
-
-<p>めちゃうま健康ランチ</p>
-
-<hr />
-
-<p>経緯</p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 是非どうぞ！</p>&mdash; Shinji Tanaka (@stanaka) <a href="https://twitter.com/stanaka/statuses/413163134078029825">December 18, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>stanakaさんにOKを頂いたのが去年の12月で<br/>
-色々モジモジしたりしていて、行きたいな〜行ってもいいのかな〜<br/>
-とモジモジしており、モジモジしてても仕方ない<br/>
-連絡しよう！と思ったのが火曜日の夜で、京都には何人か知り合いの人がいるけど<br/>
-東京オフィスはどの人を頼ったらいいんだ&hellip;<br/>
-と悩んだ挙句、お問い合わせフォームから連絡しました。</p>
-
-<p>これが色々とお手数をおかけしてしまったらしく<br/>
-気軽に誰かに声かけた方がよかったらしいので、これを読まれている識者の方々は<br/>
-オフィスへ遊びに行くときはまず知り合いの人を頼って連絡しましょう。</p>
-
-<p>id:tomomiiさんからご連絡頂き、木曜日のランチにお邪魔させて頂きました。<br/>
-id:onishiさんにご対応頂いてしまって本当に申し訳なかったでした。<br/>
-今週末行われる</p>
-
-<ul>
-<li><a href="http://dev.classmethod.jp/cloud/aws/jaws-days-2014-immutable-infrastructure/">JAWS DAYS 2014Immutable Infrastructure Track</a></li>
-</ul>
-
-
-<p>のパネルディスカッションのモデレーターと、今月末に行われる超満員の</p>
-
-<ul>
-<li><a href="http://atnd.org/events/47786">Immutable Infrastructure Conference #1</a></li>
-</ul>
-
-
-<p>を開催される神様のid:stanakaさんもいらっしゃって、<br/>
-サマリーメンバーもなかなかの緊張感を持ったお昼でした。</p>
-
-<p>突然の訪問にも関わらず、カンバン方式での開発態勢や<br/>
-デザイナーとエンジニアの仕事の進め方など色々お話しすることができて<br/>
-ともて有り難かったです。</p>
-
-<p>ご飯も健康的で美味しくて、最近毎日のように学食ばかり食べている我々にとっては<br/>
-最高の昼食でありました。ごちそうさまでした。美味しかったです。</p>
-
-<p>次にお伺いするときはもうちょっと余裕を持って遊びに行けるようにします。<br/>
-お邪魔させて頂きありがとうございました。</p>
-
-<p>はてなさんでは<a href="http://hatenacorp.jp/recruit/career/sp-application-engineer">iOSエンジニアを募集中</a>とのことでした。<br/>
-美味しいお昼ごはんが食べられるので<br/>
-美味しいお昼ごはんが食べたい人は応募してみると良さそうです。</p>
 </div>
   
   

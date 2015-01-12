@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="今流行りのserverspec、みなさんどうやって活用しているのでしょうか。
-インフラもCIだ！みたいな話最近よく聞くので、CIといえばJenkins！
-的な感じで試してみました。 ほんのさわり程度やってみたところで、工夫が必要だと感じたのは
-Jenkinsをどうやって回すか。 &hellip;">
+  <meta name="description" content="serverspec use chef json file and cookbooks.
+serverspec take run_list of host.json,
+serverspec do test each cookbook_name/spec/any_test_spec.rb. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +63,299 @@ Jenkinsをどうやって回すか。 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-13T13:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>serverspec use chef json file and cookbooks.<br/>
+serverspec take run_list of <code>host.json</code>,<br/>
+serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
+
+<hr />
+
+<h1>tools</h1>
+
+<ul>
+<li><a href="http://serverspec.org/">serverspec</a></li>
+<li><a href="http://www.opscode.com/chef/">chef</a></li>
+</ul>
+
+
+<p>The configurations, please read at each document.</p>
+
+<hr />
+
+<h1>howto</h1>
+
+<ul>
+<li><h2>chef cookbooks</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/recipes/default.rb</code>
+<code>/root/chef/cookbooks/{bar}/recipes/default.rb</code><br/>
+&hellip;</p></li>
+<li><h2>serverspec file</h2>
+
+<p><code>/root/Rakefile</code><br/>
+<code>/root/spec/spec_helper.rb</code><br/>
+<code>/root/spec/{host_a}/host_a_mysql_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_a}/host_a_redis_spec.rb</code>   # host a specific test
+<code>/root/spec/{host_b}/host_b_redis_spec.rb</code>   # host b specific test</p></li>
+<li><h2>test file</h2>
+
+<p><code>/root/chef/cookbooks/{foo}/spec/default_spec.rb</code><br/>
+<code>/root/chef/cookbooks/{bar}/spec/default_spec.rb</code></p></li>
+</ul>
+
+
+<p> exp)<br/>
+ <code>/root/chef/cookbooks/redis/spec/setting_spec.rb</code><br/>
+ <code>/root/chef/cookbooks/redis/spec/process_spec.rb</code></p>
+
+<h2><code>spec_helper.rb</code></h2>
+
+<p><a href="http://serverspec.org/advanced_tips.html">Reference</a></p>
+
+<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<h2><code>Rakefile</code></h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=Rakefile'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>this Rakefile read <code>/root/chef/json/*.json</code> and <code>/root/chef/spec/host_name/*_spec.rb</code></p>
+
+<p>Please match it with your environment.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>json_files = Dir::glob("./json/*.json")
+</span><span class='line'> 
+</span><span class='line'>Chef::Config[:cookbook_path] = './cookbook/'
+</span><span class='line'>Chef::Config[:role_path]     = './json/'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>serverspec tests it look run_list of <code>host.json</code></p>
+
+<p>exp</p>
+
+<p><code>/root/chef/cookbooks/postfix/spec/default_spec.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require "/root/chef/spec/spec_helper"
+</span><span class='line'>
+</span><span class='line'>describe package('postfix') do
+</span><span class='line'>    it { should be_installed }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe service('postfix') do
+</span><span class='line'>    it { should be_enabled }
+</span><span class='line'>    it { should be_running }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe port(25) do
+</span><span class='line'>    it { should be_listening }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># log file
+</span><span class='line'>describe file('/var/log/maillog') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe file('/etc/postfix/main.cf') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe file('/etc/postfix/master.cf') do
+</span><span class='line'>    it { should be_file }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://gifzo.net/BIpiApSbg1E.gif" alt="http://gifzo.net/BIpiApSbg1E.gif" /></p>
+
+<hr />
+
+<p>英語でちゃんと書こうと思ったけど<br/>
+取り敢えず出してあとでブラッシュアップする感じにしようと思った。<br/>
+<code>Rakefile</code>いじくるだけで<code>chef</code>の<code>host.json</code>のrun_list見て<br/>
+そのcookbookのspecディレクトリ見てテスト回してくれる。<br/>
+roleとかも考慮されてるし、一括で入れられないテストについては<br/>
+<code>/root/chef/spec/hostname/hoge_spec.rb</code>に入れればよしなに読み込んでくれる。<br/>
+便利っぽい。</p>
+
+<p>便利アピール海外にもしようと思ったら全然英語書けなくて頑張ろうって思った</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/readability-hatebu-ifttt/">IFTTTを使ってReadabilityでFavったエントリーをはてブする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T22:10:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://podcast.bulknews.net/">ep15: After Google Reader, DIY Blogging, The Go language (typester)</a><br/>
+を聞いてて、<a href="http://ifttt.com/">IFTTT</a>使って<a href="http://www.readability.com/">Readability</a>と<a href="http://b.hatena.ne.jp/">はてブ</a>の連携するの思い出した。</p>
+
+<p><a href="http://weblog.bulknews.net/post/13811211811">快適に「あとで読む」ための環境 - TATSUHIKO MIYAGAWA&rsquo;S BLOG</a><br/>
+このmiyagawaさんのエントリーを参考にして設定した。</p>
+
+<p>やっていることは全部同じで、Gmailの設定して、PINコード受けて登録して
+<img src="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" alt="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" /></p>
+
+<p>こんな感じで本文にURLが入るようにして<br/>
+<code>To address</code>にはてブの投稿用のメールアドレスを指定する。</p>
+
+<p>この設定を入れると</p>
+
+<p>ReadabilityでFav => はてブに登録</p>
+
+<p>されるようになる。<br/>
+ライフチェインジングだ。</p>
+
+<p>長そうだな、後で読みたいなって思ったものは片っ端からReadabilityに突っ込む。<br/>
+突っ込んだエントリーを移動中とか合間の時間に読んで、<br/>
+良かったものははてブに登録するということをしていたので、<br/>
+それがReadability側で完結するのとても捗る。おすすめです。</p>
+
+<p>また、画像の一部を黒でマスキングすると昭和のエロ本みたいで趣が出る。<br/>
+こちらも合わせておすすめしたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/hisaichi-tweet/">earthquake.gemプラグイン３つ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T00:07:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://hisaichi5518.hatenablog.jp/entry/2013/07/09/111503">Twitterで言いたいけど、言えないようなツイートを楽に言えるようにした。 - パルカワ２</a></p>
+
+<p>このearthquake.gemのpluginつくった。<br/>
+<a href="https://gist.github.com/kenjiskywalker/5955552">https://gist.github.com/kenjiskywalker/5955552</a></p>
+
+<p>この前日光でハッカソンしようとか話してて<br/>
+結局つくりあげられなくて、メシ食う前の３０分でつくったプラグインもある。</p>
+
+<p><a href="https://gist.github.com/kenjiskywalker/5787351">https://gist.github.com/kenjiskywalker/5787351</a><br/>
+POSTを逆にするヤツ。</p>
+
+<p><a href="https://gist.github.com/kenjiskywalker/5787448">https://gist.github.com/kenjiskywalker/5787448</a><br/>
+POSTをランダムに並べ替えるヤツ。</p>
+
+<p>もう少し生産的なものをつくりたい</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -245,206 +537,6 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
 <code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
 
 <p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/26/ajisai-2013/">2013 / あじさい / 鎌倉</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-26T00:47:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>あかっぽいあじさい</h3>
-
-<p><img src="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" alt="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" /></p>
-
-<h3>あおっぽいあじさい</h3>
-
-<p><img src="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" alt="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" /></p>
-
-<p>一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。<br/>
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし<br/>
-家で見ると７割ぐらいピント合ってなくて面白い。</p>
-
-<p>確実性求めすぎない方が心に余裕生まれる気がする。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/18/reserved-instances/">AWSのリザーブドインスタンスについて理解していなかったので理解した</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-18T15:21:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="http://aws.amazon.com/jp/ec2/reserved-instances/">Amazon EC2 リザーブドインスタンス</a></h2>
-
-<p>先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで<br/>
-割り引いてもらえるサービス。</p>
-
-<p>詳しくはこちら</p>
-
-<h4><a href="http://aws.typepad.com/aws_japan/2011/12/additional-reserved-instance-options-for-amazon-ec2-.html">【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加</a></h4>
-
-<p>古い情報なので値段など変更されている場合があるので<br/>
-あくまで参考までに。</p>
-
-<h4>リザーブドインスタンスの種類</h4>
-
-<ul>
-<li>軽度使用(Light)  RI</li>
-<li>中度使用(Medium) RI</li>
-<li>重度使用(Heavy)  RI</li>
-</ul>
-
-
-<h4>何が違うの？</h4>
-
-<blockquote><p>15%以下:          オンデマンドインスタンス<br/>
-15% - 40%:        ライトユース・リザーブドインタンス<br/>
-40%-80%:          ミディアムユース・リザーブドインタンス<br/>
-80%以上:          ヘビーユース・リザーブドインタンス</p></blockquote>
-
-<p>上のパーセンテージは年間で使用するパーセント。<br/>
-雑な計算をすると、365日中の15%だから、54.75日。<br/>
-<code>54.75日以下</code>しか使わない場合はリザーブドインスタンスの方が損をしてしまう。<br/>
-<code>15%以上(54.75) - 40%以内(146日)以内</code>であれば、軽度使用RIを使った方がお得。<br/>
-どれぐらいお得かは参考ページに記載されている。</p>
-
-<p>取り敢えず2ヶ月以上使う予定があれば軽度使用で安くなる。<br/>
-ただ当たり前だけどインスタンスサイズ変更できないので<br/>
-カジュアルにスケールアップすることができなくなる。<br/>
-EC2が単体でスケールアウトができる構成じゃない場合つらくなる可能性ある。<br/>
-不要になったRIはマーケットプレイスで販売もできるらしいけど<br/>
-今はまだ米国専用って感じっぽい。</p>
-
-<p>なにはともあれ選択ができるっていうのはありがたいことだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/05/daijinjyaten/">大神社展行ってきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-05T23:57:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg" alt="https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg" /></p>
-
-<h2><a href="http://daijinja.jp/">国宝 大神社展</a></h2>
-
-<p>神道、基本アニミズム信仰だから仏教と違って<br/>
-神を象ることはないんだけど、祀ることに関するものが色々あった。</p>
-
-<p>色々あったけどどれも地味だったからあんまり面白くなかった。<br/>
-そもそも神道が地味だからそんなもんだと思う。</p>
-
-<p>秀吉の字がめちゃくちゃ汚いとか、空海の字がめちゃめちゃ綺麗だとか<br/>
-そういう感じの面白さあんまりなかった。最終日に行ったから<br/>
-人多くてそんなにちゃんと見なかったのが原因だと思う。</p>
-
-<p>いずれにせよ原始的な宗教に変わりはないから<br/>
-それはすごいなーって思った。<br/>
-仏教、大乗仏教になって仏像とか彫っちゃってみんな好き勝手やりだしたけど<br/>
-本来は神道みたいな地味なもんだったと思う。</p>
-
-<p>隣りでやってた<a href="http://gj2013.jp/">グレートジャーニー人類の旅</a>が面白かった。<br/>
-カミさんが異常に干し首に執着してて気持ち悪かった。<br/>
-どうやって干し首つくったのか、みたいな映像熱心に見てた。</p>
-
-<p>関野さんがイヌイットの人たちと生活していた映像あって、<br/>
-セイウチの皮を綺麗に剥いで、捨てるものはなにもない。ってやってて<br/>
-ああいうのもっとちゃんとやった方が良いって思った。<br/>
-普段口にしてるもの、加工されてて死の実感ないのはよくない。<br/>
-けど実際やれって言われたらだいぶ厳しい。イソメもちょっと厳しい。</p>
-
-<p>NHKスペシャルで昔、<a href="http://www.nhk.or.jp/special/onair/110828.html">「日本人イヌイット　北極圏に生きる」</a>って番組やってて<br/>
-よくこんなところに暮らせるなーって思った。</p>
-
-<p>インカとかアマゾンとかで自然と共に生きるのと<br/>
-経済社会の中で生きるの、幸せとは〜とか考えた。</p>
-
-<p>最後に、人生とは旅なのかもしれない<br/>
-「life is journey」って言葉があって、在り来りかもしれないけど<br/>
-日々冒険だなって。</p>
-
-<p>関係ないけど与論島行きたい。</p>
 </div>
   
   

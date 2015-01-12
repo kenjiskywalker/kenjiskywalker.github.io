@@ -4,7 +4,7 @@
   <title><![CDATA[Category: book | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/book/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-08T12:51:35+09:00</updated>
+  <updated>2015-01-12T11:20:01+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「Serverspec」本を読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book/"/>
+    <updated>2015-01-11T23:44:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book</id>
+    <content type="html"><![CDATA[<p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
+
+<ul>
+<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
+<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
+</ul>
+
+
+<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
+
+<h2>書籍について</h2>
+
+<p>正直、最近はソフトウェアの本だとオフィシャルサイトのものを読むように心がけている(一次情報大切)ので<br/>
+そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
+
+<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
+ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
+
+<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
+というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
+背景を書籍を通じて理解できてとても有意義だった。</p>
+
+<h2>初めての人は？</h2>
+
+<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
+Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
+よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
+
+<h2>状態を担保する存在の必要性</h2>
+
+<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
+設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
+最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
+何かしら必要だと思う。<br/>
+実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
+最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
+それを元に負荷分散に追加するようにしていた。</p>
+
+<h2>Specinfraについて</h2>
+
+<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
+その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
+ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
+itamaeのような使い方は本当に上手だと思う。</p>
+
+<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
+
+<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
+どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
+インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
+
+<h2>最後に</h2>
+
+<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
+改めて思った。mizzyさんありがとうございます。<br/>
+Asuraっていうコードネームめちゃめちゃ好きでした。</p>
+
+<p>この本はまた何回か読み直したい本だ。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「私本太平記」読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/04/taiheiki/"/>
+    <updated>2015-01-04T12:21:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/04/taiheiki</id>
+    <content type="html"><![CDATA[<p>吉川英治さんの本が無料で読めるありがたい時代なので<a href="http://www.amazon.co.jp/dp/B00G3QMEZY">私本太平</a>記読んだ。<br/>
+応仁の乱以前に結構京都燃えてるやんって思った。<br/>
+藤沢と鎌倉の浜辺の戦いめちゃめちゃ金かけて映像化してほしい。<br/>
+楠木正成や新田義貞より北畠顕家の方がかっこよかった。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「齋藤孝の速読塾」と「超高速勉強法」を読んだ]]></title>
@@ -105,208 +183,6 @@
 
 <div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2014/10読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book/"/>
-    <updated>2014-11-02T01:59:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book</id>
-    <content type="html"><![CDATA[<p>太平記、いよいよ尊氏がのし上がってきた。</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年10月 (7作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4061592998" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41Z7F36DYDL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4061592998" target="_blank">本を読む本 (講談社学術文庫)</a><br /><a href="http://booklog.jp/author/J%E3%83%BB%E3%83%A2%E3%83%BC%E3%83%86%E3%82%A3%E3%83%9E%E3%83%BC%E3%83%BB%E3%82%A2%E3%83%89%E3%83%A9%E3%83%BC" target="_blank">J・モーティマー・アドラー</a><br />読了日：10月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3QYKEM" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51bjX8kwqEL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3QYKEM" target="_blank">私本太平記 07 千早帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063883817" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61roFPa3QIL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063883817" target="_blank">GIANT KILLING(33) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R04NC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51kD3wswI8L._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R04NC" target="_blank">私本太平記 08 新田帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R1M2E" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51QdHojEjuL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R1M2E" target="_blank">私本太平記 09 建武らくがき帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774167681" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a><br /><a href="http://booklog.jp/author/%E4%BC%8A%E8%97%A4%E7%9B%B4%E4%B9%9F" target="_blank">伊藤直也</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00NFW7RCY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/619ts5KepqL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00NFW7RCY" target="_blank">高校サッカーダイジェスト Vol.7 2014年 11/1号 [雑誌]</a><br />読了日：10月27日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「サーバ/インフラ徹底攻略」を読んだ]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book/"/>
-    <updated>2014-10-26T18:05:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/10/26/server-infra-webdb-book</id>
-    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank" title="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL.jpg" width="354" height="500" alt="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)" /></a></p>
-
-<p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
-
-<p>ご恵贈ありがとうございます！</p>
-
-<h2>TL;DR</h2>
-
-<p>mizzyさんのServerspecを利用したインフラCIの章、<br/>
-サイバーエージェント社のメンテナンスの章は最高だった</p>
-
-<h2>もくじ</h2>
-
-<pre><code>巻頭企画
-［入門］コードによるインフラ構築
-サーバ構成管理の自動化を実現する
-
-第1章：ChefとVagrantによるインフラのコード化
-設定の一元管理で作業を省力化する……伊藤 直也
-第2章：Serverspecによるテスト駆動インフラ構築
-設定変更の反映を確実なものにする……伊藤 直也
-特集1
-Amazon Web Services最新活用
-レイヤ別比較，構築の定石，構成管理の自動化
-
-第1章：Amazon Web Servicesレイヤ別比較
-各サービスの特徴を理解し，うまく使い分ける……片山 暁雄，平山 毅
-第2章：EC2とVPCによるシステム構築
-セキュアで可用性を高めたインフラの作り方……舟崎 健治，吉荒 祐一
-第3章：RDSによるデータベースの活用
-作成，デプロイ，バックアップ……今井 雄太，八木橋 徹平
-第4章：CloudFormationによる構築の自動化
-テンプレートの作成からミドルウェア構築設定まで……安川 健太
-特集2
-テスト駆動インフラ＆CI最前線
-Infrastructure as Codeがもたらすワークフローの刷新
-
-第1章：インフラのテストとその重要性
-「インフラのコード化」による開発手法の応用……宮下 剛輔
-第2章：テスト駆動インフラの実践
-VirtualBox，Vagrant，Puppet，Serverspecによるテスト自動化……宮下 剛輔
-第3章：インフラCIの実践
-GitHub，Wercker，DigitalOceanによる継続的テスト……宮下 剛輔
-第4章：インフラの継続的改善の実践
-GitHub Flowをベースとしたワークフロー変革……宮下 剛輔
-特集3
-実践Immutable Infrastructure
-使い捨てサーバによる運用の変革
-
-第1章：Immutable Infrastructureとは何か
-不変なサーバ，Blue-green Deploymentとそれらの利点……田中 慎司
-第2章：Immutable Infrastructureで利用するツール／サービス
-比較・整理と，システム全体での組み合わせ……田中 慎司
-第3章：コンテナ型仮想化とクラウドによる実践
-Docker+HAProxy，Amazon EC2+ELB……田中 慎司
-第4章：クラスタ管理ツールによる実践
-Apache Mesosでリソース管理の自動化……田中 慎司
-特集4
-［詳解］nginx
-設定の柔軟性と優れたスケーラビリティ
-
-第1章：nginxの世界へようこそ
-アーキテクチャ，用途，メリット，デメリット……久保 達彦
-第2章：はじめてのnginx
-インストール，起動と終了，基本設定……道井 俊介
-第3章：一般的なWebサーバの構築
-バーチャルホスト，アクセス制御，SSL通信，基本認証……飯田 祐基
-第4章：実践的なWebアプリケーションサーバの構築
-Unicorn/RailsやPHP-FPMと連携させる……道井 俊介
-第5章：大規模コンテンツ配信システムの構築
-キャッシュ，ロードバランシングを活用する……飯田 祐基
-第6章：拡張モジュールのしくみと作り方
-nginxを自由にカスタマイズするための基礎知識……久保 達彦
-特集5
-メンテナンス本格入門
-緊急対応，計画停止，メンテフリー化
-
-第1章：メンテナンスとは
-種類と手法を整理する……桑野 章弘
-第2章：計画メンテナンスの流れ
-事前準備，作業のチェック，振り返り……松浦 隼人
-第3章：緊急メンテナンスの流れ
-普段から備えるべきこと，障害時の対応……松浦 隼人
-第4章：メンテフリーへのアプローチ【インフラ編】
-省力運用を実現するインフラ，データベース設計と障害検知……松浦 隼人，中村 俊之
-第5章：メンテフリーへのアプローチ【アプリケーション編】
-ダウンタイムを減らすリリース手法とアプリケーション設計……福永 亘，中村 俊之，松浦 隼人
-第6章：ガールフレンド（仮）とアメーバピグの事例
-現場でどう実践し，どう障害を切り抜けたか……福永 亘，杉山 仁則
-一般記事
-
-Dockerで軽量な仮想環境
-Linuxコンテナでインフラを瞬時に構築する……伊藤 直也
-</code></pre>
-
-<h2>感想</h2>
-
-<h3>なおやさんの章</h3>
-
-<p>Vagrant、Chef、Serverspecなどを利用したことのない人が<br/>
-手元でひと通り読みながら進めるとインフラのコード化を実感できる.</p>
-
-<h3>AWSさんの章</h3>
-
-<p>Amazon Web Servicesの章はひと通りのサービスの説明と<br/>
-実際にアプリケーションを動かす例が記載されている.<br/>
-これを読めばいきなりAWSを駆使できるかと言われればNoだが<br/>
-AWS全体のサービスを把握するのに良さそう.</p>
-
-<h3>mizzyさんの章</h3>
-
-<p>mizzyさんの章はServerspecの作者であるmizzyさんご自身の<br/>
-Serverspecの活用方法で、実際に<a href="https://www.digitalocean.com/">DigitalOcean</a>と<a href="http://wercker.com/">wercker</a>を利用して<br/>
-手を動かしながら、インフラのCIを体験することができる.<br/>
-利用しているサービスも、DigitalOceanは一般的なインスタンスでも<br/>
-1時間に1.6円(2014/10現在)で利用でき、<br/>
-werckerはまだ無料の(2014/10現在)CIサービスなのでとても簡単に始めることができる.</p>
-
-<p>導入だけでなく<a href="http://scottchacon.com/2011/08/31/github-flow.html">GitHub Flow</a>を利用してどのように運用するかまで載っているので<br/>
-インフラのCIインフラのCIって最近よく聞くけどどうやったらいいんだ.<br/>
-という私と同じようなエンジニアにとっては大変ありがたい章だ.<br/>
-全体のデザインのモチーフが宇宙観があって最高だった.</p>
-
-<h3>stanakaさんの章</h3>
-
-<p>先ほどのmizzyさんの章のモチーフが宇宙だったのに比べ、stanakaさんの章は神社だ.<br/>
-Immutable Infrastructureをどのように実践するかの具体的な内容が記載されている.<br/>
-はてな社はこの環境でプロダクトのサービスが動いているのだろうか.すごい.</p>
-
-<h3>nginxの章</h3>
-
-<p>nginxについて色々な内容が書いてあった.<br/>
-本書の全体の構成の中で、nginxだけを扱うというスコープが<br/>
-他の章と比べると少し変な感じがした.</p>
-
-<h3>メンテナンスの章</h3>
-
-<p>サイバーエージェント社の存在するサービスに対して<br/>
-どのようにメンテナンス作業を行っているのかという社外に出てこないような知見を<br/>
-このように書籍として読めるのは本当に貴重だと思う.</p>
-
-<p>ウェブサービス業界のサーバサイドの勉強会はかなり多く開催されているが、<br/>
-このような泥臭いというか、目新しくはないけど<br/>
-確実に行わなければならない企業毎の知見みたいなものを共有していく重要性を<br/>
-改めて考えさせられた章だった.ありがたい</p>
-
-<h3>Dockerの章</h3>
-
-<p>Vagrant + Dockerの基本的な内容が記載されている.<br/>
-とりあえずどんなものか知るのに良さそう.</p>
-
-<h2>まとめ</h2>
-
-<p>職人がサーバひとつひとつ温もりを持って構築している職場を改善したい人や、<br/>
-大企業でメンテナンス作業がどう行われているのか知りたいエンジニア、<br/>
-インフラのコード化、インフラのCI、AWSなどざざっと把握してみたい人には良いと思う.</p>
 ]]></content>
   </entry>
   

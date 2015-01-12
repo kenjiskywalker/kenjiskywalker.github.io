@@ -9,12 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Chef: 11.8.0
-sensu: 0.12.3
-RabbitMQ: 3.1.5
-erlang R14B-04.1.4
-Redis :2.6.17 参考 : 監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note
-Amazon Linux 上に &hellip;">
+  <meta name="description" content="【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ こちらの便利機能が追加されたので早速設定してみました。 AWS CLI - create-or-update-tags &ndash;tags ResourceId= &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +61,552 @@ Amazon Linux 上に &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/09/autoscaling-tag/">AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-09T18:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html">【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ</a></p>
+
+<p>こちらの便利機能が追加されたので早速設定してみました。</p>
+
+<h2><a href="http://docs.aws.amazon.com/cli/latest/reference/autoscaling/create-or-update-tags.html">AWS CLI - create-or-update-tags</a></h2>
+
+<blockquote><p>&ndash;tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>aws --region REGION autoscaling create-or-update-tags \
+</span><span class='line'>    --tags ResourceId=AUTOSCALINGGROUP_NAME, \
+</span><span class='line'>           ResourceType=auto-scaling-group, \
+</span><span class='line'>           Key=KEY, \
+</span><span class='line'>           Value=VALUE, \
+</span><span class='line'>           PropagateAtLaunch=true</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>ResourceId</li>
+</ul>
+
+
+<p>tagを設定するAutoScalingGroupの名前を指定</p>
+
+<ul>
+<li>ResourceType</li>
+</ul>
+
+
+<p>他に何の設定があるのかは不明ですが<code>auto-scaling-group</code>を指定しておけば問題ないかと</p>
+
+<ul>
+<li>Key</li>
+</ul>
+
+
+<p>tagのKey名</p>
+
+<ul>
+<li>Value</li>
+</ul>
+
+
+<p>tagのValue名</p>
+
+<ul>
+<li>PropagateAtLaunch</li>
+</ul>
+
+
+<p>設定したtagをAutoScalingGroupによって起動されたEC2インスタンスにも適用させるかどうか</p>
+
+<p>上記の設定を行うことで、AutoScalingGroupにて起動されたEC2インスタンスへ<br/>
+タグが適用されるようになります。大変便利ですね。ありがとうございます。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/04/201404-book/">2014/04読んだ本</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-04T11:37:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>秘密の国のアリスは本当に面白かった。</p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E6%96%B0%E7%89%88%E6%9A%97%E5%8F%B7%E6%8A%80%E8%A1%93%E5%85%A5%E9%96%80-%E7%A7%98%E5%AF%86%E3%81%AE%E5%9B%BD%E3%81%AE%E3%82%A2%E3%83%AA%E3%82%B9-%E7%B5%90%E5%9F%8E-%E6%B5%A9-ebook/dp/B00H372H18%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00H372H18" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51njmeGhpKL._SL160_.jpg" width="117" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E6%96%B0%E7%89%88%E6%9A%97%E5%8F%B7%E6%8A%80%E8%A1%93%E5%85%A5%E9%96%80-%E7%A7%98%E5%AF%86%E3%81%AE%E5%9B%BD%E3%81%AE%E3%82%A2%E3%83%AA%E3%82%B9-%E7%B5%90%E5%9F%8E-%E6%B5%A9-ebook/dp/B00H372H18%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00H372H18" target="_blank">新版暗号技術入門　秘密の国のアリス</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%B5%90%E5%9F%8E%E6%B5%A9" target="_blank">結城浩</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">SBクリエイティブ株式会社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-12-04</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00H372H18" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%80%E3%83%A0-33-%E3%83%A4%E3%83%B3%E3%82%B0%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9DIGITAL-%E5%8E%9F%E6%B3%B0%E4%B9%85-ebook/dp/B00JB6MKNE%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00JB6MKNE" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61R9IocV0wL._SL160_.jpg" width="120" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%80%E3%83%A0-33-%E3%83%A4%E3%83%B3%E3%82%B0%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%97%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9DIGITAL-%E5%8E%9F%E6%B3%B0%E4%B9%85-ebook/dp/B00JB6MKNE%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00JB6MKNE" target="_blank">キングダム 33 (ヤングジャンプコミックスDIGITAL)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%8E%9F%E6%B3%B0%E4%B9%85" target="_blank">原泰久</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">集英社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-01-17</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00JB6MKNE" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E9%80%B2%E6%92%83%E3%81%AE%E5%B7%A8%E4%BA%BA-13-%E8%AC%9B%E8%AB%87%E7%A4%BE%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E8%AB%AB%E5%B1%B1-%E5%89%B5/dp/4063950441%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063950441" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51SFLJl2H%2BL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E9%80%B2%E6%92%83%E3%81%AE%E5%B7%A8%E4%BA%BA-13-%E8%AC%9B%E8%AB%87%E7%A4%BE%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9-%E8%AB%AB%E5%B1%B1-%E5%89%B5/dp/4063950441%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063950441" target="_blank">進撃の巨人(13) (講談社コミックス)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E8%AB%AB%E5%B1%B1%E5%89%B5" target="_blank">諫山創</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-04-09</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063950441" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/GIANT-KILLING-31-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2/dp/406388323X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D406388323X" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61IUk7JRAwL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/GIANT-KILLING-31-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2/dp/406388323X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D406388323X" target="_blank">GIANT KILLING(31) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-04-23</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/406388323X" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%81%B8%E3%81%86%E3%81%92%E3%82%82%E3%81%AE-18-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B1%B1%E7%94%B0-%E8%8A%B3%E8%A3%95/dp/4063883256%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063883256" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41kIi4KK3VL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%81%B8%E3%81%86%E3%81%92%E3%82%82%E3%81%AE-18-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B1%B1%E7%94%B0-%E8%8A%B3%E8%A3%95/dp/4063883256%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063883256" target="_blank">へうげもの(18) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B1%B1%E7%94%B0%E8%8A%B3%E8%A3%95" target="_blank">山田芳裕</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-04-23</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063883256" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/03/sensu-monitoring-setting/">Sensuの監視の設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.kenjiskywalker.org/blog/2014/05/02/newbie-sensu/">Sensu導入と初期設定について</a>の続きのエントリーになります。</p>
+
+<h3>pluginの書き方</h3>
+
+<p><a href="http://sensuapp.org/docs/0.12/checks">http://sensuapp.org/docs/0.12/checks</a><br/>
+<a href="http://sensuapp.org/docs/0.12/adding_a_check">http://sensuapp.org/docs/0.12/adding_a_check</a></p>
+
+<p>上記ドキュメントを参考にして頂くとわかる通り</p>
+
+<ul>
+<li>status code が<code>0</code>であれば<code>OK</code></li>
+<li>status code が<code>1</code>であれば<code>WARNING</code></li>
+<li>status code が<code>2</code>であれば<code>CRITICAL</code></li>
+<li>status code が<code>3</code>であれば<code>UNKNOWN</code></li>
+</ul>
+
+
+<p>という方法で監視を行います。</p>
+
+<p>コミュニティプラグインを確認すると、そのほとんどが<br/>
+<code>require 'sensu-plugin/check/cli'</code>を呼び出していることがわかります。</p>
+
+<h3><a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></h3>
+
+<p>check用のメソッド、metrics用のメソッドを<br/>
+それぞれ利用することが可能になります。<br/>
+まだ私はpluginを書いたことがないので、また書く機会があれば<br/>
+その時に改めて詳細を書きたいと思います。</p>
+
+<h3>気を付けなければならないこと</h3>
+
+<p>導入以前は、Sensuはアラートとメトリクスのデータを<br/>
+同じデータを利用して監視を行うことができると考えていたのですが<br/>
+これは誤りで、</p>
+
+<ul>
+<li>checkはcheck用のプラグイン</li>
+<li>metricsはmetircs用のプラグイン</li>
+</ul>
+
+
+<p>と分かれています。なかなかZABBIXのように万能にはいかないようです。</p>
+
+<h2>checks</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_cpu": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-cpu.rb -w 90 -c 100",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 5,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_cpu_nervous": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-cpu.rb -w 10 -c 30",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["admin"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>&ldquo;check_cpu&rdquo;, &ldquo;check_cpu_nervous&rdquo;</li>
+</ul>
+
+
+<p>設定内容の名前です。<br/>
+Sensuは設定内容のjsonがdeep_mergeされるので、ここはユニークな値にしてください。<br/>
+よくあるミスとして、利用するプラグインは同じで<br/>
+上記のように設定内容が微妙に違うという場合、元のファイルをコピーし<br/>
+名前を変更するのを忘れて上書きされてしまい<br/>
+設定ファイルを作成したのに上手く認識されない。ということがよくあります。</p>
+
+<ul>
+<li>&ldquo;commnand&rdquo;</li>
+</ul>
+
+
+<p>実行するコマンドです。status codeとSTDOUT,STDERRのどちらかが返ってくれば、<br/>
+Rubyでなくとも、シェルスクリプトやGo、pythonなど何を利用しても問題ありません。<br/>
+nagios pluginと設定を合わせている為、nagiosのpluginを利用することが可能です。</p>
+
+<ul>
+<li>&ldquo;interval&rdquo;</li>
+</ul>
+
+
+<p>コマンドを実行する間隔です。</p>
+
+<ul>
+<li>&ldquo;occurrences&rdquo;</li>
+</ul>
+
+
+<p>監視通知の閾値です。例えば<code>occurrences</code>が<code>3</code>に設定されていた場合<br/>
+<em>3回継続してアラートの条件を満たした場合にアラート通知する。</em><br/>
+という条件になります。デフォルトは<code>1</code>で、1回でも<br/>
+アラートの条件を満たしたら通知が行われます。</p>
+
+<ul>
+<li>&ldquo;subscribers&rdquo;</li>
+</ul>
+
+
+<p>ここでホストとアラートの紐付けを行います。<br/>
+client側で設定されている<code>subscriptions</code>を見て<br/>
+<code>subscribers</code>と同じであれば、その監視を行う条件を満たし<br/>
+監視コマンドが実行されるようになります。</p>
+
+<ul>
+<li>&ldquo;handlers&rdquo;</li>
+</ul>
+
+
+<p>アラートの条件を満たしていた場合の通知先の設定です。<br/>
+上記設定例でいうと、HipChatとmailを利用します。<br/>
+通知先の設定内容はSensu server側にて行います。</p>
+
+<ul>
+<li>/etc/sensu/conf.d/handlers/hipchat.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "handlers": {
+</span><span class='line'>    "hipchat": {
+</span><span class='line'>      "type": "pipe",
+</span><span class='line'>      "command": "/etc/sensu/handlers/hipchat.rb"
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "hipchat": {
+</span><span class='line'>    "apikey": "APIKEY",
+</span><span class='line'>    "apiversion": "v1",
+</span><span class='line'>    "room": "ROOM_NAME",
+</span><span class='line'>    "from": "FROM_NAME"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>/etc/sensu/conf.d/handlers/mailer.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "handlers": {
+</span><span class='line'>    "mailer": {
+</span><span class='line'>      "type": "pipe",
+</span><span class='line'>      "command": "/etc/sensu/handlers/mailer.rb"
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "mailer": {
+</span><span class='line'>    "mail_from": "sensu@example.com",
+</span><span class='line'>    "mail_to": "alert@example.com",
+</span><span class='line'>    "smtp_address": "192.0.2.100",
+</span><span class='line'>    "smtp_port": "25",
+</span><span class='line'>    "smtp_domain": "example.com"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のような設定を行います。</p>
+
+<h2>metircs</h2>
+
+<p>checkとの違いは<code>"type": "metric"</code>の有無の違いのみ。<br/>
+<code>"type": "metric"</code>が存在すると<em>handle_event</em>メソッドを実行します。</p>
+
+<ul>
+<li>/etc/sensu/conf.d/metrics/metrics-cpu.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "metrics_cpu_pcnt-usage": {
+</span><span class='line'>      "type": "metric",
+</span><span class='line'>      "command": "/etc/sensu/plugins/cpu-pcnt-usage-metrics.rb --scheme stats.:::name:::.cpu",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": [ "all" ],
+</span><span class='line'>      "handlers": ["graphite"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>&ldquo;command&rdquo;</li>
+</ul>
+
+
+<p>基本的にmetircs系のプラグインはschemeの設定が可能になっている。<br/>
+これは大変便利で、上記設定例でいうと<br/>
+<code>stats.hostname.cpu.cpu_pcnt.*</code>のように
+スキーマを定義することが可能になります。</p>
+
+<ul>
+<li>/etc/sensu/conf.d/handlers/graphite.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "handlers": {
+</span><span class='line'>    "graphite": {
+</span><span class='line'>      "type": "tcp",
+</span><span class='line'>      "socket": {
+</span><span class='line'>        "host": "127.0.0.1",
+</span><span class='line'>        "port": 2003
+</span><span class='line'>      },
+</span><span class='line'>      "mutator": "only_check_output"
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記graphiteの設定は、<em>pipe</em>、<em>tcp</em>や<em>udp</em>などを利用し<br/>
+handlerへ渡すことが可能なので、それを利用した設定内容になります。</p>
+
+<ul>
+<li>&ldquo;mutator&rdquo;: &ldquo;only_check_output&rdquo;</li>
+</ul>
+
+
+<p><code>only_check_output.rb</code>を見る限り、<br/>
+<code>check</code>の結果を<code>0</code>で返す(checkを行わない)オプションのようです。</p>
+
+<h2>client</h2>
+
+<ul>
+<li>/etc/sensu/conf.d/client.json</li>
+</ul>
+
+
+<blockquote><p><em>/etc/sensu/conf.d/</em>ディレクトリ配下であれば<br/>
+clientの設定のファイル名に決まりはありません。</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "client": {
+</span><span class='line'>    "name": "client_name",
+</span><span class='line'>    "address": "192.0.2.10",
+</span><span class='line'>    "subscriptions": ["all", "admin", "foo"]
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>&ldquo;name&rdquo;</li>
+</ul>
+
+
+<p>Sensu clientの名前です。</p>
+
+<ul>
+<li>&ldquo;address&rdquo;</li>
+</ul>
+
+
+<p>Sensu clientのアドレスです。<br/>
+IPアドレスでもDNS名でも何でも良いです。誤っていたからといって<br/>
+Sensu serverと接続できなくなるということはありません。</p>
+
+<ul>
+<li>&ldquo;subscriptions&rdquo;</li>
+</ul>
+
+
+<p>Sensu server側で行ったcheck、metricsに対する関連付けです。<br/>
+関連付けされる対象は<code>subscribers</code>です。</p>
+
+<h2>五月雨式ではありますが</h2>
+
+<p>監視をする上での細かい設定内容の解説でした。<br/>
+ドキュメントを読み進める上でのお役に立てれば幸いです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -512,197 +1053,6 @@ serverへ結果を返す。という繰り返しを行います。</p>
 
 <p>と合わせて必読なタイプの本だと思いました。<br/>
 おすすめです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/27/201403-book/">2014/03読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-27T17:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>忘れていた。しや君に教えてもらった<br/>
-ハートで感じる英文法は面白かった。</p>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E7%94%9F%E5%91%BD%E4%BF%9D%E9%99%BA%E3%81%AE%E3%82%AB%E3%83%A9%E3%82%AF%E3%83%AA-%E6%96%87%E6%98%A5%E6%96%B0%E6%9B%B8-%E5%B2%A9%E7%80%AC-%E5%A4%A7%E8%BC%94/dp/4166607235%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4166607235" target="_blank"><img src="http://ecx.images-amazon.com/images/I/31Q5WY6ztHL._SL160_.jpg" width="92" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E7%94%9F%E5%91%BD%E4%BF%9D%E9%99%BA%E3%81%AE%E3%82%AB%E3%83%A9%E3%82%AF%E3%83%AA-%E6%96%87%E6%98%A5%E6%96%B0%E6%9B%B8-%E5%B2%A9%E7%80%AC-%E5%A4%A7%E8%BC%94/dp/4166607235%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4166607235" target="_blank">生命保険のカラクリ (文春新書)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B2%A9%E7%80%AC%E5%A4%A7%E8%BC%94" target="_blank">岩瀬大輔</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">文藝春秋</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2009-10-17</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4166607235" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E2%80%9C%E3%81%8A%E8%8C%B6%E2%80%9D%E3%81%AF%E3%81%AA%E3%81%9C%E5%A5%B3%E3%81%AE%E3%82%82%E3%81%AE%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E3%81%8B%E2%80%95%E8%8C%B6%E9%81%93%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E6%88%A6%E5%BE%8C%E3%81%AE%E5%AE%B6%E6%97%8F-%E5%8A%A0%E8%97%A4-%E6%81%B5%E6%B4%A5%E5%AD%90/dp/4314009721%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4314009721" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41PPS6ZRBDL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E2%80%9C%E3%81%8A%E8%8C%B6%E2%80%9D%E3%81%AF%E3%81%AA%E3%81%9C%E5%A5%B3%E3%81%AE%E3%82%82%E3%81%AE%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E3%81%8B%E2%80%95%E8%8C%B6%E9%81%93%E3%81%8B%E3%82%89%E8%A6%8B%E3%82%8B%E6%88%A6%E5%BE%8C%E3%81%AE%E5%AE%B6%E6%97%8F-%E5%8A%A0%E8%97%A4-%E6%81%B5%E6%B4%A5%E5%AD%90/dp/4314009721%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4314009721" target="_blank">“お茶”はなぜ女のものになったか―茶道から見る戦後の家族</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%8A%A0%E8%97%A4%E6%81%B5%E6%B4%A5%E5%AD%90" target="_blank">加藤恵津子</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">紀伊國屋書店</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2004-12</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4314009721" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%8F%E3%83%BC%E3%83%88%E3%81%A7%E6%84%9F%E3%81%98%E3%82%8B%E8%8B%B1%E6%96%87%E6%B3%95%E2%80%95NHK3%E3%81%8B%E6%9C%88%E3%83%88%E3%83%94%E3%83%83%E3%82%AF%E8%8B%B1%E4%BC%9A%E8%A9%B1-%E8%AA%9E%E5%AD%A6%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E5%A4%A7%E8%A5%BF-%E6%B3%B0%E6%96%97/dp/4141892750%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4141892750" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Y27HBKQSL._SL160_.jpg" width="106" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%8F%E3%83%BC%E3%83%88%E3%81%A7%E6%84%9F%E3%81%98%E3%82%8B%E8%8B%B1%E6%96%87%E6%B3%95%E2%80%95NHK3%E3%81%8B%E6%9C%88%E3%83%88%E3%83%94%E3%83%83%E3%82%AF%E8%8B%B1%E4%BC%9A%E8%A9%B1-%E8%AA%9E%E5%AD%A6%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E5%A4%A7%E8%A5%BF-%E6%B3%B0%E6%96%97/dp/4141892750%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4141892750" target="_blank">ハートで感じる英文法―NHK3か月トピック英会話 (語学シリーズ)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%A4%A7%E8%A5%BF%E6%B3%B0%E6%96%97" target="_blank">大西泰斗</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">日本放送出版協会</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2005-12</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4141892750" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%AE%87%E5%AE%99%E5%85%84%E5%BC%9F-23-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B0%8F%E5%B1%B1-%E5%AE%99%E5%93%89/dp/4063872947%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872947" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51JrEnXQevL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%AE%87%E5%AE%99%E5%85%84%E5%BC%9F-23-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E5%B0%8F%E5%B1%B1-%E5%AE%99%E5%93%89/dp/4063872947%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4063872947" target="_blank">宇宙兄弟(23) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B0%8F%E5%B1%B1%E5%AE%99%E5%93%89" target="_blank">小山宙哉</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-03-20</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4063872947" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/24/ruby-certificate-verify-failed/">Rubyでconnect&#8217;: SSL_connect Returned=1 Errno=0 state=SSLv3 Read Server Certificate B: Certificate Verify Failed (OpenSSL::SSL::SSLError) が出た時の対応方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-24T23:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>SensuでSSL使うプラグインでエラーが出ていた。<br/>
-その対処法を忘れないようにメモ。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$
-</span><span class='line'>$ /opt/sensu/embedded/bin/ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"
-</span><span class='line'>"/opt/sensu/embedded/ssl/cert.pem"
-</span><span class='line'>$
-</span><span class='line'>$ ls /opt/sensu/embedded/ssl/cert.pem
-</span><span class='line'>ls: cannot access /opt/sensu/embedded/ssl/cert.pem: No such file or directory
-</span><span class='line'>$
-</span><span class='line'>$ wget -O /opt/sensu/embedded/ssl/cert.pem http://curl.haxx.se/ca/cacert.pem
-</span><span class='line'>--2014-04-24 08:10:09--  http://curl.haxx.se/ca/cacert.pem
-</span><span class='line'>Resolving curl.haxx.se... 80.67.6.50, 2a00:1a28:1200:9::2
-</span><span class='line'>Connecting to curl.haxx.se|80.67.6.50|:80... connected.
-</span><span class='line'>HTTP request sent, awaiting response... 200 OK
-</span><span class='line'>Length: 250283 (244K)
-</span><span class='line'>Saving to: “/opt/sensu/embedded/ssl/cert.pem”
-</span><span class='line'>
-</span><span class='line'>100%[============================================================================================================================================&gt;] 250,283      253K/s   in 1.0s
-</span><span class='line'>
-</span><span class='line'>2014-04-24 08:10:11 (253 KB/s) - “/opt/sensu/embedded/ssl/cert.pem” saved [250283/250283]
-</span><span class='line'>
-</span><span class='line'>$ ls /opt/sensu/embedded/ssl/cert.pem
-</span><span class='line'>/opt/sensu/embedded/ssl/cert.pem
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/20/irkit-firmware-update/">IRKitのファームウェアをアップデートしてWi-Fiに繋がるようになった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-20T00:05:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>IRKitの初期ロットを利用していたので、モールス信号で<br/>
-設定がとばせなくなっていたのでファームウェアのアップデートをした。<br/>
-やり方はGitHubのページの通りに行えば問題ない。</p>
-
-<p><a href="https://github.com/irkit/device">https://github.com/irkit/device</a></p>
-
-<p>ファームウェアをアップデートしても赤点滅から先に進まなくて<br/>
-参ったなーと思ったのだが、Wi-Fiのアクセスポイントに<a href="https://www.planex.co.jp/product/wireless/mzk-sa300d/">MZK-SA300D</a>を利用していて<br/>
-こいつがたまにgの回線だけ見えなくなる場合があったので<br/>
-アクセスポイントを再起動して、無事接続できた。</p>
-
-<blockquote><p>AppleTV -> 古いREGZA -> JVCのTH-BC2</p></blockquote>
-
-<p>という形式でリビングで音楽流したりしていて、<br/>
-REGZAとTH-BC2をIRKitで操作できるようになった。<br/>
-操作がiPhoneだけで完結するようになったので大変便利になった。</p>
 </div>
   
   

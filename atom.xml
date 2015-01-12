@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-08T12:51:35+09:00</updated>
+  <updated>2015-01-12T11:20:01+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,98 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「イシューからはじめよ」を読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/12/issue-book/"/>
+    <updated>2015-01-12T01:49:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/12/issue-book</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%A4%E3%82%B7%E3%83%A5%E3%83%BC%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%88-%E2%80%95-%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E3%81%AE%E3%80%8C%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E6%9C%AC%E8%B3%AA%E3%80%8D-%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA-ebook/dp/B00MTL340G%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MTL340G" target="_blank" title="イシューからはじめよ ― 知的生産の「シンプルな本質」"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL.jpg" width="317" height="500" alt="イシューからはじめよ ― 知的生産の「シンプルな本質」" /></a></p>
+
+<p>MTGとか方法が目的になりがちになる。<br/>
+ゴールを意識して、そのゴールを達成する為に何をすべきかを常に意識する必要がある。<br/>
+実作業においても、目的があって、その目的を達成する為に色々な作業が発生して<br/>
+余計なことに時間がかかったりする。綺麗にしたり冗長性をなくしたりとか<br/>
+そういうことに時間を使いがちだけど、まずはゴール(目的)を持ってそれを達成して<br/>
+次に品質を上げることに注力しないと何時までたっても終わらない。</p>
+
+<p>自分の仕事の進め方で悪いところがまさにそれで、取り敢えず手を動かして<br/>
+動くことをゴールとして、品質についてはまた次の機会へ。とすることが<br/>
+今の自分の課題だと認識している。</p>
+
+<p>だからといってメンテナンスのしづらいものでも良いかというとそうではなく<br/>
+次への段階を踏みやすいように足あとと次への段階は明示的にしておくことが大切だと思う。</p>
+
+<p>とにかく常に物事に対してのゴールと、そのゴールを達成する為に必要な作業を<br/>
+計画的に、スピード感を持って仕事に取り組んでいきたいと改めて思った。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「Serverspec」本を読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book/"/>
+    <updated>2015-01-11T23:44:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book</id>
+    <content type="html"><![CDATA[<p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
+
+<ul>
+<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
+<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
+</ul>
+
+
+<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
+
+<h2>書籍について</h2>
+
+<p>正直、最近はソフトウェアの本だとオフィシャルサイトのものを読むように心がけている(一次情報大切)ので<br/>
+そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
+
+<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
+ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
+
+<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
+というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
+背景を書籍を通じて理解できてとても有意義だった。</p>
+
+<h2>初めての人は？</h2>
+
+<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
+Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
+よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
+
+<h2>状態を担保する存在の必要性</h2>
+
+<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
+設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
+最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
+何かしら必要だと思う。<br/>
+実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
+最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
+それを元に負荷分散に追加するようにしていた。</p>
+
+<h2>Specinfraについて</h2>
+
+<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
+その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
+ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
+itamaeのような使い方は本当に上手だと思う。</p>
+
+<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
+
+<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
+どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
+インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
+
+<h2>最後に</h2>
+
+<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
+改めて思った。mizzyさんありがとうございます。<br/>
+Asuraっていうコードネームめちゃめちゃ好きでした。</p>
+
+<p>この本はまた何回か読み直したい本だ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ansibleはcheck modeだとshellやcommandは実行されない]]></title>
@@ -66,6 +158,18 @@
 
 <p>のように<code>always_run: yes</code>にしなければならない。<br/>
 自分メモ。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[「私本太平記」読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/04/taiheiki/"/>
+    <updated>2015-01-04T12:21:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/04/taiheiki</id>
+    <content type="html"><![CDATA[<p>吉川英治さんの本が無料で読めるありがたい時代なので<a href="http://www.amazon.co.jp/dp/B00G3QMEZY">私本太平</a>記読んだ。<br/>
+応仁の乱以前に結構京都燃えてるやんって思った。<br/>
+藤沢と鎌倉の浜辺の戦いめちゃめちゃ金かけて映像化してほしい。<br/>
+楠木正成や新田義貞より北畠顕家の方がかっこよかった。</p>
 ]]></content>
   </entry>
   
@@ -2100,170 +2204,6 @@ ansibleが実行されます.</p>
 
 <p>運営の方、お疲れ様でした！<br/>
 データホテルチームがんばれ〜</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2014/09読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/10/01/201409-book/"/>
-    <updated>2014-10-01T00:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/10/01/201409-book</id>
-    <content type="html"><![CDATA[<p>Akamaiの本が面白かった。<br/>
-BGP繋ぎこんで終わりの世界だと思っていたので<br/>
-目からうろこだった。</p>
-
-<p>初速思考、<a href="http://shibayu36.hatenablog.com/entry/2014/09/15/102509">しばゆー君の記事</a>で面白そうだなと思って読んだ。<br/>
-正直手を抜いていたところがあったので、<br/>
-そうだよな〜、ちゃんとやるべきだよな〜って思って<br/>
-メモを取るようにした。あと、覚えておいた方がいいもの<br/>
-調べておいた方がいいものを御座なりにしないよう心がけ始めた。<br/>
-まずは手を動かす、細かいことでも取り敢えずやりきる習慣を身につけたいものだ。</p>
-
-<p>あとは、これからアプリケーション周りのコードを書くつもりなので<br/>
-プログラミング周りの有名な2冊をささっと読んだ。</p>
-
-<p>新しい環境は既にAnsibleが入っていたので困らない限りはAnsible使って行ってみたい。<br/>
-<a href="http://mozaic.fm/post/95128341833/7-rest">mozaic.fm #7</a>がとても面白かったので例の書籍を今更読んでみた。</p>
-
-<p>Go、ちゃんとやりたいけどまず仕事で使いそうなRailsを学習しているので<br/>
-10月はそこをカチっとやっていく。あと瞬間英作文の復習を合間にやっていけたらいいな。</p>
-
-<p>宇宙博の帰りに宇宙兄弟の最新刊が当日発売されているの知って<br/>
-ちょっとテンション上がった。</p>
-
-<p>幕張メッセ、大ホールとかすっからかんで面白かった。<br/>
-<a href="https://flic.kr/p/pkXS8j">レッドブルのこれ</a>かっこよかった。</p>
-
-<p>カミさんがこれ本物？レプリカって書いてないよ？レプリカより本物が良い。<br/>
-って言ってて本物志向だった。</p>
-
-<p>あとJAXAのTシャツ着て行ったらJAXAの美人広報さんに見つかって<br/>
-チラチラTシャツ見られながらすごい熱心に<br/>
-海中から引き上げられたH2ロケットの説明を色々話してくれて<br/>
-めちゃくちゃJAXA好きみたいになってて結構恥ずかしかった。</p>
-
-<p>とても面白かった。</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年09月 (9作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MALTGDY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Ef9h7qfpL._SL75_.jpg" width="47" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MALTGDY" target="_blank">入門Ansible</a><br /><a href="http://booklog.jp/author/%E8%8B%A5%E5%B1%B1%E5%8F%B2%E9%83%8E" target="_blank">若山史郎</a><br />読了日：09月06日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774142042" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51qo6pgjaSL._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774142042" target="_blank">Webを支える技術 -HTTP、URI、HTML、そしてREST (WEB+DB PRESS plus)</a><br /><a href="http://booklog.jp/author/%E5%B1%B1%E6%9C%AC%E9%99%BD%E5%B9%B3" target="_blank">山本陽平</a><br />読了日：09月06日<br /><img src="http://booklog.jp/images/rank/5.gif" width="59" height="12" alt="評価5" /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774166278" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61gSqezYgPL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774166278" target="_blank">WEB+DB PRESS Vol.82</a><br /><a href="http://booklog.jp/author/%E5%B1%B1%E5%8F%A3%E5%BE%B9" target="_blank">山口徹</a><br />読了日：09月06日<br /><img src="http://booklog.jp/images/rank/5.gif" width="59" height="12" alt="評価5" /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MIFE3BC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51T4L8K2yLL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MIFE3BC" target="_blank">アカマイ　知られざるインターネットの巨人 (角川ＥＰＵＢ選書)</a><br /><a href="http://booklog.jp/author/%E5%B0%8F%E5%B7%9D%E6%99%83%E9%80%9A" target="_blank">小川晃通</a><br />読了日：09月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4534050887" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41R-WuPO9yL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4534050887" target="_blank">初速思考 30代で一気に突き抜ける人の集中戦略</a><br /><a href="http://booklog.jp/author/%E9%87%91%E7%94%B0%E5%8D%9A%E4%B9%8B" target="_blank">金田博之</a><br />読了日：09月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4798111112" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Y4DWH4N3L._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4798111112" target="_blank">オブジェクト指向入門 第2版 原則・コンセプト (IT Architect’Archive クラシックモダン・コンピューティング)</a><br /><a href="http://booklog.jp/author/%E3%83%90%E3%83%BC%E3%83%88%E3%83%A9%E3%83%B3%E3%83%89%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC" target="_blank">バートランド・メイヤー</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00JEYPPOE" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51LZpcbh3LL._SL75_.jpg" width="59" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00JEYPPOE" target="_blank">Code Complete 第2版 上　完全なプログラミングを目指して</a><br /><a href="http://booklog.jp/author/%E3%82%B9%E3%83%86%E3%82%A3%E3%83%BC%E3%83%96%E3%83%BB%E3%83%9E%E3%82%B3%E3%83%8D%E3%83%AB" target="_blank">スティーブ・マコネル</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4274066428" target="_blank"><img src="http://ecx.images-amazon.com/images/I/4151YFZ27NL._SL75_.jpg" width="57" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4274066428" target="_blank">プログラミングRuby 第2版 言語編</a><br /><a href="http://booklog.jp/author/Dave+Thomas" target="_blank">Dave Thomas</a><br />読了日：09月18日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063883515" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61UN%2BOSffyL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063883515" target="_blank">宇宙兄弟(24) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E5%B0%8F%E5%B1%B1%E5%AE%99%E5%93%89" target="_blank">小山宙哉</a><br />読了日：09月22日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[sensuのmackerel用のmetrics handlerをつくった #mackerelio]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/09/25/sensu-mackerel-handler/"/>
-    <updated>2014-09-25T14:38:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/09/25/sensu-mackerel-handler</id>
-    <content type="html"><![CDATA[<p><a href="http://mackerelio.connpass.com/event/8458/">Mackerel Meetup #2 Tokyo</a>に参加してきました。</p>
-
-<p>美味しいサバ料理頂いたりピザ頂いたりビール頂いたりして最高でした。<br/>
-個人的には監視はSensuかnagiosかに任せて、<br/>
-メトリクス周りをmackerelに任せたいなという構想があったりなかったりしています。</p>
-
-<p>mackerelがDataDogを超えて全世界で使われるようになったら<br/>
-面白そうですよね。</p>
-
-<p>個人的にほしい機能は監視の充実より先にメトリクス周りの整備をしてほしいです。</p>
-
-<p>@fujiwaraさんが、n分前と現在の差分データを取得できると良いとおっしゃっていて<br/>
-それあったら便利だな〜、と便乗していました(もちろんZabbixは可能です)。</p>
-
-<p>使うか使わないかはわかりませんが、Sensuのhandlerで<br/>
-mackerelを指定できるようプラグインを作成しました。</p>
-
-<p>hostの登録は別でしないといけませんが(plugin側で担保しても良いかも)<br/>
-既にSensuを利用している方は、こちらのhandlerを入れてもらえれば<br/>
-mackerelへmetricsを送信することが可能です。</p>
-
-<p>どうぞご利用ください。</p>
-
-<ul>
-<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.rb">mackerel-metrics.rb</a></li>
-<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.json">mackerel-metrics.json</a></li>
-</ul>
-
-
-<p><a href="https://github.com/sensu/sensu-community-plugins/pull/777">pull requst</a>中です。<br/>
-777番目なのでめでたいです。</p>
-
-<blockquote><p>はてな社の方へ<br/>
-headerが雑なのでプロモーションも兼ねて編集して頂いた方がいいかもしれないです</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sensu Casual Talks #1 に行ってきた #sensucasual]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/09/17/sensu-casual/"/>
-    <updated>2014-09-17T23:13:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/09/17/sensu-casual</id>
-    <content type="html"><![CDATA[<p><a href="http://www.zusaar.com/event/7607003">Sensu Casual Talks #1</a>にいってきた。</p>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" /></p>
-
-<p><a href="https://twitter.com/timwata">@timwata</a>さんのGraphiteのスケールの話が興味深かった。<br/>
-3000台ぐらいのクライアントをSensuとGraphiteで見てるの<br/>
-相当貴重な知見だと思う。</p>
-
-<p>自分が話してきたのは特にどうということもなくて<br/>
-Chefを使えばOfficial cookbookと自分で何個かcookbookを書くことで<br/>
-比較的簡単に(※1)導入、運用ができるという話をしてきた。</p>
-
-<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
-
-
-<p></p>
-
-<p>cookbookはここにまとめてある。</p>
-
-<p><a href="https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks">https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks</a></p>
-
-<p>Sensu、スケールしていくとどこがボトルネックになるか<br/>
-みたいな話はユースケースが増えていくとコツみたいなのが<br/>
-見えてくると思う。だけどnagiosで困っていないのにわざわざ<br/>
-sensuに乗り換えるのは無駄だと思う。</p>
-
-<p>KAIZEN社は日本のウェッブ業界でも最先端の会社なので<br/>
-定期的に現状を確認しに行きたいと思う。</p>
-
-<p>Tシャツありがとうございました。<br/>
-開催して頂いた@glidenote氏、ありがとうございました！</p>
-
-<iframe src="//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<blockquote><p>※1… 個人差があります</p></blockquote>
 ]]></content>
   </entry>
   

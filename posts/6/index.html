@@ -9,7 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="booklogというサービス、デザインと使い勝手が本当に良い。 kenjiskywalkerの本棚 - 2014年08月 (4作品) 進撃の巨人(14) (講談社コミックス)諫山創読了日：08月09日 多重人格探偵サイコ (20) (カドカワコミックス・エース)田島昭宇読了日：08月09日 成川の &hellip;">
+  <meta name="description" content="https://github.com/kenjiskywalker/consul-test READMEのとおりですが 1
+2
+3
+4
+5
+Node Address Status Type Build Protocol
+node01 127.0.0.1:8301 alive server 0.4. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +67,255 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/08/consul-test-tool/">Consul Clusterを手元に構築する簡単なスクリプトかいた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-08T21:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
+
+<p>READMEのとおりですが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
+</span><span class='line'>node01  127.0.0.1:8301  alive   server  0.4.0  2
+</span><span class='line'>node02  127.0.0.2:8301  alive   server  0.4.0  2
+</span><span class='line'>node03  127.0.0.3:8301  alive   server  0.4.0  2
+</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記構成のConsul Clusterを<br/>
+OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
+よかったらご利用ください。</p>
+
+<h3>あわせてよみたい</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/06/06/consul-dns-round-robin/">ConsulのDNSラウンドロビンの検証</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/06/ss-command/">Ssコマンドの使えそうなもののメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-06T23:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>$ss -lt</code>と<code>$ss -ltp</code>は使える。<br/>
+<code>-i</code>は面白いけど本当に確認するなら<code>ngrep</code>か<code>tcpdump</code>だろうな</p>
+
+<h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>セッションを開いているホスト名を名前解決する</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPとUDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UNIX Domainのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>特定のセッションの状態のものを抽出</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートを表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートのプロセス名を表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コマンド名自体が短いからササッと確認するのには良さそう</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/04/hubot-at/">Hubot-atというhubot Pluginをつくった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-04T14:22:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
+hubotに持ってきました。</p>
+
+<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
+
+<p>というように</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
+
+<p>元々taiyohさんが</p>
+
+<ul>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
+</ul>
+
+
+<p>にて書いてくれていたので、それを踏襲しています。<br/>
+ありがとうございます。</p>
+
+<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -208,226 +463,6 @@ JavaScriptやってみたけど基本的なこと全然理解していなかっ�
 <p>@deeeet君、@tagomorisさん、@uzullaさん、おめでとうございました！</p>
 
 <p>おつかれさまでした！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/29/yapcasia2014-cosmo/">#yapcasia 2014 でシステムとの時間の旅の話をしてきました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-29T12:38:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://speakerdeck.com/kenjiskywalker/yapcasia2014">The world is not complete </a></h2>
-
-<blockquote><p>邦題: <br/>
-「完成されたシステムなどない。完成された人間もいない。<br/>
-  あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ」</p></blockquote>
-
-<p>ウェブサービスを頭に描きながら、そのウェブサービスの成長の旅を体験することで<br/>
-その時その時に何が必要か、ということをお話をしました。後半はトークショーでした。</p>
-
-<blockquote><p>システムは完全ではないので壊れることを前提につくる<br/>
-人間は失敗をするので、失敗をしても復旧できるようにシステムをつくる</p>
-
-<p>システムや一部の機能を疎結合にし、再現性を保つことで、障害に強くする<br/>
-再現性をシンプルに保つことで、システム自体を変更の強いものにする</p></blockquote>
-
-<p>例えば、現代でいえば、クラウドサービスでしか動かない、<br/>
-特定のオンプレでしか動かないシステムではなく、<br/>
-機能毎に環境に依存しないようにシステムをつくることを忘れないでね。</p>
-
-<p>壊れたりした時に慌てるのではなく、保険をつくって<br/>
-再現性を持たせて同じ状態に戻せるようにしておいてね。ということでした。</p>
-
-<p>その意識があるかないかで、規模が拡大したり、機能が追加され<br/>
-複雑化した時に、大きな違いになってくることを私は経験してきました。</p>
-
-<p>大規模の経験がある人は、この辺は体験的に理解していますが<br/>
-大規模の経験がない人は、最初の構成を複雑にしてしまい<br/>
-後々苦労してしまうのはあるあるネタかと思います。</p>
-
-<p>再現性については、puppet、Chef、Ansible、Consul、Serfなど<br/>
-プロビジョニング、オーケストラレーションツールを利用し<br/>
-環境に依存しない構築が可能になり、<br/>
-簡易性、疎結合については、Dockerや各種クラウドサービスの登場で、<br/>
-機能毎にプラットフォームを渡りやすくなってきたのではないでしょうか。</p>
-
-<p>ただ、その記録、保険、再現性、簡易性は<br/>
-どのタイミングで、どの程度の精度を持たせるかは<br/>
-つくる時間・つくらなかった時のリスク・復旧時間・構築時間など<br/>
-都度見積もって、判断してね。という当たり前の話をしました。</p>
-
-<p>Infrastructure as Codeの時代、プログラミングで良く言われている<br/>
-「変化に強く、シンプルであれ」という哲学は、Infrastructureにも<br/>
-当てはまる時代になってきたのではないでしょうか。<br/>
-それは、UNIXの哲学や、日本の文化から学ぶことができます。</p>
-
-<p>そうして、みなさんのウェブサービスの旅は、これからも続いていきます。</p>
-
-<p>という発表を大ホールならではのエモーショナルな空気感で発表してきました。<br/>
-理想論だ、と吐き捨てることはできますが、その理想の世界が<br/>
-Go言語の登場から各種プロビジョニングツール、様々なクラウドサービスの登場で<br/>
-段々と実現可能になってきたのではないでしょうか。</p>
-
-<p>発表が結構早く終わってしまったけど、発表の補足を質問を回答する形ででき<br/>
-結果的に、視聴者参加型のとても素晴らしい空間が生まれました。<br/>
-みなさん、ありがとうございました。</p>
-
-<p>聞いてくれた人たち、選んでくれた人たち、ありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/27/yapcasia2014-before/">YAPC::Asia 2014 で時間旅行をしながらサービスの成長を体験し、人間とシステムの在り方について話します</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-27T12:35:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://yapcasia.org/2014/talk/show/4c7651e8-ed53-11e3-9faf-6ba36aeab6a4">完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014</a></p>
-
-<p>という話をします(題名長すぎて本番絶対噛むしそもそも覚えられない)</p>
-
-<p>YAPCへの参加は3回目で、今回はyusukebe氏が運営されるとのことで<br/>
-ヨッシャ！ワシもこのニューウェーブに乗るんや！とポエム先行型エントリーを行い</p>
-
-<ul>
-<li>これ題名で完結してるんじゃねーの？</li>
-<li>何かすごそうだけど結局何の話するの？</li>
-<li>で、誰？</li>
-</ul>
-
-
-<p>と色々なコメントを頂きつつ、お話しをする機会を頂きました。<br/>
-選んで頂きありがとうございます。</p>
-
-<p>実際ちゃんと話すことがまとまったのは一昨日ぐらいなのですが<br/>
-サービスが産まれ、成長していく時間の旅をしながら<br/>
-その時に何が必要だったのか、何を基準に構築、運用すれば良いのか<br/>
-というお話をする予定です。</p>
-
-<p>オレ自身がインフラだおじさんやインターネット懐古厨おじさん、<br/>
-インフラとかよくわからないけど担当しなければならない人、<br/>
-オレがインフラだおじさんとかインターネット懐古厨おじさんとかどうでもよくて、<br/>
-サーバの保守とか構築とかやらないといけないんだけど<br/>
-どういう思想を持って運用していけば良いのかいまいちわからない人とか<br/>
-ウェブオペレーションについて興味はあるけど、難しそうでよくわからない人とか<br/>
-そんな感じの人に是非聞きに来てほしいと思っています。</p>
-
-<p>興味ある方は是非 08/29 11:00 に藤原洋記念ホールに足を運んでみてください。<br/>
-朝早いですが、きっと何か得るものはあると思います;)</p>
-
-<p>参考情報</p>
-
-<ul>
-<li><a href="http://mizzy.org/blog/2013/10/29/1/">インフラ系技術の流れ - mizzy.org</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/09/13/the-unix-philosophy/">UNIXという考え方 - さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/12/01/monitoringcasual-kyoto/">ディスポーザブル長屋 - さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture - さよならインターネット</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/09/201407-book/">2014/07読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-09T10:41:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>瞬間英作文が全然進まなかった</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年07月 (3作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063883507" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61HAqSe8kXL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063883507" target="_blank">GIANT KILLING(32) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：07月25日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/406388340X" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51d4vemE7NL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/406388340X" target="_blank">バガボンド(37) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E4%BA%95%E4%B8%8A%E9%9B%84%E5%BD%A6" target="_blank">井上雄彦</a><br />読了日：07月25日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00LFLDWJE" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61K65t56bIL._SL75_.jpg" width="60" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00LFLDWJE" target="_blank">キングダム 34 (ヤングジャンプコミックスDIGITAL)</a><br /><a href="http://booklog.jp/author/%E5%8E%9F%E6%B3%B0%E4%B9%85" target="_blank">原泰久</a><br />読了日：07月25日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
 </div>
   
   

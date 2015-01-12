@@ -9,14 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="新しくグループとかつくる時に
-アラートメールの送り先の設定項目多くて毎回忘れるのでメモ ユーザつくる
-ユーザのメディアにアラート通知先登録する
-ユーザグループつくる
-ユーザグループにユーザ入れる
-ホストつくる
-ホストグループつくる
-ホストグループにホスト入れる &hellip;">
+  <meta name="description" content="ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。
+もちろんZABBIXでグラフにすることもできます。 fluent-plugin-zabbix
+fluent- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +64,343 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/cloudwatch-fluentd-zabbix/">fluentdでCloudWatchのELBのメトリクスをZABBIXに渡す</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T17:05:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。<br/>
+これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。<br/>
+もちろんZABBIXでグラフにすることもできます。</p>
+
+<p><a href="https://rubygems.org/gems/fluent-plugin-zabbix">fluent-plugin-zabbix</a><br/>
+<a href="http://rubygems.org/gems/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a></p>
+
+<p>この2つのfluentdプラグインを使います。</p>
+
+<h4>td-agent.conf</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type cloudwatch
+</span><span class='line'>  tag  cloudwatch
+</span><span class='line'>  aws_key_id  YOUR_AWS_KEY_ID
+</span><span class='line'>  aws_sec_key YOUR_AWS_SECRET/KE
+</span><span class='line'>  cw_endpoint monitoring.ap-northeast-1.amazonaws.com
+</span><span class='line'>
+</span><span class='line'>  namespace AWS/ELB
+</span><span class='line'>  metric_name HealthyHostCount,HTTPCode_Backend_2XX,HTTPCode_Backend_3XX,HTTPCode_Backend_4XX,HTTPCode_Backend_5XX,HTTPCode_ELB_4XX,Latency,RequestCount,UnHealthyHostCount
+</span><span class='line'>  dimensions_name LoadBalancerName
+</span><span class='line'>  dimensions_value YOUR_ELB_NAME
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match cloudwatch&gt;
+</span><span class='line'>  type copy
+</span><span class='line'> &lt;store&gt;
+</span><span class='line'>  type             zabbix
+</span><span class='line'>  zabbix_server    ZABBIX SERVER IP
+</span><span class='line'>  host             [ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]
+</span><span class='line'>  name_keys        HealthyHostCount, HTTPCode_Backend_2XX, HTTPCode_Backend_3XX, HTTPCode_Backend_4XX, HTTPCode_Backend_5XX, HTTPCode_ELB_4XX, Latency, RequestCount, UnHealthyHostCount
+</span><span class='line'>  add_key_prefix   cloudwatch
+</span><span class='line'> &lt;/store&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ZABBIXの設定</h4>
+
+<p>ホスト名は<br/>
+<code>[ZABBIXに設定するホスト名。なんでもいい(hoge-elb)]</code>
+で指定したものを。</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloudwatch.png" /></p>
+
+<p>こんな感じでアイテムを設定します。</p>
+
+<ul>
+<li>キー：cloudwatch.HealthyHostCount</li>
+<li>データ型：整数とか浮動小数点型とか</li>
+<li>タイプ：ZABBIX Trapper</li>
+</ul>
+
+
+<p><img src="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" alt="https://dl.dropbox.com/u/5390179/zabbix-cloud-triger.png" /></p>
+
+<p>トリガーはこんな感じで<strong>UnHealthyHost</strong>が0よりも大きければwarningを<br/>
+みたいな監視が行えるようになります。</p>
+
+<p><strong>Latency</strong>や<strong>RequestCount</strong>なんかもグラフにできるので<br/>
+良い感じっぽいです。</p>
+
+<blockquote><p>画像小さいのウケますね</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/znc-to-lingr/">ZNCでlingr-ircに接続する設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T00:25:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.64p.org/entry/2013/03/13/195515">ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom&rsquo;s blog.</a></p>
+
+<p>インターネットそんなに古くからやってないのでlingrとかあんまり知らなかったけど<br/>
+面白そうだから入ってみた。ブラウザでログインとかしたくなかったので</p>
+
+<p><a href="https://github.com/psychs/lingr-irc">psychs/lingr-irc</a></p>
+
+<p>使って</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ nohup ruby lig.rb &</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかユルフワな感じでふぉわーどするようにしてる。<br/>
+長く動かすようだとdaemontools化した方が良い。<br/>
+今ならtokuhiromさんがつくったPerlバージョンの</p>
+
+<p><a href="https://github.com/tokuhirom/lingr-ircd">tokuhirom/lingr-ircd</a></p>
+
+<p>こっち使ってもいいかもしれない。</p>
+
+<blockquote><p>あとずっとハマってたのが、アカウントつくってIRCでつなげねー！<br/>
+ってなってたけど、1回ルームに入ってからじゃないとダメだった。</p></blockquote>
+
+<p>どうせならZNCで繋ぎたかったのでこんな感じでつないでる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;Network lingr&gt;
+</span><span class='line'>            FloodBurst = 4
+</span><span class='line'>            FloodRate = 1.00
+</span><span class='line'>            IRCConnectEnabled = true
+</span><span class='line'>            Ident = [lingr account name]
+</span><span class='line'>            RealName = hotoke
+</span><span class='line'>            Server = 127.0.0.1 26667 [lingr password]
+</span><span class='line'>
+</span><span class='line'>            &lt;Chan #perl_jp&gt;
+</span><span class='line'>                    Buffer = 10
+</span><span class='line'>            &lt;/Chan&gt;
+</span><span class='line'>    &lt;/Network&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Ident</strong> にlingrのユーザ名入れて<br/>
+<strong>Server</strong> で指定するパスワードにlingr userのパスワード設定するだけだった。<br/>
+webadmin使えばNetworkの設定追加する時も再起動なしでいけるしすごい良い。</p>
+
+<p>ずっとwebadmin見れないなーって思ってたら<br/>
+@handlename先輩が「Chromeでは見れないよ」って<br/>
+アドバイスくれて、さすがオレたちのhandle先輩！ってなってた。</p>
+
+<p>ChromeだとブラウザでIRCポートとか接続しに行くと良くないアクセスみたいな判断して<br/>
+遮断しちゃうみたい。Firefoxだと開けた。この辺細かい情報は調べてない。</p>
+
+<p>調べてないって書いたらひろせおじさんがエントリー書いてくれた</p>
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/hirose31/20130327/1364362758">ChromeでへんてこなポートにHTTPで繋ぎたい / (ひ)メモ</a></li>
+</ul>
+
+
+<p>hirose31++</p>
+
+<p>祝日なのにインターネットに関わってて体調悪くなってる。<br/>
+休肝日みたいな感じで休インターネット日みたいなの必要っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
+</span><span class='line'>sentinel down-after-milliseconds check_one 5000
+</span><span class='line'>sentinel failover-timeout check_one 50000
+</span><span class='line'>sentinel can-failover check_one yes
+</span><span class='line'>sentinel parallel-syncs check_one 1
+</span><span class='line'>
+</span><span class='line'>daemonize yes
+</span><span class='line'>pidfile /var/run/redis-sentinel.pid
+</span><span class='line'>loglevel notice
+</span><span class='line'>logfile /var/log/redis-sentinel.log
+</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
+
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -374,281 +707,6 @@ iPhone => loginname: hotoke/default, hotoke/freenode, hotoke/perl</p></blockquot
 
 <p>これで出先で社内IRCで椅子がとんできても大丈夫なようになる。<br/>
 仏像彫刻教室情報お待ちしております。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/09/monitoringcasualvol3/">#monitoringcasual Vol3 に参加してきました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-09T15:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="http://www.zusaar.com/event/521056">Monitoring Casual Talk #3</a>に参加してきました。</h2>
-
-<p>会場をご提供頂いた株式会社paperboy&amp;co.さま<br/>
-@ume3_さん、@tnmtさん、@lamanotramaさん、ありがとうございました。</p>
-
-<p>会場へ向かう途中で、fujiwaraさんとsongmuさんが<br/>
-今日はmizzyさんいないからイケるかもしれないとか物騒なこと言ってて怖かったです。</p>
-
-<p>セルリアンタワー、曜日の夜にBARになるところがすごくて<br/>
-入り口にイケイケのおねーさんいたりして華やかや〜！！！ってなっていました。</p>
-
-<h2>発表内容</h2>
-
-<p><a href="http://www.slideshare.net/KenjiNaito/monitoringcasual-vol3">発表資料</a>はこんな感じです。<br/>
-出発する30分前につくったのでそんなに大したものではないです。<br/>
-一枚目は 「<em>RDSのメトリクスをCloudWatchからfluentdへ、slow_logを添えて</em>」<br/>
-って書いてあります。<br/>
-フレンチっぽくしたかったんですけどただの読めない文字になってました。<br/>
-あと何枚目かに素敵な妖精が映ってるかもしれないですけど気のせいです。</p>
-
-<p>こんなんあったらいいなーって思ったら、素晴らしいプロダクトがたくさんあるので<br/>
-すぐにできて良いですね。という感じで5分ぐらいで話したんですけど<br/>
-みんな普通にライトニングじゃない時間トークしてて、<br/>
-何でか一番時間きっかりしてたのに手抜いた感じがしてて切なかったです。</p>
-
-<p>もにかじ中にお前ZABBIXのスクリーン消したろ？って社内IRCで声かけられて<br/>
-は〜申し訳ないです〜とか言いながらZABBIXのスクリーンつくりなおしてました。<br/>
-ZABBIXのスクリーン、業が深いので手作業でやらないようにしたいですね。</p>
-
-<h2>fluentdのプラグインをつくりました。</h2>
-
-<p><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch-lite">fluent-plugin-cloudwatch-lite</a><br/>
-<a href="https://rubygems.org/gems/fluent-plugin-rds-slowlog">fluent-plugin-rds-slowlog</a></p>
-
-<p><strong>fluent-plugin-cloudwatch-lite</strong> は、RDSのメトリクスをZABBIXで取得したかったので<br/>
-fluentdに120秒前と60秒前のデータを取ってくるものです。<br/>
-元々<a href="https://github.com/yunomu/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a>があって<br/>
-それを参考につくらせてもらいました。<br/>
-自分でThread書くとか多分無理だったので本当にありがたいです。</p>
-
-<p><strong>fluent-plugin-rds-slowlog</strong> は、<br/>
-RDSのslow_logをファイルで保存したかったので書きました。<br/>
-最初シェルスクリプトでやってたんですけど、<br/>
-fujiwaraさんからfluentdでやれば？って言われて<br/>
-ほんとっスねってなって書きました。fluentdのplugin簡単に書けてすごいです。</p>
-
-<p>簡単に書けるからこそ、つくるならちゃんとしたものつくりたいなーって思いながら<br/>
-自信ないので、色々書いていくようになれば自信つくのかなーとか思ったりしてます。</p>
-
-<h2>もにかじ</h2>
-
-<p>もにかじ、次回ははてなさんらしいので超楽しみです。<br/>
-なんだったら鴨川でビールキメたりしたいですが、<br/>
-多分カミさんに物理的に抹消されるので厳しいです。</p>
-
-<p>もし次回参加できたら、次はこんなことで悩んでるんですけど<br/>
-みなさんどうしてます？みたいな感じで行きたいです。(前も言ってた気がする)</p>
-
-<h2>fujiwaraさん</h2>
-
-<p><a href="http://dl.dropbox.com/u/224433/monitoring_casual_3/index.html#1">『いつもと違う』を検知したい</a></p>
-
-<p>ハンパない</p>
-
-<h2>Perlのひとたち</h2>
-
-<p>Perl使ってる若者みんなスルーしてるけど、Perlおじさんたち<br/>
-disに対するアンサーソングみたいなのみんなキメてて怖かった。</p>
-
-<p>Twitter見たらまだ話してる人いて本当に物騒だなって思った。</p>
-
-<h2>ひとりじゃない</h2>
-
-<p>監視とかモニタリングとかってあんまりおもしろい話ないし<br/>
-すごい地道な作業が多いけど、みんなで集まって<br/>
-どうやって問題に対して解決してるかとか、<br/>
-こういう課題があるんだけどどうだとか、このツールどうだとか<br/>
-ワイワイ話したりするの楽しいなーって思いました。</p>
-
-<p>Twitter芸人として技術力ないけどコンテンツ力があるとか<br/>
-言われないように頑張って生きたい。</p>
-
-<p>頑張るのに疲れたらインターネットから解脱して仏像彫りたい</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/">EC2でEphemeral DiskをRAID0で構築した状態でブートする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-04T21:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div><script src='https://gist.github.com/5081937.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>こんなスクリプトを置いておいて</p>
-
-<p><code>/etc/rc.local</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sh ec2-raid0.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じで<em>rc.local</em>に一行書いておけば<br/>
-エフェメラルディスク2つをRAID0としてマウントする。<br/>
-なんで<strong>md127</strong>なのかは、AWSさんに聞いてほしい。<br/>
-<strong>md0</strong>でつくっても必ず、再起動後に<strong>md127</strong>として起動してくる。</p>
-
-<p>きっと神の意思なんだと思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/27/chef-variables-same-cookbook/">Chefのtemplateにrecipeからデータを渡すvariablesについて</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
-異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
-
-<p>@fujiwaraさん++</p>
-
-<blockquote><p>検証環境<br/>
-Chef v11.4.0</p></blockquote>
-
-<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
-結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
-
-<p>当初、この課題に対する解決方法として、<br/>
-複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
-実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
-複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
-最初に読み込まれた <em>role</em> は認識されなかった。</p>
-
-<h2>variablesを利用したレシピをみていこう</h2>
-
-<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>recipe内で<br/>
-<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
-また、わかりづらいのだが</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
-</span><span class='line'>  :port =&gt; port  
-</span><span class='line'>})  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br/>
-<strong>@port</strong> に代入している。</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>template内で、代入された <strong>@port</strong> を利用する</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>上記内容の結果、出力ファイルとして</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>期待した通り、複数のvalueを受け取り<br/>
-それぞれ異なったファイルに出力されることが確認できた。</p>
-
-<p>もう少しエレガントな方法があるように思うので<br/>
-他の方法などがあれば、是非是非コメントを頂きたい。</p>
 </div>
   
   
