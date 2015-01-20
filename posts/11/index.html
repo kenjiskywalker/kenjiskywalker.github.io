@@ -9,7 +9,29 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ こちらの便利機能が追加されたので早速設定してみました。 AWS CLI - create-or-update-tags &ndash;tags ResourceId= &hellip;">
+  <meta name="description" content="deep_mergeなのでこう書けます。 /etc/sensu/conf.d/checks/check_hoge.json 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+{ "checks": { "check_hoge_one &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +83,95 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/12/sensu-multi-settings/">Sensuで一つのJSONファイルに複数の設定を記述する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-12T16:40:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>deep_mergeなのでこう書けます。</p>
+
+<ul>
+<li>/etc/sensu/conf.d/checks/check_hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_hoge_one": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_two": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_three": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1004,55 +1115,6 @@ serverへ結果を返す。という繰り返しを行います。</p>
 
 <p>まだ完全に動作を理解してるわけではないので<br/>
 次はもう少し確認した後、監視の仕組みについてまとめたいと思います。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/28/alice-in-secret/">Heartbleedの件があったので「秘密の国のアリス」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-28T21:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00H372H18/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H372H18&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H372H18&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00H372H18" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p><a href="http://heartbleed.com/">heartbleed</a>の件を持って、そもそもSSLというか<br/>
-暗号はどうやってやりとりされているんだ？という謎に光りを当てててくれる本でした。</p>
-
-<p>情報系の大学出てたり、根っからのプログラマだと理解しているのかもしれないけど<br/>
-コンピュータについて詳しくないので大変助かった。</p>
-
-<p>みんな当たり前に読んでるのかもしれないけど徳丸本</p>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B00E5TJ120/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00E5TJ120&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00E5TJ120&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00E5TJ120" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>と合わせて必読なタイプの本だと思いました。<br/>
-おすすめです。</p>
 </div>
   
   

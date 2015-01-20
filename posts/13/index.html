@@ -9,16 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="iOS用にPPTPで接続できるようにしたら便利だったので
-VyattaでVPN(PPTP)設定したメモ。 参考：Vyatta で構築する簡単 VPN サーバ 1
-2
-3
-4
-5
-6
-7
-$ configure
-# set vpn pptp remote-access authentication &hellip;">
+  <meta name="description" content="fluentdのbufferとforwardについて調べたのでメモ。 fluentd v0.10.45 追記( 04/02 00:27) @kenjiskywalker flushしようとしてできなかったbufferにもlimitまで溜まるから、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +61,275 @@ $ configure
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/01/fluentd-buffer-forward/">Flunetd、forward先がダメだった時にforward元である程度ログを担保したい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-01T13:18:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>fluentdのbufferとforwardについて調べたのでメモ。</p>
+
+<blockquote><p>fluentd v0.10.45</p></blockquote>
+
+<h2>追記( 04/02 00:27)</h2>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> flushしようとしてできなかったbufferにもlimitまで溜まるから、1kbのbufferが128個で限界にはならないような気がしますが</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/statuses/451015148627456000">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/fujiwara">@fujiwara</a> 今手元で試したんですけどflush_interval関係なさそうですね。普通にflush_interval 1s buffer_chunk_limit 10とか指定してもそれ以上のbuffer保持してました</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/451018249442836483">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/tagomoris">@tagomoris</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> なるほど〜！</p>&mdash; ブラッド・ピット (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/451019439786307585">April 1, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>とのことです。</p>
+
+<p>こちらも参照してください。</p>
+
+<p><a href="http://togetter.com/li/650177">fluentd の buffer あふれ改善議論 - togetter</a></p>
+
+<p><code>flush_interval</code>はあくまでflushするだけであって<br/>
+貯まる分は</p>
+
+<p><code>buffer_chunk_limit x buffer_queue_limit</code></p>
+
+<p>が影響する。ということですね。</p>
+
+<p>update( 04/02 11:40 )</p>
+
+<h2>参考</h2>
+
+<p><a href="http://docs.fluentd.org/en/articles/buffer-plugin-overview">fluentd - Buffer Plugin Overview</a><br/>
+<a href="http://d.hatena.ne.jp/tagomoris/20130123/1358929254">tagomorisのメモ置き場 - FluentdでバッファつきOutputPluginを使うときのデフォルト値</a></p>
+
+<h3>構成</h3>
+
+<ul>
+<li>各ホストから集約サーバへ<code>foward</code>している</li>
+<li>集約サーバはログを受け取ってゴニョゴニョしている</li>
+</ul>
+
+
+<h3>Buffer</h3>
+
+<p><a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/buffer.rb#L116">BasicBuffer</a><br/>
+<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_file.rb#L76">FileBuffer</a><br/>
+<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_memory.rb#L67">MemoryBuffer</a></p>
+
+<h4>buffer_chunk_limit</h4>
+
+<p>FileBuffer = デフォルト(8MB)<br/>
+MemoryBuffer = デフォルト(8MB)</p>
+
+<h4>buffer_queue_limit</h4>
+
+<p>FileBuffer = デフォルト(256)<br/>
+MemoryBuffer = <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/buf_memory.rb#L76">64</a></p>
+
+<h4>総バッファサイズ</h4>
+
+<ul>
+<li><p>FileBuffer<br/>
+= 8 * 256 = 2048(2GB)</p></li>
+<li><p>MemoryBuffer<br/>
+= 8 * 64 = 512(512MB)</p></li>
+</ul>
+
+
+<h4>flush_interval</h4>
+
+<p>flush_interval = デフォルト(<a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L175">60s</a>)</p>
+
+<h3>Bufferされる値を算出する</h3>
+
+<p><a href="http://docs.fluentd.org/en/articles/buffer-plugin-overview">fluentd - Buffer Plugin Overview</a></p>
+
+<blockquote><p>When the top chunk exceeds the specified size or time limit<br/>
+(buffer_chunk_limit and flush_interval, respectively),<br/>
+a new empty chunk is pushed to the top of the queue.<br/>
+The bottom chunk is written out immediately when new chunk is pushed.</p></blockquote>
+
+<p>例えば</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match **&gt;
+</span><span class='line'>  type forward
+</span><span class='line'>  flush_interval 1s
+</span><span class='line'>  buffer_queue_limit 128
+</span><span class='line'>  buffer_chunk_limit 1g
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host localhost
+</span><span class='line'>    port 24225
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と設定していた場合、<code>buffer_queue_limit 1G</code>と<code>flush_interval 1s</code>の<br/>
+どちらかの閾値を超えた場合にflushされます。</p>
+
+<blockquote><p>If the bottom chunk write out fails,<br/>
+it will remain in the queue and Fluentd will<br/>
+retry after waiting several seconds (retry_wait).<br/>
+If the retry count exceeds the specified limit (retry_limit),<br/>
+the chunk is trashed. The retry wait time doubles each time<br/>
+(1.0sec, 2.0sec, 4.0sec, …).<br/>
+If the queue length exceeds the specified limit (buffer_queue_limit),<br/>
+new events are rejected.</p></blockquote>
+
+<p>例えば上記設定例で</p>
+
+<ul>
+<li><code>forward</code>先にデータが転送できなかった</li>
+<li>ログファイルは<code>1kB/sec</code>の書き込み</li>
+</ul>
+
+
+<p>である場合、<code>buffer_chunk_limit 1g</code>に達する前に<code>flush_interval 1s</code>に引っかかり<br/>
+<code>flush_interval 1s</code> x <code>buffer_queue_limit 128</code>(128kB)分のバッファを確保した後<br/>
+新しいqueueは受け付けられなくなるかと思いきや、flushはあくまでflushなので<br/>
+バッファする量は</p>
+
+<ul>
+<li>buffer_chunk_limit x buffer_queue_limit</li>
+</ul>
+
+
+<p>で決まるとのこと。</p>
+
+<p>forward時にログの転送元でどれだけのバッファを担保したいかは<br/>
+ログの流量と転送元と転送先のスペックによって変わるので<br/>
+みんなよしなにやっているのではないかと思います。</p>
+
+<h3>forward</h3>
+
+<p>結論から先に書いておくと</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match **&gt;
+</span><span class='line'>  type forward
+</span><span class='line'>  hard_timeout 180s
+</span><span class='line'>  phi_threshold 100
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host a
+</span><span class='line'>    port 24224
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>  &lt;server&gt;
+</span><span class='line'>    host un
+</span><span class='line'>    port 24224
+</span><span class='line'>    standby
+</span><span class='line'>  &lt;/server&gt;
+</span><span class='line'>  &lt;secondary&gt;
+</span><span class='line'>    type file
+</span><span class='line'>    path /var/log/fluent/forward-failed
+</span><span class='line'>  &lt;/secondary&gt;
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のような冗長構成にできるのは、forward先が<br/>
+いずれのサーバであっても同様の処理が行える時に限る。<br/>
+ということです。</p>
+
+<p>例えば<code>a</code>に障害があって<code>hard_timeout</code>で設定している<br/>
+180秒を超えた場合、転送先が<code>un</code>に変わります。<br/>
+しかし、結局<code>a</code>で処理していたログと<code>un</code>に流れたログを<br/>
+どこかでmergeしたりする必要があるのであれば、<br/>
+冗長構成を設定しない方が運用は楽かと。</p>
+
+<p>デフォルトの設定であれば</p>
+
+<ul>
+<li>retry_limit <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L177">17</a></li>
+<li>retry_wait <a href="https://github.com/fluent/fluentd/blob/master/lib/fluent/output.rb#L178">1.0s</a></li>
+</ul>
+
+
+<p>となっており、最大<code>131072 sec</code>リトライしてくれます。<br/>
+ログの流量によってはその前に</p>
+
+<ul>
+<li><code>buffer_chunk_limit</code> x <code>buffer_queue_limit</code></li>
+</ul>
+
+
+<p>上記の閾値に引っかかる可能性がありますが、<br/>
+閾値に引っかかる前に<code>a</code>のサーバの状態を復活させた方が<br/>
+オペレーション的には楽だと思います。</p>
+
+<p>絶対ロストしてはいけないデータだから冗長構成は必須！！！<br/>
+という場合はそもそもfluentdの冗長構成の前にやることがあると思います。</p>
+
+<p>というようなことを書いたのですが、認識に誤りなどあれば<br/>
+ご指摘頂ければ幸いです。</p>
+
+<p><a href="http://togetter.com/li/650177">fluentd の buffer あふれ改善議論 - togetter</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -591,120 +851,6 @@ include_recipeなど必要以上に密結合していたりするので基本的
 ああだこうだしていきたい。</p>
 
 <p>歴史を紐解くの紐と靴のくだりの紐は結果的に踏んだ感じになっただけです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/18/instance-store-backed-ami/">Instance Store-BackedのAMIをつくる</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-18T23:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
-
-<p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
-気を付けなければいけない点が何点かあったのでシェアさせて頂きます。</p>
-
-<blockquote><p>ec2-api-tools 1.6.12.0<br/>
-ec2-bundle-vol 1.4.0.9 20071010<br/>
-ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
-
-<ul>
-<li>AMIをつくる元のインスタンスにて</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ mkdir /tmp/cert
-</span><span class='line'>[ec2-user ~]$ cd /tmp/cert</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>手元からファイルを送る</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>image元となるデータを作成</li>
-</ul>
-
-
-<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
-所々ファイルが消えます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
-</span><span class='line'>-k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>-c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-</span><span class='line'>-u your_aws_account_id -r x86_64 -e /tmp/cert</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>S3にAMIの元となるデータをアップロードします</li>
-</ul>
-
-
-<p>AMIを作成するregionと合わせないとエラーになります。<br/>
-<code>--region</code>ではなく<code>--location</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
-</span><span class='line'>-m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
-</span><span class='line'>--location us-west-2</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>AMIにregisterします</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
-</span><span class='line'>-n AMI_name -O your_access_key_id -W your_secret_access_key \
-</span><span class='line'>--region us-west-2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上です。</p>
 </div>
   
   

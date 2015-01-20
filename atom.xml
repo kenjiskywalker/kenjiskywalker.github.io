@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-12T11:44:01+09:00</updated>
+  <updated>2015-01-21T00:52:47+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「降三世明王」について]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/01/21/trailokyavijaya/"/>
+    <updated>2015-01-21T00:30:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/01/21/trailokyavijaya</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/gp/product/B009NOI46Q/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B009NOI46Q&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B009NOI46Q&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B009NOI46Q" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>降三世明王が好きなのでそのことについて書く。</p>
+
+<p>降三世明王、仏像のつくりはヒンドゥー教と仏教の争いみたいな感じで<br/>
+シヴァ神を踏みつけていてあんまりよろしくはない。</p>
+
+<p>三世は過去現在未来という意味が強く、受け取り側次第でいかようにも取れる。<br/>
+天下布武の天下は全国なのか近畿だけなのかみたいな感じで。</p>
+
+<p>それはそれとして、降三世明王のある側面では「人間の三毒を取り除く」という意味合いがある。<br/>
+三毒とは「貪・瞋・痴」、貪り、怒り、愚痴を吐くことだ。</p>
+
+<p>人間のできていない自分はこの三毒にすぐにハマる。<br/>
+特に対人間となるとすぐに怒ったり愚痴ったりする。</p>
+
+<p>そういう時に降三世明王を自分の中に入れ<br/>
+衆生や世界、宇宙を感じることを思い出して、<br/>
+今という瞬間と、自分という我執を俯瞰できたら良いなといつも思う。</p>
+
+<p>降三世明王、身につまされる神様だ。</p>
+
+<p>minibutsu、Yahoo!ショッピングでは買えるっぽい。<br/>
+<a href="http://store.shopping.yahoo.co.jp/minibutsu/18.html">http://store.shopping.yahoo.co.jp/minibutsu/18.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「イシューからはじめよ」を読んだ]]></title>
@@ -2150,61 +2182,6 @@ ansibleが実行されます.</p>
 <li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[#isucon 4の予選に出た]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/10/06/isucon4/"/>
-    <updated>2014-10-06T13:46:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/10/06/isucon4</id>
-    <content type="html"><![CDATA[<p>ISUCON4に参加してきました。</p>
-
-<ul>
-<li><a href="http://isucon.net/archives/40576269.html">ISUCON4 本戦出場者決定のお知らせと本選出場者の利用言語比率</a></li>
-</ul>
-
-
-<p>上記の結果本戦出場にはたどり着けませんでした。<br/>
-もし次回ISUCONがあれば、AMI提出の確認は全員で行いたいと思います。</p>
-
-<blockquote><p>競技終了前に、全員でレギュレーション音読<br/>
-競技終了後に、全員でAMI提出指差し確認実施</p></blockquote>
-
-<h3>やったこと</h3>
-
-<ul>
-<li>とくになし</li>
-</ul>
-
-
-<h3>振り返り</h3>
-
-<p>チームとして前進した気がする。</p>
-
-<ul>
-<li>走りだす前に全体つかむことができてよかった</li>
-<li>実装前にその実装が可能かどうか確認することができてよかった</li>
-<li>再起動を終了1時間前に実施できたのはよかった</li>
-<li>全体のアクセスの統計とレスポンスタイムが遅いアクセスの割合を出した</li>
-<li>335さんとひさいちが読んでコード書いててくれたのでここオンメモリやろ〜ヤジってればよかった</li>
-<li>コンテキストスイッチ気にしすぎた。それよりもindexの改善はオレの役割だった</li>
-</ul>
-
-
-<p>4になって、事前に準備できることはしておかないといけない<br/>
-リアル競技になってきた感が強い。</p>
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://hisaichi5518.hatenablog.jp/entry/2014/09/30/001034">#isucon 4の予選に出た - パルカワ2</a></li>
-<li><a href="http://soh335.hatenablog.com/entry/2014/09/30/003912">#isucon 4 の予選に参加した- @soh335 memo</a></li>
-</ul>
-
-
-<p>運営の方、お疲れ様でした！<br/>
-データホテルチームがんばれ〜</p>
 ]]></content>
   </entry>
   
