@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-01-21T00:52:47+09:00</updated>
+  <updated>2015-02-07T17:50:11+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf/"/>
+    <updated>2015-02-07T17:41:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf</id>
+    <content type="html"><![CDATA[<blockquote><p>みんなこういうのはどういう対応しているんだろう</p></blockquote>
+
+<h2>resolv.confが圧倒的暴力によって上書きされる場合</h2>
+
+<p>対応として<code>resolv-update</code>みたいな雑なサービス定義をして、サーバ起動時に実行させるようにした。<br/>
+ポイントはcloud-initとかそれ系のヤツが実行される前に上書いてもその後に上書きされるのでタイミングが大切。</p>
+
+<p>ここの</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># chkconfig: 2345 49 49</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>49 49</code>の最初の数字が起動時に実行される順番で、後ろの数字が終了時に実行される順番。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ chkconfig --add resolv-update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすることで自動に実行されるようになる。</p>
+
+<p>runlevel 3のものを確認したければ<code>/etc/rc3.d/</code>とか見ればわかる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
+</span><span class='line'>#
+</span><span class='line'># resolv-update
+</span><span class='line'># create by kenjiskywalker
+</span><span class='line'>#
+</span><span class='line'># chkconfig: 2345 49 49
+</span><span class='line'># description: resolv-update
+</span><span class='line'>
+</span><span class='line'>lock_file="/var/lock/subsys/resolv-update"
+</span><span class='line'>redis_port="6379"
+</span><span class='line'>
+</span><span class='line'>start()
+</span><span class='line'>{
+</span><span class='line'>    # lock_fileを生成しないとshutdownの時に実行されない
+</span><span class='line'>    touch ${lock_file}
+</span><span class='line'>
+</span><span class='line'>    # 圧倒的暴力によってresolv.confが上書きされていたら更に上書きする
+</span><span class='line'>    if [[ -z "`grep 'nameserver 127.0.0.1' /etc/resolv.conf`" ]]
+</span><span class='line'>    then
+</span><span class='line'>        sed -i '1s/^/nameserver 127.0.0.1\n/' /etc/resolv.conf
+</span><span class='line'>    fi
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>stop()
+</span><span class='line'>{
+</span><span class='line'>    # lock_fileの削除
+</span><span class='line'>    rm -r ${lock_file}
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>case "$1" in
+</span><span class='line'>    start)
+</span><span class='line'>        start
+</span><span class='line'>    ;;
+</span><span class='line'>    stop)
+</span><span class='line'>        stop
+</span><span class='line'>    ;;
+</span><span class='line'>    *)
+</span><span class='line'>        echo "Usage: $0 {start|stop}"
+</span><span class='line'>    ;;
+</span><span class='line'>esac
+</span><span class='line'>
+</span><span class='line'>exit 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Systemd？はて？</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[「降三世明王」について]]></title>
@@ -1920,266 +2038,6 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <li><a href="http://qiita.com/toritori0318/items/190fd2dad2bf3ce38b88">Docker1.3版 boot2docker+fig入門 - Qiita</a> アルパカさんの最高のまとめ</li>
 <li><a href="http://www.fig.sh/rails.html">Getting started with Fig and Rails - fig</a></li>
 <li><a href="http://blog.docker.com/2014/10/fig-1-0-boot2docker-compatibility-and-more/">Fig 1.0: boot2docker compatibility and more | Docker Blog</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ansibleを利用してRailsが動くVagrantfileを作成する]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/"/>
-    <updated>2014-10-24T05:56:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant</id>
-    <content type="html"><![CDATA[<p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
-
-<h2>TL;DR</h2>
-
-<p>Ansibleを利用したからって複雑な処理がシンプルになるわけではない</p>
-
-<h3>1st</h3>
-
-<p>対象のサーバに何か設定をする必要はないので<br/>
-このように少量のコードでやりたいことが実現できる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
-</span><span class='line'>['-']% cat hosts
-</span><span class='line'>ansible.example.com
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible -m ping -i hosts ansible.example.com
-</span><span class='line'>ansible.example.com | success &gt;&gt; {
-</span><span class='line'>    "changed": false,
-</span><span class='line'>    "ping": "pong"
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% cat playbook.yml
-</span><span class='line'>- hosts: all
-</span><span class='line'>
-</span><span class='line'>  tasks:
-</span><span class='line'>  - name: Install dstat
-</span><span class='line'>    yum: name=dstat
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible-playbook -i hosts playbook.yml
-</span><span class='line'>
-</span><span class='line'>PLAY [all] ********************************************************************
-</span><span class='line'>
-</span><span class='line'>GATHERING FACTS ***************************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>TASK: [Install dstat] *********************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>PLAY RECAP ********************************************************************
-</span><span class='line'>ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0
-</span><span class='line'>
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br/>
-各社独自で工夫してるんだろうな&hellip;</p>
-
-<h2>Role</h2>
-
-<p>1.2から使える機能とのこと、詳しくは<br/>
-<a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements</a>を読んでもらいたい.<br/>
-Chefを利用している人は馴染みがあるというか<br/>
-そういう構成なのか、とすんなりと理解できると思う.</p>
-
-<p>Chefでいうcookbookの構成に近いというか<br/>
-Chefを意識したつくりになっている気がする.<br/>
-ある程度の規模になったらRoleを利用しないとつらいと思う.</p>
-
-<h2>Railsの環境をAsibleで用意してみる</h2>
-
-<p><a href="https://github.com/kenjiskywalker/ansible">https://github.com/kenjiskywalker/ansible</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% tree .
-</span><span class='line'>.
-</span><span class='line'>├── dev.yml
-</span><span class='line'>└── roles
-</span><span class='line'>    ├── mysql
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    ├── rails
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    └── ruby
-</span><span class='line'>        ├── files
-</span><span class='line'>        ├── handlers
-</span><span class='line'>        ├── tasks
-</span><span class='line'>        │   ├── main.yml
-</span><span class='line'>        │   ├── rbenv.yml
-</span><span class='line'>        │   ├── ruby-build.yml
-</span><span class='line'>        │   └── ruby-install.yml
-</span><span class='line'>        └── templates
-</span><span class='line'>            └── rbenv.sh.j2
-</span><span class='line'>
-</span><span class='line'>10 directories, 8 files</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>軽く書いてみて気がついたこと</h3>
-
-<ul>
-<li><code>command</code>がコマンドだけで<code>shell</code>がパイプも使えるとか気が付かなくてハマった</li>
-<li><code>ohai</code>がいないので<code>apt</code>や<code>yum</code>など、ディストリビューションのパッケージ管理ツールを<code>package</code>みたいにラッピングしてくれない</li>
-<li><code>register</code>の概念が面白かった</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check Rails installed
-</span><span class='line'>  shell: rails -v | cut -f 2 -d ' '
-</span><span class='line'>  register: rails_installed
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install
-</span><span class='line'>
-</span><span class='line'>- name: gem install rails -v 
-</span><span class='line'>  command: gem install rails -v 
-</span><span class='line'>  when: rails_installed.stdout != rails_version
-</span><span class='line'>  tags:
-</span><span class='line'>    - rails
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br/>
-<code>rails_installed</code>という変数に格納し、その変数を利用して<br/>
-条件分岐などを行うことができる.</p>
-
-<h3>Vagrantfile</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
-</span><span class='line'>
-</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-</span><span class='line'>  config.vm.box = "centos65"
-</span><span class='line'>  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
-</span><span class='line'>  config.vm.define :"dev" do |dev|
-</span><span class='line'>    dev.vm.network :private_network, ip: '192.168.77.11'
-</span><span class='line'>  end
-</span><span class='line'>  config.vm.provision "ansible" do |ansible|
-</span><span class='line'>    ansible.playbook = "./ansible/dev.yml"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br/>
-READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br/>
-ansibleが実行されます.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant provision</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br/>
-プロビジョニングすることが可能です。</p>
-
-<h3>Chefの闇はAnsibleで光を得るのか</h3>
-
-<ul>
-<li>構成や管理方法が複雑であれば何を使ってもあまり変わらない</li>
-<li>新しく覚える時間が許されるなら両方試してみれば良いのでは</li>
-<li>上から下に実行されるだけ(ruby_blockとか使わなくていい)のは良い</li>
-</ul>
-
-
-<h3>個人的感想</h3>
-
-<ul>
-<li>Ansible縛りでなければ<a href="https://github.com/ryotarai/itamae">Itamae</a>試したかった</li>
-<li>まだちょっとしかさわってないので知見があればシェアさせて頂きます</li>
-</ul>
-
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements - Ansible</a></li>
-<li><a href="http://docs.ansible.com/playbooks_best_practices.html">Best Practices - Ansible</a></li>
-<li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
 </ul>
 
 ]]></content>
