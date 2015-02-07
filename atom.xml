@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-02-07T17:50:11+09:00</updated>
+  <updated>2015-02-07T20:51:44+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -19,6 +19,15 @@
     <updated>2015-02-07T17:41:00+09:00</updated>
     <id>http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf</id>
     <content type="html"><![CDATA[<blockquote><p>みんなこういうのはどういう対応しているんだろう</p></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/status/564019209189851136">February 7, 2015</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>常松先生が一瞬で解決方法を教えてくれました。<br/>
+ありがとうございます！</p>
 
 <h2>resolv.confが圧倒的暴力によって上書きされる場合</h2>
 
