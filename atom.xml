@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-02-11T02:44:42+09:00</updated>
+  <updated>2015-02-11T02:50:20+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -14,58 +14,129 @@
 
   
   <entry>
-    <title type="html"><![CDATA[BackBeat PROというヘッドフォン買った]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/02/11/backbeat-pro/"/>
-    <updated>2015-02-11T02:16:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/02/11/backbeat-pro</id>
-    <content type="html"><![CDATA[<h2>TL;DR</h2>
+    <title type="html"><![CDATA[起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf/"/>
+    <updated>2015-02-07T17:41:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf</id>
+    <content type="html"><![CDATA[<blockquote><p>みんなこういうのはどういう対応しているんだろう</p></blockquote>
 
-<p>無茶苦茶良い</p>
-
-<h2>どんなものか</h2>
-
-<p><a href="http://www.plantronics.com/us/product/backbeat-pro">http://www.plantronics.com/us/product/backbeat-pro</a></p>
-
-<p>これでAmazon.comから買える.</p>
-
-<p><a href="http://www.amazon.com/Plantronics-BackBeat-Wireless-Canceling-Headphones/dp/B00MBWIL0G">http://www.amazon.com/Plantronics-BackBeat-Wireless-Canceling-Headphones/dp/B00MBWIL0G</a></p>
-
-<p>なんか円安とか送料とか関税とかかかって3万超えたけど</p>
-
-<ul>
-<li>bluetooth</li>
-<li>ANC</li>
-</ul>
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/status/564019209189851136">February 7, 2015</a></blockquote>
 
 
-<p>でヘッドフォン探してたけど2015年2月現在あんまりなかった。<br/>
-よくわからんけど勢いで買ってみるかって買ってみたけど<br/>
-bluetoothでここまで音質良いんかいって感じで正解だった。</p>
-
-<p>ただ、音質厨とかではないのでiPhoneで聞くならDAC必須だよねー<br/>
-とかいう人には参考にならないと思う。</p>
-
-<p>音質が最高なんだけど、機能がゴテゴテで</p>
-
-<ul>
-<li>ヘッドフォンぐりぐりすると音量変えられる</li>
-<li>ヘッドフォンぐりぐりすると選曲できる</li>
-<li>ヘッドフォンカチカチするとiTunesの曲停止したり通話に応答できたりする</li>
-<li>bluetoothマルチペアリングでiPhoneとMac両方ペアリングする</li>
-<li>ヘッドフォン外すと勝手に音量下がる</li>
-<li>bluetoothだけではなくケーブルでも聞ける</li>
-<li>ちゃんと折りたためる</li>
-</ul>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-<p>とか無駄に機能性高くてすごい。<br/>
-唯一の難点はゴテゴテすぎて外で装着して歩けないんだけど<br/>
-そもそも外の音が聞こえないの怖すぎるから<br/>
-歩くときはSoundTrue in-ear headphones付けてる。<br/>
-そもそもイヤホンしながら歩くなって意見はある。</p>
+<p>常松先生が一瞬で解決方法を教えてくれました。<br/>
+ありがとうございます！</p>
 
-<p>とにかくノイズキャンセリングもそこそこ効いて<br/>
-低音がバカスカいってbluetoothのヘッドフォン買えたので満足したという話でした。</p>
+<h2>resolv.confが圧倒的暴力によって上書きされる場合</h2>
+
+<p>対応として<code>resolv-update</code>みたいな雑なサービス定義をして、サーバ起動時に実行させるようにした。<br/>
+ポイントはcloud-initとかそれ系のヤツが実行される前に上書いてもその後に上書きされるのでタイミングが大切。</p>
+
+<p>ここの</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># chkconfig: 2345 49 49</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>49 49</code>の最初の数字が起動時に実行される順番で、後ろの数字が終了時に実行される順番。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ chkconfig --add resolv-update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすることで自動に実行されるようになる。</p>
+
+<p>runlevel 3のものを確認したければ<code>/etc/rc3.d/</code>とか見ればわかる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
+</span><span class='line'>#
+</span><span class='line'># resolv-update
+</span><span class='line'># create by kenjiskywalker
+</span><span class='line'>#
+</span><span class='line'># chkconfig: 2345 49 49
+</span><span class='line'># description: resolv-update
+</span><span class='line'>
+</span><span class='line'>lock_file="/var/lock/subsys/resolv-update"
+</span><span class='line'>redis_port="6379"
+</span><span class='line'>
+</span><span class='line'>start()
+</span><span class='line'>{
+</span><span class='line'>    # lock_fileを生成しないとshutdownの時に実行されない
+</span><span class='line'>    touch ${lock_file}
+</span><span class='line'>
+</span><span class='line'>    # 圧倒的暴力によってresolv.confが上書きされていたら更に上書きする
+</span><span class='line'>    if [[ -z "`grep 'nameserver 127.0.0.1' /etc/resolv.conf`" ]]
+</span><span class='line'>    then
+</span><span class='line'>        sed -i '1s/^/nameserver 127.0.0.1\n/' /etc/resolv.conf
+</span><span class='line'>    fi
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>stop()
+</span><span class='line'>{
+</span><span class='line'>    # lock_fileの削除
+</span><span class='line'>    rm -r ${lock_file}
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>case "$1" in
+</span><span class='line'>    start)
+</span><span class='line'>        start
+</span><span class='line'>    ;;
+</span><span class='line'>    stop)
+</span><span class='line'>        stop
+</span><span class='line'>    ;;
+</span><span class='line'>    *)
+</span><span class='line'>        echo "Usage: $0 {start|stop}"
+</span><span class='line'>    ;;
+</span><span class='line'>esac
+</span><span class='line'>
+</span><span class='line'>exit 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Systemd？はて？</p>
 ]]></content>
   </entry>
   
