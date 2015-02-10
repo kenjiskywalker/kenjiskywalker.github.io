@@ -10,6 +10,12 @@ categories: memo
 
 > みんなこういうのはどういう対応しているんだろう
 
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/status/564019209189851136">February 7, 2015</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+常松先生が一瞬で解決方法を教えてくれました。  
+ありがとうございます！  
+  
 ## resolv.confが圧倒的暴力によって上書きされる場合
 
 対応として`resolv-update`みたいな雑なサービス定義をして、サーバ起動時に実行させるようにした。  
