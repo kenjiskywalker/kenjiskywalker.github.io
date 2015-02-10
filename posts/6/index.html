@@ -9,9 +9,50 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Sensu Casual Talks #1にいってきた。 @timwataさんのGraphiteのスケールの話が興味深かった。
-3000台ぐらいのクライアントをSensuとGraphiteで見てるの
-相当貴重な知見だと思う。 自分が話してきたのは特にどうということもなくて &hellip;">
+  <meta name="description" content="TL;DR Consulでkey/valueを叩く 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,77 +104,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/17/sensu-casual/">Sensu Casual Talks #1 に行ってきた #sensucasual</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-17T23:13:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.zusaar.com/event/7607003">Sensu Casual Talks #1</a>にいってきた。</p>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/sensu-sushi.jpg" /></p>
-
-<p><a href="https://twitter.com/timwata">@timwata</a>さんのGraphiteのスケールの話が興味深かった。<br/>
-3000台ぐらいのクライアントをSensuとGraphiteで見てるの<br/>
-相当貴重な知見だと思う。</p>
-
-<p>自分が話してきたのは特にどうということもなくて<br/>
-Chefを使えばOfficial cookbookと自分で何個かcookbookを書くことで<br/>
-比較的簡単に(※1)導入、運用ができるという話をしてきた。</p>
-
-<script async class="speakerdeck-embed" data-id="a9228a4020a1013253af5234a31dec8b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
-
-
-<p></p>
-
-<p>cookbookはここにまとめてある。</p>
-
-<p><a href="https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks">https://github.com/kenjiskywalker/chef/tree/master/site-cookbooks</a></p>
-
-<p>Sensu、スケールしていくとどこがボトルネックになるか<br/>
-みたいな話はユースケースが増えていくとコツみたいなのが<br/>
-見えてくると思う。だけどnagiosで困っていないのにわざわざ<br/>
-sensuに乗り換えるのは無駄だと思う。</p>
-
-<p>KAIZEN社は日本のウェッブ業界でも最先端の会社なので<br/>
-定期的に現状を確認しに行きたいと思う。</p>
-
-<p>Tシャツありがとうございました。<br/>
-開催して頂いた@glidenote氏、ありがとうございました！</p>
-
-<iframe src="//instagram.com/p/tDBpKKJqkv/embed/" width="612" height="710" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-
-
-<blockquote><p>※1… 個人差があります</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -714,6 +684,67 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
 
 
 <p>コマンド名自体が短いからササッと確認するのには良さそう</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/04/hubot-at/">Hubot-atというhubot Pluginをつくった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-04T14:22:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Slackを使い始めたので昔つくった<a href="http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137">unazu_kun</a>の機能を<br/>
+hubotに持ってきました。</p>
+
+<h2><a href="https://www.npmjs.org/package/hubot-at">hubot-at</a></h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" alt="https://dl.dropboxusercontent.com/u/5390179/hubot-at-capture.png" /></p>
+
+<p>というように</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; hubot at HH:MM message</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と指定することによって、その指定した時間に<code>message</code>を通知してくれます。</p>
+
+<p>元々taiyohさんが</p>
+
+<ul>
+<li><a href="http://taiyoh.hatenablog.com/entry/2013/05/19/105832">hubotにもunazu_kun的な機能を追加する - taiyoh&rsquo;s memorandum</a></li>
+</ul>
+
+
+<p>にて書いてくれていたので、それを踏襲しています。<br/>
+ありがとうございます。</p>
+
+<p>最低限の実装しかしていません。何かあればpull requestください:)</p>
 </div>
   
   

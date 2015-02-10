@@ -9,9 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="日本語の情報があまりなかったので共有しておきます。 aws cli 1.2.9 参考 AWS CLI / request-spot-instances
-基本のドキュメント。
-AWS CLI / run-instances &ndash;user-data (blob) Specifies &hellip;">
+  <meta name="description" content="date : 2014/01/05
+OS : CentOS 6.5
+Sensu : sensu-0.12.3-1.x86_64
+sensu-chef : 0.8.0 === (2014/01/06)追記 ======================= @kenjiskywalker CentOS &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,207 +64,6 @@ AWS CLI / run-instances &ndash;user-data (blob) Specifies &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/07/aws-cli-request-spot-instances/">AWS CLIでスポットインスタンスリクエストを送る</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-07T20:39:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>日本語の情報があまりなかったので共有しておきます。</p>
-
-<blockquote><p>aws cli 1.2.9</p></blockquote>
-
-<h2>参考</h2>
-
-<ul>
-<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-instances.html">AWS CLI / request-spot-instances</a><br/>
-基本のドキュメント。</p></li>
-<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html">AWS CLI / run-instances</a></p>
-
-<blockquote><p>&ndash;user-data (blob)</p>
-
-<p>Specifies additional information to make available to the instance(s). This parameter must be passed as a Base64-encoded string.</p></blockquote></li>
-</ul>
-
-
-<p>user-dataをbase64で送らなければいけないことはこちらに書いてあった。</p>
-
-<ul>
-<li><a href="http://blog.awsapi.com/blog/2013/09/17/launch-your-own-nat-instance-under-vpc/">Launch Your Own NAT Instance in VPC - Indefinable Hacking</a><br/>
-ヘンリーさんのやり方がとてもセンスがあった。ほぼヘンリーさんのやり方を踏襲した。</li>
-</ul>
-
-
-<h2>exp) spot_instance_request.sh</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HOST=$1
-</span><span class='line'>AMI="AMI"
-</span><span class='line'>INSTANCE_TYPE="t1.micro"
-</span><span class='line'>PRICE="0.1"
-</span><span class='line'>KEYPAIR="KEYPAIR"
-</span><span class='line'>AZ="AZ"
-</span><span class='line'>USER_DATA=`echo "${HOST}" | openssl enc -base64`
-</span><span class='line'>REGION="REGION"
-</span><span class='line'>SECURITY_GROUPS="\"default\", \"image\""
-</span><span class='line'>
-</span><span class='line'>### jq check
-</span><span class='line'>JQ_COMMAND=`which jq`
-</span><span class='line'>if [ -z ${JQ_COMMAND} ]; then
-</span><span class='line'>    echo "jq command not found"
-</span><span class='line'>    exit 1
-</span><span class='line'>fi
-</span><span class='line'>
-</span><span class='line'>### SET JSON
-</span><span class='line'>rm -f /tmp/launch_config.json
-</span><span class='line'>cat &lt;&lt; EOF &gt;&gt; /tmp/launch_config.json
-</span><span class='line'>{
-</span><span class='line'>  "ImageId": "${AMI}",
-</span><span class='line'>  "KeyName": "${KEYPAIR}",
-</span><span class='line'>  "InstanceType": "${INSTANCE_TYPE}",
-</span><span class='line'>  "Placement": {
-</span><span class='line'>    "AvailabilityZone": "${AZ}"
-</span><span class='line'>  },
-</span><span class='line'>  "Monitoring": {
-</span><span class='line'>    "Enabled": true
-</span><span class='line'>  },
-</span><span class='line'>  "UserData": "${USER_DATA}",
-</span><span class='line'>  "SecurityGroups": [
-</span><span class='line'>    ${SECURITY_GROUPS}
-</span><span class='line'>  ]
-</span><span class='line'>}
-</span><span class='line'>EOF
-</span><span class='line'>
-</span><span class='line'>### PUT SPOT_REQUEST
-</span><span class='line'>aws ec2 request-spot-instances --spot-price ${PRICE} --region ${REGION} --launch-specification file:///tmp/launch_config.json &gt; /tmp/spot_request.json
-</span><span class='line'>SIR_ID=`jq '.SpotInstanceRequests[0] | .SpotInstanceRequestId' /tmp/spot_request.json --raw-output`
-</span><span class='line'>
-</span><span class='line'>echo "[INFO] SpotInstanceRequestID: ${SIR_ID}";
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>### GET SPOT_INSTANCE INSTANCE_ID
-</span><span class='line'>rm -f /tmp/spot_instance.json
-</span><span class='line'>
-</span><span class='line'>aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
-</span><span class='line'>INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
-</span><span class='line'>
-</span><span class='line'>while [ "${INSTANCE_ID}" == "null" ]
-</span><span class='line'>do
-</span><span class='line'>    aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
-</span><span class='line'>    INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
-</span><span class='line'>
-</span><span class='line'>    sleep 10
-</span><span class='line'>done
-</span><span class='line'>
-</span><span class='line'>echo "[INFO] INSTANCE_ID: ${INSTANCE_ID}";
-</span><span class='line'>
-</span><span class='line'># つづく</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じで取得できます。</p>
-
-<ul>
-<li>Monitoringが渡せなかった。(バージョンを1.2.9にしたら渡せるようになった)</li>
-<li>JSON祭り</li>
-<li>UserDataをbase64にencodeしないといけない</li>
-<li>SecurityGroupsの渡し方がアレだ</li>
-</ul>
-
-
-<p>などなどやっていました。今後は<code>DeleteOnTermination</code>も有効にしたいです。<br/>
-aws cliはバージョンがどんどん上がっているので、そのうち<br/>
-JSON祭りもなくなるのではないかと思います。</p>
-
-<p>参考になれば幸いです。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -811,6 +611,128 @@ EventMachineどうなってるんだろう。って思って調べたら</p>
 <p>ってやってた。</p>
 
 <p>この人の本はわかりやすくていい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/29/agile-and-scram/">「アジャイル開発とスクラム」をよんだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-29T03:32:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>@hsbtさんから頂戴した本書、大変よかったです。<br/>
+ありがとうございます！</p>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41qg6STGdqL._SL160_.jpg" width="102" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E9%96%8B%E7%99%BA%E3%81%A8%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0-%E9%A1%A7%E5%AE%A2%E3%83%BB%E6%8A%80%E8%A1%93%E3%83%BB%E7%B5%8C%E5%96%B6%E3%82%92%E3%81%A4%E3%81%AA%E3%81%90%E5%8D%94%E8%AA%BF%E7%9A%84%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%83%9E%E3%83%8D%E3%82%B8%E3%83%A1%E3%83%B3%E3%83%88-%E5%B9%B3%E9%8D%8B-%E5%81%A5%E5%85%90/dp/4798129704%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4798129704" target="_blank">アジャイル開発とスクラム 顧客・技術・経営をつなぐ協調的ソフトウェア開発マネジメント</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%B9%B3%E9%8D%8B%E5%81%A5%E5%85%90" target="_blank">平鍋健児</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">翔泳社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-01-18</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4798129704" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
+
+<p></p>
+
+<p>実は、１年前ぐらいにアジャイルサムライを読んけどそんなにしっくりこなかった。<br/>
+本書は</p>
+
+<ul>
+<li>アジャイル開発とは何か、スクラムとは何か</li>
+<li>アジャイル開発とスクラムを実践する</li>
+<li>アジャイル開発とスクラムを考える</li>
+</ul>
+
+
+<p>という三部構成で、第一部でアジャイルとスクラムについてのわかりやすい解説があり、<br/>
+第二部で実際に導入した事例の紹介と中の人の体験談を学び、<br/>
+最後に歴史と、もう少し踏み込んだ話になっていて、大変わかりやすい内容だった。</p>
+
+<p>前職では、３人でサーバサイドのインフラ部分の作業を分担していて、<br/>
+他の部署の人たちがアジャイル開発を実践しているのを遠くで眺めていたレベルだった。</p>
+
+<p>３人で特定の作業を行うだけであればとくにそういうことも必要なかったし<br/>
+自主的に仕事を見つけては共有していたので問題はそんなになかった。<br/>
+コミュニケーションも隣りの席にいてもなるべくIRCを利用し、<br/>
+コミュニケーションのログに残すようにしていたので、<br/>
+コミュニケーションロスはそんなになかった。疑問があったらすぐ相談していたのも<br/>
+多分よかったのだと思う。</p>
+
+<p>一方、現在は組織自体もできてそんなに時間が経っていない、<br/>
+スタートアップなので組織うんぬんよりも、アプリケーションの新機能に<br/>
+業務時間を費やしてきたパターンという印象だ。</p>
+
+<p>自分が入社して１ヶ月ぐらい経つが、他の人が何をやっているのかわかっていない。<br/>
+１週間の進捗確認はあるが、おおよそ１時間で誰が何をやっているのかの詳細をつかむことは<br/>
+相当難しいと思う。そしてスタートアップ関係なしで<br/>
+そういう組織は多いんじゃないかと思っている。</p>
+
+<p>では、そのように誰が何をやっているのかいまいち共有されていない組織すべてが<br/>
+本書を参考に全面的にアジャイルを導入すべく<br/>
+コミュニケーションを取っていくかと考えるとそれは違うと思う。</p>
+
+<p>自分の状況に当てはめると、スクラムマスターと<br/>
+プロダクトオーナーを置いて、スプリントを決めてガッツリと組織立てて行うことは<br/>
+あまりにも変化が大きすぎるからそのコストだけでも大変だ。というのが第一の理由で、<br/>
+第二の理由は、そのようなことに時間を割いている余裕がないことである。</p>
+
+<p>後者の理由については、スタートアップだから。という理由で御座なりにしていくと<br/>
+後々大変なことになるのは経験上目に見えているので</p>
+
+<blockquote><p>プロダクトと組織が大きくなる一方、<br/>
+プロダクトと組織を構成する仕組みや運用が脆弱なまま進んでいく危険</p></blockquote>
+
+<p>早めのうちに対応しておくべきだ。その点で、本書に掲載されているいくつかの施策は<br/>
+試すに値するものがあると感じた。(自分で感じてもみんなが感じなければあんまり意味ない。)</p>
+
+<p>なにはともあれ、各個人が自分の与えられた作業を遂行するのではなく<br/>
+全員が集まって、課題に対してワイワイしながら</p>
+
+<ul>
+<li>課題に対する作業</li>
+<li>自発的に誰が何をやるのか</li>
+<li>誰が何の作業でどう困っているのか</li>
+<li>どういう進捗なのか</li>
+<li>課題はなにか。</li>
+<li>失敗はあったか</li>
+<li>失敗をどう克服したら良いのか</li>
+</ul>
+
+
+<p>などなど、各個人やグループで完結するのではなく、チーム全員で共有し<br/>
+邁進していくことが最高なんだ。という当たり前のことを改めて学べたので、<br/>
+相談しながらどうしていくかみんなで考えたい。</p>
+
+<p>考えたい。というか、みんなでどうやって進めていくのがいいのか<br/>
+話し合ってやってみるところからが本当のスタートだと思う。<br/>
+その上で2014年、本書は最高の課題図書になる。</p>
+
+<p>ホワイトボード使ってかんばんやってみるのがいいのかな。</p>
+
+<h3>あわせてよみたい</h3>
+
+<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61lV8UYViNL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/WEB-DB-PRESS-Vol-78-PRESS%E7%B7%A8%E9%9B%86%E9%83%A8/dp/4774161209%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774161209" target="_blank">WEB+DB PRESS Vol.78</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/WEB%2BDBPRESS%E7%B7%A8%E9%9B%86%E9%83%A8%E7%B7%A8" target="_blank">WEB+DBPRESS編集部編</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">技術評論社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-12-21</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4774161209" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
+
 </div>
   
   

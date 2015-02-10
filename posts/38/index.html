@@ -9,10 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Chefで、同じcookbookを利用して
-異なった値を入れてよしなにファイルをつくりたかったメモ。 @fujiwaraさん++ 検証環境
-Chef v11.4.0 Chefにて、同じcookbookを使い、異なった複数の値を与えて
-結果を異なったファイルに出力する場合は、 &hellip;">
+  <meta name="description" content="Iradelphic / Clark Quarantine / Laurel Halo Ancient Future / Willits + Sakamoto ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,110 +61,6 @@ Chef v11.4.0 Chefにて、同じcookbookを使い、異なった複数の値を�
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/27/chef-variables-same-cookbook/">Chefのtemplateにrecipeからデータを渡すvariablesについて</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
-異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
-
-<p>@fujiwaraさん++</p>
-
-<blockquote><p>検証環境<br/>
-Chef v11.4.0</p></blockquote>
-
-<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
-結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
-
-<p>当初、この課題に対する解決方法として、<br/>
-複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
-実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
-複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
-最初に読み込まれた <em>role</em> は認識されなかった。</p>
-
-<h2>variablesを利用したレシピをみていこう</h2>
-
-<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>recipe内で<br/>
-<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
-また、わかりづらいのだが</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
-</span><span class='line'>  :port =&gt; port  
-</span><span class='line'>})  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br/>
-<strong>@port</strong> に代入している。</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>template内で、代入された <strong>@port</strong> を利用する</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>上記内容の結果、出力ファイルとして</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>期待した通り、複数のvalueを受け取り<br/>
-それぞれ異なったファイルに出力されることが確認できた。</p>
-
-<p>もう少しエレガントな方法があるように思うので<br/>
-他の方法などがあれば、是非是非コメントを頂きたい。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -364,6 +257,93 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
 缶コーヒーでもおごってあげたい気持ちになりました。</p>
 
 <p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/14/otona/">大人</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-14T21:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>大人とは〜みたいなの昔よく考えてて<br/>
+「子供は自分の意見を言うだけの人」<br/>
+「大人は自分の意見と相手の意見をすり合わせられる人」<br/>
+っていうことを考えてた。</p>
+
+<p>最近とくに自分の足りないところとか考えてて<br/>
+何かの事象が起こった時に感情的に支配されて、<br/>
+それは勝手に自分がその対象にとらわれてしまっていて<br/>
+そうすると、俯瞰でものが見れなくなって<br/>
+ちゃんとした判断が行えなくなるみたいなの思ってる。</p>
+
+<p>そういう話は<a href="http://www.amazon.co.jp/gp/product/4192422115/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=247&amp;creative=1211&amp;creativeASIN=4192422115&amp;linkCode=as2&amp;tag=13nightcrows-22" title="">不動智神妙録</a>に載ってて<br/>
+例えば、電車が来た時に降りる人がまだいるのに急いで自分の席を確保する人とか<br/>
+その人がいないところでその人の悪口言ってる人とか<br/>
+なんでそういうことするのかなーって思うんだけど、<br/>
+そういうことする人の気が知れん！ってなると、もうそこで<br/>
+理解することを止めちゃって、憎悪の対象になっちゃって<br/>
+結局とらわれることになるのかなって思う。</p>
+
+<p>例えばの話だけど、なんでそういうことするのかなーって思った時に<br/>
+その事象の背景にどんなことがあるのかっていうのを考えると<br/>
+その瞬間の出来事にとらわれることはないのかなって思う。</p>
+
+<p>まだ降りる人がいるのに自分の席確保しようと急いで乗っちゃう人、<br/>
+今まで南米の貧しい町にずっと住んでて、自分でどうにかしないと<br/>
+生きていけないようなサバイブしてきた人なのでは？とか考えると</p>
+
+<p>その町ではゆずりあってなんかいたらメシがなくなるとか<br/>
+電車の座席ひとつで生きるか死ぬかみたいなことまで発展するような<br/>
+そんな世界でどうにか生きてきた場合、多分ゆずりあいとかむずかしいと思う。</p>
+
+<p>本当はそういう事象が発生した時に<br/>
+走馬灯みたいにその人のバックグラウンドみたいなのが<br/>
+一瞬で見れれば、あーそっか、そういう背景があるのか！<br/>
+みたいになれば納得できると思う。<br/>
+まぁ背景みて余計にイライラするかもしれないけど</p>
+
+<p>取り敢えず起こった事象だけを見てあーだこーだ言うことは少なくなると思う。</p>
+
+<p>その発生した事象の背景まで想像して、なるべく理解しようとつとめて<br/>
+ものごとを客観視できれば、色々と見えてくるものもあるだろうし<br/>
+もしかしたらその対象が人だったりしたら、何かアドバイスとかできるかもしれない。</p>
+
+<p>大人っていうのは、自分の意見を通すことに政治力磨くこととか、<br/>
+争いに勝つとか、よく金を稼ぐとか、そういうことじゃなくて<br/>
+ある事象に対してよく理解して、みんながなるべくしあわせになれるように<br/>
+ものごとをすすめられる人だと思う。</p>
+
+<p>ここまで読んでもしかして&hellip;って思った人、勘がいいですね！<br/>
+そう！残念！大人ではなく解脱の話でした！</p>
+
+<p>ｳｪｰｲ</p>
 </div>
   
   

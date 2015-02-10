@@ -9,9 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="IRKitの初期ロットを利用していたので、モールス信号で
-設定がとばせなくなっていたのでファームウェアのアップデートをした。
-やり方はGitHubのページの通りに行えば問題ない。 https://github.com/irkit/device &hellip;">
+  <meta name="description" content="@ike_daiさん、登壇できる機会を頂きありがとうございました。 発表資料 参考URL ZABBIXでメトリクス監視の話 ZABBIXでメトリクス監視の話 from kenjiskywalkerslide Zabbixでメトリクス監視する - kenjiskywalker&rsquo;s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,57 +61,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/20/irkit-firmware-update/">IRKitのファームウェアをアップデートしてWi-Fiに繋がるようになった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-20T00:05:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>IRKitの初期ロットを利用していたので、モールス信号で<br/>
-設定がとばせなくなっていたのでファームウェアのアップデートをした。<br/>
-やり方はGitHubのページの通りに行えば問題ない。</p>
-
-<p><a href="https://github.com/irkit/device">https://github.com/irkit/device</a></p>
-
-<p>ファームウェアをアップデートしても赤点滅から先に進まなくて<br/>
-参ったなーと思ったのだが、Wi-Fiのアクセスポイントに<a href="https://www.planex.co.jp/product/wireless/mzk-sa300d/">MZK-SA300D</a>を利用していて<br/>
-こいつがたまにgの回線だけ見えなくなる場合があったので<br/>
-アクセスポイントを再起動して、無事接続できた。</p>
-
-<blockquote><p>AppleTV -> 古いREGZA -> JVCのTH-BC2</p></blockquote>
-
-<p>という形式でリビングで音楽流したりしていて、<br/>
-REGZAとTH-BC2をIRKitで操作できるようになった。<br/>
-操作がiPhoneだけで完結するようになったので大変便利になった。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -646,6 +593,186 @@ VyattaでVPN(PPTP)設定したメモ。</p>
 
 <p>もう少しマシな方法があれば是非とも教えてください。<br/>
 Chefは何か込み入ったことをしようとすると色々と工夫しないといけないのが難点ですね。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/27/get-extension-list/">対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-27T03:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>bashの奥は深い。</p>
+
+<ul>
+<li>ext-list.sh</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>dir=`pwd`
+</span><span class='line'>list=`find ${dir} -type f -perm 755`
+</span><span class='line'>
+</span><span class='line'># not = !
+</span><span class='line'># list=`find ${dir} -type f ! -perm 755`
+</span><span class='line'>
+</span><span class='line'>for file in $list
+</span><span class='line'>do
+</span><span class='line'>    filename=`basename $file`
+</span><span class='line'>    ext=${filename##*.}
+</span><span class='line'>    ext_list=("${ext_list[@]}" ${ext})
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などというスクリプトを作成しておいて<br/>
+確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
+
+<p><strong>/usr/local/Cellar</strong>で実行したら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% sh /tmp/ext-list.sh | tail -n10
+</span><span class='line'>   5 1
+</span><span class='line'>   5 6
+</span><span class='line'>   6 0
+</span><span class='line'>   7 py
+</span><span class='line'>  10 test
+</span><span class='line'>  11 sh
+</span><span class='line'>  16 pl
+</span><span class='line'>  27 result
+</span><span class='line'>  62 so
+</span><span class='line'> 116 la
+</span><span class='line'>['-']% </span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じの結果になりました。</p>
+
+<h3>便利コマンド</h3>
+
+<ul>
+<li>basename</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% basename /usr/local/bin/zsh
+</span><span class='line'>zsh
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>dirname</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% dirname /usr/local/bin/zsh
+</span><span class='line'>/usr/local/bin
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>シャープ</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge##*.}
+</span><span class='line'>so
+</span><span class='line'>['-']% echo ${hoge#*.}
+</span><span class='line'>0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>パーセント</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   

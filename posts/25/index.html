@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="書き方あってるのか微妙なのでGoに明るい方のご指摘をお待ちしております。 Goでpit使えないのかなって@soh335さんに聞いたらtype氏のリポジトリ見ろ
-って言われて見に行ったらあった。@typester++ pitDomainで設定されているdomainとpasswordを取得 &hellip;">
+  <meta name="description" content="isucon 2013の1日目に参加しました。
+@fujiwaraさん、@acidlemonさんありがとうございました。
+本戦の問題作成頑張ってくださいね(・ω&lt;) 細かいことはisucon3 の予選に参加しました #isucon - @soh335 memoに書いてあります。
+大切なことは &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,59 +64,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/10/value-domain-update-go/">Goでvalue Domainのアップデートスクリプトかいた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T15:28:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>書き方あってるのか微妙なのでGoに明るい方のご指摘をお待ちしております。</p>
-
-<div><script src='https://gist.github.com/6914101.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>Goでpit使えないのかなって@soh335さんに聞いたらtype氏のリポジトリ見ろ<br/>
-って言われて見に行ったらあった。@typester++</p>
-
-<ol>
-<li><code>pitDomain</code>で設定されている<code>domain</code>と<code>password</code>を取得</li>
-<li><code>records</code>で現在のIPアドレスに変更したいレコードリストを入れる</li>
-<li>temple-kun.appspot.comで現在のIPを取得</li>
-<li>現在のIPとレコードに設定されているIPが違ったら更新、同じであればスルー</li>
-</ol>
-
-
-<p>という感じです。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -505,6 +454,191 @@ CloudWatchのAPIが、値なしでレスポンス返してくることはよく�
 
 <p>合わせてアップデートをおすすめいたします。<br/>
 @repeatedly++</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/22/xslate-array/">Text::Xslateで配列</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-22T13:30:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>配列の要素数と配列の中身を渡したかっただけだったのに<br/>
+2時間ぐらい時間つかいました。<br/>
+<code>\@hoge</code>を<code>@hoge</code>で渡してたからだった。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env perl
+</span><span class='line'>
+</span><span class='line'>use strict;
+</span><span class='line'>use warnings;
+</span><span class='line'>use utf8;
+</span><span class='line'>use 5.010; 
+</span><span class='line'>
+</span><span class='line'>use Text::Xslate;
+</span><span class='line'>use Data::Section::Simple;
+</span><span class='line'>
+</span><span class='line'>my @hoge = qw/foo bar baz hage/;
+</span><span class='line'>
+</span><span class='line'>my $vpath = Data::Section::Simple-&gt;new()-&gt;get_data_section();
+</span><span class='line'>my $tx = Text::Xslate-&gt;new(path =&gt; [$vpath]);
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>my $template = $tx-&gt;render("template.tx",
+</span><span class='line'>    {
+</span><span class='line'>        hage =&gt; \@hoge
+</span><span class='line'>    }
+</span><span class='line'>);
+</span><span class='line'>
+</span><span class='line'>printf $template;
+</span><span class='line'>
+</span><span class='line'>1;
+</span><span class='line'>
+</span><span class='line'>__DATA__
+</span><span class='line'>
+</span><span class='line'>@@ template.tx
+</span><span class='line'>
+</span><span class='line'>: for $hage -&gt; $item {
+</span><span class='line'>   item is &lt;: $item :&gt;
+</span><span class='line'>   Number is &lt;: $~item.index :&gt;
+</span><span class='line'>
+</span><span class='line'>: }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにRubyだと</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
+</span><span class='line'>
+</span><span class='line'>require 'erb'
+</span><span class='line'>
+</span><span class='line'>hoge = ["foo", "bar", "baz", "hage"]
+</span><span class='line'>hage = 1
+</span><span class='line'>
+</span><span class='line'>puts ERB.new(DATA.read).result(binding)
+</span><span class='line'>
+</span><span class='line'>__END__
+</span><span class='line'>&lt;% hoge.each_with_index do |h, i| %&gt;item is &lt;%= h %&gt;
+</span><span class='line'>number is &lt;%= i %&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでした。<br/>
+<code>$~item.index</code>と<code>each_with_index</code>を覚えました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>my @list = (1, 4, 3, 2, 4, 6);
+</span><span class='line'>say $#list;</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>$#</code>、趣きがありますね。<br/>
+Perl、どこか東山文化の風を感じますね。</p>
+
+<h3>追記</h3>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> hage =&gt; に @ hoge を渡すと、展開されるから例えば @ hoge が ( dame, leon, bar) だとすると、( hage =&gt; &#39;dame&#39;, leon =&gt; &#39;bar&#39;) になるお</p>&mdash; soh335 (@soh335) <a href="https://twitter.com/soh335/statuses/381652207138902016">September 22, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 合ってるよ。あと$<a href="https://twitter.com/search?q=%23%E3%81%AF%E8%AA%AD%E3%81%BF%E3%81%A5%E3%82%89%E3%81%84%E3%81%AE%E3%81%A7%E9%85%8D%E5%88%97%E3%81%AE%E8%A6%81%E7%B4%A0%E6%95%B0%E3%82%92%E6%B1%82%E3%82%81%E3%82%8B&amp;src=hash">#は読みづらいので配列の要素数を求める</a> scalar @ foo を使うほうがいいですね</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/statuses/381653503489220608">September 22, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 基本リファレンスでやってれば解決</p>&mdash; 柴崎優季 (@shiba_yu36) <a href="https://twitter.com/shiba_yu36/statuses/381652730680332289">September 22, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>リファレンスで渡さないとハッシュ化します。おぼえました。<br/>
+要素数求める場合は<code>scalar(@hoge)</code>使います。<code>scalar()</code>おぼえました。<br/>
+ありがとうございます。</p>
+
+<p>某面白法人、YAPCスピーカーが多くて大変素晴らしい環境です。<br/>
+某はてな社、YAPCスピーカーが多くて大変素晴らしい環境です。</p>
 </div>
   
   

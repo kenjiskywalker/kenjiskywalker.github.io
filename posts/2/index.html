@@ -9,17 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="最近は深刻なjinja2とAnsible疲れです。 1
-2
-3
-4
-5
-6
-7
-8
-TASK: [ruby | check ruby rbenv installed] *************************************
-skipping: [192.0.2.100]
-ok &hellip;">
+  <meta name="description" content="吉川英治さんの本が無料で読めるありがたい時代なので私本太平記読んだ。
+応仁の乱以前に結構京都燃えてるやんって思った。
+藤沢と鎌倉の浜辺の戦いめちゃめちゃ金かけて映像化してほしい。
+楠木正成や新田義貞より北畠顕家の方がかっこよかった。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,89 +65,6 @@ ok &hellip;">
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/08/ansible-check-mode/">Ansibleはcheck Modeだとshellやcommandは実行されない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-08T11:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近は深刻なjinja2とAnsible疲れです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
-</span><span class='line'>skipping: [192.0.2.100]
-</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
-</span><span class='line'>
-</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
-</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
-</span><span class='line'>
-</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんなエラーが出た。</p>
-
-<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
-
-<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
-</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
-</span><span class='line'>  register: ruby_installed
-</span><span class='line'>  always_run: yes
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように<code>always_run: yes</code>にしなければならない。<br/>
-自分メモ。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -444,6 +355,172 @@ ok &hellip;">
 
 <p>長いけど面白い。<br/>
 実践は同じ目標持った人が集まったら試行錯誤しながらできると思う。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/12/login-notification/">Fluentdを利用してsshログインを通知する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-12T22:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sshを利用していると招かれざる客の来訪が多い。<br/>
+また、サーバに不必要にログインしている関係者がいないか<br/>
+把握しつづけるのも難しい。</p>
+
+<p>今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。</p>
+
+<h2>準備</h2>
+
+<p><code>/var/log/secure</code>はパーミッションが厳しいので<br/>
+y-kenさんのブログを参考にパーミッションを変更する必要があります。</p>
+
+<ul>
+<li><a href="http://y-ken.hatenablog.com/entry/fluentd-syslog-permission">Fluentdでsyslogを取り込むための権限設定（CentOS 5&amp;6両対応） - Y-Ken Studio</a></li>
+</ul>
+
+
+<p>SlackのAPIがバージョンアップしてリアルタイム性を持つようになった。</p>
+
+<ul>
+<li><a href="http://slackhq.com/post/104688116560/rtm-api">A new Slack API: The inevitable rise of the bots Bots</a></li>
+</ul>
+
+
+<p>個人的にはリアルタイム性よりも<br/>
+private roomでもhubotが利用できるようになったのいうのがアツい。<br/>
+これで色々遊べるようになる。</p>
+
+<ul>
+<li><a href="https://github.com/sowawa/fluent-plugin-slack">fluent-plugin-slack</a></li>
+</ul>
+
+
+<p>手元で<code>endpoint</code>を変更して動くようになった。みんな普通に動いているのかな</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private
+</span><span class='line'>def endpoint
+</span><span class='line'>  # URI.parse "https://#{@team}.slack.com/services/hooks/incoming-webhook?token=#{@api_key}"
+</span><span class='line'>  URI.parse "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Real Time Messagingを利用するためには</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX&channel=XXXXXXXXX&text=XXXXX&username=XXXXX'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにリクエストを送る必要がある。<br/>
+時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
+
+<p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
+
+<h2>2014/12/16 追記</h2>
+
+<p>sowawaさんにmergeして頂いた。感謝</p>
+
+<h2>設定</h2>
+
+<ul>
+<li>/etc/td-agent/td-agent.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type tail
+</span><span class='line'>  path /var/log/secure
+</span><span class='line'>  format syslog
+</span><span class='line'>  tag secure_log
+</span><span class='line'>  pos_file /var/log/td-agent/syslog_secure.pos
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match secure_log.**&gt;
+</span><span class='line'>  type grep
+</span><span class='line'>  input_key message
+</span><span class='line'>  regexp Accepted|failure|Invalid
+</span><span class='line'>  add_tag_prefix greped
+</span><span class='line'>&lt;/match&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match greped.**&gt;
+</span><span class='line'>  type buffered_slack
+</span><span class='line'>  api_key API_KEY
+</span><span class='line'>  team TEAMNAME
+</span><span class='line'>  channel %23general # You should use %23 in return for #
+</span><span class='line'>  username fluentd
+</span><span class='line'>  color danger
+</span><span class='line'>  icon_emoji :shit:
+</span><span class='line'>  buffer_path /var/log/td-agent/buffer/
+</span><span class='line'>  flush_interval 5s
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<code>Accepted</code>、<code>failure</code>、<code>Invalid</code>の文字列を<br/>
+sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep">fluent-plugin-grep</a>を利用して抽出。</p>
+
+<p>そうすると</p>
+
+<p><img src="http://i.gyazo.com/00260a2b25dfbfb9b55f00eb1b20ca05.png" alt="" /></p>
+
+<p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
+このような設定を入れておくと良いのではないでしょうか。</p>
 </div>
   
   

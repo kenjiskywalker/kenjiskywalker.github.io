@@ -9,13 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="昨日、二郎インスパイア系と言われているラーメン家に行った。
-繁盛店なので５人ぐらい並んでいた。
-食券を買うと普通盛りですか？大盛りですか？と聞かれる。
-野菜を多めにしてほしかったので麺少なめで。と答える。
-自分の次に並んでいる人も同じように
-普通盛りですか？大盛りですか？と聞かれる。
-麺固めで。 &hellip;">
+  <meta name="description" content="この前、駅のエレベーターの前でおばあちゃん２人組が笑いながらここよここ〜
+あんなこともあるのね〜、って笑いながら話してて
+なんだろうって思って話し聞いてたら、初めてこの駅に来たんだけど
+エレベーターがどこだかわからなくて、おじいちゃんが目の前を歩いていたので &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,95 +64,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/25/peace/">境界線と争い</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-25T01:14:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨日、二郎インスパイア系と言われているラーメン家に行った。<br/>
-繁盛店なので５人ぐらい並んでいた。<br/>
-食券を買うと普通盛りですか？大盛りですか？と聞かれる。<br/>
-野菜を多めにしてほしかったので麺少なめで。と答える。<br/>
-自分の次に並んでいる人も同じように<br/>
-普通盛りですか？大盛りですか？と聞かれる。<br/>
-麺固めで。と答えていた。<br/>
-質問と答えが合っていなかった。</p>
-
-<p>順番が来て、食券をカウンターへ置き、麺固めで。と告げる。<br/>
-遅いので無理です。食券買われた時にお願いします。と告げられる。</p>
-
-<p>麺の量を聞かれた時に、麺の固さを答えなければならないシステムだ。</p>
-
-<p>よくよく考えてみるとこのお店では<br/>
-店員「にんにくのせますか？」<br/>
-客「全部で」<br/>
-店員「にんにくのせますか？」<br/>
-客「あぶらあぶらカラアゲ」<br/>
-店員「にんにくのせますか？」<br/>
-客「野菜にんにくまし、あぶら、カラアゲ別皿で」</p>
-
-<p>など質問と答えが全くあっていなかった。<br/>
-すごい内輪ノリだ。<br/>
-二郎系はそういうものだけどよくよく見てみると面白かった。<br/>
-この内輪ノリに入れない、馴染めない、心地良いなど<br/>
-立ち位置次第で様々な感覚が生まれるんだと思う。<br/>
-一種の仲間意識みたいなものなのかもしれない。</p>
-
-<p>そもそも内輪ノリとはなんだ？</p>
-
-<p>内輪ノリ。境界線を生むもの？<br/>
-境界線。内側と外側を生むもの。</p>
-
-<p>争いが起こる時、問題の根源は内輪ノリが原因ではないのか。<br/>
-家族、団体、宗教、国家。<br/>
-規模は違えど衝突が起こる時、そこに内側と外側が存在する。<br/>
-仲間か、仲間ではないか。</p>
-
-<p>境界線の内側と外側とは何が違うのか。<br/>
-本当にそこに境界線は必要だったのか。</p>
-
-<p>建設的な競争ではない争いは、<br/>
-大抵どこかの内輪ノリから始まっているような気がする。<br/>
-宗教と国家が一番わかりやすい。</p>
-
-<p>境界線の内側と外側とは何が違うのか。<br/>
-本当にそこに境界線は必要だったのか。</p>
-
-<p>君が引いたその境界線の向こう側から<br/>
-一体何が見える？</p>
-
-<blockquote><p>追伸<br/>
-ラーメン家うまいのでまた行きたい</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -2299,6 +2207,207 @@ Goで書きなおしたい。</p>
 
 <p>シークレット・レースはモリスさんとあんちぽさんのレビュー読んで<br/>
 図書館で借りてみた。社会の厳しさが凝縮された感じだった。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/07/aws-cli-request-spot-instances/">AWS CLIでスポットインスタンスリクエストを送る</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T20:39:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>日本語の情報があまりなかったので共有しておきます。</p>
+
+<blockquote><p>aws cli 1.2.9</p></blockquote>
+
+<h2>参考</h2>
+
+<ul>
+<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-instances.html">AWS CLI / request-spot-instances</a><br/>
+基本のドキュメント。</p></li>
+<li><p><a href="http://docs.aws.amazon.com/cli/latest/reference/ec2/run-instances.html">AWS CLI / run-instances</a></p>
+
+<blockquote><p>&ndash;user-data (blob)</p>
+
+<p>Specifies additional information to make available to the instance(s). This parameter must be passed as a Base64-encoded string.</p></blockquote></li>
+</ul>
+
+
+<p>user-dataをbase64で送らなければいけないことはこちらに書いてあった。</p>
+
+<ul>
+<li><a href="http://blog.awsapi.com/blog/2013/09/17/launch-your-own-nat-instance-under-vpc/">Launch Your Own NAT Instance in VPC - Indefinable Hacking</a><br/>
+ヘンリーさんのやり方がとてもセンスがあった。ほぼヘンリーさんのやり方を踏襲した。</li>
+</ul>
+
+
+<h2>exp) spot_instance_request.sh</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HOST=$1
+</span><span class='line'>AMI="AMI"
+</span><span class='line'>INSTANCE_TYPE="t1.micro"
+</span><span class='line'>PRICE="0.1"
+</span><span class='line'>KEYPAIR="KEYPAIR"
+</span><span class='line'>AZ="AZ"
+</span><span class='line'>USER_DATA=`echo "${HOST}" | openssl enc -base64`
+</span><span class='line'>REGION="REGION"
+</span><span class='line'>SECURITY_GROUPS="\"default\", \"image\""
+</span><span class='line'>
+</span><span class='line'>### jq check
+</span><span class='line'>JQ_COMMAND=`which jq`
+</span><span class='line'>if [ -z ${JQ_COMMAND} ]; then
+</span><span class='line'>    echo "jq command not found"
+</span><span class='line'>    exit 1
+</span><span class='line'>fi
+</span><span class='line'>
+</span><span class='line'>### SET JSON
+</span><span class='line'>rm -f /tmp/launch_config.json
+</span><span class='line'>cat &lt;&lt; EOF &gt;&gt; /tmp/launch_config.json
+</span><span class='line'>{
+</span><span class='line'>  "ImageId": "${AMI}",
+</span><span class='line'>  "KeyName": "${KEYPAIR}",
+</span><span class='line'>  "InstanceType": "${INSTANCE_TYPE}",
+</span><span class='line'>  "Placement": {
+</span><span class='line'>    "AvailabilityZone": "${AZ}"
+</span><span class='line'>  },
+</span><span class='line'>  "Monitoring": {
+</span><span class='line'>    "Enabled": true
+</span><span class='line'>  },
+</span><span class='line'>  "UserData": "${USER_DATA}",
+</span><span class='line'>  "SecurityGroups": [
+</span><span class='line'>    ${SECURITY_GROUPS}
+</span><span class='line'>  ]
+</span><span class='line'>}
+</span><span class='line'>EOF
+</span><span class='line'>
+</span><span class='line'>### PUT SPOT_REQUEST
+</span><span class='line'>aws ec2 request-spot-instances --spot-price ${PRICE} --region ${REGION} --launch-specification file:///tmp/launch_config.json &gt; /tmp/spot_request.json
+</span><span class='line'>SIR_ID=`jq '.SpotInstanceRequests[0] | .SpotInstanceRequestId' /tmp/spot_request.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>echo "[INFO] SpotInstanceRequestID: ${SIR_ID}";
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>### GET SPOT_INSTANCE INSTANCE_ID
+</span><span class='line'>rm -f /tmp/spot_instance.json
+</span><span class='line'>
+</span><span class='line'>aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
+</span><span class='line'>INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>while [ "${INSTANCE_ID}" == "null" ]
+</span><span class='line'>do
+</span><span class='line'>    aws ec2 describe-spot-instance-requests --spot-instance-request-ids ${SIR_ID} --region ${REGION} &gt; /tmp/spot_instance.json
+</span><span class='line'>    INSTANCE_ID=`jq '.SpotInstanceRequests[0] | .InstanceId' /tmp/spot_instance.json --raw-output`
+</span><span class='line'>
+</span><span class='line'>    sleep 10
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo "[INFO] INSTANCE_ID: ${INSTANCE_ID}";
+</span><span class='line'>
+</span><span class='line'># つづく</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで取得できます。</p>
+
+<ul>
+<li>Monitoringが渡せなかった。(バージョンを1.2.9にしたら渡せるようになった)</li>
+<li>JSON祭り</li>
+<li>UserDataをbase64にencodeしないといけない</li>
+<li>SecurityGroupsの渡し方がアレだ</li>
+</ul>
+
+
+<p>などなどやっていました。今後は<code>DeleteOnTermination</code>も有効にしたいです。<br/>
+aws cliはバージョンがどんどん上がっているので、そのうち<br/>
+JSON祭りもなくなるのではないかと思います。</p>
+
+<p>参考になれば幸いです。</p>
 </div>
   
   
