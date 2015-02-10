@@ -9,7 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="みんなこういうのはどういう対応しているんだろう @kenjiskywalker PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか&mdash; TSUNEMATSU Shinya (@tnmt) February 7, 2015 &hellip;">
+  <meta name="description" content="TL;DR 無茶苦茶良い どんなものか http://www.plantronics.com/us/product/backbeat-pro これでAmazon.comから買える. http://www.amazon.com/Plantronics-BackBeat-Wireless- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +61,89 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/11/backbeat-pro/">BackBeat PROというヘッドフォン買った</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-11T02:16:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>無茶苦茶良い</p>
+
+<h2>どんなものか</h2>
+
+<p><a href="http://www.plantronics.com/us/product/backbeat-pro">http://www.plantronics.com/us/product/backbeat-pro</a></p>
+
+<p>これでAmazon.comから買える.</p>
+
+<p><a href="http://www.amazon.com/Plantronics-BackBeat-Wireless-Canceling-Headphones/dp/B00MBWIL0G">http://www.amazon.com/Plantronics-BackBeat-Wireless-Canceling-Headphones/dp/B00MBWIL0G</a></p>
+
+<p>なんか円安とか送料とか関税とかかかって3万超えたけど</p>
+
+<ul>
+<li>bluetooth</li>
+<li>ANC</li>
+</ul>
+
+
+<p>でヘッドフォン探してたけど2015年2月現在あんまりなかった。<br/>
+よくわからんけど勢いで買ってみるかって買ってみたけど<br/>
+bluetoothでここまで音質良いんかいって感じで正解だった。</p>
+
+<p>ただ、音質厨とかではないのでiPhoneで聞くならDAC必須だよねー<br/>
+とかいう人には参考にならないと思う。</p>
+
+<p>音質が最高なんだけど、機能がゴテゴテで</p>
+
+<ul>
+<li>ヘッドフォンぐりぐりすると音量変えられる</li>
+<li>ヘッドフォンぐりぐりすると選曲できる</li>
+<li>ヘッドフォンカチカチするとiTunesの曲停止したり通話に応答できたりする</li>
+<li>bluetoothマルチペアリングでiPhoneとMac両方ペアリングする</li>
+<li>ヘッドフォン外すと勝手に音量下がる</li>
+<li>bluetoothだけではなくケーブルでも聞ける</li>
+<li>ちゃんと折りたためる</li>
+</ul>
+
+
+<p>とか無駄に機能性高くてすごい。<br/>
+唯一の難点はゴテゴテすぎて外で装着して歩けないんだけど<br/>
+そもそも外の音が聞こえないの怖すぎるから<br/>
+歩くときはSoundTrue in-ear headphones付けてる。<br/>
+そもそもイヤホンしながら歩くなって意見はある。</p>
+
+<p>とにかくノイズキャンセリングもそこそこ効いて<br/>
+低音がバカスカいってbluetoothのヘッドフォン買えたので満足したという話でした。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -415,89 +498,6 @@ itamaeのような使い方は本当に上手だと思う。</p>
 Asuraっていうコードネームめちゃめちゃ好きでした。</p>
 
 <p>この本はまた何回か読み直したい本だ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/08/ansible-check-mode/">Ansibleはcheck Modeだとshellやcommandは実行されない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-08T11:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近は深刻なjinja2とAnsible疲れです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
-</span><span class='line'>skipping: [192.0.2.100]
-</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
-</span><span class='line'>
-</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
-</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
-</span><span class='line'>
-</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんなエラーが出た。</p>
-
-<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
-
-<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
-</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
-</span><span class='line'>  register: ruby_installed
-</span><span class='line'>  always_run: yes
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように<code>always_run: yes</code>にしなければならない。<br/>
-自分メモ。</p>
 </div>
   
   

@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="雑記 youtubeもtwitterの広告も、ただ間に挟んでいるだけで
-普通に不快な印象しかない。不快ではない広告などこの世にあるのか
-って考えたらその広告自体が面白いとか興味があるとかの場合は
-不快ではなかったりする。受け取り手次第な感じもする。 私はサッカーが好きで、 &hellip;">
+  <meta name="description" content="sshを利用していると招かれざる客の来訪が多い。
+また、サーバに不必要にログインしている関係者がいないか
+把握しつづけるのも難しい。 今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。 準備 /var/log/secureはパーミッションが厳しいので
+y- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,172 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/12/login-notification/">Fluentdを利用してsshログインを通知する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-12T22:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sshを利用していると招かれざる客の来訪が多い。<br/>
+また、サーバに不必要にログインしている関係者がいないか<br/>
+把握しつづけるのも難しい。</p>
+
+<p>今回はfluentdを利用して簡単にログイン周りの通知をSlackに流してみる。</p>
+
+<h2>準備</h2>
+
+<p><code>/var/log/secure</code>はパーミッションが厳しいので<br/>
+y-kenさんのブログを参考にパーミッションを変更する必要があります。</p>
+
+<ul>
+<li><a href="http://y-ken.hatenablog.com/entry/fluentd-syslog-permission">Fluentdでsyslogを取り込むための権限設定（CentOS 5&amp;6両対応） - Y-Ken Studio</a></li>
+</ul>
+
+
+<p>SlackのAPIがバージョンアップしてリアルタイム性を持つようになった。</p>
+
+<ul>
+<li><a href="http://slackhq.com/post/104688116560/rtm-api">A new Slack API: The inevitable rise of the bots Bots</a></li>
+</ul>
+
+
+<p>個人的にはリアルタイム性よりも<br/>
+private roomでもhubotが利用できるようになったのいうのがアツい。<br/>
+これで色々遊べるようになる。</p>
+
+<ul>
+<li><a href="https://github.com/sowawa/fluent-plugin-slack">fluent-plugin-slack</a></li>
+</ul>
+
+
+<p>手元で<code>endpoint</code>を変更して動くようになった。みんな普通に動いているのかな</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private
+</span><span class='line'>def endpoint
+</span><span class='line'>  # URI.parse "https://#{@team}.slack.com/services/hooks/incoming-webhook?token=#{@api_key}"
+</span><span class='line'>  URI.parse "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Real Time Messagingを利用するためには</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://slack.com/api/chat.postMessage?token=xoxp-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-XXXXXX&channel=XXXXXXXXX&text=XXXXX&username=XXXXX'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにリクエストを送る必要がある。<br/>
+時間があればpull requestしたい。(あと20分で書き終えなければ&hellip;)</p>
+
+<p><a href="https://api.slack.com/methods/chat.postMessage">chat.postMessage - slack API</a></p>
+
+<h2>2014/12/16 追記</h2>
+
+<p>sowawaさんにmergeして頂いた。感謝</p>
+
+<h2>設定</h2>
+
+<ul>
+<li>/etc/td-agent/td-agent.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type tail
+</span><span class='line'>  path /var/log/secure
+</span><span class='line'>  format syslog
+</span><span class='line'>  tag secure_log
+</span><span class='line'>  pos_file /var/log/td-agent/syslog_secure.pos
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match secure_log.**&gt;
+</span><span class='line'>  type grep
+</span><span class='line'>  input_key message
+</span><span class='line'>  regexp Accepted|failure|Invalid
+</span><span class='line'>  add_tag_prefix greped
+</span><span class='line'>&lt;/match&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;match greped.**&gt;
+</span><span class='line'>  type buffered_slack
+</span><span class='line'>  api_key API_KEY
+</span><span class='line'>  team TEAMNAME
+</span><span class='line'>  channel %23general # You should use %23 in return for #
+</span><span class='line'>  username fluentd
+</span><span class='line'>  color danger
+</span><span class='line'>  icon_emoji :shit:
+</span><span class='line'>  buffer_path /var/log/td-agent/buffer/
+</span><span class='line'>  flush_interval 5s
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<code>Accepted</code>、<code>failure</code>、<code>Invalid</code>の文字列を<br/>
+sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep">fluent-plugin-grep</a>を利用して抽出。</p>
+
+<p>そうすると</p>
+
+<p><img src="http://i.gyazo.com/00260a2b25dfbfb9b55f00eb1b20ca05.png" alt="" /></p>
+
+<p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
+このような設定を入れておくと良いのではないでしょうか。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -643,97 +809,6 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 当たり前だけど上手くいかない時は手を動かすよりドキュメントとコードを読んだ方が早い.</p>
 
 <p>以上簡単なメモです.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/17/ansible-vault-circleci/">Ansible Vaultで暗号化されたファイルをCircleCIで利用する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-17T14:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
-
-<p>CircleCIのEnvironment variablesを利用して<br/>
-ファイルにdecryptのパスワードを記入する</p>
-
-<h2>設定</h2>
-
-<ul>
-<li><a href="https://circleci.com/docs/environment-variables">Environment variables - CircleCI</a></li>
-<li><a href="http://docs.ansible.com/playbooks_vault.html">Vault - Ansible</a></li>
-</ul>
-
-
-<p>CircleCIの環境変数に値を設定する機能を利用し、<br/>
-テスト実行前にその環境変数に設定したVault用の<br/>
-パスワードをファイルに出力しておき、ansible実行時には<br/>
-そのファイルを見に行くようにする。</p>
-
-<ul>
-<li>circle.yml</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
-</span><span class='line'>  services:
-</span><span class='line'>    - docker
-</span><span class='line'>
-</span><span class='line'>dependencies:
-</span><span class='line'>  pre:
-</span><span class='line'>    - if [[ -e docker_ansible_image.tar ]]; then cat docker_ansible_image.tar | docker import - kenjiskywalker/dockerfile-centos-ansible ; docker load --input docker_ansible_image.tar ; else docker build . ; docker save -o docker_ansible_image.tar kenjiskywalker/dockerfile-centos-ansible ; fi
-</span><span class='line'>    - echo "${ANSIBLE_VAULT}" &gt; $(pwd)/ansible/vault.txt
-</span><span class='line'>
-</span><span class='line'>  cache_directories:
-</span><span class='line'>    - "docker_ansible_image.tar"
-</span><span class='line'>
-</span><span class='line'>test:
-</span><span class='line'>  post:
-</span><span class='line'>    - docker run -v $(pwd)/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml  --vault-password-file /ansible/vault.txt -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
-
-
-<p>他に良いプラクティスあれば教えてください。</p>
 </div>
   
   
