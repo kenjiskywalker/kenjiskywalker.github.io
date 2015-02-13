@@ -4,7 +4,7 @@
   <title><![CDATA[Category: memo | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/memo/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-02-13T19:11:35+09:00</updated>
+  <updated>2015-02-13T19:23:15+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -37,7 +37,7 @@ opensslのライブラリ読み込んでなかった。</p>
 
 <p>kappa大先生の記事を見て、これいいやん！ってなって導入した。<br/>
 負荷テストをかけるサーバも今ではAWSのスポットインスタンスを利用すれば<br/>
-c3.4xlargeも$0.0031/hで借りれて最高だ。</p>
+c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 <h2>インストール</h2>
 
