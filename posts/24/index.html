@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="「スティーブ・ジョブズ 1995～失われたインタビュー～ 」 特に傾倒しているとかではないのですが面白そうなので見てきました。
-ずっとお茶目な感じで話してて、インタビュアーとの
-信頼関係ができあがっているのか、物事の内面の話というか、
-ものづくりの人の話でした。 &hellip;">
+  <meta name="description" content="https://github.com/kenjiskywalker/Scatter_Kun Songmuさんにモジュール化しろ。っていわれていたけど
+サクっとできなさそうだったので取り敢えず上げておいて
+誰かがモジュール化してくれたりするのを祈ることにしました。 つくった理由は、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +63,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/14/scatter_kun/">IRCでお願いしたら分散図つくってくれるscatter_kunつくった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-14T15:51:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/Scatter_Kun">https://github.com/kenjiskywalker/Scatter_Kun</a></h2>
+
+<p>Songmuさんにモジュール化しろ。っていわれていたけど<br/>
+サクっとできなさそうだったので取り敢えず上げておいて<br/>
+誰かがモジュール化してくれたりするのを祈ることにしました。</p>
+
+<p>つくった理由は、負荷テストで同じテストケースを利用して<br/>
+並列数を上げた時にどのようにスコアが変化するかを<br/>
+ぱっと見でわかるようにしたかったのと、簡単にHTMLで残るように<br/>
+したかったのが理由です。</p>
+
+<p>良かったら書きなおしたりしてご利用ください。</p>
+
+<p>テンプレートはGoogle Chartsの<a href="https://developers.google.com/chart/interactive/docs/gallery/scatterchart">Scatter Chart</a>を利用しています。<br/>
+Google Charts、とても便利ですね。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -285,59 +334,6 @@
 映画の内容も良かった。酒と煙草と女と音楽がほしくなる感じだった。</p>
 
 <p>中国でも人は一生懸命生きてるんだなって当たり前のこと考えた。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/10/value-domain-update-go/">Goでvalue Domainのアップデートスクリプトかいた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-10T15:28:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>書き方あってるのか微妙なのでGoに明るい方のご指摘をお待ちしております。</p>
-
-<div><script src='https://gist.github.com/6914101.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>Goでpit使えないのかなって@soh335さんに聞いたらtype氏のリポジトリ見ろ<br/>
-って言われて見に行ったらあった。@typester++</p>
-
-<ol>
-<li><code>pitDomain</code>で設定されている<code>domain</code>と<code>password</code>を取得</li>
-<li><code>records</code>で現在のIPアドレスに変更したいレコードリストを入れる</li>
-<li>temple-kun.appspot.comで現在のIPを取得</li>
-<li>現在のIPとレコードに設定されているIPが違ったら更新、同じであればスルー</li>
-</ol>
-
-
-<p>という感じです。</p>
 </div>
   
   

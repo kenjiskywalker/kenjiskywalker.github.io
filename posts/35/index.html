@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Twitterの過去ログが落とせるようになったので
-SQLに学ぶには丁度いいや。ということで
-カジュアルにOSX上でhomebrewを使ってMySQLに入れてみました。 MySQL ver.5.6 (homebrew install)
-OS / OSX 10.8.3 &hellip;">
+  <meta name="description" content="MySQL Casual Talks vol.4で話してみて
+ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。 再来週のオレが今のオレよりもう少し有意義な情報を持ち合わせているようにしたい。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +63,111 @@ OS / OSX 10.8.3 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/08/sql-create-howto/">tweets.zipを読みこませるSQLを書いた時のメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-08T01:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://atnd.org/events/38091">MySQL Casual Talks vol.4</a>で話してみて<br/>
+ってmyfinderさんからお声がけしてもらって、SQL周りノータッチで生きてきて<br/>
+今色々勉強しだしてるけど、正直当日までに有用な話ができる気がしてない。</p>
+
+<p>再来週のオレが今のオレよりもう少し有意義な情報を持ち合わせているようにしたい。</p>
+
+<p>この前<a href="http://blog.kenjiskywalker.org/blog/2013/04/04/tweets_zip_big_data/">tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編)</a>というのを書いて<br/>
+ホッテントリー入ったねとか、何回もブクマ数数えたでしょ？とか<br/>
+コンテンツ力高いとか、正直中身ないでしょアレとか。色々言われたんだけど<br/>
+SQLをはじめて作成するにあたって勉強になったので、その時のメモ</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/data-type-defaults.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.1 データタイプ概要 :: 10.1.4 データタイプデフォルト値</a></h4>
+
+<p>TEXTタイプでは<code>NOT NULL</code>が使えない</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/numeric-types.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.2. 数値タイプ</a></h4>
+
+<p>必要な数値タイプのバイト数の参考</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/storage-requirements.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.5 データタイプが必要とする記憶容量</a></h4>
+
+<p>VARCHAR(255)が1バイトで、VARCHAR(256)で2バイト
+utf8の日本語(マルチバイト)は1文字で3バイト。4byteのUTF8とかはutf8mb4</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1/ja/char.html">MySQL 5.1 リファレンスマニュアル :: 10 データタイプ :: 10.4 文字列タイプ :: 10.4.1 CHAR と VARCHAR タイプ</a></h4>
+
+<p>参考程度</p>
+
+<h4>参考: <a href="http://dev.mysql.com/doc/refman/5.1-olh/ja/datetime.html">MySQL 5.1 リファレンスマニュアル (オンラインヘルプ) :: 6 データ型 :: 6.3 日付と時刻型 :: 6.3.1 DATETIME、DATE、そして TIMESTAMP 型</a></h4>
+
+<p>日付と時刻を入れる時の適切なタイプについての確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
+</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
+</span><span class='line'>  `source` VARCHAR(255),
+</span><span class='line'>  `text` VARCHAR(140),
+</span><span class='line'>  `expanded_urls` VARCHAR(255),
+</span><span class='line'>  PRIMARY KEY (id) )
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>UNSIGED</code> = 符号なしで正の値のみを扱う</li>
+<li><code>VARCHAR(140)</code> = VARCHAR(n)は文字数。Twitterは140文字制限なので140決め打ちでイケる</li>
+<li><code>VARCHAR(255)</code> = マルチバイト文字列が入らず、255文字以内であれば1byteで済むので(255)</li>
+<li><code>TIMESTAMP</code> = <code>2013-03-13 08:52:14 +0000</code>を<code>2013-03-13 08:52:14 +0900</code>としても型自体が<code>YYY-MM-DD HH:MM:SS</code>しかサポートしていない為、その後のGMTの指定は破棄されたことを確認</li>
+</ul>
+
+
+<p>ジャンパーソンみたいにMySQLのオフィシャルのリファレンスぺら読みしただけで<br/>
+全部の内容を記憶できる能力あったら便利っぽい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -803,142 +907,6 @@ ytnobody氏が「LTやるからパソコン貸してくれ」とかやってて<
 
 <p>勉強会とか20人ぐらいまでのヤツに参加するとお客様感なくて楽しめると思うので<br/>
 地方pmオススメします。#3あったらまた参加したい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/30/perlcasual5/">PerlCasual #5に参加してLTしてきた #perlcasual</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-30T01:57:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://atnd.org/events/37158">PerlCasual #5</a>に参加してきました</p>
-
-<p>今回お声がけして頂いたyusukebe氏に感謝を。</p>
-
-<iframe src="//www.slideshare.net/slideshow/embed_code/17854785" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-
-
-<p> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/KenjiNaito/oss-community-perl-community-1" title="OSS Community初心者が Perl Communityから 学んだ1年" target="_blank">OSS Community初心者が Perl Communityから 学んだ1年</a> </strong> from <strong><a href="//www.slideshare.net/KenjiNaito" target="_blank">kenjis skywalker</a></strong> </div></p>
-
-<h4>追記: 03/30 12:00</h4>
-
-<p>社内シーパン王サーの@mix3氏から、抜けてるぜ？ってご指摘を頂いて<br/>
-ﾔﾍﾞｯってなったのでここに追記いたします。</p>
-
-<ul>
-<li><a href="https://metacpan.org/author/HIMACHOCO">https://metacpan.org/author/HIMACHOCO</a></li>
-</ul>
-
-
-<p>シーパン王サー何人いるんだって思いますよね。すごい</p>
-
-<h2>LTで話したかったこと</h2>
-
-<p>実は今回の死霊、5分のLTで話す内容ではなかったんですけど(15分くらい必要だった)<br/>
-ちょうど転職してから1年経って、いい区切りだなと思って<br/>
-自分の実体験を話したかったのでむりくり説明省いて話しました。</p>
-
-<p>伝わならないと思うからブログで書くんだ。ってyusukebe氏に話したら<br/>
-そういう技！？って言われて、プププ。ってなってました。</p>
-
-<p>fujiwaraさんから、透かし芸はもう飽きられるねって言われて<br/>
-私もそろそろだと思っています。という話をしました。</p>
-
-<p>言いたいことはスライド中にある銀河さんの資料に書いてあるのですが</p>
-
-<ul>
-<li>勉強会お客さん時期</li>
-<li>勉強会発表者時期</li>
-</ul>
-
-
-<p>この2つは大きく違うなというのが体験で得たものでした。<br/>
-本来であれば、面白い技術とか、刺さる話とかして<br/>
-色んな人と知り合っていくのが正しくて、<br/>
-もちろん、コミュニティに入っていきなり知り合いが増えるわけもなく<br/>
-そういうコミュニティに精通している会社に入って、<br/>
-知り合いをつくるショートカットとかもできるんですが<br/>
-実力が伴っていないので、ギラギラした人からするとアイツなんでいるの？<br/>
-みたいな感じになります。</p>
-
-<p>わたしの場合、fujiwaraさんと一緒に働いてることや、<br/>
-ひさいち君、335氏、マコピーやtypester氏、songmu氏など<br/>
-Perl Communityに深い関わりあいのある人がいるから<br/>
-結果的に知り合いの知り合いみたいな感じで広がって行っていますが<br/>
-それはセコいやり方で、本来であれば<br/>
-ちゃんと自分の実力で知り合い増やしていくのが良いなって思っています。</p>
-
-<p>そもそも知り合いとか多くすることが目的じゃなくて<br/>
-案外こういうこと載ってないよなってことを書いたり話したりして<br/>
-誰かの役に立って、結果的に年収800万とか得られるようになれば良いんです。</p>
-
-<p>去年の2月のkamakura.pmで時間が余ったからLT誰かやりませんか？ってなって<br/>
-来月からお世話になります！とかぶっこんでも誰も覚えてないし<br/>
-自分が勇気を出したわりには見てる人そんなに覚えてることもないけど<br/>
-何かをアウトプットして、それが誰かの役にたって、知り合いが増えて<br/>
-仕事とかコミュニティとかに繋がってるのが楽しくなったら<br/>
-それはみんなハッピーなことなんじゃないかってことですよね。</p>
-
-<p>取り敢えず発表したいけど勇気がないとか<br/>
-知り合いほしいけど形成されたコミュニティに入りづらいとかいう人は<br/>
-少人数の地方PMとか、Perl Beginners、Perl入学式に参加してみると良いと思います！</p>
-
-<p>今日もPerl入学式に参加して、楽しそうだと思って来てみたとかいう人がいて<br/>
-いやー、Perl書いてるのおじさんだけじゃないのかー！ってなった。</p>
-
-<h2>Talk全般</h2>
-
-<p><a href="http://d.hatena.ne.jp/sugyan/20130330/1364575739">#perlcasual で再びライブコーディングさせていただいた</a><br/>
-人がコーディングしてるところあまり見る機会なかったので楽しかった。<br/>
-すぎゃーんさんすげーってなった。<br/>
-ペアプロとかやるとこういうの楽しそうだなって思った。</p>
-
-<p>@ruikさんと@koba04さんの話、<br/>
-カジュアルにウェブサービスつくっていけばいずれ手に馴染むみたいな話で<br/>
-つくりてー！って思った！</p>
-
-<p>LT、bayashiさんとYappoさんがPerlの話してて、<br/>
-他のみんな、取り敢えずアウトプットしていこうみたいな話だったと思う。</p>
-
-<blockquote class="twitter-tweet"><p>優しく教えてるのにけんじおじさんにデマ撒かれてほんとこまる…</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/317608085457883137">March 29, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>弊社の飲み会、やさしいおじさんがたくさんいるので、<br/>
-気軽に声かけてください。普通に割り勘ですけどね！飲みに行きましょう〜</p>
-
-<p>ありがとうございました。次発表する時は技術的な話したい〜</p>
 </div>
   
   
