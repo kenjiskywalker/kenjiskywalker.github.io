@@ -9,9 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="siege: version 3.0.9 TL;DR httpsのリクエストの際にうんともすんともいわなくて、lddで見たら
-opensslのライブラリ読み込んでなかった。 Siege Siege Home
-Siege でお手軽 Web 負荷テスト - Qiita &hellip;">
+  <meta name="description" content="19.4.2. blkid コマンドの使用 blkid知らなくてずっと/dev/sdb1とか指定してた。
+これからはUUID。時代はUUID。 root権限じゃないと足したディスクが表示されないので気をつけよう;)
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,47 @@ Siege でお手軽 Web 負荷テスト - Qiita &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/16/disk-no-uuid/">/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-16T12:14:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://access.redhat.com/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s2-sysinfo-filesystems-blkid.html">19.4.2. blkid コマンドの使用</a></p>
+
+<p><code>blkid</code>知らなくてずっと<code>/dev/sdb1</code>とか指定してた。<br/>
+これからはUUID。時代はUUID。</p>
+
+<blockquote><p>root権限じゃないと足したディスクが表示されないので気をつけよう;)</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -641,100 +682,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 <p>とにかく常に物事に対してのゴールと、そのゴールを達成する為に必要な作業を<br/>
 計画的に、スピード感を持って仕事に取り組んでいきたいと改めて思った。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/11/serverspec-book/">「Serverspec」本を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-11T23:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
-
-<ul>
-<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
-<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
-</ul>
-
-
-<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
-
-<h2>書籍について</h2>
-
-<p>最近はソフトウェアの本はあまり読まなくて、<br/>
-オフィシャルサイトのドキュメントを読むように心がけている(一次情報大切)ので<br/>
-そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
-
-<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
-ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
-
-<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
-というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
-背景を書籍を通じて理解できてとても有意義だった。</p>
-
-<h2>初めての人は？</h2>
-
-<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
-Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
-よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
-
-<h2>状態を担保する存在の必要性</h2>
-
-<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
-設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
-最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
-何かしら必要だと思う。<br/>
-実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
-最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
-それを元に負荷分散に追加するようにしていた。</p>
-
-<h2>Specinfraについて</h2>
-
-<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
-その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
-ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
-itamaeのような使い方は本当に上手だと思う。</p>
-
-<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
-
-<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
-どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
-インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
-
-<h2>最後に</h2>
-
-<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
-改めて思った。mizzyさんありがとうございます。<br/>
-Asuraっていうコードネームめちゃめちゃ好きでした。</p>
-
-<p>この本はまた何回か読み直したい本だ。</p>
 </div>
   
   

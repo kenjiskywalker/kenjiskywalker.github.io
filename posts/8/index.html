@@ -9,7 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="瞬間英作文が全然進まなかった kenjiskywalkerの本棚 - 2014年07月 (3作品) GIANT KILLING(32) (モーニング KC)ツジトモ読了日：07月25日 バガボンド(37) (モーニング KC)井上雄彦読了日：07月25日 キングダム 34 ( &hellip;">
+  <meta name="description" content="完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014 という話をします(題名長すぎて本番絶対噛むしそもそも覚えられない) YAPCへの参加は3回目で、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +61,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/27/yapcasia2014-before/">YAPC::Asia 2014 で時間旅行をしながらサービスの成長を体験し、人間とシステムの在り方について話します</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-27T12:35:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://yapcasia.org/2014/talk/show/4c7651e8-ed53-11e3-9faf-6ba36aeab6a4">完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014</a></p>
+
+<p>という話をします(題名長すぎて本番絶対噛むしそもそも覚えられない)</p>
+
+<p>YAPCへの参加は3回目で、今回はyusukebe氏が運営されるとのことで<br/>
+ヨッシャ！ワシもこのニューウェーブに乗るんや！とポエム先行型エントリーを行い</p>
+
+<ul>
+<li>これ題名で完結してるんじゃねーの？</li>
+<li>何かすごそうだけど結局何の話するの？</li>
+<li>で、誰？</li>
+</ul>
+
+
+<p>と色々なコメントを頂きつつ、お話しをする機会を頂きました。<br/>
+選んで頂きありがとうございます。</p>
+
+<p>実際ちゃんと話すことがまとまったのは一昨日ぐらいなのですが<br/>
+サービスが産まれ、成長していく時間の旅をしながら<br/>
+その時に何が必要だったのか、何を基準に構築、運用すれば良いのか<br/>
+というお話をする予定です。</p>
+
+<p>オレ自身がインフラだおじさんやインターネット懐古厨おじさん、<br/>
+インフラとかよくわからないけど担当しなければならない人、<br/>
+オレがインフラだおじさんとかインターネット懐古厨おじさんとかどうでもよくて、<br/>
+サーバの保守とか構築とかやらないといけないんだけど<br/>
+どういう思想を持って運用していけば良いのかいまいちわからない人とか<br/>
+ウェブオペレーションについて興味はあるけど、難しそうでよくわからない人とか<br/>
+そんな感じの人に是非聞きに来てほしいと思っています。</p>
+
+<p>興味ある方は是非 08/29 11:00 に藤原洋記念ホールに足を運んでみてください。<br/>
+朝早いですが、きっと何か得るものはあると思います;)</p>
+
+<p>参考情報</p>
+
+<ul>
+<li><a href="http://mizzy.org/blog/2013/10/29/1/">インフラ系技術の流れ - mizzy.org</a></li>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/09/13/the-unix-philosophy/">UNIXという考え方 - さよならインターネット</a></li>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/12/01/monitoringcasual-kyoto/">ディスポーザブル長屋 - さよならインターネット</a></li>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture - さよならインターネット</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -411,73 +488,6 @@ Sensuの設定例</p>
 
 <p>Thus, It is useful to grasp if Fluentd could not be temporarily connected to the another service.<br/>
 このように、Fluentdが他のサービスへ一時的に接続できなかった場合にアラートが来たりして便利です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/22/alfred-utc-get/">AlfredのUTC時間を調べるworkflowをつくった</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-22T03:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/alfred-get-utc-workflow">alfred-get-utc-workflow</a></h2>
-
-<h2>TL;DR</h2>
-
-<p>毎回UTCが何時だか計算してたので機械にやらせる</p>
-
-<h2>Ref</h2>
-
-<ul>
-<li><a href="http://support.alfredapp.com/workflows">An Introduction to Workflows</a></li>
-<li><a href="http://kadoppe.com/archives/2014/01/alfred-random-pocket-workflow.html">Pocketの記事をランダムに表示・検索するAlfred Workflowをつくりました - CreativeStyle</a></li>
-<li><a href="https://github.com/zhaocai/alfred2-ruby-template">https://github.com/zhaocai/alfred2-ruby-template</a></li>
-</ul>
-
-
-<h2>workflow</h2>
-
-<ul>
-<li><code>utc</code></li>
-</ul>
-
-
-<p>だけで現在時刻に対するUTCの時間を</p>
-
-<ul>
-<li><code>utc 20:00</code></li>
-</ul>
-
-
-<p>と<code>hh:mm</code>を引数で渡すとその時刻に対してのUTC時刻を表示する</p>
-
-<p><img src="https://raw.githubusercontent.com/kenjiskywalker/alfred-get-utc-workflow/master/screenshots/caps.png" alt="https://raw.githubusercontent.com/kenjiskywalker/alfred-get-utc-workflow/master/screenshots/caps.png" /></p>
 </div>
   
   
