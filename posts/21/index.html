@@ -9,11 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="人数の少ないスタートアップに参加して、
-お金持ちになる夢を一度ぐらい見てみたいものだ。
-サーバサイドだけどプロダクトにガッツリコミットして
-みんなでワイワイやってみたいものだ。 という気持ちを持ってSumallyに入りました。
-カヤックというエンジニア天国から身一つでどこまでできるかやってみます &hellip;">
+  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
+nodes/hoge.jsonで与えられたnode[:hoge]の値を
+roles/role.jsonで値を追加したい場合があります。
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,230 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/chef-merge-deep/">Chefのnode[:hoge]をどうにかしたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T14:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2013年オワコンの代表格として名指しされているChefですが<br/>
+<strong>nodes/hoge.json</strong>で与えられた<code>node[:hoge]</code>の値を<br/>
+<strong>roles/role.json</strong>で値を追加したい場合があります。<br/>
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。</p>
+
+<p><a href="http://docs.opscode.com/essentials_node_object_deep_merge.html">http://docs.opscode.com/essentials_node_object_deep_merge.html</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "foo", "bar" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "role[role_two]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_two.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_two",
+</span><span class='line'>  "description": "role two",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "baz" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |h|
+</span><span class='line'>  p h
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>role</code>で回せと。</p>
+
+<p>ほかにも<a href="https://twitter.com/keita">@keita</a>氏に教えてもらったのですが<br/>
+Key-Valueで渡せばいけるらしいです。</p>
+
+<p><a href="https://coderanger.net/2013/06/arrays-and-chef/">Arrays and Chef Attributes - Noah Kantrowitz</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "hoge": {
+</span><span class='line'>      "foo": true,
+</span><span class='line'>      "bar": true
+</span><span class='line'>  },
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": {
+</span><span class='line'>        "baz": true
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |k,v|
+</span><span class='line'>  p k
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>どちらも気持ち悪いので使いません。<br/>
+よさ気な方法あれば教えて下さい。</p>
+
+<p>Chef、Opscode社の経典みたいなcookbooksと<br/>
+何がどこに書かれているかよくわからないドキュメントをのぞけば<br/>
+2014年もよしなに使えるのではないかと思います。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -326,70 +549,6 @@ Immutable Infrastructureの概念を取り入れていたのです。</p>
 Many sites butcher this process. You should have a link to 1-click unsubscribe at both the top and bottom of all emails you send. Don’t settle for “log in to unsubscribe” - Yes, its legal for transactional emails but its still stupid. You (the webmaster) will be the only one hurt when your user just marks you as spam instead because he doesn’t remember his password. If you want to ensure email deliver-ability for those who want your emails, there is zero benefit in hiding or making the unsubscribe difficult.</p></blockquote>
 
 <p>「別れる前に最後に１回だけデートしよ。」みたいになってるので止めましょう(意訳)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/16/hhk/">Happy Hacking Keyboardがコーヒーを飲んだら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-16T14:35:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote class="twitter-tweet"><p>HHKの恐怖体験です <a href="http://t.co/JAjpk5mFob">pic.twitter.com/JAjpk5mFob</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401584902602100736">November 16, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>水で洗って終わりではありません。ゴムの部分に大量の水が付着しています。<br/>
-水ジャブ放置だけではなく、必ず分解して乾かしましょう。</p>
-
-<blockquote class="twitter-tweet"><p>東プレさん、あともう少しだけケーブル伸ばしてくれ <a href="http://t.co/YLfiYxNxP4">pic.twitter.com/YLfiYxNxP4</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401585581777371136">November 16, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>外すことはできるのですが、この部分もう少し長いとメンテが楽になるかと思います。<br/>
-東プレさん、よろしくお願いいたします。</p>
-
-<p>分解したきっかけは<code>e</code>がチャタりだして、おいおいマジかよ&hellip;<br/>
-って分解してみたら〜でした。ゴムと基板の間の他に、キートップの隙間にも<br/>
-水分が溜まっていて、アチャ〜って感じでした。</p>
-
-<p>全部掃除して、ハメ直して試したら今度は<code>x</code>がチャタってて、終わった&hellip;<br/>
-ってなったんですけど、基板とゴムの部分のネジを弛めて、<br/>
-バネが真ん中の方に来るようにカタカタ揺らして、基板のネジを全部強く締め直したら直りました。</p>
-
-<p>日頃の行いよくしてこ</p>
 </div>
   
   

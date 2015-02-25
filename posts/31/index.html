@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013/12/25 update Testing #chef Cookbook by #serverspec #devopsの続きみたいなものですが
-Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって
-テスト対象が変化する場合があるかと思います。
-その場合、 &hellip;">
+  <meta name="description" content="本読むより人のコード読んだ方が勉強なるけど
+こういう所作の話全然知らないから面白かった。 自分メモ ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い
+汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う
+hosts,status,get,list, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,57 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/03/art-of-readable-code/">リーダブルコード読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-03T14:18:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/4873115655/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=4873115655&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4873115655&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=4873115655" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>本読むより人のコード読んだ方が勉強なるけど<br/>
+こういう所作の話全然知らないから面白かった。</p>
+
+<h3>自分メモ</h3>
+
+<ul>
+<li>ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い</li>
+<li>汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う<br/>
+hosts,status,get,list,この辺汎用的な名前付けがちなのでわかりやすいようにする</li>
+<li>スコープが小さければx,yとか使っても良いけど目視で追い切れないところで使うと追う手間が発生する</li>
+<li>コメントで補う前にコードや変数名をよしなにできないか考える</li>
+<li>ループロジックは簡潔に、かつそれぞれのメソッドがわかりやすいように</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -605,188 +656,6 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
 
 
 <p>という感じにroleの中のrun_listを読み込んでrecipesに突っ込んでくれる。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-13T13:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>serverspec use chef json file and cookbooks.<br/>
-serverspec take run_list of <code>host.json</code>,<br/>
-serverspec do test each <code>cookbook_name/spec/any_test_spec.rb</code>.</p>
-
-<hr />
-
-<h1>tools</h1>
-
-<ul>
-<li><a href="http://serverspec.org/">serverspec</a></li>
-<li><a href="http://www.opscode.com/chef/">chef</a></li>
-</ul>
-
-
-<p>The configurations, please read at each document.</p>
-
-<hr />
-
-<h1>howto</h1>
-
-<ul>
-<li><h2>chef cookbooks</h2>
-
-<p><code>/root/chef/cookbooks/{foo}/recipes/default.rb</code>
-<code>/root/chef/cookbooks/{bar}/recipes/default.rb</code><br/>
-&hellip;</p></li>
-<li><h2>serverspec file</h2>
-
-<p><code>/root/Rakefile</code><br/>
-<code>/root/spec/spec_helper.rb</code><br/>
-<code>/root/spec/{host_a}/host_a_mysql_spec.rb</code>   # host a specific test
-<code>/root/spec/{host_a}/host_a_redis_spec.rb</code>   # host a specific test
-<code>/root/spec/{host_b}/host_b_redis_spec.rb</code>   # host b specific test</p></li>
-<li><h2>test file</h2>
-
-<p><code>/root/chef/cookbooks/{foo}/spec/default_spec.rb</code><br/>
-<code>/root/chef/cookbooks/{bar}/spec/default_spec.rb</code></p></li>
-</ul>
-
-
-<p> exp)<br/>
- <code>/root/chef/cookbooks/redis/spec/setting_spec.rb</code><br/>
- <code>/root/chef/cookbooks/redis/spec/process_spec.rb</code></p>
-
-<h2><code>spec_helper.rb</code></h2>
-
-<p><a href="http://serverspec.org/advanced_tips.html">Reference</a></p>
-
-<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<h2><code>Rakefile</code></h2>
-
-<div><script src='https://gist.github.com/6118553.js?file=Rakefile'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>this Rakefile read <code>/root/chef/json/*.json</code> and <code>/root/chef/spec/host_name/*_spec.rb</code></p>
-
-<p>Please match it with your environment.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>json_files = Dir::glob("./json/*.json")
-</span><span class='line'> 
-</span><span class='line'>Chef::Config[:cookbook_path] = './cookbook/'
-</span><span class='line'>Chef::Config[:role_path]     = './json/'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>serverspec tests it look run_list of <code>host.json</code></p>
-
-<p>exp</p>
-
-<p><code>/root/chef/cookbooks/postfix/spec/default_spec.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require "/root/chef/spec/spec_helper"
-</span><span class='line'>
-</span><span class='line'>describe package('postfix') do
-</span><span class='line'>    it { should be_installed }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe service('postfix') do
-</span><span class='line'>    it { should be_enabled }
-</span><span class='line'>    it { should be_running }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe port(25) do
-</span><span class='line'>    it { should be_listening }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># log file
-</span><span class='line'>describe file('/var/log/maillog') do
-</span><span class='line'>    it { should be_file }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe file('/etc/postfix/main.cf') do
-</span><span class='line'>    it { should be_file }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe file('/etc/postfix/master.cf') do
-</span><span class='line'>    it { should be_file }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://gifzo.net/BIpiApSbg1E.gif" alt="http://gifzo.net/BIpiApSbg1E.gif" /></p>
-
-<hr />
-
-<p>英語でちゃんと書こうと思ったけど<br/>
-取り敢えず出してあとでブラッシュアップする感じにしようと思った。<br/>
-<code>Rakefile</code>いじくるだけで<code>chef</code>の<code>host.json</code>のrun_list見て<br/>
-そのcookbookのspecディレクトリ見てテスト回してくれる。<br/>
-roleとかも考慮されてるし、一括で入れられないテストについては<br/>
-<code>/root/chef/spec/hostname/hoge_spec.rb</code>に入れればよしなに読み込んでくれる。<br/>
-便利っぽい。</p>
-
-<p>便利アピール海外にもしようと思ったら全然英語書けなくて頑張ろうって思った</p>
 </div>
   
   

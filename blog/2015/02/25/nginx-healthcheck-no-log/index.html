@@ -5,12 +5,24 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド - さよならインターネット</title>
+  <title>nginxで特定のURIだけログに出力しない - さよならインターネット</title>
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド 19.4.2. blkid コマンドの使用 blkid知らなくてずっと/dev/sdb1とか指定してた。
-これからはUUID。時代はUUID。 root権限じゃないと足したディスクが表示されないので気をつけよう;) &hellip;">
+  <meta name="description" content="nginxで特定のURIだけログに出力しない nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+location / { if ( $request_uri ~ /healthcheckurl &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/02/16/disk-no-uuid/">
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -65,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド</h1>
+      <h1 class="entry-title">nginxで特定のURIだけログに出力しない</h1>
     
     
       <p class="meta">
@@ -81,19 +93,42 @@
   
 
 
-<time datetime="2015-02-16T12:14:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2015-02-25T16:04:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="https://access.redhat.com/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s2-sysinfo-filesystems-blkid.html">19.4.2. blkid コマンドの使用</a></p>
+<div class="entry-content"><p>nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定</p>
 
-<p><code>blkid</code>知らなくてずっと<code>/dev/sdb1</code>とか指定してた。<br/>
-これからはUUID。時代はUUID。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>location / {
+</span><span class='line'>
+</span><span class='line'>    if ( $request_uri ~ /healthcheckurl) { access_log off; }
+</span><span class='line'>
+</span><span class='line'>    proxy_pass http://unicorn;
+</span><span class='line'>    proxy_set_header Host              $http_host;
+</span><span class='line'>    proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>    break;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<blockquote><p>root権限じゃないと足したディスクが表示されないので気をつけよう;)</p></blockquote>
 </div>
 
 
@@ -126,16 +161,16 @@
   
 
 
-<time datetime="2015-02-16T12:14:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2015-02-25T16:04:00+09:00" pubdate data-updated="true"></time>
       
 
 
     </p>
     
       <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/02/16/disk-no-uuid/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/02/16/disk-no-uuid/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/02/16/disk-no-uuid/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log/" >Tweet</a>
   
   
   
@@ -146,10 +181,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/02/13/siege/" title="Previous Post: 負荷テストが気軽に行えるsiegeでちょっとハマった">&laquo; 負荷テストが気軽に行えるsiegeでちょっとハマった</a>
+        <a class="basic-alignment left" href="/blog/2015/02/16/disk-no-uuid/" title="Previous Post: /etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド">&laquo; /etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/02/25/nginx-healthcheck-no-log/" title="Next Post: nginxで特定のURIだけログに出力しない">nginxで特定のURIだけログに出力しない &raquo;</a>
       
     </p>
   </footer>

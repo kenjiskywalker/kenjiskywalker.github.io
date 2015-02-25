@@ -183,6 +183,7 @@ private roomでもhubotが利用できるようになったのいうのがアツ
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
+<span class='line-number'>27</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
 </span><span class='line'>  type tail
 </span><span class='line'>  path /var/log/secure
@@ -200,7 +201,8 @@ private roomでもhubotが利用できるようになったのいうのがアツ
 </span><span class='line'>
 </span><span class='line'>&lt;match greped.**&gt;
 </span><span class='line'>  type buffered_slack
-</span><span class='line'>  api_key API_KEY
+</span><span class='line'>  rtm true
+</span><span class='line'>  token API_KEY
 </span><span class='line'>  team TEAMNAME
 </span><span class='line'>  channel %23general # You should use %23 in return for #
 </span><span class='line'>  username fluentd

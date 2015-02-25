@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-02-16T12:17:56+09:00</updated>
+  <updated>2015-02-25T16:09:05+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[nginxで特定のURIだけログに出力しない]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log/"/>
+    <updated>2015-02-25T16:04:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/02/25/nginx-healthcheck-no-log</id>
+    <content type="html"><![CDATA[<p>nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>location / {
+</span><span class='line'>
+</span><span class='line'>    if ( $request_uri ~ /healthcheckurl) { access_log off; }
+</span><span class='line'>
+</span><span class='line'>    proxy_pass http://unicorn;
+</span><span class='line'>    proxy_set_header Host              $http_host;
+</span><span class='line'>    proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>    ...
+</span><span class='line'>
+</span><span class='line'>    break;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド]]></title>
@@ -913,6 +950,7 @@ private roomでもhubotが利用できるようになったのいうのがアツ
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
+<span class='line-number'>27</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
 </span><span class='line'>  type tail
 </span><span class='line'>  path /var/log/secure
@@ -930,7 +968,8 @@ private roomでもhubotが利用できるようになったのいうのがアツ
 </span><span class='line'>
 </span><span class='line'>&lt;match greped.**&gt;
 </span><span class='line'>  type buffered_slack
-</span><span class='line'>  api_key API_KEY
+</span><span class='line'>  rtm true
+</span><span class='line'>  token API_KEY
 </span><span class='line'>  team TEAMNAME
 </span><span class='line'>  channel %23general # You should use %23 in return for #
 </span><span class='line'>  username fluentd
@@ -1686,44 +1725,6 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2014/10読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book/"/>
-    <updated>2014-11-02T01:59:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/11/02/201410-book</id>
-    <content type="html"><![CDATA[<p>太平記、いよいよ尊氏がのし上がってきた。</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年10月 (7作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4061592998" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41Z7F36DYDL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4061592998" target="_blank">本を読む本 (講談社学術文庫)</a><br /><a href="http://booklog.jp/author/J%E3%83%BB%E3%83%A2%E3%83%BC%E3%83%86%E3%82%A3%E3%83%9E%E3%83%BC%E3%83%BB%E3%82%A2%E3%83%89%E3%83%A9%E3%83%BC" target="_blank">J・モーティマー・アドラー</a><br />読了日：10月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3QYKEM" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51bjX8kwqEL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3QYKEM" target="_blank">私本太平記 07 千早帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063883817" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61roFPa3QIL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063883817" target="_blank">GIANT KILLING(33) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R04NC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51kD3wswI8L._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R04NC" target="_blank">私本太平記 08 新田帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R1M2E" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51QdHojEjuL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R1M2E" target="_blank">私本太平記 09 建武らくがき帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774167681" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a><br /><a href="http://booklog.jp/author/%E4%BC%8A%E8%97%A4%E7%9B%B4%E4%B9%9F" target="_blank">伊藤直也</a><br />読了日：10月26日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00NFW7RCY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/619ts5KepqL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00NFW7RCY" target="_blank">高校サッカーダイジェスト Vol.7 2014年 11/1号 [雑誌]</a><br />読了日：10月27日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
 
 ]]></content>
   </entry>

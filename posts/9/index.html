@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="alfred-get-utc-workflow TL;DR 毎回UTCが何時だか計算してたので機械にやらせる Ref An Introduction to Workflows
-Pocketの記事をランダムに表示・検索するAlfred Workflowをつくりました - CreativeStyle &hellip;">
+  <meta name="description" content="TL;DR Monitor the state of the Fluentd by Sensu.
+SensuでFluentdの状態を監視する 利用するソフトウェア(Using Software) fluentd
+Sensu
+check-fluentd-monitor-agent.rb 監視設定( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +64,120 @@ Pocketの記事をランダムに表示・検索するAlfred Workflowをつく�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/09/monitor_agent-and-sensu/">Monitoring Monitor_agent by Sensu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T19:39:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>Monitor the state of the Fluentd by Sensu.<br/>
+SensuでFluentdの状態を監視する</p>
+
+<h3>利用するソフトウェア(Using Software)</h3>
+
+<ul>
+<li><a href="https://github.com/fluent/fluentd">fluentd</a></li>
+<li><a href="https://github.com/sensu/sensu">Sensu</a></li>
+<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">check-fluentd-monitor-agent.rb</a></li>
+</ul>
+
+
+<h3>監視設定(Monitoring Settings)</h3>
+
+<p>Sensu&rsquo;s Configuration Example<br/>
+Sensuの設定例</p>
+
+<p><code>check_fluentd_monitor_agent.json</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 3,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024000 -c 51200000 -m 'buffer_queue_length'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 3,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>アラート例(Example Alert)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CheckFluentdMonitorAgent WARNING: plugin_id object:XXXXXXX retry_count 8</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>アラートが出ているプラグインの確認(Check the plug-in target)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thus, It is useful to grasp if Fluentd could not be temporarily connected to the another service.<br/>
+このように、Fluentdが他のサービスへ一時的に接続できなかった場合にアラートが来たりして便利です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -436,130 +552,6 @@ app2 ec2-192-0-2-4.region.compute.amazonaws.com</p></blockquote>
 awkを利用して、選択したら<br/>
 Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br/>
 便利。便利だけど落書きレベルなのでGoで完結できるようにした方が良い。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/12/peco/">Pecoを導入してzshのhistoryに使うようにした</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
-
-<p>peco入れた。速い</p>
-
-<h2>peco</h2>
-
-<p><a href="https://github.com/lestrrat/peco">https://github.com/lestrrat/peco</a></p>
-
-<p>まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。</p>
-
-<h2>percol</h2>
-
-<p><a href="https://github.com/mooz/percol">https://github.com/mooz/percol</a></p>
-
-<p>元々moozさんが書いたpercolというものがあってlestrratさんがGoで書いたものがpeco。</p>
-
-<h2>導入方法</h2>
-
-<ul>
-<li>peco を go get</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ go get github.com/lestrrat/peco/cmd/peco/</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>.zshrc</h2>
-
-<p>percolのものを流用させて頂きました。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function peco-select-history() {
-</span><span class='line'>    local tac
-</span><span class='line'>    if which tac &gt; /dev/null; then
-</span><span class='line'>        tac="tac"
-</span><span class='line'>    else
-</span><span class='line'>        tac="tail -r"
-</span><span class='line'>    fi
-</span><span class='line'>    BUFFER=$(history -n 1 | \
-</span><span class='line'>        eval $tac | \
-</span><span class='line'>        peco --query "$LBUFFER")
-</span><span class='line'>    CURSOR=$#BUFFER
-</span><span class='line'>    zle clear-screen
-</span><span class='line'>}
-</span><span class='line'>zle -N peco-select-history
-</span><span class='line'>bindkey '^r' peco-select-history</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>~/.peco/config.json</h2>
-
-<p>C-c でキャンセルできるように</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    "Keymap": {
-</span><span class='line'>        "C-p": "peco.SelectPrevious",
-</span><span class='line'>        "C-n": "peco.SelectNext",
-</span><span class='line'>        "C-c": "peco.Cancel"
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://gifzo.net/BE8NmHmus2A.gif" alt="http://gifzo.net/BE8NmHmus2A.gif" /></p>
-
-<blockquote><p>いまいちなキャプチャだこれ</p></blockquote>
-
-<p><a href="http://motemen.hatenablog.com/entry/2014/06/01/introducing-ghq">ghq</a>もまだ入れたばかりなので<br/>
-これから色々試していこうと思います。</p>
 </div>
   
   
