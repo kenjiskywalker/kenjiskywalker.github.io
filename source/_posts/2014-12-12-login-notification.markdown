@@ -80,7 +80,8 @@ sowawaさんにmergeして頂いた。感謝
 
 <match greped.**>
   type buffered_slack
-  api_key API_KEY
+  rtm true
+  token API_KEY
   team TEAMNAME
   channel %23general # You should use %23 in return for #
   username fluentd
