@@ -562,13 +562,13 @@ Syncing disks.
 
 サイズ指定しないと怒られる
 
-[root@lvm-test-server ~]# lvcreate -L 10G -n vgrp0
+[root@lvm-test-server ~]# lvcreate -L 10G -n lvol0 vgrp0
   Logical volume "lvol0" created
 [root@lvm-test-server ~]#
 
 100%使い切る場合にはこれ
 
-[root@lvm-test-server ~]# lvcreate -l 100%FREE -n vgrp0
+[root@lvm-test-server ~]# lvcreate -l 100%FREE -n lvol0 vgrp0
   Logical volume "lvol0" created
 [root@lvm-test-server ~]#
 
