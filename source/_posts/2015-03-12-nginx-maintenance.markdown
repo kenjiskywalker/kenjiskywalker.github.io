@@ -18,6 +18,32 @@ categories:
 
 同じようなことを最近やっていたのでメモ。
 
+
+## 追記(03/12) 14:00
+
+- リダイレクトやめましょうとのこと
+- 503でお返事しましょうとのこと
+
+<blockquote class="twitter-tweet" lang="en"><p>メンテナンス時にメンテページにリダイレクトするのやめましょう</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575875916506640384">March 12, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 元ネタの自分の記事は503返してるよ <a href="http://t.co/lONIVrv7OF">http://t.co/lONIVrv7OF</a></p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575877278355214336">March 12, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 静的ページ更新して差し替えぐらいでいいんじゃないですかねえ</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575880371214020609">March 12, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> あ、そういう話か。ちょっと勘違いしてた。静的ページ更新の差し替えしかないのでは。</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575880494400729088">March 12, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+ノーSEOだったので完全に無視してた
+
+### nginxに設定しているメンテナンスモードの条件
+
+- `/var/nginx/html/maintenance/maintenance.html`ファイルがあればメンテナンスモードとして`maintenance.html`を表示するように
+
+- `/healthcheck`のリクエストはメンテナンスモードでも通す
+
+- 管理IPアドレスからはメンテナンスモードでも通す
+
+という3点を設定しています。
+
 - nginx.conf
 
 ```
@@ -46,20 +72,24 @@ server {
 
     location / {
 
-        if ( $request_uri ~ /health check ) {
-            set $maintenance false;
-            access_log off;
-        }
-
         ### メンテナンスの設定 ここから ###############################
         if ( -e /var/nginx/html/maintenance/maintenance.html ) {
             set $maintenance true;
         }
 
+        # health checkのリクエストはログに出さずに
+        # メンテナンスページを通過する
+        if ( $request_uri ~ /healthcheck ) {
+            set $maintenance false;
+            access_log off;
+        }
+
+        # 許可IPアドレスならメンテナンスページを通過する
         if ( $allow_ip_flag ) {
             set $maintenance false;
         }
 
+        # それ以外は/maintenance.htmlに飛ばす
         if ( $maintenance = true ) {
             rewrite ^ /maintenance.html redirect;
         }
@@ -88,3 +118,5 @@ server {
 nginxは複数の条件の場合bit立てて判断するの知らなかった。
 
 - [IfIsEvil](http://wiki.nginx.org/IfIsEvil)
+
+こういうのはエレガントにngx_mrubyでやった方が運用楽そう。
