@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-03-12T13:50:02+09:00</updated>
+  <updated>2015-03-12T13:53:48+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -31,6 +31,14 @@
 
 <p>同じようなことを最近やっていたのでメモ。</p>
 
+<h2>追記(03/12) 14:00</h2>
+
+<ul>
+<li>リダイレクトやめましょうとのこと</li>
+<li>503でお返事しましょうとのこと</li>
+</ul>
+
+
 <blockquote class="twitter-tweet" lang="en"><p>メンテナンス時にメンテページにリダイレクトするのやめましょう</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575875916506640384">March 12, 2015</a></blockquote>
 
 
@@ -50,6 +58,8 @@
 
 
 <p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>ノーSEOだったので完全に無視してた</p>
 
 <h3>nginxに設定しているメンテナンスモードの条件</h3>
 
