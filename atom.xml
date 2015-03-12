@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-03-12T13:22:59+09:00</updated>
+  <updated>2015-03-12T13:50:02+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -30,6 +30,26 @@
 
 
 <p>同じようなことを最近やっていたのでメモ。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>メンテナンス時にメンテページにリダイレクトするのやめましょう</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575875916506640384">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 元ネタの自分の記事は503返してるよ <a href="http://t.co/lONIVrv7OF">http://t.co/lONIVrv7OF</a></p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575877278355214336">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 静的ページ更新して差し替えぐらいでいいんじゃないですかねえ</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575880371214020609">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> あ、そういう話か。ちょっと勘違いしてた。静的ページ更新の差し替えしかないのでは。</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575880494400729088">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
 
 <h3>nginxに設定しているメンテナンスモードの条件</h3>
 
