@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-02-27T20:56:47+09:00</updated>
+  <updated>2015-03-12T13:22:59+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,185 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[nginxでメンテナンスページ用意する技]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/"/>
+    <updated>2015-03-12T12:22:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance</id>
+    <content type="html"><![CDATA[<h2>LT;DR</h2>
+
+<p>かっぱ先輩！</p>
+
+<h2>かっぱ先輩のブログを読んで</h2>
+
+<ul>
+<li><a href="http://inokara.hateblo.jp/entry/2014/02/22/134221">深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP </a></li>
+</ul>
+
+
+<p>同じようなことを最近やっていたのでメモ。</p>
+
+<h3>nginxに設定しているメンテナンスモードの条件</h3>
+
+<ul>
+<li><p><code>/var/nginx/html/maintenance/maintenance.html</code>ファイルがあればメンテナンスモードとして<code>maintenance.html</code>を表示するように</p></li>
+<li><p><code>/healthcheck</code>のリクエストはメンテナンスモードでも通す</p></li>
+<li><p>管理IPアドレスからはメンテナンスモードでも通す</p></li>
+</ul>
+
+
+<p>という3点を設定しています。</p>
+
+<ul>
+<li>nginx.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>upstream example_pool {
+</span><span class='line'>    server 127.0.0.1:3000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>geo $allow_ip_flag {
+</span><span class='line'>    default 0;
+</span><span class='line'>    192.0.2.0/24 1;    #TEST-NET-1
+</span><span class='line'>    198.51.100.0/24 1; #TEST-NET-2
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'>    listen       80;
+</span><span class='line'>    server_name  example.com;
+</span><span class='line'>
+</span><span class='line'>    access_log  /var/log/nginx/example_com_access.log  ltsv;
+</span><span class='line'>    error_log  /var/log/nginx/example_com_error.log warn;
+</span><span class='line'>
+</span><span class='line'>    root /var/nginx/html/example;
+</span><span class='line'>
+</span><span class='line'>    location /robots.txt {
+</span><span class='line'>            alias /var/nginx/html/robots.txt;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    location / {
+</span><span class='line'>
+</span><span class='line'>        ### メンテナンスの設定 ここから ###############################
+</span><span class='line'>        if ( -e /var/nginx/html/maintenance/maintenance.html ) {
+</span><span class='line'>            set $maintenance true;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # health checkのリクエストはログに出さずに
+</span><span class='line'>        # メンテナンスページを通過する
+</span><span class='line'>        if ( $request_uri ~ /healthcheck ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>            access_log off;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # 許可IPアドレスならメンテナンスページを通過する
+</span><span class='line'>        if ( $allow_ip_flag ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # それ以外は/maintenance.htmlに飛ばす
+</span><span class='line'>        if ( $maintenance = true ) {
+</span><span class='line'>            rewrite ^ /maintenance.html redirect;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        location /maintenance.html {
+</span><span class='line'>            alias /var/nginx/html/maintenance/maintenance.html;
+</span><span class='line'>            expires 0;
+</span><span class='line'>        }
+</span><span class='line'>        ### メンテナンスの設定 ここまで ###############################
+</span><span class='line'>
+</span><span class='line'>        proxy_pass http://example_pool;
+</span><span class='line'>
+</span><span class='line'>        proxy_set_header Host              $http_host;
+</span><span class='line'>        proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>        client_max_body_size 710M;
+</span><span class='line'>        proxy_connect_timeout      3000;
+</span><span class='line'>        proxy_send_timeout         3000;
+</span><span class='line'>        proxy_read_timeout         3000;
+</span><span class='line'>        break;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>nginxは複数の条件の場合bit立てて判断するの知らなかった。</p>
+
+<ul>
+<li><a href="http://wiki.nginx.org/IfIsEvil">IfIsEvil</a></li>
+</ul>
+
+
+<p>こういうのはエレガントにngx_mrubyでやった方が運用楽そう。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[nginxで特定のURIだけログに出力しない]]></title>
@@ -1655,77 +1834,6 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 <p>以上、メモです。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[シェルスクリプトで外部コマンドを利用する場合の注意点]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/11/10/shellscript-old-style/"/>
-    <updated>2014-11-10T15:37:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/11/10/shellscript-old-style</id>
-    <content type="html"><![CDATA[<h2>TL;DR</h2>
-
-<p>シェルスクリプトでbackquoteを見つけたら<br/>
-オールドスタイルおじさんを探し、矯正させよう</p>
-
-<blockquote><p>GNU Bash-2.05 manual</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
-</span><span class='line'>   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
-</span><span class='line'>   a backslash terminates the command substitution.  When using the $(command) form,  all  
-</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">a</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s1">&#39;\&#39;`</span>
-</span><span class='line'><span class="s1">echo ${a} # \</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">b=`echo &quot;\\&quot;`</span>
-</span><span class='line'><span class="s1">echo ${b} # unexpected EOF while looking for matching `&quot;&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">c</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="err">&#39;</span><span class="se">\&#39;</span><span class="k">)</span>
-</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">c</span><span class="k">}</span> <span class="c"># \</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">d</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;\\&quot;</span><span class="k">)</span>
-</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">d</span><span class="k">}</span> <span class="c"># \</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考</h2>
-
-<p><a href="http://hyperpolyglot.org/unix-shells#cmd-subst-note">http://hyperpolyglot.org/unix-shells#cmd-subst-note</a></p>
-
-<h2>追記</h2>
-
-<blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 ]]></content>
   </entry>
   

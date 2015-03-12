@@ -9,20 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-location / { if ( $request_uri ~ /healthcheckurl) { access_log off; } &hellip;">
+  <meta name="description" content="LT;DR かっぱ先輩！ かっぱ先輩のブログを読んで 深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP 同じようなことを最近やっていたのでメモ。 nginxに設定しているメンテナンスモードの条件 /var/nginx/html/maintenance/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +61,212 @@ location / { if ( $request_uri ~ /healthcheckurl) { access_log off; } &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/12/nginx-maintenance/">Nginxでメンテナンスページ用意する技</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-12T12:22:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>LT;DR</h2>
+
+<p>かっぱ先輩！</p>
+
+<h2>かっぱ先輩のブログを読んで</h2>
+
+<ul>
+<li><a href="http://inokara.hateblo.jp/entry/2014/02/22/134221">深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP </a></li>
+</ul>
+
+
+<p>同じようなことを最近やっていたのでメモ。</p>
+
+<h3>nginxに設定しているメンテナンスモードの条件</h3>
+
+<ul>
+<li><p><code>/var/nginx/html/maintenance/maintenance.html</code>ファイルがあればメンテナンスモードとして<code>maintenance.html</code>を表示するように</p></li>
+<li><p><code>/healthcheck</code>のリクエストはメンテナンスモードでも通す</p></li>
+<li><p>管理IPアドレスからはメンテナンスモードでも通す</p></li>
+</ul>
+
+
+<p>という3点を設定しています。</p>
+
+<ul>
+<li>nginx.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>upstream example_pool {
+</span><span class='line'>    server 127.0.0.1:3000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>geo $allow_ip_flag {
+</span><span class='line'>    default 0;
+</span><span class='line'>    192.0.2.0/24 1;    #TEST-NET-1
+</span><span class='line'>    198.51.100.0/24 1; #TEST-NET-2
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'>    listen       80;
+</span><span class='line'>    server_name  example.com;
+</span><span class='line'>
+</span><span class='line'>    access_log  /var/log/nginx/example_com_access.log  ltsv;
+</span><span class='line'>    error_log  /var/log/nginx/example_com_error.log warn;
+</span><span class='line'>
+</span><span class='line'>    root /var/nginx/html/example;
+</span><span class='line'>
+</span><span class='line'>    location /robots.txt {
+</span><span class='line'>            alias /var/nginx/html/robots.txt;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    location / {
+</span><span class='line'>
+</span><span class='line'>        ### メンテナンスの設定 ここから ###############################
+</span><span class='line'>        if ( -e /var/nginx/html/maintenance/maintenance.html ) {
+</span><span class='line'>            set $maintenance true;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # health checkのリクエストはログに出さずに
+</span><span class='line'>        # メンテナンスページを通過する
+</span><span class='line'>        if ( $request_uri ~ /healthcheck ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>            access_log off;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # 許可IPアドレスならメンテナンスページを通過する
+</span><span class='line'>        if ( $allow_ip_flag ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # それ以外は/maintenance.htmlに飛ばす
+</span><span class='line'>        if ( $maintenance = true ) {
+</span><span class='line'>            rewrite ^ /maintenance.html redirect;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        location /maintenance.html {
+</span><span class='line'>            alias /var/nginx/html/maintenance/maintenance.html;
+</span><span class='line'>            expires 0;
+</span><span class='line'>        }
+</span><span class='line'>        ### メンテナンスの設定 ここまで ###############################
+</span><span class='line'>
+</span><span class='line'>        proxy_pass http://example_pool;
+</span><span class='line'>
+</span><span class='line'>        proxy_set_header Host              $http_host;
+</span><span class='line'>        proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>        client_max_body_size 710M;
+</span><span class='line'>        proxy_connect_timeout      3000;
+</span><span class='line'>        proxy_send_timeout         3000;
+</span><span class='line'>        proxy_read_timeout         3000;
+</span><span class='line'>        break;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>nginxは複数の条件の場合bit立てて判断するの知らなかった。</p>
+
+<ul>
+<li><a href="http://wiki.nginx.org/IfIsEvil">IfIsEvil</a></li>
+</ul>
+
+
+<p>こういうのはエレガントにngx_mrubyでやった方が運用楽そう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -645,65 +838,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 
 <p>Systemd？はて？</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/21/trailokyavijaya/">「降三世明王」について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-21T00:30:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B009NOI46Q/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B009NOI46Q&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B009NOI46Q&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B009NOI46Q" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>降三世明王が好きなのでそのことについて書く。</p>
-
-<p>降三世明王、仏像のつくりはヒンドゥー教と仏教の争いみたいな感じで<br/>
-シヴァ神を踏みつけていてあんまりよろしくはない。</p>
-
-<p>三世は過去現在未来という意味が強く、受け取り側次第でいかようにも取れる。<br/>
-天下布武の天下は全国なのか近畿だけなのかみたいな感じで。</p>
-
-<p>それはそれとして、降三世明王のある側面では「人間の三毒を取り除く」という意味合いがある。<br/>
-三毒とは「貪・瞋・痴」、貪り、怒り、愚痴を吐くことだ。</p>
-
-<p>人間のできていない自分はこの三毒にすぐにハマる。<br/>
-特に対人間となるとすぐに怒ったり愚痴ったりする。</p>
-
-<p>そういう時に降三世明王を自分の中に入れ<br/>
-衆生や世界、宇宙を感じることを思い出して、<br/>
-今という瞬間と、自分という我執を俯瞰できたら良いなといつも思う。</p>
-
-<p>降三世明王、身につまされる神様だ。</p>
-
-<p>minibutsu、Yahoo!ショッピングでは買えるっぽい。<br/>
-<a href="http://store.shopping.yahoo.co.jp/minibutsu/18.html">http://store.shopping.yahoo.co.jp/minibutsu/18.html</a></p>
 </div>
   
   

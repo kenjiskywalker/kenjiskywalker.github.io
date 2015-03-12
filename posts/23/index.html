@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="実在するかどうかはわかりませんがこのような構成があった場合に
-どのような費用が発生するのか試算してみました。
-AWSは費用の算出が難しいので、参考になれば幸いです。 また、計算方法の誤りや、情報の過不足等あれば
-gistにコメントか、Twitterなどで教えて頂ければ有難いです。 Simple &hellip;">
+  <meta name="description" content="運営のみなさまおつかれさまでした。今回もとても楽しかったです。 今回は誰でもわかるようなボトルネック、例えばクソクエリとか
+クソコードとかはなくて、現状のゼロベースからどうやってスコアを上げるか。
+みたいな感じだった。なので最初の方向性付けがすべてだったのかなと。
+出題者の@fujiwaraさんと &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,86 @@ gistにコメントか、Twitterなどで教えて頂ければ有難いです。
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/11/isucon2013-main/">#isucon 2013 参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-11T10:02:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>運営のみなさまおつかれさまでした。今回もとても楽しかったです。</p>
+
+<p>今回は誰でもわかるようなボトルネック、例えばクソクエリとか<br/>
+クソコードとかはなくて、現状のゼロベースからどうやってスコアを上げるか。<br/>
+みたいな感じだった。なので最初の方向性付けがすべてだったのかなと。<br/>
+出題者の@fujiwaraさんと@acidlemonさんすごい。</p>
+
+<p>また、アプリケーションを確認した時点で<br/>
+2人でできることって限界があるな。って感じていました。</p>
+
+<p>細かいことは<a href="http://soh335.hatenablog.com/entry/2013/11/10/214457">http://soh335.hatenablog.com/entry/2013/11/10/214457</a>ここ読んでください。</p>
+
+<h1>課題</h1>
+
+<ul>
+<li>予選の時にはできていたスコアを着実に上げていくことができなかった。(人数の問題もあった)</li>
+<li>エラーが発生していて、その解決を@soh335待ちにしてたところがあった。問題解決とは別に平行して作業を行えばよかった。</li>
+<li>待ちにしていた実装が不可能だった場合、即切り替えてやればよかった。</li>
+<li>切り替えるにしろ、実装の確認、問題意識のすり合わせをしなかったのでそこは予選から改善されていなかった。(問題の複雑さと人数の少なさを意識し過ぎた)</li>
+<li>Redis載せ、取り敢えず画像を縮小するか  手分けして複数台でRedisに載せられるように改修できればよかった。自分の実装力が足りなかった。</li>
+</ul>
+
+
+<p>残り2時間前まで何やっていたのか覚えていない。</p>
+
+<ul>
+<li>サーバ全員が同じ画像ディレクトリを見ていれば良い</li>
+<li>内部ネットワークは1Gbpsって言っていたのでネットワークのボトルネックはない</li>
+</ul>
+
+
+<p>と信じてNFSの導入をした。30分ぐらいで全台NFSで見れるようになったけど<br/>
+アプリでどうにかイケそうだ。っていう話だったのでNFSだと全台再起動してからのテストでコケた場合、<br/>
+設定箇所の特定が間に合わないかもしれないと判断して、NFSは捨ててアプリのフォローに回った。<br/>
+結果、改修は間に合わなかった。</p>
+
+<h1>まとめ</h1>
+
+<p>Failで終わるのはプロとして恥ずかしい。</p>
+
+<p>転職前にスピードワゴンはクールに去るぜ。の如くキメたかったけど<br/>
+先は長く厳しい。日々戦いは続く。ベルマーレがJ2に落ちたとしても<br/>
+オレたちは常に目の前の問題に最善をつくしていかなければならないんだ。</p>
+
+<p>先は長く、厳しい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -325,75 +405,6 @@ gistにコメントか、Twitterなどで教えて頂ければ有難いです。
 <p><a href="http://www.flickr.com/photos/kenjiskywalker/10531836216/" title="senjyu-kannon by kenjiskywalker, on Flickr"><img src="http://farm6.staticflickr.com/5514/10531836216_8b0b1aee9c.jpg" width="500" height="333" alt="senjyu-kannon"></a></p>
 
 <p>写真もOKなものあるので、撮影して祈りたい放題ですね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/21/working-with-unix-processes/">「なるほどUnixプロセス ― Rubyで学ぶUnixの基礎」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-21T14:43:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>サラサラ〜っと読んで放置していた<br/>
-<a href="http://tatsu-zine.com/books/naruhounix">「なるほどUnixプロセス ― Rubyで学ぶUnixの基礎」</a>を読みました。<br/>
-週末手を動かしながら読めたのでよかった。<br/>
-<code>fork(2)</code>周りの所作と<code>pipe(2)</code>、<code>socket(2)</code>も簡単に試せてよかった。<br/>
-daemon化するために孫プロセスで動かすとか古典的な感じだった。</p>
-
-<p>本書は簡単に書きながら試せる。っていうのが最高に最高だと思います。</p>
-
-<p>何で放置していたものを手に取ったかは<br/>
-<a href="http://hakobe932.hatenablog.com/entry/2013/04/28/210815">なるほどUnixプロセス読んだ - デーモン化のためのdouble fork - はこべブログ ♨</a><br/>
-このはこべさんのエントリー読んだのがきっかけでした。</p>
-
-<p><a href="http://d.hatena.ne.jp/sleepy_yoshi/20100228/p1">親プロセスは2度死ぬ - デーモン化に使うダブルforkの謎 - 睡眠不足？！</a><br/>
-そしてこちらのエントリーへ行って、<a href="http://www.amazon.co.jp/dp/4894713195">詳解UNIXプログラミング</a>に行きあたり<br/>
-いい加減読むか〜って思って色々見ていたら<br/>
-<a href="http://d.hatena.ne.jp/hirose31/20130731/1375248744">『詳細UNIXプログラミング』の原書『Advanced Programming in the UNIX Environment』(通称APUE)の3rd Editionが出てました - (ひ)メモ</a><br/>
-というひろせさんのブログにぶち当たり</p>
-
-<p>APUEか〜、いい加減読まないとダメだな〜ってなって買いました。</p>
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>洋書なので多分今年中に読み終わらないと思います。<br/>
-購入の決め手はサンプルコードが毎回記載されてて<br/>
-サンプルコード毎に実行できそうだったので、コード読めばなんとなく<br/>
-わかるかなって判断しました。</p>
-
-<blockquote class="twitter-tweet"><p>なるほどUNIXなんとか読む =&gt; hakobeさんのブログでdouble forkについて理解する =&gt; 詳細UNIXプログラミングが気にある =&gt; (ひ)に辿り着く</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/391948022038282240">October 20, 2013</a></blockquote>
-
-
-<p>次から次に壁が現れるぜコンチクショ〜</p>
 </div>
   
   

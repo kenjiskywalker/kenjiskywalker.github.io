@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>nginxでメンテナンスページ用意する技 - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="Nginxでメンテナンスページ用意する技 LT;DR かっぱ先輩！ かっぱ先輩のブログを読んで 深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP 同じようなことを最近やっていたのでメモ。 nginxに設定しているメンテナンスモードの条件 /var/nginx/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Nginxでメンテナンスページ用意する技</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-12T12:22:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>LT;DR</h2>
+
+<p>かっぱ先輩！</p>
+
+<h2>かっぱ先輩のブログを読んで</h2>
+
+<ul>
+<li><a href="http://inokara.hateblo.jp/entry/2014/02/22/134221">深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP </a></li>
+</ul>
+
+
+<p>同じようなことを最近やっていたのでメモ。</p>
+
+<h3>nginxに設定しているメンテナンスモードの条件</h3>
+
+<ul>
+<li><p><code>/var/nginx/html/maintenance/maintenance.html</code>ファイルがあればメンテナンスモードとして<code>maintenance.html</code>を表示するように</p></li>
+<li><p><code>/healthcheck</code>のリクエストはメンテナンスモードでも通す</p></li>
+<li><p>管理IPアドレスからはメンテナンスモードでも通す</p></li>
+</ul>
+
+
+<p>という3点を設定しています。</p>
+
+<ul>
+<li>nginx.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>upstream example_pool {
+</span><span class='line'>    server 127.0.0.1:3000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>geo $allow_ip_flag {
+</span><span class='line'>    default 0;
+</span><span class='line'>    192.0.2.0/24 1;    #TEST-NET-1
+</span><span class='line'>    198.51.100.0/24 1; #TEST-NET-2
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'>    listen       80;
+</span><span class='line'>    server_name  example.com;
+</span><span class='line'>
+</span><span class='line'>    access_log  /var/log/nginx/example_com_access.log  ltsv;
+</span><span class='line'>    error_log  /var/log/nginx/example_com_error.log warn;
+</span><span class='line'>
+</span><span class='line'>    root /var/nginx/html/example;
+</span><span class='line'>
+</span><span class='line'>    location /robots.txt {
+</span><span class='line'>            alias /var/nginx/html/robots.txt;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    location / {
+</span><span class='line'>
+</span><span class='line'>        ### メンテナンスの設定 ここから ###############################
+</span><span class='line'>        if ( -e /var/nginx/html/maintenance/maintenance.html ) {
+</span><span class='line'>            set $maintenance true;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # health checkのリクエストはログに出さずに
+</span><span class='line'>        # メンテナンスページを通過する
+</span><span class='line'>        if ( $request_uri ~ /healthcheck ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>            access_log off;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # 許可IPアドレスならメンテナンスページを通過する
+</span><span class='line'>        if ( $allow_ip_flag ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # それ以外は/maintenance.htmlに飛ばす
+</span><span class='line'>        if ( $maintenance = true ) {
+</span><span class='line'>            rewrite ^ /maintenance.html redirect;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        location /maintenance.html {
+</span><span class='line'>            alias /var/nginx/html/maintenance/maintenance.html;
+</span><span class='line'>            expires 0;
+</span><span class='line'>        }
+</span><span class='line'>        ### メンテナンスの設定 ここまで ###############################
+</span><span class='line'>
+</span><span class='line'>        proxy_pass http://example_pool;
+</span><span class='line'>
+</span><span class='line'>        proxy_set_header Host              $http_host;
+</span><span class='line'>        proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>        client_max_body_size 710M;
+</span><span class='line'>        proxy_connect_timeout      3000;
+</span><span class='line'>        proxy_send_timeout         3000;
+</span><span class='line'>        proxy_read_timeout         3000;
+</span><span class='line'>        break;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>nginxは複数の条件の場合bit立てて判断するの知らなかった。</p>
+
+<ul>
+<li><a href="http://wiki.nginx.org/IfIsEvil">IfIsEvil</a></li>
+</ul>
+
+
+<p>こういうのはエレガントにngx_mrubyでやった方が運用楽そう。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-12T12:22:00+09:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/02/25/nginx-healthcheck-no-log/" title="Previous Post: nginxで特定のURIだけログに出力しない">&laquo; nginxで特定のURIだけログに出力しない</a>
+      
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
