@@ -32,7 +32,7 @@ categories:
 
 <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> あ、そういう話か。ちょっと勘違いしてた。静的ページ更新の差し替えしかないのでは。</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575880494400729088">March 12, 2015</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-ノーSEOだったので完全に無視してた
+ノーSEO(disallow: /)だったので完全に無視してた
 
 ### nginxに設定しているメンテナンスモードの条件
 
