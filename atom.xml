@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-03-12T13:53:48+09:00</updated>
+  <updated>2015-03-12T15:24:37+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -59,7 +59,7 @@
 
 <p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
 
-<p>ノーSEOだったので完全に無視してた</p>
+<p>ノーSEO(disallow: /)だったので完全に無視してた</p>
 
 <h3>nginxに設定しているメンテナンスモードの条件</h3>
 
