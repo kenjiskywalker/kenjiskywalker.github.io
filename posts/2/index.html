@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="みんなこういうのはどういう対応しているんだろう @kenjiskywalker PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか&mdash; TSUNEMATSU Shinya (@tnmt) February 7, 2015 &hellip;">
+  <meta name="description" content="19.4.2. blkid コマンドの使用 blkid知らなくてずっと/dev/sdb1とか指定してた。
+これからはUUID。時代はUUID。 root権限じゃないと足したディスクが表示されないので気をつけよう;)
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +63,365 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/16/disk-no-uuid/">/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-16T12:14:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://access.redhat.com/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s2-sysinfo-filesystems-blkid.html">19.4.2. blkid コマンドの使用</a></p>
+
+<p><code>blkid</code>知らなくてずっと<code>/dev/sdb1</code>とか指定してた。<br/>
+これからはUUID。時代はUUID。</p>
+
+<blockquote><p>root権限じゃないと足したディスクが表示されないので気をつけよう;)</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/13/siege/">負荷テストが気軽に行えるsiegeでちょっとハマった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-13T18:06:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>siege: version 3.0.9</p></blockquote>
+
+<h2>TL;DR</h2>
+
+<p>httpsのリクエストの際にうんともすんともいわなくて、lddで見たら<br/>
+opensslのライブラリ読み込んでなかった。</p>
+
+<h2>Siege</h2>
+
+<ul>
+<li><a href="http://www.joedog.org/siege-home/">Siege Home</a></li>
+<li><a href="http://qiita.com/inokappa/items/84f42dbd718a8070bd1d">Siege でお手軽 Web 負荷テスト - Qiita</a></li>
+</ul>
+
+
+<p>詳しくは上記URLを参照してください。</p>
+
+<p>kappa大先生の記事を見て、これいいやん！ってなって導入した。<br/>
+負荷テストをかけるサーバも今ではAWSのスポットインスタンスを利用すれば<br/>
+c3.4xlargeも$0.5/hで借りれて最高だ。</p>
+
+<h2>インストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># gccが必要なのでインストール
+</span><span class='line'>$ yum install gcc
+</span><span class='line'>
+</span><span class='line'>$ wget http://download.joedog.org/siege/siege-3.0.9.tar.gz
+</span><span class='line'>$ tar xzf siege-3.0.9.tar.gz
+</span><span class='line'>$ cd siege-3.0.9
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make -j 16
+</span><span class='line'>$ make install</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>HTTPSにつながらない?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 2S http://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.69 secs:    5121 bytes ==&gt; GET  /
+</span><span class='line'>HTTP/1.1 200   0.68 secs:    5123 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   1.00 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.01
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.01
+</span><span class='line'>Shortest transaction:           0.01
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>では応答したのに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1-t 2S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   4.68 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.00
+</span><span class='line'>Successful transactions:           0
+</span><span class='line'>Failed transactions:               3
+</span><span class='line'>Longest transaction:            0.00
+</span><span class='line'>Shortest transaction:           0.00
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などとFailedになってしまった。<br/>
+最初、cookieで認証しているのでcookieの渡し方が悪かったのかと思ったが<br/>
+ふとライブラリちゃんと読み込んでいるのか気になったので確認してみた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff0a7fe000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fe27e031000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fe27dc8c000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007fe27e253000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おや&hellip; <br/>
+ということで<code>yum install openssl-devel</code>をしてから再度インストールしなおす。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff3a561000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f77766e2000)
+</span><span class='line'>        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f77764de000)
+</span><span class='line'>        libssl.so.10 =&gt; /usr/lib64/libssl.so.10 (0x00007f7776270000)
+</span><span class='line'>        libcrypto.so.10 =&gt; /lib64/libcrypto.so.10 (0x00007f7775e8c000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f7775ae7000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007f7776904000)
+</span><span class='line'>        libgssapi_krb5.so.2 =&gt; /lib64/libgssapi_krb5.so.2 (0x00007f77758a3000)
+</span><span class='line'>        libkrb5.so.3 =&gt; /lib64/libkrb5.so.3 (0x00007f77755be000)
+</span><span class='line'>        libcom_err.so.2 =&gt; /usr/lib64/libcom_err.so.2 (0x00007f77753bb000)
+</span><span class='line'>        libk5crypto.so.3 =&gt; /lib64/libk5crypto.so.3 (0x00007f777518f000)
+</span><span class='line'>        libz.so.1 =&gt; /lib64/libz.so.1 (0x00007f7774f79000)
+</span><span class='line'>        libkrb5support.so.0 =&gt; /lib64/libkrb5support.so.0 (0x00007f7774d6e000)
+</span><span class='line'>        libkeyutils.so.1 =&gt; /lib64/libkeyutils.so.1 (0x00007f7774b6a000)
+</span><span class='line'>        libresolv.so.2 =&gt; /lib64/libresolv.so.2 (0x00007f7774953000)
+</span><span class='line'>        libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007f777473d000)
+</span><span class='line'>        libselinux.so.1 =&gt; /usr/lib64/libselinux.so.1 (0x00007f777451b000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おお、色々読み込んでいる</p>
+
+<h2>改めて確認</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.78 secs:    5119 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      1 hits
+</span><span class='line'>Availability:                 100.00 %
+</span><span class='line'>Elapsed time:                   2.89 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.78 secs
+</span><span class='line'>Transaction rate:               0.35 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.27
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.78
+</span><span class='line'>Shortest transaction:           0.78
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>無事レスポンスを取得することができた。</p>
+
+<h3>cookieの渡し方</h3>
+
+<p><code>--header="Cookie: k=v; k=v;"</code>みたいな渡し方でいけた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/ --header="Cookie: key_one=value_one; domain=.example.com; path=/; expires=Fri, 13 Feb 2015 16:41:26 -0000; key_two=value_two; path=/;"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -221,6 +582,74 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/02/01/201501-book/">2015/1読んだ本</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-01T15:32:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>太平記が面白かった.</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2015年01月 (8作品)</div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51zPI%2B%2Bq2%2BL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank">私本太平記 12 湊川帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月02日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Ep36mVdtL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank">私本太平記 13 黒白帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51X5dD2wvLL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank">超高速勉強法</a><br /><a href="http://booklog.jp/author/%E6%A4%8B%E6%9C%A8%E4%BF%AE%E4%B8%89" target="_blank">椋木修三</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41XI1PP4cHL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank">相手をイラつかせない怒らせない話し方と聞き方のルール</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E5%86%85%E5%B9%B8%E5%AD%90" target="_blank">竹内幸子</a><br />読了日：01月10日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4873117097" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4873117097" target="_blank">Serverspec</a><br /><a href="http://booklog.jp/author/%E5%AE%AE%E4%B8%8B%E5%89%9B%E8%BC%94" target="_blank">宮下剛輔</a><br />読了日：01月11日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL._SL75_.jpg" width="48" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank">イシューからはじめよ ― 知的生産の「シンプルな本質」</a><br /><a href="http://booklog.jp/author/%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA" target="_blank">安宅和人</a><br />読了日：01月12日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063884163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/615G5PMrhkL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063884163" target="_blank">GIANT KILLING(34) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：01月25日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41%2BjUZcmLmL._SL75_.jpg" width="51" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank">35歳から「一生、負けない」生き方</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E7%94%B0%E9%99%BD%E4%B8%80" target="_blank">竹田陽一</a><br />読了日：01月29日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/21/trailokyavijaya/">「降三世明王」について</a></h1>
     
     
@@ -268,236 +697,6 @@
 
 <p>minibutsu、Yahoo!ショッピングでは買えるっぽい。<br/>
 <a href="http://store.shopping.yahoo.co.jp/minibutsu/18.html">http://store.shopping.yahoo.co.jp/minibutsu/18.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/12/issue-book/">「イシューからはじめよ」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-12T01:49:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/%E3%82%A4%E3%82%B7%E3%83%A5%E3%83%BC%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%88-%E2%80%95-%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E3%81%AE%E3%80%8C%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E6%9C%AC%E8%B3%AA%E3%80%8D-%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA-ebook/dp/B00MTL340G%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MTL340G" target="_blank" title="イシューからはじめよ ― 知的生産の「シンプルな本質」"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL.jpg" width="317" height="500" alt="イシューからはじめよ ― 知的生産の「シンプルな本質」" /></a></p>
-
-<p>MTGとか方法が目的になりがちになる。<br/>
-ゴールを意識して、そのゴールを達成する為に何をすべきかを常に意識する必要がある。<br/>
-実作業においても、目的があって、その目的を達成する為に色々な作業が発生して<br/>
-余計なことに時間がかかったりする。綺麗にしたり冗長性をなくしたりとか<br/>
-そういうことに時間を使いがちだけど、まずはゴール(目的)を持ってそれを達成して<br/>
-次に品質を上げることに注力しないと何時までたっても終わらない。</p>
-
-<p>自分の仕事の進め方で悪いところがまさにそれで、取り敢えず手を動かして<br/>
-動くことをゴールとして、品質についてはまた次の機会へ。とすることが<br/>
-今の自分の課題だと認識している。</p>
-
-<p>だからといってメンテナンスのしづらいものでも良いかというとそうではなく<br/>
-次への段階を踏みやすいように足あとと次への段階は明示的にしておくことが大切だと思う。</p>
-
-<p>とにかく常に物事に対してのゴールと、そのゴールを達成する為に必要な作業を<br/>
-計画的に、スピード感を持って仕事に取り組んでいきたいと改めて思った。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/11/serverspec-book/">「Serverspec」本を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-11T23:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
-
-<ul>
-<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
-<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
-</ul>
-
-
-<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
-
-<h2>書籍について</h2>
-
-<p>最近はソフトウェアの本はあまり読まなくて、<br/>
-オフィシャルサイトのドキュメントを読むように心がけている(一次情報大切)ので<br/>
-そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
-
-<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
-ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
-
-<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
-というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
-背景を書籍を通じて理解できてとても有意義だった。</p>
-
-<h2>初めての人は？</h2>
-
-<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
-Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
-よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
-
-<h2>状態を担保する存在の必要性</h2>
-
-<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
-設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
-最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
-何かしら必要だと思う。<br/>
-実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
-最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
-それを元に負荷分散に追加するようにしていた。</p>
-
-<h2>Specinfraについて</h2>
-
-<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
-その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
-ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
-itamaeのような使い方は本当に上手だと思う。</p>
-
-<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
-
-<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
-どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
-インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
-
-<h2>最後に</h2>
-
-<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
-改めて思った。mizzyさんありがとうございます。<br/>
-Asuraっていうコードネームめちゃめちゃ好きでした。</p>
-
-<p>この本はまた何回か読み直したい本だ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/08/ansible-check-mode/">Ansibleはcheck Modeだとshellやcommandは実行されない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-08T11:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近は深刻なjinja2とAnsible疲れです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
-</span><span class='line'>skipping: [192.0.2.100]
-</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
-</span><span class='line'>
-</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
-</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
-</span><span class='line'>
-</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんなエラーが出た。</p>
-
-<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
-
-<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
-</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
-</span><span class='line'>  register: ruby_installed
-</span><span class='line'>  always_run: yes
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように<code>always_run: yes</code>にしなければならない。<br/>
-自分メモ。</p>
 </div>
   
   

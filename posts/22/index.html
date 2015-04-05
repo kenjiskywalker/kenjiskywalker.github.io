@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="何故これを借りたのか全く覚えてなくて、
-流し読み程度で読んでいたのですが大変興味深い書籍でした。
-将来の自分の社会との関わり方に疑問を抱いていたので
-今後の物事の指標を置くための補助としての情報として、役立てられればと想います。 ワーク・シフト ― 孤独と貧困から自由になる働き方の未来図〈2025 &hellip;">
+  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
+nodes/hoge.jsonで与えられたnode[:hoge]の値を
+roles/role.jsonで値を追加したい場合があります。
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,391 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/chef-merge-deep/">Chefのnode[:hoge]をどうにかしたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T14:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2013年オワコンの代表格として名指しされているChefですが<br/>
+<strong>nodes/hoge.json</strong>で与えられた<code>node[:hoge]</code>の値を<br/>
+<strong>roles/role.json</strong>で値を追加したい場合があります。<br/>
+そのやり方として、オフィシャルにはディープマージという方法が載っていました。</p>
+
+<p><a href="http://docs.opscode.com/essentials_node_object_deep_merge.html">http://docs.opscode.com/essentials_node_object_deep_merge.html</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "foo", "bar" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "role[role_two]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_two.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_two",
+</span><span class='line'>  "description": "role two",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": [ "baz" ]
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |h|
+</span><span class='line'>  p h
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>role</code>で回せと。</p>
+
+<p>ほかにも<a href="https://twitter.com/keita">@keita</a>氏に教えてもらったのですが<br/>
+Key-Valueで渡せばいけるらしいです。</p>
+
+<p><a href="https://coderanger.net/2013/06/arrays-and-chef/">Arrays and Chef Attributes - Noah Kantrowitz</a></p>
+
+<ul>
+<li>nodes/hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "hoge": {
+</span><span class='line'>      "foo": true,
+</span><span class='line'>      "bar": true
+</span><span class='line'>  },
+</span><span class='line'>  "run_list": [ "role[role_one]" ] 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>roles/role_one.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "name": "role_one",
+</span><span class='line'>  "description": "role one",
+</span><span class='line'>  "json_class": "Chef::Role",
+</span><span class='line'>  "override_attributes": {
+</span><span class='line'>    "hoge": {
+</span><span class='line'>        "baz": true
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "default_attributes": {
+</span><span class='line'>  },
+</span><span class='line'>  "chef_type": "role",
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[hoge_recipe]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>cookbooks/hoge_recipe/recipe/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>node[:hoge].each do |k,v|
+</span><span class='line'>  p k
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>どちらも気持ち悪いので使いません。<br/>
+よさ気な方法あれば教えて下さい。</p>
+
+<p>Chef、Opscode社の経典みたいなcookbooksと<br/>
+何がどこに書かれているかよくわからないドキュメントをのぞけば<br/>
+2014年もよしなに使えるのではないかと思います。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/02/sumally/">Sumallyに入りました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-02T22:50:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>人数の少ないスタートアップに参加して、<br/>
+お金持ちになる夢を一度ぐらい見てみたいものだ。<br/>
+サーバサイドだけどプロダクトにガッツリコミットして<br/>
+みんなでワイワイやってみたいものだ。</p>
+
+<p>という気持ちを持って<a href="http://sumally.co.jp/">Sumally</a>に入りました。<br/>
+<a href="http://www.kayac.com/recruit/career">カヤック</a>というエンジニア天国から身一つでどこまでできるかやってみます。</p>
+
+<p>似たようなサービスが色々とありますが<br/>
+できることをやっていこうと思うので、これからの活躍楽しみにしていてください。</p>
+
+<p>また、Sumallyのここがイケてない、ここを良くした方がいい。<br/>
+などご意見があれば気軽にお聞かせください。<br/>
+頂いたご意見については、必ずメンバーで話し合います。よろしくお願いします。</p>
+
+<p>=== 広告 ============================================</p>
+
+<p><a href="http://sumally.co.jp/jobs.html">Sumally</a>と<a href="http://www.kayac.com/recruit/career">カヤック</a>では広く人材を募集しております。<br/>
+気になる方は話を聞いてみるぐらいの感覚で連絡してみるとよいのではないでしょうか。</p>
+
+<hr />
+
+<p>恥ずかしながら、末尾にウィッシュリストを掲載させて頂きます。<br/>
+<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT">http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT</a></p>
+
+<p>貢献と年収。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/01/monitoringcasual-kyoto/">Monitoring Casual Talk in Kyoto 行ってきた #monitoringcasual</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-01T18:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.zusaar.com/event/1377006">Monitoring Casual Talk in Kyoto</a>へ参加してきました。</p>
+
+<p><a href="https://github.com/kenjiskywalker/p5-Zabbix-Senrigan/">Zabbix::Senrigan</a>を成仏させるために発表の機会を求めていたら、 <br/>
+モニカジが京都で開催されるとのことだったので<br/>
+夜行バスや新幹線などの費用を調べて、京都へ旅行へ行ってきました。<br/>
+参加できたのも、@shiba_yu36君がお家に宿泊させてくれたからでした。<br/>
+紅葉シーズンど真ん中でどこも空いていなかったので助かりました。<br/>
+ありがとうございました！</p>
+
+<p>また、京都に行くきっかけをつくってくれた@shoichimasuharaさん<br/>
+ありがとうございました！おつかれさまでした！</p>
+
+<p>発表、デモサーバとZabbixサーバを立ててる自宅サーバにつながらなくて<br/>
+カミさんに連絡したら、ブレーカー落としちゃったって聞いて大変でした。<br/>
+こういうこともあるのだなと、バックアップ体制について考えなおすきっかけになりました。</p>
+
+<p>まともに発表できないのなら、せめて京都繋がりで有意義な発表をすべく<br/>
+私の大好きな<a href="http://blog.kenjiskywalker.org/blog/2013/07/18/kiga-to-sensou/">応仁の乱の話</a>でもしようかと考えたのですが<br/>
+40分ぐらいかかるようだったので、みなさんに聞きたいですか？と確認し<br/>
+誰ひとり手を挙げてくれなかったので、普通にみんなのイメージに委ねながら発表をしました。</p>
+
+<p><a href="https://gist.github.com/kenjiskywalker/7703670">発表内容</a></p>
+
+<p>完結に書くと、何かツールを使っていて<br/>
+そのツールがイケていないなら自分で何かつくってフォローしようという話でした。<br/>
+もちろんそのツールがプラガブルならどんどん組み込めばいいし<br/>
+フォローツールのせいで管理するソフトウェアが多くなってくるなら<br/>
+もともと利用しているソフトウェアを見直すべきです。</p>
+
+<p>というように、状況も厳しく、内容も軽めだったのに<br/>
+全体的にDocker、Sensu、Immutable Infrastructureなど<br/>
+ウェブサービスのミドルウェア構成管理のモダンな話が多く<br/>
+2014年を迎えるにあたっての技術者としての姿勢を正さなければならない状態でした。<br/>
+関西で気軽に勉強会に参加すると返り討ちにあう可能性が高いです。<br/>
+関東各位は気を引き締めて参加されたし。</p>
+
+<p>会場ははてな社だったのですが、無限にビールが出てきて最高の勉強会環境でした。<br/>
+近くの席に@hitode909っていう人がいていよいよ無限にビール出てくる状況でした。</p>
+
+<p>飲み会、挙動不審の若者がいて、何やってるんですか？って聞いたら<br/>
+鹿児島出身の大学生で広島の大学に通っていて、京都に旅行へ来ていて<br/>
+調べたら宿泊しているホテルの隣りのビルがはてな社だったので<br/>
+遊びに行ってみたら勉強会していたので参加した。みたいなこと言っていて<br/>
+&ldquo;持ってる&#8221;青年でした。はてなのサービスには興味がないって言って<br/>
+ずっともりすさんにLINEのサービスのこと熱心に聞いてて面白かったです。</p>
+
+<p>そういえば、帰り際に興味深い体験がありました。<br/>
+新幹線までの時間、鴨川で遊んでいると、川沿いにある長屋が目に飛び込んできて<br/>
+長屋、火事になると隣家が燃えて大変になる。そこで編み出されたのが<br/>
+長屋を壊しやすくして、火事になればすぐに取り壊して建て替えるシステムだったな。<br/>
+はて、これはもしやImmutable Infrastructureではないのか。<br/>
+不要になったものを取り壊し、新しくつくりなおす。<br/>
+まさにImmutable Infrastructureでした。<br/>
+我々日本人は、ちょんまげの頃に既に<br/>
+Immutable Infrastructureの概念を取り入れていたのです。</p>
+
+<p>まるで新しい概念のように受け入れていたimmutable infrastructureは<br/>
+車輪の再発明にすぎなかったことに、おろどきを隠せませんでした。</p>
+
+<p>Blue-Green Developmentも式年遷宮の再発明なので、いい加減我々は<br/>
+インターネットからもう少し視野を広げて物事を考えなければ<br/>
+ならないのではないかと実感した京都旅行でした。</p>
+
+<p>このように学びを得るために毎年京都に来たいです。<br/>
+ありがとうございました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -164,345 +549,6 @@
 Many sites butcher this process. You should have a link to 1-click unsubscribe at both the top and bottom of all emails you send. Don’t settle for “log in to unsubscribe” - Yes, its legal for transactional emails but its still stupid. You (the webmaster) will be the only one hurt when your user just marks you as spam instead because he doesn’t remember his password. If you want to ensure email deliver-ability for those who want your emails, there is zero benefit in hiding or making the unsubscribe difficult.</p></blockquote>
 
 <p>「別れる前に最後に１回だけデートしよ。」みたいになってるので止めましょう(意訳)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/16/hhk/">Happy Hacking Keyboardがコーヒーを飲んだら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-16T14:35:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote class="twitter-tweet"><p>HHKの恐怖体験です <a href="http://t.co/JAjpk5mFob">pic.twitter.com/JAjpk5mFob</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401584902602100736">November 16, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p></p>
-
-<p>水で洗って終わりではありません。ゴムの部分に大量の水が付着しています。<br/>
-水ジャブ放置だけではなく、必ず分解して乾かしましょう。</p>
-
-<blockquote class="twitter-tweet"><p>東プレさん、あともう少しだけケーブル伸ばしてくれ <a href="http://t.co/YLfiYxNxP4">pic.twitter.com/YLfiYxNxP4</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401585581777371136">November 16, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>外すことはできるのですが、この部分もう少し長いとメンテが楽になるかと思います。<br/>
-東プレさん、よろしくお願いいたします。</p>
-
-<p>分解したきっかけは<code>e</code>がチャタりだして、おいおいマジかよ&hellip;<br/>
-って分解してみたら〜でした。ゴムと基板の間の他に、キートップの隙間にも<br/>
-水分が溜まっていて、アチャ〜って感じでした。</p>
-
-<p>全部掃除して、ハメ直して試したら今度は<code>x</code>がチャタってて、終わった&hellip;<br/>
-ってなったんですけど、基板とゴムの部分のネジを弛めて、<br/>
-バネが真ん中の方に来るようにカタカタ揺らして、基板のネジを全部強く締め直したら直りました。</p>
-
-<p>日頃の行いよくしてこ</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/16/think-simple/">「Think Simple」を読んだ。おすすめです</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-16T12:13:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B008YOHMCS/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B008YOHMCS&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B008YOHMCS&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B008YOHMCS" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>何か事ある度に「人が集まるとろくなことがない」って口にしているのですが<br/>
-その解がこの本には詰まっていました。</p>
-
-<iframe src="http://widgets.itunes.apple.com/widget.html?c=jp&brc=FFFFFF&blc=FFFFFF&trc=FFFFFF&tlc=FFFFFF&d=&t=&m=movie&e=movie&w=250&h=300&ids=727851606&wt=discovery&partnerId=&affiliate_id=&at=&ct=" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:250px;height: 300px;border:0px"></iframe>
-
-
-<p>人間と人間とがぶつかり合い、意見を戦わせることで良いものができるという研磨機おじさんの話はこちらを参照ください。</p>
-
-<p>読んでいて引っかかったところをメモ。</p>
-
-<h2>進め方の話</h2>
-
-<blockquote><p>プロジェクトの成果の質は、そこにかかわる人間の多さに反比例する</p></blockquote>
-
-<p>渋い。</p>
-
-<blockquote><p>プロジェクトの成果の質は、最終的な意思決定者がかかわる程度に比例する</p></blockquote>
-
-<p>渋い。</p>
-
-<blockquote><p>プロセスが王様のときに、アイデアはけっして王様にはなれない。プロセスの段階を増やせば増やすほど、完成品の質が悪くなることは、&lt;常識>を働かせればわかるだろう。</p></blockquote>
-
-<p>厳しい。</p>
-
-<blockquote><p>フォーカスグループによって製品をデザインするのはとてもむずかしい。多くの場合、一般の人は実際に製品を見るまで、何がほしいかわかっていないからだ。</p></blockquote>
-
-<p>有名なヤツだ。消費者を馬鹿にしているんじゃなくて、クリエイティブなものをつくるのに、人の意見ばかり気にするんじゃなくて、徹底的に最高のものをつくろうとすることが大切だ。みたいな話だった。</p>
-
-<blockquote><p>ピクサー内部で彼(ジョブズ)は、クリエイティブな会議には出席しないように求められていた。さもなければ、ライターやアーティストが大量に造反する恐れがあったからだ。</p></blockquote>
-
-<p>案外言うこと聞くんだなって笑ってた。</p>
-
-<h2>話しあいの話</h2>
-
-<blockquote><p>シンプルさはせっかちだ。いきなり本題に入って、大事なことに集中したがる。</p></blockquote>
-
-<p>会議で完結に要点を伝えないとすぐに追い出されるの、相当きついと思う。</p>
-
-<blockquote><p>クライアントを結論に導くことと、クライアントを愚か者のように扱うことはわずかな違いしかない。おそらくスティーブが「導かれる」ことに反応したのもそこに理由があったのだろう。スティーブに対する最良のアプローチは、ただ事実をテーブルの上に並べて、議論を始めることだった。</p></blockquote>
-
-<p>資料音読会議に対するアンサーソングだ。</p>
-
-<blockquote><p>最後に「何かご質問は？」と問いかけても、議論を推奨しているわけではない。最終的に、ほとんどのビジネスは人間関係の問題になる。堅苦しくないプレゼンで正直な議論をすることは、人間関係を深める道であり、それがよりよい結果をもたらすのだ。</p></blockquote>
-
-<p>建設的だ。</p>
-
-<h2>アイデアの話</h2>
-
-<blockquote><p>アップルの競争相手が売る電話機は、ほとんどの名前が覚えられないほど難しい。その理由は、あまりにもモデルの数が多いのと、それらがブランド名や電話の機能とは関連がないからだ。</p>
-
-<p>iPadが披露されたときに、ライバル各社は特徴がないと批判した。〜中略〜iPadに「欠けている」ものをすべて足して、魅力的な機器にしようとした。ところが、そうした足し算では売れなかった。消費者にとって魅力的に映ったのは、アップルがデザイン段階でおこなう引き算だったのだ。</p></blockquote>
-
-<p>万物のすべてにおいて、デコ盛りしてよかった試しなんてほとんどない。</p>
-
-<blockquote><p>たとえば、スティーブの承認を得た広告を作っていて、撮影中や編集中にもっといいアイデアを思いついたとしよう。そのとき私たちは、いつでも新しいアイデアをスティーブに提案することができた。彼もそれを期待しているようで、新しい広告が議題にあがることを楽しみにしていた。</p></blockquote>
-
-<p>ロストインタビューで言っていた研磨機の話だ。</p>
-
-<blockquote><p>スティーブはそうした「幸運なアクシデント」、つまり、ランダムに起こる話しあいを信じていた。</p></blockquote>
-
-<p>研磨機おじさんだ。</p>
-
-<blockquote><p>プロセスによって効率を上げることはできる。だが、イノベーションは人が廊下で出くわしたり、夜の10時半に電話をかけあったりするところから生まれるのだ。新しいアイデアを思いついたとか、ある問題に関して行き詰まっている原因に思い当たったとかいう理由でね。最高にクールで新しいものを考えだした人間が、そのアイデアについて意見を聞きたいと思って電話をかけた6人が集まる。そこで臨時会議がはじまるというわけだ。</p></blockquote>
-
-<p>研磨機だ。</p>
-
-<blockquote><p>シンプルさのためには、あなたも否定的な答えに遭ったときには精査するとよい。その「ノー」はたんにあなたの要求が高すぎることを言っているだけかもしれない。しかしそう要求することが、普通以上の結果を得るためには必要なのだ。</p></blockquote>
-
-<p>プロジェクト単位で取り入れるとデスマ礼賛になる。これは自分自身への要求へ置き換えるのが正解だ。</p>
-
-<blockquote><p>ある問題を解決しようとして、最初に考えだした解決策がとても複雑だったとしよう。ほとんどの人はそこで考えるのをやめてしまう。だが、そこでやめずに考えつづけて、タマネギの皮をむくようにムダなものをそぎ落としていくと、とても洗練されたシンプルな解決策にたどり着くことがよくある。</p></blockquote>
-
-<p>良い話だ。</p>
-
-<blockquote><p>イノベーションをするときに、ミスをすることがある。最良の手は、すぐにミスを認めて、イノベーションのほかの面をどんどん進めることだ。</p></blockquote>
-
-<p>肝に銘じよう。</p>
-
-<h2>プロダクトの話</h2>
-
-<blockquote><p>PCメーカーのように、無秩序にモデルを増やし、各モデルの違いがわからない状態とは依然としてまったく違う。</p></blockquote>
-
-<p>やめてあげて。</p>
-
-<blockquote><p>アップルが極端に走る理由は、顧客が箱に触れた瞬間から品質のよさを感じてもらいたいからだ。</p></blockquote>
-
-<p>良い話だ。</p>
-
-<blockquote><p>アップルが何よりも優先するものがあるとすれば、それは顧客体験だ。アップルとかかわることすべてにおいて、顧客が常にすばらしい体験をすることが目標だ。</p></blockquote>
-
-<p>アップルケアっていうバカ高いサポート費用払わなくても気軽に修理してくれると合点できる。</p>
-
-<h2>まとめ</h2>
-
-<blockquote><p>シンプルさはあなたのビジネスにすばらしい結果をもらたしてくれるだろうか？もちろんそうだ。なぜなら、シンプルさは目標ではなく、目標を達成へと導いていくれる光だからだ。</p></blockquote>
-
-<p>シンプルは光だ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/13/brapi/">シンデレラのようにブラピになる方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-13T23:28:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>TwitterのDevelopersサイトで必要な権限を取得(これは色んなところに載っているから省略)</li>
-<li>実行したい時間にcronでスクリプトを叩く</li>
-</ul>
-
-
-<p>これだけです。</p>
-
-<h2>brapi.rb</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
-</span><span class='line'>
-</span><span class='line'># encoding: utf-8
-</span><span class='line'>
-</span><span class='line'>require 'twitter'
-</span><span class='line'>
-</span><span class='line'>YOUR_CONSUMER_KEY       = ''
-</span><span class='line'>YOUR_CONSUMER_SECRET    = ''
-</span><span class='line'>YOUR_OAUTH_TOKEN        = ''
-</span><span class='line'>YOUR_OAUTH_TOKEN_SECRET = ''
-</span><span class='line'>
-</span><span class='line'>Twitter.configure do |config|
-</span><span class='line'>  config.consumer_key       = YOUR_CONSUMER_KEY
-</span><span class='line'>  config.consumer_secret    = YOUR_CONSUMER_SECRET
-</span><span class='line'>  config.oauth_token        = YOUR_OAUTH_TOKEN
-</span><span class='line'>  config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>img = open('./brapi.png')
-</span><span class='line'>Twitter.update_profile_image(img)
-</span><span class='line'>Twitter.update_profile(:name =&gt; "ブラッド・ピット")</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>modoru.rb</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
-</span><span class='line'>
-</span><span class='line'># encoding: utf-8
-</span><span class='line'>
-</span><span class='line'>require 'twitter'
-</span><span class='line'>
-</span><span class='line'>YOUR_CONSUMER_KEY       = ''
-</span><span class='line'>YOUR_CONSUMER_SECRET    = ''
-</span><span class='line'>YOUR_OAUTH_TOKEN        = ''
-</span><span class='line'>YOUR_OAUTH_TOKEN_SECRET = ''
-</span><span class='line'>
-</span><span class='line'>Twitter.configure do |config|
-</span><span class='line'>  config.consumer_key       = YOUR_CONSUMER_KEY
-</span><span class='line'>  config.consumer_secret    = YOUR_CONSUMER_SECRET
-</span><span class='line'>  config.oauth_token        = YOUR_OAUTH_TOKEN
-</span><span class='line'>  config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>img = open('./twitter.jpg')
-</span><span class='line'>
-</span><span class='line'>Twitter.update_profile_image(img)
-</span><span class='line'>Twitter.update_profile(:name =&gt; "kenjiskywalker")</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>Twitter.update_profile_image</code>で画像をアップロードして<br/>
-<code>Twitter.update_profile(:name =&gt; "name")</code>で名前を変更する。</p>
-
-<p>やり方さえわかれば簡単ですね。</p>
 </div>
   
   

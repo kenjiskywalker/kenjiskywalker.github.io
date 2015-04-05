@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="以前、Redis Sentinelを試すというエントリーを書きましたが
-もう少し入り込んで検証してみた。 殴り書きの域を出ていないので適時アップデートしていきたい。 検証環境 DATE: 2013/01/25
-CentOS 6.3
-Redis 2.6.9(remi) ドキュメント http:// &hellip;">
+  <meta name="description" content="基本的にルートパーティションはEBSで8GB決め打ちだったので
+サイズ変更できないかなーと思ったらできたのでメモ。 普通にEC2のインスタンスつくる
+インスタンスを落とす
+Volumesから作成されたインスタンスのルートボリュームをDetach &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,211 @@ Redis 2.6.9(remi) ドキュメント http:// &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/06/aws-ec2-root-resize/">AWS::EC2のルートパーティションをリサイズする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-06T21:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>基本的にルートパーティションはEBSで8GB決め打ちだったので<br/>
+サイズ変更できないかなーと思ったらできたのでメモ。</p>
+
+<ol>
+<li>普通にEC2のインスタンスつくる</li>
+<li>インスタンスを落とす</li>
+<li>Volumesから作成されたインスタンスのルートボリュームをDetach</li>
+<li>DetachされたVolumeからSnapshotを作成</li>
+<li>SnapshotからVolumeを作成(この時にディスクサイズ指定)</li>
+<li>作成されたボリュームをAttach(Deviceは <strong><em>/dev/sda1</em></strong> を指定)</li>
+<li>インスタンスを起動</li>
+<li><em>fdisk -l</em> などで認識しているディスクサイズが変わったことを確認して</li>
+<li><em>resize2fs /dev/xvda1</em></li>
+</ol>
+
+
+<p>さわりはじめたばかりなので、もっと簡単な方法ありましたら<br/>
+教えてくださいませ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/26/qpstudy-buddhism/">#qpstudyと仏教とわたし</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T23:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本エントリーはビール駆動記述によって書かれているため<br/>
+内容については3割で読んで頂けると幸いです。</p>
+
+<p><img src="https://dl.dropbox.com/u/5390179/qpstudy.png" alt="https://dl.dropbox.com/u/5390179/qpstudy.png" /></p>
+
+<p>先週、<a href="http://www.cross-party.com/">エンジニアサポートCROSS 2013</a>というイベントに参加して<br/>
+リーダーさんと初めてお会いして</p>
+
+<p>我「来週qpstudyですよね、DevOps。」<br/>
+我「社内ではDevOpsなんてものは存在しないって話なんですよ」</p>
+
+<p>リーダー「そのポジションでパネルディスカッション参加して！」<br/>
+我「！！！？」</p>
+
+<p>ということで、@kazeburoさんや@fujiwaraさんに<br/>
+一緒に出ましょうよ〜って誘ったんですけど、2人とも家族と過ごす！って言ってて<br/>
+ウッ、家族サービス。。では仕方ないですね&hellip;</p>
+
+<p>という流れで、情弱ながらパネラーとして参加してきました。</p>
+
+<p>スタッフのみなさま、参加されたみなさま<br/>
+パネラーのみなさま、おつかれさまでした！</p>
+
+<p>人生で初めての勉強会が<a href="http://connpass.com/event/213/">hb qp bp study 新年LT&amp;ビアバッシュ2012</a>で<br/>
+3月に転職してから、色々アウトプットし出したりした情弱な私が<br/>
+翌年にqpstudyのパネラーとして参加してるの、本当に場違いな感じだったんですが<br/>
+勉強会参加ぐらいしかしたことない方が<br/>
+<strong><em>アイツが出れるならオレだってもっと参加しても良いんじゃん！</em></strong><br/>
+みたいな気持ちになって頂けたらいいなと思い、参加しました。</p>
+
+<p>話したことは</p>
+
+<h4>「開発のとき運用を考えられないのは素人」「運用のために開発できないのは二流」</h4>
+
+<h4>「社畜が嫌なら自分に付加価値を付けなければいけない」</h4>
+
+<h4>「DevとかOpsという言葉で自分のフィールドを制限してはいけない」</h4>
+
+<h4>「DevOps、ただのバズワードとして扱って、自分の範囲外のものに目を向けてみるきっかけにしてみては」</h4>
+
+<p>みたいな内容を話しました。<br/>
+基本的にスピリチュアルな話でした。</p>
+
+<p>スピリチュアルといえば、仏教には<a href="http://ja.wikipedia.org/wiki/%E8%A1%86%E7%94%9F">衆生</a>という概念があります。<br/>
+元々<strong><em>人間</em></strong>、とか<strong><em>私</em></strong>という自己の存在は西洋文化から入ってきたもの<br/>
+というのはご存知でしょうか。</p>
+
+<p>例えば、「そこに山がある」という日本語を英語に訳すことは難しいんです。<br/>
+何故難しいのかというと</p>
+
+<ul>
+<li>「わたしは山を見ている」</li>
+<li>「その町には山がある」</li>
+</ul>
+
+
+<p>など、主体となる存在がないんです。</p>
+
+<p>宗派によって多少解釈が異なることはありますが、<br/>
+こんな感じで、境界線によって業が産まれるなら<br/>
+最初からそんな境界線なんて存在しないんじゃないの？<br/>
+みたいな発想があって、わたしはその発想がすごい好きなんですね。</p>
+
+<p>つまり、DevもOpsもないんです。<br/>
+自分で境界線を引かない限りは、そこに境界線は産まれないんです。<br/>
+境界線を引いた瞬間に、制限や争いが発生するんです。</p>
+
+<p>ということで、自分の業務外だとか、関係のないものだと思っていたものに<br/>
+目を向けてみたり、自分でもやってみるとかすると<br/>
+新しいことが見つかるかもしれません。<br/>
+そういう何かのきっかけになれたらいいなと思い、話しました。</p>
+
+<p>もしくは、業の深いインターネットから離れて、仏像を彫るのも良さそうです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/deagostini-33/">ディアゴスティーニ社から「週間 蓮華王院本堂(三十三間堂)」が創刊されたら</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-25T14:17:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>毎号、木造千手観音立像が1体付属。<br/>
+湛慶をはじめ慶派、院派、円派など、観音像を極限まで再現。</p>
+
+<p>創刊号は本尊千手観音像から<br/>
+(このシリーズは1002回で完成します(講堂含む))</p>
+
+<p>みたいなものが発売されたら、それを作り上げていくこと自体が仏教観あるし<br/>
+多分一個人愛読してる人とか手を出さざるを得ない状況なのは待ちがないので<br/>
+本当に創刊されたらどうしよう&hellip;って今から悩んでいます。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -497,559 +702,6 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
 <p>というお話でした。</p>
 
 <p>(;´д｀)ﾄﾎﾎ…</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/20/fluentd-plugin-create-newbie/">fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(設定編)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-20T18:56:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<pre>
-   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
-  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
-   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
-     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
-     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
-     ~''戈ヽ    ｀二´      r'´:::.  `!  
-</pre>
-
-
-<p>最初Postfixのmaillogつくってやろうかなんて<br/>
-思っていたりした時期もオレにはありました。</p>
-
-<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
-と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
-ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
-Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
-取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbiee/">プラグイン作成編はこちらから</a></p>
-
-<h2>テスト環境</h2>
-
-<p><code>/etc/fluent-agent-lite.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/fluent-agent-lite.conf 
-</span><span class='line'>TAG_PREFIX=""
-</span><span class='line'>LOGS=$(cat &lt;&lt;"EOF"
-</span><span class='line'>secure                   /var/log/secure
-</span><span class='line'>EOF
-</span><span class='line'>)
-</span><span class='line'>PRIMARY_SERVER="0.0.0.0:24224"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/td-agent/td-agent.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;match secure&gt;
-</span><span class='line'>  type securelog-parser
-</span><span class='line'>  tag  seclog.local
-</span><span class='line'>&lt;/match&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;match seclog.*&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>   &lt;store&gt;
-</span><span class='line'>    type datacounter
-</span><span class='line'>    count_key message
-</span><span class='line'>    aggregate all
-</span><span class='line'>    tag check.seclog
-</span><span class='line'>    pattern1 acce Accepted
-</span><span class='line'>    pattern2 fail failure
-</span><span class='line'>    pattern3 inva Invalid
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>   type file
-</span><span class='line'>   path /tmp/hoge
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;match check.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type             zabbix
-</span><span class='line'>    zabbix_server    192.0.2.2
-</span><span class='line'>    host             watashi
-</span><span class='line'>    name_key_pattern (fail|acce|inva)_count
-</span><span class='line'>    add_key_prefix   securelog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>環境および設定内容の解説</h2>
-
-<h2><code>fluent-agent-lite</code></h2>
-
-<p><code>in_tail</code>で見に行くとパーミッションが足りないとのことなので<br/>
-fluent-agent-liteを噛ましました。</p>
-
-<p>localhostに転送するので
-<code>PRIMARY_SERVER="0.0.0.0:24224"</code>として自分自身へ転送。</p>
-
-<h2><code>td-agent</code></h2>
-
-<p><code>fluent-agent-lite</code>から値を取得。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
-</span><span class='line'>  type forward
-</span><span class='line'>  port 24224
-</span><span class='line'>&lt;/source&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>自作pluginを通す</h3>
-
-<p><code>fluent-agent-lite</code>で付与した<code>secure</code>のタグをmatchさせて<br/>
-自作したテスト用のpluginへ渡します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match secure&gt;
-</span><span class='line'>  type securelog-parser
-</span><span class='line'>  tag  seclog.local
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>fluent-plugin-datacounterを通す</h3>
-
-<p><code>seclog.*</code>にmatchさせ</p>
-
-<p>もりす先生の<a href="https://github.com/tagomoris/fluent-plugin-datacounter">fluent-plugin-datacounter</a>を利用し<br/>
-それぞれ確認したいログのpatternを登録します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match seclog.*&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>   &lt;store&gt;
-</span><span class='line'>    type datacounter
-</span><span class='line'>    count_key message
-</span><span class='line'>    aggregate all
-</span><span class='line'>    tag check.seclog
-</span><span class='line'>    pattern1 acce Accepted
-</span><span class='line'>    pattern2 fail failure
-</span><span class='line'>    pattern3 inva Invalid
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>   type file
-</span><span class='line'>   path /tmp/hoge
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p><code>pattern1 acce Accepted</code><br/>
-接続が許可されたログ(Acceptedという文字列を含んだログ)を<br/>
-<em>pattern1</em>として<em>acce</em>というprefixで渡します。</p></li>
-<li><p><code>pattern2 fail failure</code><br/>
-接続に失敗したログ(failureという文字列を含んだログ)を<br/>
-<em>pattern2</em>として<em>fail</em>というprefixで渡します。</p></li>
-<li><p><code>pattern3 inva Invalid</code><br/>
-無効な接続のログ(Invalidという文字列を含んだログ)を<br/>
-<em>pattern3</em>として<em>inva</em>というprefixで渡します。</p></li>
-</ul>
-
-
-<p>また、デバッグの為に、<code>/tmp/hoge</code>ファイルへ<br/>
-現時点での状態をファイル出力しておきます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2013-01-20T18:12:24+09:00       seclog.local    {"message":"Accepted publickey for hogehoge from 192.0.2.100 port 64884 ssh2"}
-</span><span class='line'>2013-01-20T18:12:24+09:00       seclog.local    {"message":"pam_unix(sshd:session): session opened for user hogehoge by (uid=0)"}
-</span><span class='line'>2013-01-20T18:12:28+09:00       seclog.local    {"message":"Received disconnect from 192.0.2.100: 11: disconnected by user"}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のような内容で、出力されています。<br/>
-この時点で期待した内容のログ出力がされていない場合は<br/>
-どこかに誤りがあるので、修正していく流れになります。</p>
-
-<h3>fluent-plugin-zabbixへデータを渡す</h3>
-
-<p>fujiwaraさん作成の<a href="https://github.com/fujiwara/fluent-plugin-zabbix">fluent-plugin-zabbix</a>を利用し、Zabbixへデータを渡します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match check.**&gt;
-</span><span class='line'>  type copy
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type             zabbix
-</span><span class='line'>    zabbix_server    192.0.2.2
-</span><span class='line'>    host             watashi
-</span><span class='line'>    name_key_pattern (fail|acce|inva)_count
-</span><span class='line'>    add_key_prefix   securelog
-</span><span class='line'>  &lt;/store&gt;
-</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/tmp/hoge</code>へのデバッグ出力と同様に<br/>
-<em>fluent-plugin-datacounter</em>を通したログを<br/>
-<code>/var/log/td-agent/check_seclog</code>へ出力しておきます。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;store&gt;
-</span><span class='line'>    type file
-</span><span class='line'>    path /var/log/td-agent/check_seclog
-</span><span class='line'>  &lt;/store&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらも、値が正常に取得されているかを確認します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2013-01-20T18:09:56+09:00       check.seclog    {"unmatched_count":4,"unmatched_rate":0.06,"unmatched_percentage":66.66666666666667,"acce_count":0,"acce_rate":0.0,"acce_percentage":0.0,"fail_count":0,"fail_rate":0.0,"fail_percentage":0.0,"inva_count":2,"inva_rate":0.03,"inva_percentage":33.333333333333336}
-</span><span class='line'>2013-01-20T18:10:56+09:00       check.seclog    {"unmatched_count":0,"unmatched_rate":0.0,"acce_count":0,"acce_rate":0.0,"fail_count":0,"fail_rate":0.0,"inva_count":0,"inva_rate":0.0}
-</span><span class='line'>2013-01-20T18:11:56+09:00       check.seclog    {"unmatched_count":0,"unmatched_rate":0.0,"acce_count":0,"acce_rate":0.0,"fail_count":0,"fail_rate":0.0,"inva_count":0,"inva_rate":0.0}
-</span><span class='line'>2013-01-20T18:12:56+09:00       check.seclog    {"unmatched_count":14,"unmatched_rate":0.23,"unmatched_percentage":73.6842105263158,"acce_count":4,"acce_rate":0.06,"acce_percentage":21.05263157894737,"fail_count":0,"fail_rate":0.0,"fail_percentage":0.0,"inva_count":1,"inva_rate":0.01,"inva_percentage":5.2631578947368425}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p><code>zabbix_server    192.0.2.2</code>
-zabbixサーバのIPアドレスを指定します。</p></li>
-<li><p><code>host             watashi</code>
-データ送り元のホスト名を指定します。</p></li>
-<li><p><code>name_key_pattern (fail|acce|inva)_count</code><br/>
-<em>name_key_pattern (fail|acce|inva)_count</em>の設定と<br/>
-<em>add_key_prefix   securelog</em>の設定は</p></li>
-</ul>
-
-
-<p><a href="https://dl.dropbox.com/u/5390179/6c2da543eb8312cd496ef8f75fb8d83d.png"><img src="https://dl.dropbox.com/u/5390179/6c2da543eb8312cd496ef8f75fb8d83d.png" alt="zabbix" /></a></p>
-
-<p>Zabbixで、itemを上記設定のように作成し<br/>
-trapperのデータとしてZabbixが受け取れる為に設定します。</p>
-
-<h3>Zabbixでグラフ化</h3>
-
-<p>Zabbix上で上手く値が取得できていれば</p>
-
-<p><a href="https://dl.dropbox.com/u/5390179/107d6802dbac9f28c4b78819242d3018.png"><img src="https://dl.dropbox.com/u/5390179/107d6802dbac9f28c4b78819242d3018.png" alt="zabbix" /></a></p>
-
-<p>このようにグラフに値が出力され、期待通りの動作をすることが確認できました。</p>
-
-<p>awesome fluentd!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/20/fluentd-plugin-create-newbiee/">fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-20T17:03:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<pre>
-   ,j;;;;;j,. ---一､ ｀   ―--‐､_ l;;;;;;  
-  ｛;;;;;;ゝ T辷iﾌ i      f'辷jァ   !i;;;;;    全く触ったことがなくてもpluginを書いたらfluentdがわかる  
-   ヾ;;;ﾊ        ﾉ              .::!lﾘ;;rﾞ  
-     `Z;i      〈.,_..,.            ﾉ;;;;;;;;>    そんなふうに考えていた時期が  
-     ,;ぇﾊ、  ､_,.ｰ-､_',.      ,ｆﾞ: Y;;f.      俺にもありました  
-     ~''戈ヽ    ｀二´      r'´:::.  `!  
-</pre>
-
-
-<p>最初Postfixのmaillogつくってやろうかなんて<br/>
-思っていたりした時期もオレにはありました。</p>
-
-<p>しかしログが多様すぎるので、ちょっとこれ最初にやるには敷居高いなー<br/>
-と思い、だからってあんまり理にかなわないことをしても意味ないな<br/>
-ということで、<code>/var/log/secure</code>のログを指定した文字列の出現具合を<br/>
-Zabbixで取得したら面白いかなというアイデアが思いついたので<br/>
-取り敢えずコードは汚いにしろ、動くまで書いてみたメモです。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編はこちら</a></p>
-
-<h1>作成編</h1>
-
-<p>事前にtestが通るまでのものは<br/>
-<a href="http://blog.kenjiskywalker.org:8080/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a>にて作成しています。</p>
-
-<p>本来はもっとスマートな作り方があるのでしょうが、<br/>
-私は基本的にこの流れで行いました。</p>
-
-<ul>
-<li>内容を更新する度にrake testでtestが通ることを確認する</li>
-<li>変数の状況を<code>p hoge</code>で毎回確認する</li>
-</ul>
-
-
-<p>この2つの繰り返しでした。</p>
-
-<h3>参考</h3>
-
-<ul>
-<li><a href="http://gihyo.jp/magazine/SD/archive/2012/201206">@repeatedlyさんのプラグイン作成の記事 / Software Design 2012年6月号</a></li>
-<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
-<li><a href="http://d.hatena.ne.jp/mikeda/20120704/1341363870">検証中のtd-agent（fluentd）の設定とか負荷とか / IT 東京 楽しいと思うこと</a></li>
-<li><a href="http://d.hatena.ne.jp/erukiti/20120205/1328452455">fluentdのプラグインは簡単に作成できる / ぽにくすじゃないだいありー</a></li>
-<li><a href="http://fluentd.org/plugin/">Fluentd plugins</a></li>
-</ul>
-
-
-<p>基本はりぴーさんの記事を参考に、取り敢えず片っ端からpluginのソースを読んでいけば<br/>
-センスの良い人ならその場で書けそうなものですが、いかんせん素人なので<br/>
-試行錯誤しながら書いて行きました。</p>
-
-<p>取り敢えず動いたレベルですが、何かの参考になればと思います。</p>
-
-<p><a href="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser">https://github.com/kenjiskywalker/fluent-plugin-securelog-parser</a></p>
-
-<p>また、ソースを見て頂く通り、何かのログのパーサを書こうと思えば<br/>
-<em>regexp</em>と<em>time_format</em>さえどうにかなれば、<br/>
-プラグインの種類にもよりますが、いくらでも加工することが可能です。<br/>
-fluentd、素晴らしいですね。</p>
-
-<blockquote><p><em>tag</em>、<em>es</em>、<em>chain</em>の中身などを<em>.each</em>などで分解していき<br/>
-testを実行した際に(<em>test_emit</em>)で<br/>
-プラグイン内部の確認したい変数の中身を<code>p hoge</code>する。</p></blockquote>
-
-<p>この繰り返していってという感じです。<br/>
-ソースファイルのコメントアウト部は<br/>
-コードを記述していた際には常に表示させていたものです。</p>
-
-<p>サーバ上での動作のテストは<br/>
-<code>out_securelog_parser.rb</code>ファイルを<code>/etc/td-agent/plugin/</code>へ配置することで<br/>
-プラグインとして認識してくれます。素晴らしいですね。</p>
-
-<p>ログが出るのを待つのは大変なので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo '{"message":"Jan 17 02:47:59 hostname sshd[10654]: test"}' | /usr/lib64/fluent/ruby/bin/fluent-cat secure</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と、<code>fluent-cat</code>コマンドを実行して、確認したい<em>tag</em>を指定することで<br/>
-プラグインの確認を行うことが可能です。</p>
-
-<p>ちゃんとテストを書いていないあｗ、中身はまだまだ改善の余地があるわでアレですが<br/>
-Rubyもよくに書けず、fluentdを運用した経験もあまりない人間が<br/>
-稚拙ではありますが、最低限動作するところまでは書くことができました。</p>
-
-<p>ハイユーザーから、エントリーユーザまで利用でき、<br/>
-かつ、簡単なログパーサから、各種メトリクス生成などのプラグインが<br/>
-容易に作成することができるfluentdは、やはりこれからのオペレーションの<br/>
-情報取得ツールとして、無くてはならないものになっていくんだろうな。<br/>
-という印象を受けました。</p>
-
-<p>awesome fluentd!</p>
-
-<p>続きは<a href="http://blog.kenjiskywalker.org/blog/2013/01/20/fluentd-plugin-create-newbie/">設定編</a>で</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/20/cross2013/">おしまい姉妹について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-20T13:14:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cross-party.com/">エンジニアサポートCROSS 2013</a><br/>
-というイベントに行ってきました。</p>
-
-<p>「おしまい姉妹」という<br/>
-人類が全く体験したことのないようなイノベーションの話を聞いた。</p>
-
-<p>本当に全くもって空前絶後のソリューションであり<br/>
-家に帰っても未だその熱は冷めやらない。</p>
-
-<p>仕事は仕事であり、そこに人格は必要ないと思っていたが<br/>
-全くもってそれはナンセンスであった。</p>
-
-<p>サービスと人、<br/>
-サービスを終わらせるというそのたったひとつの出来事のためにのみ存在する<br/>
-「おしまい姉妹」。</p>
-
-<p>もちろんこれは西尾維新先生にラノベ化して頂き<br/>
-ゆくゆくはシャフト制作のアニメ化は間違いないだろう。<br/>
-そしてこのソリューションはいずれジャパニメーションの波に乗り、<br/>
-全世界へ羽ばたいていくだろう。</p>
-
-<p>そしていずれ、サービス管理の正しい在り方として多様な論文や書籍が発行され、<br/>
-サービス管理部門としてのおしまい姉妹の存在は<br/>
-デファクトスタンダード化していくだろう。</p>
-
-<p>今日もどこかで、おしまい姉妹たちはそっと<br/>
-技術者の心の隙間を満たしているのだろう&hellip;</p>
-
-<p>お会いしたかった方にお会いできてよかったです。</p>
 </div>
   
   

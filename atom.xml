@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-03-15T13:16:03+09:00</updated>
+  <updated>2015-04-05T16:26:46+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[2015/04読んだ本]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/04/05/201503-book/"/>
+    <updated>2015-04-05T16:22:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/04/05/201503-book</id>
+    <content type="html"><![CDATA[<p>WEB+DB PRESS Vol.85 の菅原さんの記事が面白かった.<br/>
+色々と便利ツールをつくるけど汎用的に公開できるものをつくることで<br/>
+品質の高いものをつくる意識をつくっていくのは大切だ.</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2015年03月 (5作品)</div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774171417" target="_blank"><img src="http://ecx.images-amazon.com/images/I/611JK2E4TZL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774171417" target="_blank">WEB+DB PRESS Vol.85</a><br /><a href="http://booklog.jp/author/%E8%8F%85%E5%8E%9F%E5%85%83%E6%B0%97" target="_blank">菅原元気</a><br />読了日：03月06日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00S5TMPEW" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61y%2Blg9CuVL._SL75_.jpg" width="56" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00S5TMPEW" target="_blank">サッカーダイジェスト 2015年 2/26 号 [雑誌]</a><br />読了日：03月12日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00R2R1TF4" target="_blank"><img src="http://ecx.images-amazon.com/images/I/519vf3oC9vL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00R2R1TF4" target="_blank">フットボール批評issue03</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00K2RFJK2" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51uLiMEIS%2BL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00K2RFJK2" target="_blank">良いウェブサービスを支える「利用規約」の作り方</a><br /><a href="http://booklog.jp/author/%E9%9B%A8%E5%AE%AE%E7%BE%8E%E5%AD%A3" target="_blank">雨宮美季</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00T71MYZC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/5136en3PhGL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00T71MYZC" target="_blank">MariaDB & MySQL全機能バイブル</a><br /><a href="http://booklog.jp/author/%E9%88%B4%E6%9C%A8%E5%95%93%E4%BF%AE" target="_blank">鈴木啓修</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[コーヒーの器具いろいろ]]></title>
@@ -304,6 +338,15 @@ TERA COFFEEの豆入れに豆入れて冷凍庫で保存している。</p>
 
 
 <p>こういうのはエレガントにngx_mrubyでやった方が運用楽そう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2015/02読んだ本]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/03/01/201502-book/"/>
+    <updated>2015-03-01T16:21:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/03/01/201502-book</id>
+    <content type="html"><![CDATA[<p>忙しくて本読んでなかったかな</p>
 ]]></content>
   </entry>
   
@@ -773,6 +816,47 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 
 <p>Systemd？はて？</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2015/1読んだ本]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/02/01/201501-book/"/>
+    <updated>2015-02-01T15:32:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/02/01/201501-book</id>
+    <content type="html"><![CDATA[<p>太平記が面白かった.</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2015年01月 (8作品)</div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51zPI%2B%2Bq2%2BL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank">私本太平記 12 湊川帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月02日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Ep36mVdtL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank">私本太平記 13 黒白帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51X5dD2wvLL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank">超高速勉強法</a><br /><a href="http://booklog.jp/author/%E6%A4%8B%E6%9C%A8%E4%BF%AE%E4%B8%89" target="_blank">椋木修三</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41XI1PP4cHL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank">相手をイラつかせない怒らせない話し方と聞き方のルール</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E5%86%85%E5%B9%B8%E5%AD%90" target="_blank">竹内幸子</a><br />読了日：01月10日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4873117097" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4873117097" target="_blank">Serverspec</a><br /><a href="http://booklog.jp/author/%E5%AE%AE%E4%B8%8B%E5%89%9B%E8%BC%94" target="_blank">宮下剛輔</a><br />読了日：01月11日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL._SL75_.jpg" width="48" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank">イシューからはじめよ ― 知的生産の「シンプルな本質」</a><br /><a href="http://booklog.jp/author/%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA" target="_blank">安宅和人</a><br />読了日：01月12日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063884163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/615G5PMrhkL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063884163" target="_blank">GIANT KILLING(34) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：01月25日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41%2BjUZcmLmL._SL75_.jpg" width="51" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank">35歳から「一生、負けない」生き方</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E7%94%B0%E9%99%BD%E4%B8%80" target="_blank">竹田陽一</a><br />読了日：01月29日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+
+
 ]]></content>
   </entry>
   
@@ -1326,504 +1410,6 @@ sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep
 
 <div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[俺の子連れおすすめスポット - 新宿御苑]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/12/07/jyoen/"/>
-    <updated>2014-12-07T01:49:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/12/07/jyoen</id>
-    <content type="html"><![CDATA[<p><a href="http://www.adventar.org/calendars/681">俺の子連れおすすめスポット Advent Calendar 2014</a></p>
-
-<p><a href="http://www.env.go.jp/garden/shinjukugyoen/">http://www.env.go.jp/garden/shinjukugyoen/</a></p>
-
-<p>新宿御苑をおすすめします。</p>
-
-<ul>
-<li>大人（15歳以上）200円　小・中学生50円　幼児無料で安い</li>
-<li>新宿駅から歩いていける</li>
-<li>無茶苦茶土地が広い</li>
-<li>少しオフロードだけどベビーカーでも道が広くてそこそこ整備してあるので余裕で動ける</li>
-<li>お弁当持って芝生に寝っ転がって空眺めたりできるので最高</li>
-<li>比較的空いているので代々木公園みたいな渋滞は起きない</li>
-<li>ペットやお酒、ラジコンや遊び道具の持ち込みが禁止なので平和</li>
-</ul>
-
-
-<p>ということで新宿御苑、お散歩やピクニックにおすすめです。</p>
-
-<blockquote><p>駐車場もあるんですね。初めて知った</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[capistrano3を利用してRails4をdeployしunicornを使う]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/12/02/capistrano3-rails4-unicorn/"/>
-    <updated>2014-12-02T23:30:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/12/02/capistrano3-rails4-unicorn</id>
-    <content type="html"><![CDATA[<blockquote><p>Rails v4.1.2<br/>
-capistrano v3.3.3</p></blockquote>
-
-<h2>TL;DR</h2>
-
-<p>cap3でrails4のデプロイとbundle install<br/>
-unicornの操作をできるようにするまでのメモ</p>
-
-<h3>手元のマシンでcap3をインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install capistrano</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Railsアプリケーションのあるパスに移動</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd app_name</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>cap install</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cap install
-</span><span class='line'>mkdir -p config/deploy
-</span><span class='line'>create config/deploy.rb
-</span><span class='line'>create config/deploy/staging.rb
-</span><span class='line'>create config/deploy/production.rb
-</span><span class='line'>mkdir -p lib/capistrano/tasks
-</span><span class='line'>create Capfile
-</span><span class='line'>Capified
-</span><span class='line'>$ </span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>app_name/config</code>配下にdeploy用の各種設定テンプレートが格納され、<br/>
-独自rake taskを格納する<code>app_name/lib/capistrano/tasks/</code>ディレクトリが作成され、<br/>
-capistrano用の設定ファイル?であるCapfileのひな形が作成される.</p>
-
-<h2>deployの設定</h2>
-
-<h4>config/deploy.rb</h4>
-
-<p>汎用的な設定はここに書くのかな</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lock '3.3.3'
-</span><span class='line'>
-</span><span class='line'># 自分のアプリケーション名
-</span><span class='line'>set :application, 'app_name'
-</span><span class='line'>
-</span><span class='line'># 自分のリポジトリ名.capistranoはrsyncではなくgit pullする
-</span><span class='line'>set :repo_url, 'git@github.com:kenjiskywalker/app_name.git'
-</span><span class='line'>
-</span><span class='line'># デプロイ先
-</span><span class='line'>set :deploy_to, '/home/foo/app_name'
-</span><span class='line'>
-</span><span class='line'># cap stage unicorn:start などの実行対象の role . デフォルトは app
-</span><span class='line'>set :unicorn_roles, :all
-</span><span class='line'>
-</span><span class='line'>set :ssh_options, {
-</span><span class='line'>
-</span><span class='line'># ここのオプションは ssh_config に記載されていれば不要
-</span><span class='line'># port: 2222,
-</span><span class='line'># keys: [File.expand_path('~/.ssh/hoge.key')],
-</span><span class='line'>
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'># ここは cap install するとコメントアウトで入るのでそのコメントアウトを解除
-</span><span class='line'>set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>config/deploy/stage.rb</h3>
-
-<p>汎用的な設定はdeploy.rbに書き、stage毎の設定はstage.rbに書くのかな</p>
-
-<ul>
-<li>config/deploy/development.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
-</span><span class='line'>set :rails_env, 'development'
-</span><span class='line'>
-</span><span class='line'># unicorn で利用する RACK_ENV の指定
-</span><span class='line'>set :unicorn_rack_env, 'development'
-</span><span class='line'>
-</span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'dev-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>config/deploy/staging.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
-</span><span class='line'>set :rails_env, 'staging'
-</span><span class='line'>
-</span><span class='line'># unicorn で利用する RACK_ENV の指定
-</span><span class='line'>set :unicorn_rack_env, 'staging'
-</span><span class='line'>
-</span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'stg-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>config/deploy/production.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
-</span><span class='line'>set :rails_env, 'production'
-</span><span class='line'>
-</span><span class='line'># unicorn で利用する RACK_ENV の指定
-</span><span class='line'>set :unicorn_rack_env, 'production'
-</span><span class='line'>
-</span><span class='line'># ここの user も ssh_config に記載されていれば不要
-</span><span class='line'>server 'web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Gemfile</h3>
-
-<p>capistranoで利用するgemを追加</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :staging, :production do
-</span><span class='line'>  gem 'capistrano'
-</span><span class='line'>  gem 'capistrano-rails'
-</span><span class='line'>  gem 'capistrano-rbenv'
-</span><span class='line'>  gem 'capistrano-bundler'
-</span><span class='line'>  gem 'capistrano3-unicorn'
-</span><span class='line'>  gem 'unicorn'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Capfile</h3>
-
-<p>consoleとbundlerとunicornを有効化</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Load DSL and Setup Up Stages
-</span><span class='line'>require 'capistrano/setup'
-</span><span class='line'>
-</span><span class='line'># Includes default deployment tasks
-</span><span class='line'>require 'capistrano/deploy'
-</span><span class='line'>require 'capistrano/console' # cap stage console とかやると便利
-</span><span class='line'>
-</span><span class='line'># Includes tasks from other gems included in your Gemfile
-</span><span class='line'>#
-</span><span class='line'># For documentation on these, see for example:
-</span><span class='line'>#
-</span><span class='line'>#   https://github.com/capistrano/rvm
-</span><span class='line'>#   https://github.com/capistrano/rbenv
-</span><span class='line'>#   https://github.com/capistrano/chruby
-</span><span class='line'>#   https://github.com/capistrano/bundler
-</span><span class='line'>#   https://github.com/capistrano/rails
-</span><span class='line'>#
-</span><span class='line'># require 'capistrano/rvm'
-</span><span class='line'># require 'capistrano/rbenv'
-</span><span class='line'># require 'capistrano/chruby'
-</span><span class='line'>require 'capistrano/bundler' # deploy:updated の前に bundle install してくれる
-</span><span class='line'>require 'capistrano3/unicorn' # cap3で unicorn を操作できるようにしてくれる
-</span><span class='line'># require 'capistrano/rails/assets'
-</span><span class='line'># require 'capistrano/rails/migrations'
-</span><span class='line'>
-</span><span class='line'># Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
-</span><span class='line'>Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>config/unicorn/stage.rb</h3>
-
-<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4">:unicorn_config_path</a> を参考にすると<br/>
-<code>config/unicorn.rb</code>ではなく<code>config/unicorn/satge.rb</code>を記載する</p>
-
-<p>unicorn 設定例 : <a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb">example.rb</a></p>
-
-<p>上記設定例を参考に設定.取り敢えず変更箇所は<code>app_path</code>ぐらい</p>
-
-<ul>
-<li>config/unicorn/stage.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># paths
-</span><span class='line'>app_path = "/home/foo/app_name"
-</span><span class='line'>working_directory "#{app_path}/current"
-</span><span class='line'>pid               "#{app_path}/current/tmp/pids/unicorn.pid"
-</span><span class='line'>
-</span><span class='line'># listen
-</span><span class='line'>listen "/tmp/hoge-api.socket", :backlog =&gt; 64
-</span><span class='line'>
-</span><span class='line'># logging
-</span><span class='line'>stderr_path "log/unicorn.stderr.log"
-</span><span class='line'>stdout_path "log/unicorn.stdout.log"
-</span><span class='line'>
-</span><span class='line'># workers
-</span><span class='line'>worker_processes 3
-</span><span class='line'>
-</span><span class='line'># use correct Gemfile on restarts
-</span><span class='line'>before_exec do |server|
-</span><span class='line'>  ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># preload
-</span><span class='line'>preload_app true
-</span><span class='line'>
-</span><span class='line'>before_fork do |server, worker|
-</span><span class='line'>  # the following is highly recomended for Rails + "preload_app true"
-</span><span class='line'>  # as there's no need for the master process to hold a connection
-</span><span class='line'>  if defined?(ActiveRecord::Base)
-</span><span class='line'>    ActiveRecord::Base.connection.disconnect!
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # Before forking, kill the master process that belongs to the .oldbin PID.
-</span><span class='line'>  # This enables 0 downtime deploys.
-</span><span class='line'>  old_pid = "#{server.config[:pid]}.oldbin"
-</span><span class='line'>  if File.exists?(old_pid) && server.pid != old_pid
-</span><span class='line'>    begin
-</span><span class='line'>      Process.kill("QUIT", File.read(old_pid).to_i)
-</span><span class='line'>    rescue Errno::ENOENT, Errno::ESRCH
-</span><span class='line'>      # someone else did our job for us
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>after_fork do |server, worker|
-</span><span class='line'>  if defined?(ActiveRecord::Base)
-</span><span class='line'>    ActiveRecord::Base.establish_connection
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>動作チェック</h2>
-
-<h3>deploy</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development deploy:check
-</span><span class='line'>$ bundle exec cap development deploy
-</span><span class='line'>$ bundle exec cap staging deploy
-</span><span class='line'>$ bundle exec cap production deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>unicorn</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development unicorn:start
-</span><span class='line'>$ bundle exec cap development unicorn:legacy_restart
-</span><span class='line'>$ bundle exec cap development unicorn:stop</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>学び</h3>
-
-<p>rsyncではなくgit pullなので混乱することがある.<br/>
-currentやrelease, sharedなど見たらわかる面白構造.<br/>
-当たり前だけど上手くいかない時は手を動かすよりドキュメントとコードを読んだ方が早い.</p>
-
-<p>以上簡単なメモです.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ansible Vaultで暗号化されたファイルをCircleCIで利用する]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/11/17/ansible-vault-circleci/"/>
-    <updated>2014-11-17T14:08:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/11/17/ansible-vault-circleci</id>
-    <content type="html"><![CDATA[<h2>TL;DR</h2>
-
-<p>CircleCIのEnvironment variablesを利用して<br/>
-ファイルにdecryptのパスワードを記入する</p>
-
-<h2>設定</h2>
-
-<ul>
-<li><a href="https://circleci.com/docs/environment-variables">Environment variables - CircleCI</a></li>
-<li><a href="http://docs.ansible.com/playbooks_vault.html">Vault - Ansible</a></li>
-</ul>
-
-
-<p>CircleCIの環境変数に値を設定する機能を利用し、<br/>
-テスト実行前にその環境変数に設定したVault用の<br/>
-パスワードをファイルに出力しておき、ansible実行時には<br/>
-そのファイルを見に行くようにする。</p>
-
-<ul>
-<li>circle.yml</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
-</span><span class='line'>  services:
-</span><span class='line'>    - docker
-</span><span class='line'>
-</span><span class='line'>dependencies:
-</span><span class='line'>  pre:
-</span><span class='line'>    - if [[ -e docker_ansible_image.tar ]]; then cat docker_ansible_image.tar | docker import - kenjiskywalker/dockerfile-centos-ansible ; docker load --input docker_ansible_image.tar ; else docker build . ; docker save -o docker_ansible_image.tar kenjiskywalker/dockerfile-centos-ansible ; fi
-</span><span class='line'>    - echo "${ANSIBLE_VAULT}" &gt; $(pwd)/ansible/vault.txt
-</span><span class='line'>
-</span><span class='line'>  cache_directories:
-</span><span class='line'>    - "docker_ansible_image.tar"
-</span><span class='line'>
-</span><span class='line'>test:
-</span><span class='line'>  post:
-</span><span class='line'>    - docker run -v $(pwd)/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml  --vault-password-file /ansible/vault.txt -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
-
-
-<p>他に良いプラクティスあれば教えてください。</p>
 ]]></content>
   </entry>
   

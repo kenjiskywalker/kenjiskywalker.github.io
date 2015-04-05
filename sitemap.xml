@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.kenjiskywalker.org/blog/2015/04/05/201503-book/</loc>
+    <lastmod>2015-04-05T16:22:00+09:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://blog.kenjiskywalker.org/blog/2015/03/15/coffeeee/</loc>
     <lastmod>2015-03-15T12:27:00+09:00</lastmod>
     <priority>0.8</priority>
@@ -8,6 +13,11 @@
   <url>
     <loc>http://blog.kenjiskywalker.org/blog/2015/03/12/nginx-maintenance/</loc>
     <lastmod>2015-03-12T12:22:00+09:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://blog.kenjiskywalker.org/blog/2015/03/01/201502-book/</loc>
+    <lastmod>2015-03-01T16:21:00+09:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -28,6 +38,11 @@
   <url>
     <loc>http://blog.kenjiskywalker.org/blog/2015/02/07/update-resolv-conf/</loc>
     <lastmod>2015-02-07T17:41:00+09:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://blog.kenjiskywalker.org/blog/2015/02/01/201501-book/</loc>
+    <lastmod>2015-02-01T15:32:00+09:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -1077,13 +1092,13 @@
   </url>
   <url>
     <loc>http://blog.kenjiskywalker.org/blog/archives/</loc>
-    <lastmod>2015-03-15T13:16:03+09:00</lastmod>
+    <lastmod>2015-04-05T16:26:46+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://blog.kenjiskywalker.org/</loc>
-    <lastmod>2015-03-15T13:16:03+09:00</lastmod>
+    <lastmod>2015-04-05T16:26:46+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
