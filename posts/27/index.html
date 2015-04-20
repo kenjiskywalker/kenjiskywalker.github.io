@@ -9,11 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="http://yapcasia.org/2013/ 前夜祭から３日間参加しました。
-今回は発表者の人たちの年齢も若く、大変刺激的でした。
-このような有意義な場を設けて頂き有難うございました。
-また、参加するにあたり、業務として参加することを許している会社にも
-合わせて感謝します。 &hellip;">
+  <meta name="description" content=" 誕生日です〜とか言ってウィッシュリストのURL送りまくってたら
+@hsbtさん、@soh335さん、@hisaichi5518くん、@Keita_Shiyaくんから誕生日プレゼント頂きました。
+ありがとうございます！ 勉強します！
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/06/tanjyobi/">誕生日とウィッシュリスト</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-06T00:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" /></p>
+
+<p>誕生日です〜とか言って<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT/ref=cm_sw_r_tw_ws_Hqdusb1ZKHAET">ウィッシュリスト</a>のURL送りまくってたら<br/>
+@hsbtさん、@soh335さん、@hisaichi5518くん、@Keita_Shiyaくんから誕生日プレゼント頂きました。<br/>
+ありがとうございます！</p>
+
+<p>勉強します！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -545,139 +586,6 @@ chef-soloなどが実行された後に、serverspecが実行されます。<br/
 なかなか面白いです。</p>
 
 <p>serverspecでどのような監視をしているかなど話し合うの面白そうですよね。</p>
-
-<p>以上、ご参考になれば幸いです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/20/logfile-backup-to-s3/">ログファイルをS3にバックアップする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-20T00:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。<br/>
-一つの例として私の方法を載せますので、よりよい方法などあれば教えて頂きたいです。</p>
-
-<h2>backup dir</h2>
-
-<p><code>/var/log/backup/nginx/YYYYMMDD/</code><br/>
-<code>/var/log/backup/app/YYYYMMDD/</code></p>
-
-<h2>backup file</h2>
-
-<p><code>/var/log/backup/nginx/20130918/access.20130918-00.log.gz</code>
-<code>/var/log/backup/nginx/20130918/access.20130918-01.log.gz</code>
-<code>/var/log/backup/nginx/20130918/access.20130918-02.log.gz</code><br/>
-&hellip;</p>
-
-<p><code>/var/log/backup/app/20130918/app.20130918-00.log.gz</code>
-<code>/var/log/backup/app/20130918/app.20130918-01.log.gz</code>
-<code>/var/log/backup/app/20130918/app.20130918-02.log.gz</code><br/>
-&hellip;</p>
-
-<p>上記ディレクトリに、それぞれ<br/>
-nginx、アプリケーションのログがあるとします。</p>
-
-<p>nginxのログはtd-agentによって</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;store&gt;
-</span><span class='line'>  type file_alternative
-</span><span class='line'>  time_slice_format %Y%m%d-%H
-</span><span class='line'>  path /var/log/backup/nginx/access
-</span><span class='line'>  output_data_type attr:msg
-</span><span class='line'>  localtime
-</span><span class='line'>  output_include_time false
-</span><span class='line'>&lt;/store&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/var/log/backup/nginx/access.20130919-00.log</code>
-<code>/var/log/backup/nginx/access.20130919-01.log</code>
-<code>/var/log/backup/nginx/access.20130919-02.log</code></p>
-
-<p>このように吐き出され、それを日付が変わったのち</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
-</span><span class='line'>
-</span><span class='line'># set -e
-</span><span class='line'>DATE=`date --date '1 days ago' +%Y%m%d`
-</span><span class='line'>BASE="/var/log/backup"
-</span><span class='line'>for type in nginx app;
-</span><span class='line'>do
-</span><span class='line'>  DIR="${BASE}/${type}/${DATE}"
-</span><span class='line'>  mkdir "${DIR}"
-</span><span class='line'>  mv ${BASE}/${type}/*${DATE}*log "${DIR}"
-</span><span class='line'>  nice gzip --fast ${DIR}/*log
-</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらのアーカイブスクリプトによって</p>
-
-<p><code>/var/log/backup/nginx/YYYYMMDD/</code></p>
-
-<p>というディレクトリを作成し、その配下へ昨日分のログファイルをgzip化し退避します。<br/>
-そして、退避したログファイルをS3へバックアップします。</p>
-
-<p>バックアップは<a href="http://s3tools.org/s3cmd">s3cmd</a>を利用しても良いですが<br/>
-先日1.0のリリースが行われた<a href="https://github.com/aws/aws-cli">awscli</a>を利用します。</p>
-
-<h2>backup script</h2>
-
-<div><script src='https://gist.github.com/6625841.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p><code>aws s3 cp --recursive</code>によって昨日分のログファイルディレクトリを<br/>
-再帰的にバックアップを行い、ファイルの整合性を担保する為に<br/>
-ファイルサイズの比較を行っています。(可能であればMD5チェックを行いたい)</p>
-
-<p>このように、深夜に昨日分のログファイルをS3にバックアップするようにしています。</p>
 
 <p>以上、ご参考になれば幸いです。</p>
 </div>

@@ -9,9 +9,23 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="WEB+DB PRESS Vol.85 の菅原さんの記事が面白かった.
-色々と便利ツールをつくるけど汎用的に公開できるものをつくることで
-品質の高いものをつくる意識をつくっていくのは大切だ. kenjiskywalkerの本棚 - 2015年03月 (5作品) WEB+DB PRESS Vol. &hellip;">
+  <meta name="description" content="AWSの利用金額は毎日知りたい。
+そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。
+aws-sdkとかは使わずにシンプルにaws-cliとjqとcurlだけでやるようにしている。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +77,127 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/20/aws-cloudwatch-billing-chatops/">AWSのCloudWatchで取得できるBillingの情報を毎日Slackに通知させる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-20T19:03:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AWSの利用金額は毎日知りたい。<br/>
+そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。<br/>
+aws-sdkとかは使わずにシンプルに<a href="http://aws.amazon.com/jp/cli/">aws-cli</a>と<a href="http://stedolan.github.io/jq/">jq</a>とcurlだけでやるようにしている。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 今日の日付</span>
+</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 昨日の 00:00:00 ~ 23:59:59 の間のデータを利用して</span>
+</span><span class='line'><span class="n">start_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">end_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 一日分の Sum 値を使って</span>
+</span><span class='line'><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;86400&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># CloudWatchの値を取得してきて</span>
+</span><span class='line'><span class="n">strings</span> <span class="o">=</span> <span class="s2">&quot;昨日までのAWSの利用費(月ごと)になります</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Billingのデータを持ってくる</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="sb">`aws cloudwatch --region us-east-1 get-metric-statistics \</span>
+</span><span class='line'><span class="sb">           --namespace &#39;AWS/Billing&#39; \</span>
+</span><span class='line'><span class="sb">           --dimensions &quot;Name=Currency,Value=USD&quot; \</span>
+</span><span class='line'><span class="sb">           --metric-name EstimatedCharges </span>
+</span><span class='line'><span class="sb">           --start-time </span><span class="si">#{</span><span class="n">start_time</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">           --end-time </span><span class="si">#{</span><span class="n">end_time</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">           --period </span><span class="si">#{</span><span class="n">period</span><span class="si">}</span><span class="sb"> --statistics &#39;Sum&#39; \</span>
+</span><span class='line'><span class="sb">           | jq &#39;.Datapoints[].Sum&#39;`</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;EstimatedCharges : $</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;ご確認をよろしくお願いいたします&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># DevOpsManに伝える</span>
+</span><span class='line'><span class="sb">`curl -s https://slack.com/api/chat.postMessage -X POST \</span>
+</span><span class='line'><span class="sb">  -d &#39;channel=#CHANNEL&#39; \</span>
+</span><span class='line'><span class="sb">  -d &#39;text= </span><span class="si">#{</span><span class="n">strings</span><span class="si">}</span><span class="sb">&#39;</span>
+</span><span class='line'><span class="sb">  -d &#39;username=USERNAME&#39; \</span>
+</span><span class='line'><span class="sb">  -d &#39;icon_emoji=:ICON:&#39; \</span>
+</span><span class='line'><span class="sb">  -d &#39;token=xoxp-0000000000-0000000000-00000000000000000&#39;`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>定常業務はどんどんbotにやらせて、生産的な業務に注力してバリュー出していこ</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -502,70 +637,6 @@ TERA COFFEEの豆入れに豆入れて冷凍庫で保存している。</p>
 
 
   <div class="entry-content"><p>忙しくて本読んでなかったかな</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/02/25/nginx-healthcheck-no-log/">nginxで特定のURIだけログに出力しない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-25T16:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>location / {
-</span><span class='line'>
-</span><span class='line'>    if ( $request_uri ~ /healthcheckurl) { access_log off; }
-</span><span class='line'>
-</span><span class='line'>    proxy_pass http://unicorn;
-</span><span class='line'>    proxy_set_header Host              $http_host;
-</span><span class='line'>    proxy_set_header X-Real-IP         $remote_addr;
-</span><span class='line'>    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-</span><span class='line'>
-</span><span class='line'>    ...
-</span><span class='line'>
-</span><span class='line'>    break;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
 </div>
   
   

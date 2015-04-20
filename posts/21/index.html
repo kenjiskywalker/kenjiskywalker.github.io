@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="ロンドン起業日記　ヨーロッパで絶賛、奮闘中！【電子書籍】井上真達人出版会発行日: 2013-12-09対応フォーマット: PDF, EPUB詳細を見る ロンドン起業日記 を読んだ - HsbtDiary @hsbtさんが読んでいたので読んでみた。
-成功した話とかあまり教訓にならなくて、 &hellip;">
+  <meta name="description" content="この記事は MySQL Casual Advent Calendar 2013 の 23 日目です。
+業務でMySQLを使っていない場合、なかなか深い知見というものを得られないとは思います。
+今回は常日頃自分が気になっていることをメモしておき、
+データとして利用する一例を記します。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +64,412 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/23/katabira-river/">本日の帷子川情報です</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T12:50:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>この記事は <a href="http://www.zusaar.com/event/1847003">MySQL Casual Advent Calendar 2013</a> の 23 日目です。<br/>
+業務でMySQLを使っていない場合、なかなか深い知見というものを得られないとは思います。<br/>
+今回は常日頃自分が気になっていることをメモしておき、<br/>
+データとして利用する一例を記します。</p>
+
+<p>横浜駅から<a href="http://yokohamamitsui.com/">横浜三井ビルディング</a>へ向かうと、途中で築地橋という橋を渡ります。<br/>
+その築地橋の下には帷子川が流れ、目の前の相模湾へと続いているのですが<br/>
+毎日見てみると、丁度築地橋の付近で陸地から海へと流れるはずの川の流れが<br/>
+たまに逆流していることがあるのに気付きました。</p>
+
+<p><img src="http://gyazo.com/f2b5ca8be0ef5844940c9c0e19e97619.png" alt="http://gyazo.com/f2b5ca8be0ef5844940c9c0e19e97619.png" /></p>
+
+<p><a href="http://hamarepo.com/story.php?page_no=0&amp;story_id=2120">帷子川の源流までってどうなってるの？ - はまれぽ.com</a></p>
+
+<p>これは面白いなと思い、通る度にTwitterへメモを残すようにしていました。<br/>
+今回はそのデータを利用し、何か面白い情報が得られないか確認してみようと思います。</p>
+
+<p>本来であれば、天候、風、気温などの複合的情報があって<br/>
+精度の高いデータとして利用できるのですが、<br/>
+川を見てメモをする以上の作業を増やしたくなかったので<br/>
+今回は行いませんでした。</p>
+
+<p>まず、tweets.zipをMySQLに入れる作業ですが、<a href="http://blog.kenjiskywalker.org/blog/2013/04/04/tweets_zip_big_data/">以前メモをした内容</a>の通りに行います。<br/>
+メモ記載当時だと<code>tweets.csv</code>のフォーマットが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id",  
+</span><span class='line'>"in_reply_to_status_id",
+</span><span class='line'>"in_reply_to_user_id",
+</span><span class='line'>"retweeted_status_id",
+</span><span class='line'>"retweeted_status_user_id",
+</span><span class='line'>"timestamp",
+</span><span class='line'>"source",
+</span><span class='line'>"text",
+</span><span class='line'>"expanded_urls"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+という並びだったのですが、現在は</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"tweet_id",
+</span><span class='line'>"in_reply_to_status_id",
+</span><span class='line'>"in_reply_to_user_id",
+</span><span class='line'>"timestamp",
+</span><span class='line'>"source",
+</span><span class='line'>"text",
+</span><span class='line'>"retweeted_status_id",
+</span><span class='line'>"retweeted_status_user_id",
+</span><span class='line'>"retweeted_status_timestamp",
+</span><span class='line'>"expanded_urls"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という並びに変更になっています(2013/12/23現在)。<br/>
+新しく<code>retweeted_status_user_id</code>,<code>retweeted_status_timestamp</code>という<br/>
+２つのステータスが取得できりるようになっています。</p>
+
+<p>テーブルも新しい仕様に変更します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE tweets (
+</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  `tweet_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `in_reply_to_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
+</span><span class='line'>  `source` VARCHAR(255),
+</span><span class='line'>  `text` VARCHAR(140),
+</span><span class='line'>  `retweeted_status_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_user_id` BIGINT UNSIGNED,
+</span><span class='line'>  `retweeted_status_timestamp` BIGINT UNSIGNED,
+</span><span class='line'>  `expanded_urls` VARCHAR(255),
+</span><span class='line'>  PRIMARY KEY (id) )
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>データをインサートします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; LOAD DATA INFILE '/Users/kenjiskywalker/Downloads/tweets/tweets.csv' \
+</span><span class='line'>INTO TABLE tweets FIELDS  TERMINATED BY ","  ENCLOSED BY '"'  LINES TERMINATED BY "\n"  IGNORE 1 LINES  \
+</span><span class='line'>(tweet_id, in_reply_to_status_id, in_reply_to_user_id, timestamp, source, text, \
+</span><span class='line'>retweeted_status_id, retweeted_status_user_id, retweeted_status_timestamp, expanded_urls);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うまくデータがインサートされたか確認します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT COUNT(text) FROM tweets WHERE text LIKE "%本日の帷子川情報です%";
+</span><span class='line'>+-------------+
+</span><span class='line'>| COUNT(text) |
+</span><span class='line'>+-------------+
+</span><span class='line'>|         119 |
+</span><span class='line'>+-------------+
+</span><span class='line'>1 row in set (0.03 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この時点で自分が想像していた1/3ぐらいのデータ量で、<br/>
+別の内容に変更しようと考えましたが諦めずに続けたいと思います。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT timestamp,text FROM tweets WHERE text LIKE "%本日の帷子川情報です%" LIMIT 3;
+</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
+</span><span class='line'>| timestamp           | text                                                                         |
+</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
+</span><span class='line'>| 2013-11-14 01:04:00 | 流入あり #本日の帷子川情報です                                               |
+</span><span class='line'>| 2013-11-13 01:30:56 | 流入あり #本日の帷子川情報です http://t.co/c4hCPjgx5B #gifboom               |
+</span><span class='line'>| 2013-11-12 01:25:46 | 流入あり #本日の帷子川情報です                                               |
+</span><span class='line'>+---------------------+------------------------------------------------------------------------------+
+</span><span class='line'>3 rows in set (0.00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正確なデータが入っていることが確認できました。</p>
+
+<p>それではまず、流出と流入の割合を調べてみましょう。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%";
+</span><span class='line'>+-----------+
+</span><span class='line'>| COUNT(id) |
+</span><span class='line'>+-----------+
+</span><span class='line'>|       119 |
+</span><span class='line'>+-----------+
+</span><span class='line'>1 row in set (0.03 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%";
+</span><span class='line'>+-----------+
+</span><span class='line'>| COUNT(id) |
+</span><span class='line'>+-----------+
+</span><span class='line'>|        33 |
+</span><span class='line'>+-----------+
+</span><span class='line'>1 row in set (0.03 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SELECT COUNT(id) FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流入%";
+</span><span class='line'>+-----------+
+</span><span class='line'>| COUNT(id) |
+</span><span class='line'>+-----------+
+</span><span class='line'>|        62 |
+</span><span class='line'>+-----------+
+</span><span class='line'>1 row in set (0.04 sec)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特に意識していなかったのですが、いくら海が近いとはいえ<br/>
+陸から海へと流れ出る(流出)より海から川へと逆流していく(流入)割合の方が倍近くありました。<br/>
+検証データの怪しさが見えますね。</p>
+
+<p>これだけでは面白くないので月の満ち欠けを含めて確認してみましょう。<br/>
+今回個人的にやりたかったのはこれです。</p>
+
+<p><a href="http://www.hamweather.com/support/documentation/aeris/endpoints/sunmoon-moonphases/">hamweather.com</a>のAPIから月の遷移のデータをとってきます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CREATE TABLE moon (
+</span><span class='line'>  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+</span><span class='line'>  `timestamp` TIMESTAMP DEFAULT 0,
+</span><span class='line'>  `moon_state` VARCHAR(140),
+</span><span class='line'>  PRIMARY KEY (id) )
+</span><span class='line'>ENGINE = InnoDB DEFAULT CHARACTER SET utf8;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このように<code>moon</code>というテーブルを作成し、<code>moon_state</code>に取得した月の状態を<br/>
+<code>timestamp</code>には<code>%Y-%m-%d</code>のフォーマットのtimestampがはいります。</p>
+
+<p>それでは関連性を調べてみましょう。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
+</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%");
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>| timestamp  | moon_state    |
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>| 2013-09-05 | new moon      |
+</span><span class='line'>| 2013-04-26 | full moon     |
+</span><span class='line'>| 2013-04-18 | first quarter |
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>3 rows in set (0.03 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;
+</span><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
+</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報 です%" AND text LIKE "%流入%");tamp
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>| timestamp  | moon_state    |
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>| 2013-09-27 | last quarter  |
+</span><span class='line'>| 2013-09-19 | full moon     |
+</span><span class='line'>| 2013-08-21 | full moon     |
+</span><span class='line'>| 2013-08-14 | first quarter |
+</span><span class='line'>| 2013-07-30 | last quarter  |
+</span><span class='line'>| 2013-07-08 | new moon      |
+</span><span class='line'>| 2013-06-17 | first quarter |
+</span><span class='line'>+------------+---------------+
+</span><span class='line'>7 rows in set (0.03 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>出、出〜！サブクエリLIKE連奴〜！<br/>
+SQLを発行するときはちゃんとEXPLAINして不要なクエリを発行しないようにしましょうね。<br/>
+<code>moon_state</code>が<code>fullmoon</code>のものを抽出してみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
+</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流出%") AND moon_state = "full moon";
+</span><span class='line'>+------------+------------+
+</span><span class='line'>| timestamp  | moon_state |
+</span><span class='line'>+------------+------------+
+</span><span class='line'>| 2013-04-26 | full moon  |
+</span><span class='line'>+------------+------------+
+</span><span class='line'>1 row in set (0.05 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;
+</span><span class='line'>mysql&gt; SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS timestamp, moon_state FROM moon WHERE timestamp IN \
+</span><span class='line'>(SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") FROM tweets WHERE text LIKE "%本日の帷子川情報です%" AND text LIKE "%流入%") AND moon_state = "full moon";
+</span><span class='line'>+------------+------------+
+</span><span class='line'>| timestamp  | moon_state |
+</span><span class='line'>+------------+------------+
+</span><span class='line'>| 2013-09-19 | full moon  |
+</span><span class='line'>| 2013-08-21 | full moon  |
+</span><span class='line'>+------------+------------+
+</span><span class='line'>2 rows in set (0.04 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>流出:流入 = 2:1 なので、傾向は出ていないように見えます。<br/>
+参照データ量が少ないので、なんともですが<br/>
+もう少し面白い結果が出てきてくれたら楽しかったですね。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>月の満ち欠け、何も関係ねーじゃねーか</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/414329273709625344">December 21, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>はい。ということでMySQLを利用すれば、<em>好きなあの子のバスの乗車時刻</em>や<br/>
+<em>あの人いつもあの服着てる気がする</em>。など、<br/>
+日頃から気になることをメモしておくことで、<br/>
+実際に検証することが可能になるのでおすすめです。</p>
+
+<p>明日(12/24)はからあげエンジニアでおなじみの@sasata299さんです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -398,228 +806,6 @@ Objective-Cはオフィシャルのドキュメントとか充実してるので
 それはいつの時代も変わらないのかなとも思います。</p>
 
 <p>弟子の織部も異常で、その異常さを面白く読めるへうげものはおすすめです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/">supervisorでログのディレクトリをSIGUSR2を使って開き直す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-04T20:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>supervisorをインストール</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install python-setuptools
-</span><span class='line'>$ sudo easy_install supervisor
-</span><span class='line'>$ echo_supervisord_conf &gt; /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>テストスクリプト(/root/while.sh)を置く</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>while true ; do date ; sleep 1 ; done</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>/etc/supervisord.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[unix_http_server]
-</span><span class='line'>file=/tmp/supervisor.sock   ; (the path to the socket file)
-</span><span class='line'>[supervisord]
-</span><span class='line'>logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
-</span><span class='line'>logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
-</span><span class='line'>logfile_backups=10           ; (num of main logfile rotation backups;default 10)
-</span><span class='line'>loglevel=info                ; (log level;default info; others: debug,warn,trace)
-</span><span class='line'>pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
-</span><span class='line'>nodaemon=false               ; (start in foreground if true;default false)
-</span><span class='line'>minfds=1024                  ; (min. avail startup file descriptors;default 1024)
-</span><span class='line'>minprocs=200                 ; (min. avail process descriptors;default 200)
-</span><span class='line'>childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
-</span><span class='line'>[rpcinterface:supervisor]
-</span><span class='line'>supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
-</span><span class='line'>[supervisorctl]
-</span><span class='line'>serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
-</span><span class='line'>[program:hello]
-</span><span class='line'>priority = 100
-</span><span class='line'>command = sh /root/while.sh
-</span><span class='line'>redirect_stderr = true</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>supervisorを走らせる</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor
-</span><span class='line'>$ supervisord -c /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>ログが出力されているのか確認</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
-</span><span class='line'>Wed Dec  4 10:32:17 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:18 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:19 UTC 2013
-</span><span class='line'>Wed Dec  4 10:32:20 UTC 2013</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>状態を確認するためにプロセスを監視しておく</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>/var/log/supervisor/を移動する</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mv /var/log/supervisor /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
-
-
-<p>tailで流しているログが流れ続けているか確認する。<br/>
-ログが止まっていたりしたらがんばってください。</p>
-
-<ul>
-<li>別のディレクトリを作成してsymlinkしてみる</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor_new
-</span><span class='line'>$ ln -s /var/log/supervisor_new /var/log/supervisor
-</span><span class='line'>$ ls -la /var/log/supervisor</span></code></pre></td></tr></table></div></figure>
-
-
-<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
-
-<ul>
-<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
-</ul>
-
-
-<p>出力され続けていることを確認</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls -la /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>SIGUSR2</code>を発行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ kill -SIGUSR2 `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じでシグナルがやってきて</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`
-</span><span class='line'>Process 22859 attached - interrupt to quit
-</span><span class='line'>--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
-</span><span class='line'>open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
-</span><span class='line'>open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
-</span><span class='line'>Wed Dec  4 10:03:42 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:43 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:44 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:45 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:46 UTC 2013
-</span><span class='line'>Wed Dec  4 10:03:47 UTC 2013</span></code></pre></td></tr></table></div></figure>
-
-
-<p>学ぶことは多い。</p>
 </div>
   
   

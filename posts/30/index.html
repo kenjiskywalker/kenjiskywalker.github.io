@@ -9,8 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="github の irc hook に幾つかの event type が追加されました - @soh335 memo
-GitHubのissueやpull reqにcommentが付いたらIRC Hoooks経由で通知されるように設定した - Glide Note &hellip;">
+  <meta name="description" content="前提条件 グローバルにアクセスできる管理サーバが一台ある
+対象のVPCにアサイン可能なEIPがある(AssociateされていないEIPがある) という前提条件が成立していれば、管理サーバで このようなスクリプトを 1
+*/1 * * * * root /root/set_eip.sh 2&gt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +63,78 @@ GitHubのissueやpull reqにcommentが付いたらIRC Hoooks経由で通知さ�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/27/eip-set-autoscaling-vpc/">AWSのAutoScalingで立ち上がってきたVPC内のEC2インスタンスに強制的にEIPを付与する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-27T23:50:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前提条件</h2>
+
+<ul>
+<li>グローバルにアクセスできる管理サーバが一台ある</li>
+<li>対象のVPCにアサイン可能なEIPがある(AssociateされていないEIPがある)</li>
+</ul>
+
+
+<p>という前提条件が成立していれば、管理サーバで</p>
+
+<div><script src='https://gist.github.com/6354555.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>このようなスクリプトを</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*/1 * * * * root /root/set_eip.sh 2&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と噛ましておけば、EIPが付与されていないインスタンスを発見し次第<br/>
+強制的にEIPをアサインすることができます。</p>
+
+<p><code>2&gt; /dev/null</code>とかやってるとイスが飛んできそうなものですが<br/>
+1分毎に実行していると、内部DNS結構頻繁に取りこぼしたりするので闇に葬りました。<br/>
+成功した場合は<code>ADDRESS    i-XXXXXXXX eipalloc-XXXXXXXX   eipassoc-XXXXXXXX</code><br/>
+という内容のメールがとんできて、お、アサインされたのか。と気付けます。</p>
+
+<p>CloudWatchのAutoScaling発動トリガーで何かしらの通知設定をされているかと思うので<br/>
+まずその通知でAutoScalingの発火を確認し、<br/>
+上記EIPアサイン通知でインスタンスの起動を確認。のようなこともできます。</p>
+
+<p><a href="http://aws.typepad.com/aws_japan/2013/08/additional-ip-address-flexibility-in-the-virtual-private-cloud.html">【AWS発表】 VPC内のパブリックIPアドレスの取い扱いがより柔軟に</a></p>
+
+<p>ということを頑張らなくてもそのうち上記Public IPがAutoScalingにも対応すると思う。</p>
+
+<p>ところで<code>EIP</code>と<code>Public IP</code>の違いって何なんですかね？</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -263,54 +336,6 @@ Auto Scalingで<code>DeleteOnTermination</code>を有効化したAMIを指定す
 EC2のインスタンスがTerminateされた時に、同時にEBSボリュームも削除してくれる。</p>
 
 <p>便利だ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/18/mini-keyboad/">便利キーボード情報です</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-18T19:41:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>外出時、iPad miniとかで対応する必要がある場合</p>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B005LKIR72/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B005LKIR72&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005LKIR72&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B005LKIR72" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>これあればまず困らない。</p>
-
-<p>サーバで軽く作業したい場合</p>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B004CR61QY/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B004CR61QY&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B004CR61QY&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B004CR61QY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>これがあればマウスとかいらないのでまず困らない。</p>
-
-<p>おすすめの品です。</p>
 </div>
   
   

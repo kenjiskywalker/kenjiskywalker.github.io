@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="TL;DR peco入れた。速い peco https://github.com/lestrrat/peco まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。 percol https://github.com/mooz/percol &hellip;">
+  <meta name="description" content="peco を利用してAWSのEC2に簡単ログイン zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。 TL;DR zsh使っててaws-cli使っていてshellscriptを利用できるなら
+aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +62,124 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/18/peco-get-aws-instance-list/">pecoを利用してAWSのインスタンスを取得する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-18T12:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/lestrrat/peco">peco</a> を利用してAWSのEC2に簡単ログイン</h2>
+
+<p>zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。</p>
+
+<h3>TL;DR</h3>
+
+<p>zsh使っててaws-cli使っていてshellscriptを利用できるなら<br/>
+aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの</p>
+
+<h3>設定</h3>
+
+<ul>
+<li>shellscriptを起きます(get-ec2-list.sh)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>instances=$(aws ec2 describe-instances \
+</span><span class='line'>    --filters 'Name=instance-state-name,Values=running' \
+</span><span class='line'>    --query 'Reservations[].Instances[?PublicDnsName!=`null`].[Tags[*][?Key==`Name`].Value[],PublicDnsName]' \
+</span><span class='line'>    --output text)
+</span><span class='line'>
+</span><span class='line'>for item in ${instances[@]}; do
+</span><span class='line'>    if [[ `echo $item | grep 'compute.amazonaws.com'` ]]; then
+</span><span class='line'>        printf "$item\n"
+</span><span class='line'>    else
+</span><span class='line'>        printf "$item "
+</span><span class='line'>    fi
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>zshの設定にこんな感じのものを書きます(zshrc)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function get_ec2_list() {
+</span><span class='line'>    local get_list
+</span><span class='line'>    get_list="/home/hoge/get-ec2-list.sh"
+</span><span class='line'>    BUFFER=$(eval $get_list | peco  | awk '{print $2}')
+</span><span class='line'>    CURSOR=$#BUFFER
+</span><span class='line'>    zle clear-screen
+</span><span class='line'>}
+</span><span class='line'>zle -N get_ec2_list
+</span><span class='line'>bindkey '^v' get_ec2_list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じのものをつくると</p>
+
+<blockquote><p>QUERY><br/>
+web  ec2-192-0-2-1.region.compute.amazonaws.com<br/>
+db   ec2-192-0-2-2.region.compute.amazonaws.com<br/>
+app1 ec2-192-0-2-3.region.compute.amazonaws.com<br/>
+app2 ec2-192-0-2-4.region.compute.amazonaws.com</p></blockquote>
+
+<p>こんな感じでEC2のNameを利用してPublic DNSを絞り込める。<br/>
+awkを利用して、選択したら<br/>
+Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br/>
+便利。便利だけど落書きレベルなのでGoで完結できるようにした方が良い。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -873,85 +992,6 @@ fluentdの集約サーバを冗長構成にしておいて</p>
 レコードは元の <em>hoge01</em> へ向き直る。</p>
 
 <p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/04/gmail-noname/">shellscriptでmailコマンドを利用してGmailにメールを送るとnonameという添付ファイルが添付される問題</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-04T02:56:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>FOO=`command`
-</span><span class='line'>
-</span><span class='line'>echo ${FOO} | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようなスクリプトを作成した時に、送信先である<br/>
-Gmailで受信すると本文にコマンドの結果が出力されるのではなく<br/>
-nonameという添付ファイルが送られてきた。</p>
-
-<p>原因はコマンドの結果にEscape Sequenceが入っていたため<br/>
-文字コードを上手く認識できなかったようだ。</p>
-
-<p>Escape Sequenceとかガッツリやったことがなくて<br/>
-IRCに色付けたりターミナルの文字列に色付けたりするぐらいしか<br/>
-使ったことがなくて、原因が特定できなかった。</p>
-
-<p>@keitap氏は一撃でEscape Sequenceだってわかった。<br/>
-対応としては</p>
-
-<p><a href="http://d.hatena.ne.jp/hogem/20100320/1269132856">colでエスケープシーケンスを除去 - うまい棒blog</a></p>
-
-<p>hogemさんが書いてくれたように<code>\</code>を除外するとかして<br/>
-Escape Sequenceとして認識させないようにして上手くいった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>FOO=`command`
-</span><span class='line'>
-</span><span class='line'>echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらからは以上です。</p>
 </div>
   
   

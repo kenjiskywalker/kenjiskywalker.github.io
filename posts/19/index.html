@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="LVMについては、きちんと学習したことがなかったので
-今回改めて学習した内容をまとめました。 参考 redhat カスタマーポータル - Red Hat Enterprise Linux 6 論理ボリュームマネージャの管理
-it-資格.jp - LPIC対策
-Pantora Networks - &hellip;">
+  <meta name="description" content="AWSとLVMを利用することによって、オンラインで
+EBSをアタッチして、pvmoveでデータを新しいEBSへ移行し
+元のEBSを切り離すことができる。 参考 redhat カスタマーポータル - 6 5.4. 論理ボリュームからのディスクの削除 pvmoveは同一VG内の空きPVに移動するのか。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +63,560 @@ Pantora Networks - &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/11/lvm-pvmove/">Pvmoveを利用して物理ディスクのデータを別の物理ディスクへオンラインで移設する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-11T13:31:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AWSとLVMを利用することによって、オンラインで<br/>
+EBSをアタッチして、pvmoveでデータを新しいEBSへ移行し<br/>
+元のEBSを切り離すことができる。</p>
+
+<h2>参考</h2>
+
+<p><a href="https://access.redhat.com/site/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/disk_remove_ex.html">redhat カスタマーポータル - 6 5.4. 論理ボリュームからのディスクの削除</a></p>
+
+<blockquote class="twitter-tweet" lang="ja"><p>pvmoveは同一VG内の空きPVに移動するのか。ということは旧ディスクから新ディスクへの移行は 1.新ディスクをLVMフォーマットで作成して 2.新ディスクをPV化して 3.旧ディスクがアサインされいるVGにvgexendでPVを追加して 4.pvmoveか</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/420484347779489792">2014, 1月 7</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<blockquote class="twitter-tweet" lang="ja"><p>pvremoveするときはVGにアサインされているからまずvgreduceで対象のPVを切り離してからpvremoveか。当たり前っちゃあ当たり前か</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/420486502531874816">2014, 1月 7</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>とのことです。</p>
+
+<h2>検証環境</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- ルートパーティション
+</span><span class='line'>/dev/xvda1 16GB 
+</span><span class='line'>
+</span><span class='line'>- EBS
+</span><span class='line'>/dev/xvdb  64GB EBS
+</span><span class='line'>
+</span><span class='line'>- RAID0用EBS
+</span><span class='line'>/dev/xvdc  16GB EBS
+</span><span class='line'>/dev/xvdd  16GB EBS
+</span><span class='line'>/dev/xvde  16GB EBS
+</span><span class='line'>/dev/xvdf  16GB EBS</span></code></pre></td></tr></table></div></figure>
+
+
+<p>xvdbに既存データが存在していており<br/>
+そのデータをmd127に移設する。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# fdisk -l
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvda1: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvde: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdd: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdc: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdb: 68.7 GB, 68719476736 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 8354 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Disk /dev/xvdf: 17.2 GB, 17179869184 bytes
+</span><span class='line'>255 heads, 63 sectors/track, 2088 cylinders
+</span><span class='line'>Units = cylinders of 16065 * 512 = 8225280 bytes
+</span><span class='line'>Sector size (logical/physical): 512 bytes / 512 bytes
+</span><span class='line'>I/O size (minimum/optimal): 512 bytes / 512 bytes
+</span><span class='line'>Disk identifier: 0x00000000
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>EBS x4をまとめてRAID0を組む</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[cdef]
+</span><span class='line'>mdadm: /dev/xvdc appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>mdadm: /dev/xvdd appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>mdadm: /dev/xvdf appears to be part of a raid array:
+</span><span class='line'>    level=raid0 devices=4 ctime=Tue Jan  7 09:36:58 2014
+</span><span class='line'>Continue creating array? mdadm: Defaulting to version 1.2 metadata
+</span><span class='line'>mdadm: array /dev/md127 started.
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# cat /proc/mdstat
+</span><span class='line'>Personalities : [raid0]
+</span><span class='line'>md127 : active raid0 xvdf[3] xvde[2] xvdd[1] xvdc[0]
+</span><span class='line'>      67106816 blocks super 1.2 512k chunks
+</span><span class='line'>
+</span><span class='line'>unused devices: &lt;none&gt;
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>既存のVG（引っ越し元のディスクが入っているVG）にRAID0のPVをアサイン</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvcreate /dev/md127
+</span><span class='line'>  Physical volume "/dev/md127" successfully created
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  2
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                0
+</span><span class='line'>  Open LV               0
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               63.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16381
+</span><span class='line'>  Alloc PE / Size       0 / 0
+</span><span class='line'>  Free  PE / Size       16381 / 63.99 GiB
+</span><span class='line'>  VG UUID               j4hcOI-hsYy-j8jL-Dnp7-wa44-ue4c-ZlMi5m
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgextend vgrp0 /dev/md127
+</span><span class='line'>  Volume group "vgrp0" successfully extended
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  3
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               127.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              32766
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvs -o+pv_used
+</span><span class='line'>  PV         VG    Fmt  Attr PSize  PFree Used
+</span><span class='line'>  /dev/md127 vgrp0 lvm2 a--  64.00g    0  64.00g
+</span><span class='line'>  /dev/xvdb1 vgrp0 lvm2 a--  64.00g    0  64.00g
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この時点でxvdb1(64GB)とmd127(128GB)がVGにアサインされている。</p>
+
+<h3>PVからPVへデータを移行</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# pvmove /dev/xvdb1
+</span><span class='line'>  /dev/xvdb1: Moved: 0.0%
+</span><span class='line'>  /dev/xvdb1: Moved: 0.4%
+</span><span class='line'>  /dev/xvdb1: Moved: 0.7%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.4%
+</span><span class='line'>  /dev/xvdb1: Moved: 1.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.5%
+</span><span class='line'>  /dev/xvdb1: Moved: 2.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 3.2%
+</span><span class='line'>
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>  /dev/xvdb1: Moved: 99.1%
+</span><span class='line'>  /dev/xvdb1: Moved: 99.5%
+</span><span class='line'>  /dev/xvdb1: Moved: 99.8%
+</span><span class='line'>  /dev/xvdb1: Moved: 100.0%
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Loading vgrp0-lvol0 table (253:0)
+</span><span class='line'>    Loading vgrp0-pvmove0 table (253:2)
+</span><span class='line'>    Suspending vgrp0-lvol0 (253:0) with device flush
+</span><span class='line'>    Suspending vgrp0-pvmove0 (253:2) with device flush
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Resuming vgrp0-pvmove0 (253:2)
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Resuming vgrp0-lvol0 (253:0)
+</span><span class='line'>    Found volume group "vgrp0"
+</span><span class='line'>    Removing vgrp0-pvmove0 (253:2)
+</span><span class='line'>    Removing temporary pvmove LV
+</span><span class='line'>    Writing out final volume group after pvmove
+</span><span class='line'>    Creating volume group backup "/etc/lvm/backup/vgrp0" (seqno 6).
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# pvs -o+pv_used
+</span><span class='line'>  PV         VG    Fmt  Attr PSize  PFree  Used
+</span><span class='line'>  /dev/md127 vgrp0 lvm2 a--  64.00g     0  64.00g
+</span><span class='line'>  /dev/xvdb1 vgrp0 lvm2 a--  64.00g 64.00g     0
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PFreeになっていることを確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        2
+</span><span class='line'>  Metadata Sequence No  6
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                2
+</span><span class='line'>  Act PV                2
+</span><span class='line'>  VG Size               127.99 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              32766
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>xvdb1をVGから切り離す</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@lvm-test-server ~]# vgreduce vgrp0 /dev/xvdb1
+</span><span class='line'>  Removed "/dev/xvdb1" from volume group "vgrp0"
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]#
+</span><span class='line'>[root@lvm-test-server ~]# vgdisplay
+</span><span class='line'>  --- Volume group ---
+</span><span class='line'>  VG Name               vgrp0
+</span><span class='line'>  System ID
+</span><span class='line'>  Format                lvm2
+</span><span class='line'>  Metadata Areas        1
+</span><span class='line'>  Metadata Sequence No  7
+</span><span class='line'>  VG Access             read/write
+</span><span class='line'>  VG Status             resizable
+</span><span class='line'>  MAX LV                0
+</span><span class='line'>  Cur LV                1
+</span><span class='line'>  Open LV               1
+</span><span class='line'>  Max PV                0
+</span><span class='line'>  Cur PV                1
+</span><span class='line'>  Act PV                1
+</span><span class='line'>  VG Size               64.00 GiB
+</span><span class='line'>  PE Size               4.00 MiB
+</span><span class='line'>  Total PE              16383
+</span><span class='line'>  Alloc PE / Size       16383 / 64.00 GiB
+</span><span class='line'>  Free  PE / Size       0 / 0
+</span><span class='line'>  VG UUID               x6y3NX-WNwZ-8pOj-Ez0S-U7r4-fice-9CljNP
+</span><span class='line'>
+</span><span class='line'>[root@lvm-test-server ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Allocサイズが変わっていることを確認。<br/>
+この後はPVを削除してEBSをデタッチすればデータの移設が完了します。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2109,130 +2662,6 @@ knifeが上手く動かない場合は</p>
 
 <p>この方法でイケるかと思ったのですがそんなバージョンはない。とエラーになりました。<br/>
 以上、取り敢えずの回避策としてご利用下さい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/03/2013/">2013年の振り返り</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-03T11:58:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>去年の振り返り</p>
-
-<h2>発表したこと</h2>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/01/26/qpstudy-buddhism/">#qpstudyと仏教とわたし</a><br/>
-mizzyさんと初めてガッツリ話すことができた。貴重な体験だった。<br/>
-その後、カヤックの勉強会でhsbtさん、kentaroさんともお会いすることができて<br/>
-本当に貴重だった。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/03/09/monitoringcasualvol3/">#monitoringcasual Vol3 に参加してきました</a><br/>
-fluentdのプラグインを2つつくったので発表してきた。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/03/30/perlcasual5/">PerlCasual #5に参加してLTしてきた #perlcasual</a><br/>
-yusukebe氏にお声がけ頂き発表してきた。<br/>
-もうちょっと技術寄りの内容を話したかった。まだまだだ。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/03/30/chibapm2/">Chiba.pm #2に参加してきた #chibapm</a><br/>
-愛するChiba.pmへの初参加だった。とても温かいバイブスが流れていた。<br/>
-モズ君のエモいLTが見れてすごい！ってなってた。また参加したい。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/04/18/mysqlcasual4/">#mysqlcasual vol.4 でカジュアルに発表してきました</a><br/>
-myfinder氏にお声がけ頂き発表してきた。<br/>
-会場で一番MySQLのこと知らない感じだった。まだまだだ。</p>
-
-<p><a href="https://speakerdeck.com/kenjiskywalker/services-on-aws-number-jawsug-yokohama">Service on AWS #jawsug yokohama</a><br/>
-kuwa_tw氏とtmae氏にお声がけ頂き発表してきた。 <br/>
-いまいち刺さらなかった感じがするのでもうちょっと発表の仕方を考えた方がいいと感じた。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/12/01/monitoringcasual-kyoto/">Monitoring Casual Talk in Kyoto 行ってきた #monitoringcasual</a><br/>
-京都最高だった。shiba_yu36君の家に泊まらせてもらってありがたかった。<br/>
-布団がきちんと入らなかったの本当に申し訳なかった。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/12/14/fluentd-casual-3/">Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual</a><br/>
-fluentdが太ってきた時にどうしたか、みたいなハウツー共有したくて発表してきた。<br/>
-20分ぐらいかかる内容を5分で話すのむずかしかった。<br/>
-話し方についてもう少し工夫をする必要があるなって思った。</p>
-
-<p>発表するの、今でも緊張するけどそれでもやっぱり場数踏めばそこそこ慣れてくるもので<br/>
-2013年も発表するのでいっぱいいっぱいだったけど、2014年はもう少しゆっくり話せるようにしたい。</p>
-
-<h2>去年のブログ一覧</h2>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/archives/">http://blog.kenjiskywalker.org/blog/archives/</a></p>
-
-<p>AWS元年だった。やったことのないことをやらせて下さいって言って<br/>
-やらせてもらえたから色々学べた。本当にありがたい限りだった。<br/>
-やらせてもらえて学んだことはなるべくアウトプットしていった。</p>
-
-<p><a href="http://blog.kenjiskywalker.org/blog/2013/11/07/example-aws-cost/">AWS費用試算例</a></p>
-
-<p>計算方法とかちゃんと理解していなかったのでこのエントリーを書くことで理解が深まった。<br/>
-t1.microを利用していても転送量で金額がいかようにもなることが頭で理解できた。</p>
-
-<p>ChefとZabbixはだいぶ手に馴染むようになった。<br/>
-細かいtipsなんかもちょくちょくアウトプットできた。</p>
-
-<p>オペミスし易い自分としては、オペミスが起こってもなるべく影響がない状態に持っていければ問題がなくて、若田光一さんがインタビューで「ミスは必ず起こる、そのミスをいかに最小限の影響で終わらすのが大切だ」という話をしていて<br/>
-2014年はまさにそこに注力していきたいと考えている。</p>
-
-<p>設定のミスなどの気付きについては<a href="http://serverspec.org/">serverspec</a>を利用するのが最高だ。感動した流れでpull-reqした。<br/>
-<a href="https://github.com/serverspec/serverspec/pull/63">https://github.com/serverspec/serverspec/pull/63</a><br/>
-<a href="https://github.com/serverspec/serverspec/pull/64">https://github.com/serverspec/serverspec/pull/64</a><br/>
-きっと時間が経つにつれてどんどん恥ずかしくなっていくpull-reqだと思う。<br/>
-エレガントなpull-reqを送れるように精進していこう。</p>
-
-<p>Chefとserverspecを利用しているならこちらを参考にしてもらうと捗ると思う。<br/>
-<a href="http://blog.kenjiskywalker.org/blog/2013/07/31/serverspec-attribute/">Testing #chef Cookbook by #serverspec #devops</a><br/>
-つたない英語で件名にハッシュタグまで付けてみたけど<br/>
-海外の人に全く刺さらなくて社会の厳しさを感じた瞬間だった。</p>
-
-<h2>つくったもの</h2>
-
-<p><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a> # ほとんどyunomuさんがつくってくれたものを利用しただけ<br/>
-<a href="https://rubygems.org/gems/fluent-plugin-rds-slowlog">fluent-plugin-rds-slowlog</a><br/>
-<a href="http://blog.kenjiskywalker.org/blog/2013/09/18/temple-kun/">Golang on GAE で軽いものを取り敢えずつくる</a><br/>
-<a href="http://blog.kenjiskywalker.org/blog/2013/10/10/value-domain-update-go/">Goでvalue Domainのアップデートスクリプトかいた</a><br/>
-<a href="https://github.com/kenjiskywalker/imayaro-bot">Imayaro-bot</a><br/>
-<a href="http://blog.kenjiskywalker.org/blog/2013/10/14/scatter_kun/">IRCでお願いしたら分散図つくってくれるscatter_kunつくった</a>
-<a href="http://blog.kenjiskywalker.org/blog/2013/07/10/hisaichi-tweet/">earthquake.gemプラグイン３つ</a><br/>
-<a href="https://gist.github.com/kenjiskywalker/8232758">github_status_check.rb</a> # ikachan使ってる<br/>
-<a href="http://blog.kenjiskywalker.org/blog/2013/10/17/senrigan/">Zabbix::Senriganをつくりました</a></p>
-
-<p>ほかにもちょくちょくあるけど、しょーもないものから日常の便利ツールまで微妙なのをつくった。</p>
-
-<h2>去年は</h2>
-
-<p>すごい人たちとお会いするばかりだった。<br/>
-今年は自分のちからで色々とやらなければならない状態に持っていったので<br/>
-貢献して年収あげてきたい。おじさんズでがんばってこ！</p>
 </div>
   
   
