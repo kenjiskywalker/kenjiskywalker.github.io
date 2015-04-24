@@ -9,7 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="なんかもうちょっと読んでた気がする&hellip; kenjiskywalkerの本棚 - 2014年11月 (1作品) & Premium (アンド プレミアム) 2015年 1月号読了日：11月24日 powered by booklog ">
+  <meta name="description" content="雑記 youtubeもtwitterの広告も、ただ間に挟んでいるだけで
+普通に不快な印象しかない。不快ではない広告などこの世にあるのか
+って考えたらその広告自体が面白いとか興味があるとかの場合は
+不快ではなかったりする。受け取り手次第な感じもする。 私はサッカーが好きで、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +64,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/08/koukoku/">不快な広告と不快ではない広告</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T21:17:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>雑記</h2>
+
+<p>youtubeもtwitterの広告も、ただ間に挟んでいるだけで<br/>
+普通に不快な印象しかない。不快ではない広告などこの世にあるのか<br/>
+って考えたらその広告自体が面白いとか興味があるとかの場合は<br/>
+不快ではなかったりする。受け取り手次第な感じもする。</p>
+
+<p>私はサッカーが好きで、いろんなサッカーの話を聞くのが好きなのだが<br/>
+南米のサッカー中継のラジオで、得点が入ると、<br/>
+ゴールに絡めて広告してくるらしい話が好きだ。どんな感じかというと</p>
+
+<p>ゴールゴルゴルゴルゴール！まるで◯◯社のスプライトのような爽快感！みたいな感じで<br/>
+若干無理があるだろうっていう感じでこじつけるらしい。</p>
+
+<p>こういうアイデアのある話は好きだ。<br/>
+優秀な人がたくさん在籍しているんだろうし、<br/>
+もうちょっと変わった広告の仕方はないのだろうか</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -679,158 +734,6 @@ currentやrelease, sharedなど見たらわかる面白構造.<br/>
 
 
 <p>他に良いプラクティスあれば教えてください。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-13T21:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>参考</h3>
-
-<p><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-niokeruyun-yong-zi-dong-hua">KAIZEN platform Inc. における運用自動化 - Speaker Deck</a><br/>
-<a href="https://circleci.com/docs/docker">Continous Integration and Delivery with Docker - CircleCI</a></p>
-
-<h2>TL;DR</h2>
-
-<p>CircleCI上でDockerコンテナを立て、<br/>
-そのコンテナに対してプロビジョニングを行い、<br/>
-プロビジョニング後のコンテナに対してテストを行う</p>
-
-<h2>DockerコンテナにAnsibleを実行する</h2>
-
-<p>コミットする度にDockerのimageをpullするのは時間がもったいないので<br/>
-<code>cache_directories</code>を利用し、imageをexportしておき<br/>
-実行時にimportするようにすると多少速くなる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>├── Dockerfile
-</span><span class='line'>├── ansible/
-</span><span class='line'>└── circle.yml</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Dockerfile</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ansible</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>circle.yml</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
-</span><span class='line'>  services:
-</span><span class='line'>    - docker
-</span><span class='line'>
-</span><span class='line'>dependencies:
-</span><span class='line'>  pre:
-</span><span class='line'>    - if [[ -e docker_ansible_image.tar ]]; then cat docker_ansible_image.tar | docker import - kenjiskywalker/dockerfile-centos-ansible ; docker load --input docker_ansible_image.tar ; else docker build . ; docker save -o docker_ansible_image.tar kenjiskywalker/dockerfile-centos-ansible ; fi
-</span><span class='line'>
-</span><span class='line'>  cache_directories:
-</span><span class='line'>    - "docker_ansible_image.tar"
-</span><span class='line'>
-</span><span class='line'>test:
-</span><span class='line'>  post:
-</span><span class='line'>    - docker run -v `pwd`/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じの設定ファイルを置いておくと<code>ansible</code>ディレクトリをマウントし<br/>
-Dockerコンテナがansibleを実行できる状態であればDockerコンテナに対して<br/>
-ansibleが実行できる。この続きにServerspecを記述することで</p>
-
-<ol>
-<li>リポジトリにansibleのファイルをコミットする</li>
-<li>CircleCI上にてDockerコンテナを起動</li>
-<li>Dockerコンテナに対してansibleでプロビジョニング</li>
-<li>そのプロビジョニング結果をServerspecでテストをする</li>
-</ol>
-
-
-<p>のようなことができる。</p>
-
-<h2>wercker</h2>
-
-<p>werckerでも同じようなことができる。<br/>
-CircleCIと同様にファイルをキャッシュするには<br/>
-<code>$WERCKER_CACHE_DIR</code>を利用すればよいかと。</p>
-
-<ul>
-<li>wercker.yml</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>box: wercker-labs/docker
-</span><span class='line'>build:
-</span><span class='line'>  steps:
-</span><span class='line'>    - script:
-</span><span class='line'>        name: docker build
-</span><span class='line'>        code: docker build .
-</span><span class='line'>    - script:
-</span><span class='line'>        name: docker run
-</span><span class='line'>        code: docker run -v `pwd`/ansible:/ansible dockerfile/ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上、メモです。</p>
 </div>
   
   

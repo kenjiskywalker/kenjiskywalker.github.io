@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-04-25T01:27:52+09:00</updated>
+  <updated>2015-04-25T02:43:31+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[音楽]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/04/25/music-20150425/"/>
+    <updated>2015-04-25T02:37:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/04/25/music-20150425</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="https://bleep.com/release/59602-nils-frahm-solo">Solo - Nils Frahm</a></li>
+<li><a href="https://bleep.com/release/32180-bvdub-i-remember">I Remember - Bvdub</a></li>
+<li><a href="https://bleep.com/search/query?q=The+Breathing+Effect">Mars Is A Very Bad Place For Love - The Breathing Effect</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AWSのCloudWatchで取得できるBillingの情報を毎日Slackに通知させて費用を常に把握する]]></title>
@@ -1465,31 +1479,6 @@ sonotsさんがつくった<a href="https://github.com/sonots/fluent-plugin-grep
 
 <p>こんな感じで通知されてくる。セキュリティを気にする環境では<br/>
 このような設定を入れておくと良いのではないでしょうか。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[不快な広告と不快ではない広告]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/12/08/koukoku/"/>
-    <updated>2014-12-08T21:17:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/12/08/koukoku</id>
-    <content type="html"><![CDATA[<h2>雑記</h2>
-
-<p>youtubeもtwitterの広告も、ただ間に挟んでいるだけで<br/>
-普通に不快な印象しかない。不快ではない広告などこの世にあるのか<br/>
-って考えたらその広告自体が面白いとか興味があるとかの場合は<br/>
-不快ではなかったりする。受け取り手次第な感じもする。</p>
-
-<p>私はサッカーが好きで、いろんなサッカーの話を聞くのが好きなのだが<br/>
-南米のサッカー中継のラジオで、得点が入ると、<br/>
-ゴールに絡めて広告してくるらしい話が好きだ。どんな感じかというと</p>
-
-<p>ゴールゴルゴルゴルゴール！まるで◯◯社のスプライトのような爽快感！みたいな感じで<br/>
-若干無理があるだろうっていう感じでこじつけるらしい。</p>
-
-<p>こういうアイデアのある話は好きだ。<br/>
-優秀な人がたくさん在籍しているんだろうし、<br/>
-もうちょっと変わった広告の仕方はないのだろうか</p>
 ]]></content>
   </entry>
   
