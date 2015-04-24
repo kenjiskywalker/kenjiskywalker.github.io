@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chatops | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/chatops/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-04-20T19:24:51+09:00</updated>
+  <updated>2015-04-25T01:27:52+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -18,7 +18,11 @@
     <link href="http://blog.kenjiskywalker.org/blog/2015/04/20/aws-cloudwatch-billing-chatops/"/>
     <updated>2015-04-20T19:03:00+09:00</updated>
     <id>http://blog.kenjiskywalker.org/blog/2015/04/20/aws-cloudwatch-billing-chatops</id>
-    <content type="html"><![CDATA[<p>AWSの利用金額は毎日知りたい。<br/>
+    <content type="html"><![CDATA[<blockquote><p>DevOpsManの様子</p></blockquote>
+
+<p><img src="http://i.gyazo.com/676b021a544cf4c8cb33ef8eaa829e0c.png" alt="" /></p>
+
+<p>AWSの利用金額は毎日知りたい。<br/>
 そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。<br/>
 aws-sdkとかは使わずにシンプルに<a href="http://aws.amazon.com/jp/cli/">aws-cli</a>と<a href="http://stedolan.github.io/jq/">jq</a>とcurlだけでやるようにしている。</p>
 
