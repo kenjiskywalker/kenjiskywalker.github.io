@@ -8,6 +8,10 @@ tags: aws chatops
 categories: chatops
 ---
 
+> DevOpsManの様子
+
+![](http://i.gyazo.com/676b021a544cf4c8cb33ef8eaa829e0c.png)
+
 AWSの利用金額は毎日知りたい。  
 そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。  
 aws-sdkとかは使わずにシンプルに[aws-cli](http://aws.amazon.com/jp/cli/)と[jq](http://stedolan.github.io/jq/)とcurlだけでやるようにしている。  
