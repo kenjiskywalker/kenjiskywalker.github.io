@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="最近宮古島行ってきたのでおすすめ情報載せますね。 レンタカー 島１周するのに２時間もあれば周れるので、レンタカーおすすめします。
-伊良部島行きたい場合はレンタカーに確認しておいた方が良いです。
-沖縄本島と比べると日差しが全然違うので
-歩いてとか移動するとだいぶつらいと思う。 &hellip;">
+  <meta name="description" content="2013/12/25 update Testing #chef Cookbook by #serverspec #devopsの続きみたいなものですが
+Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって
+テスト対象が変化する場合があるかと思います。
+その場合、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/31/serverspec-attribute/">Serverspecでchefのjsonを読み込む</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T09:48:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>2013/12/25 update</p></blockquote>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops</a>の続きみたいなものですが<br/>
+Chefのjsonファイルでフラグ立てたりしてると、そのフラグによって<br/>
+テスト対象が変化する場合があるかと思います。<br/>
+その場合、<a href="http://serverspec.org/">serverspec</a>にはpropertyの機能があるのでそれを利用します。</p>
+
+<h2>spec/spec_helper.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=spec_helper.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p><code>set_property</code>の項目を追加します。</p>
+
+<h2>nodes/host.json</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=nodes_host.json'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じでこのMySQLはSlaveですみたいなフラグがあって</p>
+
+<h2>cookbooks/mysql/templates/default/my.cnf.erb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_templates_default_my.cnf.erb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなテンプレートがあったら</p>
+
+<h2>cookbooks/mysql/spec/is_slave_spec.rb</h2>
+
+<div><script src='https://gist.github.com/6118553.js?file=cookbooks_mysql_spec_is_slave_spec.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>このように<code>property["mysql"]["is_slave"]</code>として値を利用することができます。</p>
+
+<blockquote><p>specファイル、<code>if ~ end</code>で囲ってるのがモサいので、良案をお待ちしております</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -712,67 +787,6 @@ roleとかも考慮されてるし、一括で入れられないテストにつ�
 便利っぽい。</p>
 
 <p>便利アピール海外にもしようと思ったら全然英語書けなくて頑張ろうって思った</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/10/readability-hatebu-ifttt/">IFTTTを使ってReadabilityでFavったエントリーをはてブする</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-10T22:10:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://podcast.bulknews.net/">ep15: After Google Reader, DIY Blogging, The Go language (typester)</a><br/>
-を聞いてて、<a href="http://ifttt.com/">IFTTT</a>使って<a href="http://www.readability.com/">Readability</a>と<a href="http://b.hatena.ne.jp/">はてブ</a>の連携するの思い出した。</p>
-
-<p><a href="http://weblog.bulknews.net/post/13811211811">快適に「あとで読む」ための環境 - TATSUHIKO MIYAGAWA&rsquo;S BLOG</a><br/>
-このmiyagawaさんのエントリーを参考にして設定した。</p>
-
-<p>やっていることは全部同じで、Gmailの設定して、PINコード受けて登録して
-<img src="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" alt="https://dl.dropboxusercontent.com/u/5390179/ifttt.png" /></p>
-
-<p>こんな感じで本文にURLが入るようにして<br/>
-<code>To address</code>にはてブの投稿用のメールアドレスを指定する。</p>
-
-<p>この設定を入れると</p>
-
-<p>ReadabilityでFav => はてブに登録</p>
-
-<p>されるようになる。<br/>
-ライフチェインジングだ。</p>
-
-<p>長そうだな、後で読みたいなって思ったものは片っ端からReadabilityに突っ込む。<br/>
-突っ込んだエントリーを移動中とか合間の時間に読んで、<br/>
-良かったものははてブに登録するということをしていたので、<br/>
-それがReadability側で完結するのとても捗る。おすすめです。</p>
-
-<p>また、画像の一部を黒でマスキングすると昭和のエロ本みたいで趣が出る。<br/>
-こちらも合わせておすすめしたい。</p>
 </div>
   
   

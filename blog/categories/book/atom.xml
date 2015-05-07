@@ -4,7 +4,7 @@
   <title><![CDATA[Category: book | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/book/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-05-02T18:14:19+09:00</updated>
+  <updated>2015-05-08T00:36:33+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「スクラム実践入門」を読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/05/08/scrum-book/"/>
+    <updated>2015-05-08T00:22:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/05/08/scrum-book</id>
+    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%E6%88%90%E6%9E%9C%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E3%81%AA%E9%96%8B%E7%99%BA%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9-WEB-PRESS-plus/dp/4774172367%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774172367" target="_blank" title="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/51ABflXRwZL.jpg" width="352" height="500" alt="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)" /></a></p>
+
+<p>スクラムをやったことはない。けどこれを読んで<br/>
+スクラムやらアジャイルやら言われているものの、体系的な基礎的な知識と<br/>
+先人たちの貴重な体験を学ぶことができてとても素晴らしい本だった。</p>
+
+<p>個人的に本当に導入しようと思ったら、やはり一度お金払って<br/>
+知見を吸収してから行うか、インストラクターっぽい人を呼んでやるのが<br/>
+一番良さそうだなと感じた。</p>
+
+<p>&ldquo;人間が集まれば集まるほどろくなことが起きない&#8221;という持論があるが、<br/>
+スクラムやらアジャイルやら型を決めてその中で業務を遂行することで、<br/>
+人間が集まる欠点を補うことができるのかな、とか考えた。</p>
+
+<p>ただ、意識高い人がこの本を読んで所属しているグループに導入しようと考えると</p>
+
+<ul>
+<li>グループ全員が同じようにグループに改善が必要だと感じて導入に積極的である</li>
+<li>グループの権力を持った人間はグループに改善が必要だと感じているが他のメンバーは必要に感じていない</li>
+<li>グループの権力を持たない人間はグループに改善が必要だと感じているが権力を持ったメンバーは必要に感じていない</li>
+<li>グループの権力を持たない一部の人間がグループに改善が必要だと感じているが、グループ全体では感じていない</li>
+</ul>
+
+
+<p>みたいな背景があったりすると思う。少人数でも全員がグループに問題がないと感じていれば<br/>
+改善することはないだろうし、人数が多くても全員がグループに改善が必要だと感じており、<br/>
+行動をする術を探しているようなら改善される可能性は十分にある。</p>
+
+<p>いきなり全部をやって全部が成功するわけではないが<br/>
+少なくとも改善が必要な現場にいるので、できるところから色々やっていこうと思った。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2015/04読んだ本]]></title>
@@ -147,73 +185,6 @@
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「Serverspec」本を読んだ]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book/"/>
-    <updated>2015-01-11T23:44:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/01/11/serverspec-book</id>
-    <content type="html"><![CDATA[<p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
-
-<ul>
-<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
-<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
-</ul>
-
-
-<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
-
-<h2>書籍について</h2>
-
-<p>最近はソフトウェアの本はあまり読まなくて、<br/>
-オフィシャルサイトのドキュメントを読むように心がけている(一次情報大切)ので<br/>
-そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
-
-<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
-ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
-
-<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
-というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
-背景を書籍を通じて理解できてとても有意義だった。</p>
-
-<h2>初めての人は？</h2>
-
-<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
-Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
-よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
-
-<h2>状態を担保する存在の必要性</h2>
-
-<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
-設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
-最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
-何かしら必要だと思う。<br/>
-実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
-最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
-それを元に負荷分散に追加するようにしていた。</p>
-
-<h2>Specinfraについて</h2>
-
-<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
-その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
-ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
-itamaeのような使い方は本当に上手だと思う。</p>
-
-<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
-
-<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
-どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
-インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
-
-<h2>最後に</h2>
-
-<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
-改めて思った。mizzyさんありがとうございます。<br/>
-Asuraっていうコードネームめちゃめちゃ好きでした。</p>
-
-<p>この本はまた何回か読み直したい本だ。</p>
 ]]></content>
   </entry>
   

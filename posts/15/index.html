@@ -9,9 +9,31 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="IRKitの初期ロットを利用していたので、モールス信号で
-設定がとばせなくなっていたのでファームウェアのアップデートをした。
-やり方はGitHubのページの通りに行えば問題ない。 https://github.com/irkit/device &hellip;">
+  <meta name="description" content="SensuでSSL使うプラグインでエラーが出ていた。
+その対処法を忘れないようにメモ。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+$
+$ /opt/sensu/embedded/bin/ruby -ropenssl -e "p &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +85,91 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/24/ruby-certificate-verify-failed/">Rubyでconnect&#8217;: SSL_connect Returned=1 Errno=0 state=SSLv3 Read Server Certificate B: Certificate Verify Failed (OpenSSL::SSL::SSLError) が出た時の対応方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-24T23:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>SensuでSSL使うプラグインでエラーが出ていた。<br/>
+その対処法を忘れないようにメモ。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$
+</span><span class='line'>$ /opt/sensu/embedded/bin/ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"
+</span><span class='line'>"/opt/sensu/embedded/ssl/cert.pem"
+</span><span class='line'>$
+</span><span class='line'>$ ls /opt/sensu/embedded/ssl/cert.pem
+</span><span class='line'>ls: cannot access /opt/sensu/embedded/ssl/cert.pem: No such file or directory
+</span><span class='line'>$
+</span><span class='line'>$ wget -O /opt/sensu/embedded/ssl/cert.pem http://curl.haxx.se/ca/cacert.pem
+</span><span class='line'>--2014-04-24 08:10:09--  http://curl.haxx.se/ca/cacert.pem
+</span><span class='line'>Resolving curl.haxx.se... 80.67.6.50, 2a00:1a28:1200:9::2
+</span><span class='line'>Connecting to curl.haxx.se|80.67.6.50|:80... connected.
+</span><span class='line'>HTTP request sent, awaiting response... 200 OK
+</span><span class='line'>Length: 250283 (244K)
+</span><span class='line'>Saving to: “/opt/sensu/embedded/ssl/cert.pem”
+</span><span class='line'>
+</span><span class='line'>100%[============================================================================================================================================&gt;] 250,283      253K/s   in 1.0s
+</span><span class='line'>
+</span><span class='line'>2014-04-24 08:10:11 (253 KB/s) - “/opt/sensu/embedded/ssl/cert.pem” saved [250283/250283]
+</span><span class='line'>
+</span><span class='line'>$ ls /opt/sensu/embedded/ssl/cert.pem
+</span><span class='line'>/opt/sensu/embedded/ssl/cert.pem
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -516,136 +623,6 @@ VyattaでVPN(PPTP)設定したメモ。</p>
 再起動など必要なく即反映されます。最高のユーザ体験です。</p>
 
 <p>もう市販のルータ使うことはないと思います。　</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/28/chef-ruby-block/">Chefのruby_blockを利用してファイル更新時に条件によってログを出力する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-28T01:59:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Chefには冪等性という特徴がありますが、実際の運用では<br/>
-ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは<br/>
-自分の手で確認したい。という条件もあるかと思います。</p>
-
-<ul>
-<li>設定ファイルは常に更新しても良い</li>
-<li>設定ファイルが更新された時だけミドルウェアを起動したい</li>
-<li>設定ファイルが更新された時にミドルウェアが起動済みであればログに出力</li>
-</ul>
-
-
-<p>上記条件を満たすために実施した内容について共有します。</p>
-
-<ul>
-<li>chef/site-cookbooks/apache/recipes/default.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/httpd/conf/httpd.conf" do
-</span><span class='line'>  source "httpd.conf.erb"
-</span><span class='line'>  owner  "www"
-</span><span class='line'>  mode   0644
-</span><span class='line'>  notifies :run, "ruby_block[warn]", :immediately
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>ruby_block "warn" do
-</span><span class='line'>  block do
-</span><span class='line'>
-</span><span class='line'>    # httpdが起動中であればログ出力
-</span><span class='line'>    unless `pgrep httpd` == ""
-</span><span class='line'>      print &lt;&lt;"EOS"
-</span><span class='line'>
-</span><span class='line'>\e[33m===================================================================
-</span><span class='line'>recipe:apache
-</span><span class='line'>
-</span><span class='line'>apacheが起動中です。
-</span><span class='line'>新しい設定を反映させるためにはapahceを再起動してください。
-</span><span class='line'>===================================================================\e[0m
-</span><span class='line'>EOS
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>  action :nothing
-</span><span class='line'>  notifies :start, "service[httpd]"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>service "httpd" do
-</span><span class='line'>  action :enable
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li><code>/etc/httpd/conf/httpd.conf</code> が更新される</li>
-<li><code>notifies :run, "ruby_block[warn]"</code>で<code>ruby_block</code>を実行</li>
-<li><code>ruby_block</code>内でミドルウェアが起動中かどうかRubyのコードで条件分岐</li>
-<li>起動中であればログを出力</li>
-<li><code>ruby_block</code>で<code>notifies :start, "service[httpd]"</code>を実行、ミドルウェアの起動を行う</li>
-</ol>
-
-
-<p><code>ruby_block</code>は実行順序が最後になるというChefの設計上、<br/>
-<code>notifies :start, "service[httpd]"</code>という方法を選択しました。</p>
-
-<p>もう少しマシな方法があれば是非とも教えてください。<br/>
-Chefは何か込み入ったことをしようとすると色々と工夫しないといけないのが難点ですね。</p>
 </div>
   
   
