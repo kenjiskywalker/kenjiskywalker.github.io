@@ -9,11 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="$ss -ltと$ss -ltpは使える。
--iは面白いけど本当に確認するならngrepかtcpdumpだろうな セッションを開いているホスト名を名前解決しない(デフォルト) 1
-$ss -n セッションを開いているホスト名を名前解決する 1
-$ss -r TCPのセッションのみ表示 1
-$ss &hellip;">
+  <meta name="description" content="https://github.com/kenjiskywalker/consul-test READMEのとおりですが 1
+2
+3
+4
+5
+Node Address Status Type Build Protocol
+node01 127.0.0.1:8301 alive server 0.4. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +67,64 @@ $ss &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/08/consul-test-tool/">Consul Clusterを手元に構築する簡単なスクリプトかいた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-08T21:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
+
+<p>READMEのとおりですが</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Node    Address         Status  Type    Build  Protocol
+</span><span class='line'>node01  127.0.0.1:8301  alive   server  0.4.0  2
+</span><span class='line'>node02  127.0.0.2:8301  alive   server  0.4.0  2
+</span><span class='line'>node03  127.0.0.3:8301  alive   server  0.4.0  2
+</span><span class='line'>node04  127.0.0.4:8301  alive   client  0.4.0  2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記構成のConsul Clusterを<br/>
+OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
+よかったらご利用ください。</p>
+
+<h3>あわせてよみたい</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/06/06/consul-dns-round-robin/">ConsulのDNSラウンドロビンの検証</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -403,98 +463,6 @@ JavaScriptやってみたけど基本的なこと全然理解していなかっ�
 <p>@deeeet君、@tagomorisさん、@uzullaさん、おめでとうございました！</p>
 
 <p>おつかれさまでした！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/29/yapcasia2014-cosmo/">#yapcasia 2014 でシステムとの時間の旅の話をしてきました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-29T12:38:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://speakerdeck.com/kenjiskywalker/yapcasia2014">The world is not complete </a></h2>
-
-<blockquote><p>邦題: <br/>
-「完成されたシステムなどない。完成された人間もいない。<br/>
-  あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ」</p></blockquote>
-
-<p>ウェブサービスを頭に描きながら、そのウェブサービスの成長の旅を体験することで<br/>
-その時その時に何が必要か、ということをお話をしました。後半はトークショーでした。</p>
-
-<blockquote><p>システムは完全ではないので壊れることを前提につくる<br/>
-人間は失敗をするので、失敗をしても復旧できるようにシステムをつくる</p>
-
-<p>システムや一部の機能を疎結合にし、再現性を保つことで、障害に強くする<br/>
-再現性をシンプルに保つことで、システム自体を変更の強いものにする</p></blockquote>
-
-<p>例えば、現代でいえば、クラウドサービスでしか動かない、<br/>
-特定のオンプレでしか動かないシステムではなく、<br/>
-機能毎に環境に依存しないようにシステムをつくることを忘れないでね。</p>
-
-<p>壊れたりした時に慌てるのではなく、保険をつくって<br/>
-再現性を持たせて同じ状態に戻せるようにしておいてね。ということでした。</p>
-
-<p>その意識があるかないかで、規模が拡大したり、機能が追加され<br/>
-複雑化した時に、大きな違いになってくることを私は経験してきました。</p>
-
-<p>大規模の経験がある人は、この辺は体験的に理解していますが<br/>
-大規模の経験がない人は、最初の構成を複雑にしてしまい<br/>
-後々苦労してしまうのはあるあるネタかと思います。</p>
-
-<p>再現性については、puppet、Chef、Ansible、Consul、Serfなど<br/>
-プロビジョニング、オーケストラレーションツールを利用し<br/>
-環境に依存しない構築が可能になり、<br/>
-簡易性、疎結合については、Dockerや各種クラウドサービスの登場で、<br/>
-機能毎にプラットフォームを渡りやすくなってきたのではないでしょうか。</p>
-
-<p>ただ、その記録、保険、再現性、簡易性は<br/>
-どのタイミングで、どの程度の精度を持たせるかは<br/>
-つくる時間・つくらなかった時のリスク・復旧時間・構築時間など<br/>
-都度見積もって、判断してね。という当たり前の話をしました。</p>
-
-<p>Infrastructure as Codeの時代、プログラミングで良く言われている<br/>
-「変化に強く、シンプルであれ」という哲学は、Infrastructureにも<br/>
-当てはまる時代になってきたのではないでしょうか。<br/>
-それは、UNIXの哲学や、日本の文化から学ぶことができます。</p>
-
-<p>そうして、みなさんのウェブサービスの旅は、これからも続いていきます。</p>
-
-<p>という発表を大ホールならではのエモーショナルな空気感で発表してきました。<br/>
-理想論だ、と吐き捨てることはできますが、その理想の世界が<br/>
-Go言語の登場から各種プロビジョニングツール、様々なクラウドサービスの登場で<br/>
-段々と実現可能になってきたのではないでしょうか。</p>
-
-<p>発表が結構早く終わってしまったけど、発表の補足を質問を回答する形ででき<br/>
-結果的に、視聴者参加型のとても素晴らしい空間が生まれました。<br/>
-みなさん、ありがとうございました。</p>
-
-<p>聞いてくれた人たち、選んでくれた人たち、ありがとうございました。</p>
 </div>
   
   

@@ -9,11 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="こんなスクリプトを置いておいて /etc/rc.local 1
-sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
-エフェメラルディスク2つをRAID0としてマウントする。
-なんでmd127なのかは、AWSさんに聞いてほしい。
-md0でつくっても必ず、 &hellip;">
+  <meta name="description" content="Monitoring Casual Talk #3に参加してきました。 会場をご提供頂いた株式会社paperboy&amp;co.さま
+@ume3_さん、@tnmtさん、@lamanotramaさん、ありがとうございました。 会場へ向かう途中で、fujiwaraさんとsongmuさんが &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +62,124 @@ md0でつくっても必ず、 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/09/monitoringcasualvol3/">#monitoringcasual Vol3 に参加してきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T15:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="http://www.zusaar.com/event/521056">Monitoring Casual Talk #3</a>に参加してきました。</h2>
+
+<p>会場をご提供頂いた株式会社paperboy&amp;co.さま<br/>
+@ume3_さん、@tnmtさん、@lamanotramaさん、ありがとうございました。</p>
+
+<p>会場へ向かう途中で、fujiwaraさんとsongmuさんが<br/>
+今日はmizzyさんいないからイケるかもしれないとか物騒なこと言ってて怖かったです。</p>
+
+<p>セルリアンタワー、曜日の夜にBARになるところがすごくて<br/>
+入り口にイケイケのおねーさんいたりして華やかや〜！！！ってなっていました。</p>
+
+<h2>発表内容</h2>
+
+<p><a href="http://www.slideshare.net/KenjiNaito/monitoringcasual-vol3">発表資料</a>はこんな感じです。<br/>
+出発する30分前につくったのでそんなに大したものではないです。<br/>
+一枚目は 「<em>RDSのメトリクスをCloudWatchからfluentdへ、slow_logを添えて</em>」<br/>
+って書いてあります。<br/>
+フレンチっぽくしたかったんですけどただの読めない文字になってました。<br/>
+あと何枚目かに素敵な妖精が映ってるかもしれないですけど気のせいです。</p>
+
+<p>こんなんあったらいいなーって思ったら、素晴らしいプロダクトがたくさんあるので<br/>
+すぐにできて良いですね。という感じで5分ぐらいで話したんですけど<br/>
+みんな普通にライトニングじゃない時間トークしてて、<br/>
+何でか一番時間きっかりしてたのに手抜いた感じがしてて切なかったです。</p>
+
+<p>もにかじ中にお前ZABBIXのスクリーン消したろ？って社内IRCで声かけられて<br/>
+は〜申し訳ないです〜とか言いながらZABBIXのスクリーンつくりなおしてました。<br/>
+ZABBIXのスクリーン、業が深いので手作業でやらないようにしたいですね。</p>
+
+<h2>fluentdのプラグインをつくりました。</h2>
+
+<p><a href="https://rubygems.org/gems/fluent-plugin-cloudwatch-lite">fluent-plugin-cloudwatch-lite</a><br/>
+<a href="https://rubygems.org/gems/fluent-plugin-rds-slowlog">fluent-plugin-rds-slowlog</a></p>
+
+<p><strong>fluent-plugin-cloudwatch-lite</strong> は、RDSのメトリクスをZABBIXで取得したかったので<br/>
+fluentdに120秒前と60秒前のデータを取ってくるものです。<br/>
+元々<a href="https://github.com/yunomu/fluent-plugin-cloudwatch">fluent-plugin-cloudwatch</a>があって<br/>
+それを参考につくらせてもらいました。<br/>
+自分でThread書くとか多分無理だったので本当にありがたいです。</p>
+
+<p><strong>fluent-plugin-rds-slowlog</strong> は、<br/>
+RDSのslow_logをファイルで保存したかったので書きました。<br/>
+最初シェルスクリプトでやってたんですけど、<br/>
+fujiwaraさんからfluentdでやれば？って言われて<br/>
+ほんとっスねってなって書きました。fluentdのplugin簡単に書けてすごいです。</p>
+
+<p>簡単に書けるからこそ、つくるならちゃんとしたものつくりたいなーって思いながら<br/>
+自信ないので、色々書いていくようになれば自信つくのかなーとか思ったりしてます。</p>
+
+<h2>もにかじ</h2>
+
+<p>もにかじ、次回ははてなさんらしいので超楽しみです。<br/>
+なんだったら鴨川でビールキメたりしたいですが、<br/>
+多分カミさんに物理的に抹消されるので厳しいです。</p>
+
+<p>もし次回参加できたら、次はこんなことで悩んでるんですけど<br/>
+みなさんどうしてます？みたいな感じで行きたいです。(前も言ってた気がする)</p>
+
+<h2>fujiwaraさん</h2>
+
+<p><a href="http://dl.dropbox.com/u/224433/monitoring_casual_3/index.html#1">『いつもと違う』を検知したい</a></p>
+
+<p>ハンパない</p>
+
+<h2>Perlのひとたち</h2>
+
+<p>Perl使ってる若者みんなスルーしてるけど、Perlおじさんたち<br/>
+disに対するアンサーソングみたいなのみんなキメてて怖かった。</p>
+
+<p>Twitter見たらまだ話してる人いて本当に物騒だなって思った。</p>
+
+<h2>ひとりじゃない</h2>
+
+<p>監視とかモニタリングとかってあんまりおもしろい話ないし<br/>
+すごい地道な作業が多いけど、みんなで集まって<br/>
+どうやって問題に対して解決してるかとか、<br/>
+こういう課題があるんだけどどうだとか、このツールどうだとか<br/>
+ワイワイ話したりするの楽しいなーって思いました。</p>
+
+<p>Twitter芸人として技術力ないけどコンテンツ力があるとか<br/>
+言われないように頑張って生きたい。</p>
+
+<p>頑張るのに疲れたらインターネットから解脱して仏像彫りたい</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -318,53 +433,6 @@ CloudWatchでデータ取るなら自分でメトリクスつくらないとダ�
 
 
 <p>Enjoy CloudWatch API!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/20/zabbix-proxy/">ZABBIX PROXY ver.1.8の設定メモ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-20T00:25:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>OctopressでGsitすごいカジュアルに載せられるけど<br/>
-ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。</p>
-
-<p><a href="https://github.com/kenjiskywalker/memo/blob/master/software/ZABBIX/zabbix-proxy.md">ZABBIX PROXYのメモ</a></p>
-
-<p>普通にproxyインストールするまではよかったんだけど<br/>
-その後にproxy先のZABBIXで設定するのしらなくてずっと</p>
-
-<p><code>Sending list of active checks to [IP ADDORESS] failed: host [n01] not found</code></p>
-
-<p>ZABBIXのオフィシャルのドキュメントがあったら<br/>
-本当にそういうドキュメント探すセンスがないっぽい。</p>
 </div>
   
   

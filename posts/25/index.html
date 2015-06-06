@@ -9,7 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="読んだ時のメモです ">
+  <meta name="description" content="実在するかどうかはわかりませんがこのような構成があった場合に
+どのような費用が発生するのか試算してみました。
+AWSは費用の算出が難しいので、参考になれば幸いです。 また、計算方法の誤りや、情報の過不足等あれば
+gistにコメントか、Twitterなどで教えて頂ければ有難いです。 Simple &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +64,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/07/example-aws-cost/">AWS費用試算例</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-07T14:16:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>実在するかどうかはわかりませんがこのような構成があった場合に<br/>
+どのような費用が発生するのか試算してみました。<br/>
+AWSは費用の算出が難しいので、参考になれば幸いです。</p>
+
+<p>また、計算方法の誤りや、情報の過不足等あれば<br/>
+gistにコメントか、Twitterなどで教えて頂ければ有難いです。</p>
+
+<blockquote><p><a href="http://calculator.s3.amazonaws.com/calc5.html?lng=ja_JP">Simple Monthly Calculator</a>を利用して算出しています。</p></blockquote>
+
+<div><script src='https://gist.github.com/7349351.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -342,186 +394,6 @@ daemon化するために孫プロセスで動かすとか古典的な感じだ�
 
 
 <p>次から次に壁が現れるぜコンチクショ〜</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/17/senrigan/">Zabbix::Senriganをつくりました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-17T23:14:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>千里眼、どんなメリットがあるのか見えないとのことなので<br/>
-もう少し詳細に書きます。</p>
-
-<h2>demo：<a href="http://un.kenjiskywalker.org/senrigan/">http://un.kenjiskywalker.org/senrigan/</a></h2>
-
-<p>動きます。</p>
-
-<h2>screen shot</h2>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/senrigan2.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan2.png" />
-<img src="https://dl.dropboxusercontent.com/u/5390179/senrigan3.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan3.png" />
-<img src="https://dl.dropboxusercontent.com/u/5390179/senrigan6.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan6.png" /></p>
-
-<p>こんな感じのZabbixのグラフを取得してきて一覧で表示してくれるものです。</p>
-
-<h2>何のために？</h2>
-
-<p>グラフの一覧を表示するためなら、Zabbixのスクリーンを利用するのが良いですね。<br/>
-しかし、スクリーンが案件毎やグループ毎に分かれていた場合、<br/>
-横断的にCPU使用率を確認しようとすると、全てのスクリーンへ<br/>
-アクセスしなければならない。世に云うZabbix画面右上プルダウン地獄です。</p>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/senrigan5.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan5.png" /></p>
-
-<p>案件担当者であれば、特定のスクリーンだけ見ておけば問題ないかもしれませんが<br/>
-システム全域に目を通さなければならない運用者にとって<br/>
-このZabbixプルダウン地獄はそこそこストレスになります。<br/>
-私はなりました。<br/>
-そして、横断的に確認するコストが高くなると<br/>
-目視で定期的に確認する間隔が減り、変化に気付きにくくなります。<br/>
-私はなりました。</p>
-
-<p>そこで、解決策として</p>
-
-<ul>
-<li>動的ではなくて良い</li>
-<li>決まった期日の間のグラフ一覧がほしい</li>
-<li>なるべくプルダウンしなくて良いようにする</li>
-<li>全てのグラフをシンプルに表示する</li>
-</ul>
-
-
-<p>この3点を叶えるオレ得ツール、Zabbix::Senriganを作成しました。</p>
-
-<h3><a href="https://github.com/kenjiskywalker/p5-Zabbix-Senrigan/">https://github.com/kenjiskywalker/p5-Zabbix-Senrigan/</a></h3>
-
-<h2>demo：<a href="http://un.kenjiskywalker.org/senrigan/">http://un.kenjiskywalker.org/senrigan/</a></h2>
-
-<p>改めてdemo。</p>
-
-<h2>screen shot</h2>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/senrigan2.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan2.png" />
-<img src="https://dl.dropboxusercontent.com/u/5390179/senrigan3.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan3.png" />
-<img src="https://dl.dropboxusercontent.com/u/5390179/senrigan6.png" alt="https://dl.dropboxusercontent.com/u/5390179/senrigan6.png" /></p>
-
-<p>自宅環境だとグラフ少ないのでメリットないのですが、プロダクト環境で<br/>
-CPUのグラフが400個ぐらいあるとだいぶ便利です。</p>
-
-<h3><a href="https://github.com/kenjiskywalker/Mzcs">https://github.com/kenjiskywalker/Mzcs</a></h3>
-
-<p>これのバージョンアップ版みたいな感じです。</p>
-
-<h2>導入方法</h2>
-
-<blockquote><p>Zabbixを利用していることが前提条件です</p></blockquote>
-
-<p><code>carton install</code>、<code>carton exec perl script.pl</code>で動きます。<br/>
-egの中に<code>script.pl</code>があるので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env perl
-</span><span class='line'>
-</span><span class='line'>use strict;
-</span><span class='line'>use warnings;
-</span><span class='line'>use utf8;
-</span><span class='line'>
-</span><span class='line'>use FindBin;
-</span><span class='line'>use lib "$FindBin::Bin/../lib";
-</span><span class='line'>use Zabbix::Senrigan;
-</span><span class='line'>
-</span><span class='line'>my $snrgn = Zabbix::Senrigan-&gt;new(
-</span><span class='line'>    username    =&gt; "zabbix_user",                          ### Zabbixのユーザ名
-</span><span class='line'>    password    =&gt; "zabbix_password",                      ### Zabbixのパスワード
-</span><span class='line'>    zabbix_url  =&gt; "http://localhost/zabbix",              ### ZabbixのURL
-</span><span class='line'>    data_source =&gt; "DBI:mysql:zabbix",                     ### ZabbixのDB名
-</span><span class='line'>    db_username =&gt; "zabbix",                               ### ZabbixのDBのユーザ名
-</span><span class='line'>    db_password =&gt; "zabbinx",                              ### ZabbixのDBのパスワード
-</span><span class='line'>    graph_name_list =&gt; ["CPU utilization", "Swap usage"],  ### 見たいグラフ
-</span><span class='line'>    view_graph_num =&gt; 30,                                  ### 1ページに表示するグラフ数
-</span><span class='line'>    period      =&gt; 86400,                                  ### グラフの間隔
-</span><span class='line'>    time        =&gt; "120000",                               ### 12:00:00 からのデータ
-</span><span class='line'>    create_dir  =&gt; "../test_dir",
-</span><span class='line'>);
-</span><span class='line'>
-</span><span class='line'>$snrgn-&gt;run;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>みたいな感じでrunさせれば<code>create_dir</code>に<br/>
-指定したディレクトリにグラフ一覧ができます。<br/>
-MechanizeとDBIの両方使わないといけないのが<br/>
-なんともって感じです。</p>
-
-<p>上の設定の場合</p>
-
-<ul>
-<li><code>zabbix_url</code>へ<code>username</code>と<code>password</code>を利用してMechanizeでログイン</li>
-<li><code>data_source</code>へ<code>db_username</code>と<code>db_password</code>を利用してDBにログイン</li>
-<li><code>period</code>の期間のグラフを作成する。時刻は<code>time</code>からのものを利用</li>
-</ul>
-
-
-<p>つまり画像をローカルにダウンロードしてきて<br/>
-その一覧を見るためのHTMLを作成する。というものです。</p>
-
-<p>基本的に2週間ぐらいのメトリクスが見れれば<br/>
-ある程度の傾向は見れるかなと。基本的に増減については<br/>
-Zabbixがアラートを発報してくれますが、漏れもあるかと思うので<br/>
-定期的に職人が目視で確認するのに利用できます。</p>
-
-<p>enjoy Zabbix life!</p>
 </div>
   
   
