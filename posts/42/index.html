@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="基本的にルートパーティションはEBSで8GB決め打ちだったので
-サイズ変更できないかなーと思ったらできたのでメモ。 普通にEC2のインスタンスつくる
-インスタンスを落とす
-Volumesから作成されたインスタンスのルートボリュームをDetach &hellip;">
+  <meta name="description" content="AWSでEC2のインスタンスをVPCにアサインして
+外部と接続する為のネットワークインタフェースを追加して
+外部と接続できるようにしたメモです。 もっと簡単なやり方ありましたら教えてくださいませ。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,50 @@ Volumesから作成されたインスタンスのルートボリュームをDeta
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/06/aws-ec2-vpc/">AWS::EC2をVPCにアサインして、EIP用のNetwork Interfaceを追加して外部と接続できるようにする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-06T21:30:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AWSでEC2のインスタンスをVPCにアサインして<br/>
+外部と接続する為のネットワークインタフェースを追加して<br/>
+外部と接続できるようにしたメモです。</p>
+
+<div><script src='https://gist.github.com/4722151.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>もっと簡単なやり方ありましたら教えてくださいませ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -640,68 +684,6 @@ Slave &lt;=> Slaveの同期は停止する。(検証済み)</p></blockquote>
 
 <p>ということで、活発的に開発が行われているので<br/>
 適時チェックするのが良さそうですね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/23/postfix-header_checks/">Postfixのheader_checksでの否定の条件について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-23T20:52:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.postfix.org/header_checks.5.html">header_checks - Postfix built-in content inspection</a><br/>
-<a href="http://www.postfix.org/regexp_table.5.html">regexp_table - format of Postfix regular expression tables</a></p>
-
-<p><code>header_checks</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>!/^(To|From):.*@example\.com*/ REJECT</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とすれば、対象の<em>example.com</em>のドメイン意外受け付けなくて<br/>
-ライフチェンジングなのでは！！！！！！！！<br/>
-と思ったのですが、header_checksの仕様上<br/>
-ヘッダ全てに対してではなく、1行毎にルールを適用するため<br/>
-例えば、ヘッダの1行目が</p>
-
-<p><code>Delivered-To: foo@example.com</code></p>
-
-<p>である場合、<strong><em>マッチしない</em></strong>と認識されてREJECTされます。</p>
-
-<p>この意味がわからなくてずっと悩んでいました。</p>
-
-<p>メールの破棄の処理をheader_checksの例外処理を利用して行うのは<br/>
-とてもむずかしいので、素直にSpamAssasinやprocmailなどを利用しましょう！</p>
-
-<p>というお話でした。</p>
-
-<p>(;´д｀)ﾄﾎﾎ…</p>
 </div>
   
   

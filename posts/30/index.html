@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="市販のルータ兼無線アクセスポイント君が
-2日に1回再起動しないとAirPlayできなくなってしまったので
-この際自宅のネットワーク環境を一新すべく
-Vyattaを導入した。その際のメモ。 参考URL 自宅ルータをVyattaに移行しました - IT 東京 楽しいと思うこと &hellip;">
+  <meta name="description" content="クリストファー・ノーラン関わってるなら
+ダークナイトっぽい仕上がりだろヒャッホー！！！って見に行ったけど
+痛快アクション映画だった。 多分何割か帰りに消化不良でダークナイト借りてると思う。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,46 @@ Vyattaを導入した。その際のメモ。 参考URL 自宅ルータをVyatta
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/12/manofsteal/">「マン・オブ・スティール」見た</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-12T09:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>クリストファー・ノーラン関わってるなら<br/>
+ダークナイトっぽい仕上がりだろヒャッホー！！！って見に行ったけど<br/>
+痛快アクション映画だった。</p>
+
+<p>多分何割か帰りに消化不良でダークナイト借りてると思う。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -692,78 +732,6 @@ HHKでタイピングするの面白くて無駄に長文になった。</p>
 <p><a href="https://github.com/kenjiskywalker/mychefrepo/tree/master/site-cookbooks/plenv">https://github.com/kenjiskywalker/mychefrepo/tree/master/site-cookbooks/plenv</a></p>
 
 <p>これでchef使って一撃でPerlの環境用意できます。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/27/eip-set-autoscaling-vpc/">AWSのAutoScalingで立ち上がってきたVPC内のEC2インスタンスに強制的にEIPを付与する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-27T23:50:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前提条件</h2>
-
-<ul>
-<li>グローバルにアクセスできる管理サーバが一台ある</li>
-<li>対象のVPCにアサイン可能なEIPがある(AssociateされていないEIPがある)</li>
-</ul>
-
-
-<p>という前提条件が成立していれば、管理サーバで</p>
-
-<div><script src='https://gist.github.com/6354555.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>このようなスクリプトを</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*/1 * * * * root /root/set_eip.sh 2&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>と噛ましておけば、EIPが付与されていないインスタンスを発見し次第<br/>
-強制的にEIPをアサインすることができます。</p>
-
-<p><code>2&gt; /dev/null</code>とかやってるとイスが飛んできそうなものですが<br/>
-1分毎に実行していると、内部DNS結構頻繁に取りこぼしたりするので闇に葬りました。<br/>
-成功した場合は<code>ADDRESS    i-XXXXXXXX eipalloc-XXXXXXXX   eipassoc-XXXXXXXX</code><br/>
-という内容のメールがとんできて、お、アサインされたのか。と気付けます。</p>
-
-<p>CloudWatchのAutoScaling発動トリガーで何かしらの通知設定をされているかと思うので<br/>
-まずその通知でAutoScalingの発火を確認し、<br/>
-上記EIPアサイン通知でインスタンスの起動を確認。のようなこともできます。</p>
-
-<p><a href="http://aws.typepad.com/aws_japan/2013/08/additional-ip-address-flexibility-in-the-virtual-private-cloud.html">【AWS発表】 VPC内のパブリックIPアドレスの取い扱いがより柔軟に</a></p>
-
-<p>ということを頑張らなくてもそのうち上記Public IPがAutoScalingにも対応すると思う。</p>
-
-<p>ところで<code>EIP</code>と<code>Public IP</code>の違いって何なんですかね？</p>
 </div>
   
   

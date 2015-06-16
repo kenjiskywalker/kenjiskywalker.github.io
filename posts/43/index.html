@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="https://github.com/kenjiskywalker/fluent-plugin-securelog-parser ,j;;;;;j,. ---一､ ｀ ―--‐､_ l;;;;;; ｛;;;;;;ゝ T辷iﾌ i f'辷jァ !i;;;;; &hellip;">
+  <meta name="description" content="header_checks - Postfix built-in content inspection
+regexp_table - format of Postfix regular expression tables header_checks 1
+!/^(To|From):.*@ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +63,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/23/postfix-header_checks/">Postfixのheader_checksでの否定の条件について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-23T20:52:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.postfix.org/header_checks.5.html">header_checks - Postfix built-in content inspection</a><br/>
+<a href="http://www.postfix.org/regexp_table.5.html">regexp_table - format of Postfix regular expression tables</a></p>
+
+<p><code>header_checks</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>!/^(To|From):.*@example\.com*/ REJECT</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすれば、対象の<em>example.com</em>のドメイン意外受け付けなくて<br/>
+ライフチェンジングなのでは！！！！！！！！<br/>
+と思ったのですが、header_checksの仕様上<br/>
+ヘッダ全てに対してではなく、1行毎にルールを適用するため<br/>
+例えば、ヘッダの1行目が</p>
+
+<p><code>Delivered-To: foo@example.com</code></p>
+
+<p>である場合、<strong><em>マッチしない</em></strong>と認識されてREJECTされます。</p>
+
+<p>この意味がわからなくてずっと悩んでいました。</p>
+
+<p>メールの破棄の処理をheader_checksの例外処理を利用して行うのは<br/>
+とてもむずかしいので、素直にSpamAssasinやprocmailなどを利用しましょう！</p>
+
+<p>というお話でした。</p>
+
+<p>(;´д｀)ﾄﾎﾎ…</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -650,266 +714,6 @@ Rubyもよくに書けず、fluentdを運用した経験もあまりない人間
 
 <p>まだ読み始めですが、ユルフワなので3周ぐらいしないと理解できなさそうです。<br/>
 けど面白いです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/15/redis-sentinel/">Redis Sentinelを試す</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-15T19:42:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>某社では<a href="http://d.hatena.ne.jp/sfujiwara/20120802/1343880266">RedisをKeepalivedでフェイルオーバーする構成案 / 酒日記 はてな支店</a><br/>
-みたいな構成が使われているとか使われていないとかで、Sentinelはどうなのだろうか<br/>
-というお話がわいたので、カジュアルに試してみました。</p>
-
-<p>参考：<a href="http://redis.io/topics/sentinel">Redis Sentinel Documentation</a></p>
-
-<p><code>6379 Port が Master</code><br/>
-<code>6380 Port が 6379のSlave</code></p>
-
-<p>上記内容のRedisのセットがあるとします。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6379 info | grep role -3
-</span><span class='line'>latest_fork_usec:340
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:master
-</span><span class='line'>connected_slaves:1
-</span><span class='line'>slave0:127.0.0.1,6380,online
-</span><span class='line'>
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6380 info | grep role -3
-</span><span class='line'>latest_fork_usec:336
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:slave
-</span><span class='line'>master_host:127.0.0.1
-</span><span class='line'>master_port:6379
-</span><span class='line'>master_link_status:up
-</span><span class='line'>[hoge@example ~]# 
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>sentinel.conf</code>はソースファイルから拾ってくるのでも良いし<br/>
-参考サイトからコピペするでも良いかと。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# cat /etc/sentinel.conf 
-</span><span class='line'>sentinel monitor mymaster 127.0.0.1 6379 1
-</span><span class='line'>sentinel down-after-milliseconds mymaster 10000
-</span><span class='line'>sentinel failover-timeout mymaster 50000
-</span><span class='line'>sentinel can-failover mymaster yes
-</span><span class='line'>sentinel parallel-syncs mymaster 1
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-server /etc/sentinel.conf --sentinel
-</span><span class='line'>[8373] 15 Jan 19:44:27.071 * Max number of open files set to 10032
-</span><span class='line'>                _._                                                  
-</span><span class='line'>           _.-``__ ''-._                                             
-</span><span class='line'>      _.-``    `.  `_.  ''-._           Redis 2.6.8 (00000000/0) 64 bit
-</span><span class='line'>  .-`` .-```.  ```\/    _.,_ ''-._                                   
-</span><span class='line'> (    '      ,       .-`  | `,    )     Running in sentinel mode
-</span><span class='line'> |`-._`-...-` __...-.``-._|'` _.-'|     Port: 26379
-</span><span class='line'> |    `-._   `._    /     _.-'    |     PID: 8373
-</span><span class='line'>  `-._    `-._  `-./  _.-'    _.-'                                   
-</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
-</span><span class='line'> |    `-._`-._        _.-'_.-'    |           http://redis.io        
-</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
-</span><span class='line'> |`-._`-._    `-.__.-'    _.-'_.-'|                                  
-</span><span class='line'> |    `-._`-._        _.-'_.-'    |                                  
-</span><span class='line'>  `-._    `-._`-.__.-'_.-'    _.-'                                   
-</span><span class='line'>      `-._    `-.__.-'    _.-'                                       
-</span><span class='line'>          `-._        _.-'                                           
-</span><span class='line'>              `-.__.-'                                               
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:44:27.078 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>
-</span><span class='line'> --- 動きました --</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> ...
-</span><span class='line'>
-</span><span class='line'>  ＿人人人人人人人人人＿
-</span><span class='line'>  ＞  Master突然の死  ＜
-</span><span class='line'>  ￣Y^Y^Y^Y^Y^Y^Y^Y￣
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> ...
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:45:41.854 # +sdown master mymaster 127.0.0.1 6379 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:41.854 # +odown master mymaster 127.0.0.1 6379 #quorum 1/1
-</span><span class='line'>[8373] 15 Jan 19:45:41.855 # +failover-triggered master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:41.855 # +failover-state-wait-start master mymaster 127.0.0.1 6379 #starting in 6893 milliseconds
-</span><span class='line'>
-</span><span class='line'>ログがゴニョゴニョ出てきて
-</span><span class='line'>
-</span><span class='line'>[8373] 15 Jan 19:45:48.750 # +failover-state-select-slave master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.851 # +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.852 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.953 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.954 # +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:48.954 # +failover-state-reconf-slaves master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:49.054 # +failover-end master mymaster 127.0.0.1 6379
-</span><span class='line'>[8373] 15 Jan 19:45:49.054 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
-</span><span class='line'>
-</span><span class='line'>マスター変わったよーというログが出ていますね
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Redisのレプリケーションの状況を確認</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6379 info | grep role -3
-</span><span class='line'>Could not connect to Redis at 127.0.0.1:6379: Connection refused
-</span><span class='line'>[hoge@example ~]# 
-</span><span class='line'>[hoge@example ~]# redis-cli -p 6380 info | grep role -3
-</span><span class='line'>latest_fork_usec:336
-</span><span class='line'>
-</span><span class='line'># Replication
-</span><span class='line'>role:master
-</span><span class='line'>connected_slaves:0
-</span><span class='line'>
-</span><span class='line'># CPU
-</span><span class='line'>[hoge@example ~]# </span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>6380 PortのRedis</code>がMasterになっていますね。</p>
-
-<p>とてもシンプルにfailoverが可能であることがわかりました。</p>
-
-<blockquote><p>この設定だけでは<code>Master &lt;=&gt; Slave</code>間で障害が発生した場合など<br/>
-諸所問題点があるので、ちょっと工夫が必要。</p></blockquote>
-
-<p>その他ドキュメントを読んでて気付いたところ</p>
-
-<ul>
-<li><p><code>sentinel parallel-syncs hoge 1</code> hogeがMasterに切り替わった時にslave化する数。あんまり増やすとデータの同期取ったりすることに時間がかかるよとのこと。</p></li>
-<li><p><code>SDOWN(主体的ダウン検知)</code>、<code>ODOWN(客観的ダウン検知)</code>の2つのパターンがあり、それぞれの状態を観察しているのが面白い</p></li>
-</ul>
-
-
-<p>基本的に1ページによくまとまっていて、<code>Sentinel Rule</code>を読むことで<br/>
-どのような状態になった時に、どうのような状態に遷移させる。<br/>
-判断基準としてはこれとこれを見ている。</p>
-
-<p>などなど、シンプルかつ丁寧に書かれており、とても読みやすい印象でした。</p>
 </div>
   
   

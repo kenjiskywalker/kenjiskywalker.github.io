@@ -9,7 +9,12 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Ambivalence Avenue / Bibio Silver Wilkinson / Bibio Fi / Bibio Ignorant - In the Grid EP / Funkinevil Night/Dusk / Funkinevil Feast - Beast / Clark &hellip;">
+  <meta name="description" content=".gvimrcに 1
+2
+3
+4
+if has('multi_byte_ime') || has('xim') highlight Cursor guifg=NONE guibg=White highlight CursorIM guifg=NONE guibg=DarkRed
+endif &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +66,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/11/vim-de-multi_byte_ime/">Vimで日本語の切り替えで毎回っっっっっっってなる対策</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T14:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>.gvimrc</code>に</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if has('multi_byte_ime') || has('xim') 
+</span><span class='line'>  highlight Cursor guifg=NONE guibg=White
+</span><span class='line'>  highlight CursorIM guifg=NONE guibg=DarkRed
+</span><span class='line'>endif</span></code></pre></td></tr></table></div></figure>
+
+
+<p>って書いたら</p>
+
+<p><img src="http://gifzo.net/hfBHJNAZR0.gif" alt="http://gifzo.net/hfBHJNAZR0.gif" /></p>
+
+<p>こんな風に全角の時に赤色になるから<br/>
+ノーマルモードで全角で入力しちゃってうわああああ！！！<br/>
+っていうことなくなるのでおすすめです。</p>
+
+<p>MacVimだと<code>multi_byte_ime</code>使えなくて<br/>
+<a href="https://code.google.com/p/macvim-kaoriya/">macvim-kaoriya</a>だと使えました。<br/>
+マコピーに教えてもらいました。ライフチェインジング！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -366,48 +429,6 @@ skip_innodb_doublewriteの設定いじったりして、微妙にスコア伸び
 
 <p>とても楽しかったです。<br/>
 ありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/06/tanjyobi/">誕生日とウィッシュリスト</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-06T00:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" alt="https://dl.dropboxusercontent.com/u/5390179/birthday.jpg" /></p>
-
-<p>誕生日です〜とか言って<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT/ref=cm_sw_r_tw_ws_Hqdusb1ZKHAET">ウィッシュリスト</a>のURL送りまくってたら<br/>
-@hsbtさん、@soh335さん、@hisaichi5518くん、@Keita_Shiyaくんから誕生日プレゼント頂きました。<br/>
-ありがとうございます！</p>
-
-<p>勉強します！</p>
 </div>
   
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sensu | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/sensu/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-06-07T02:38:55+09:00</updated>
+  <updated>2015-06-16T16:38:28+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sensuのアラートを復旧するまで繰り返し通知させたい]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/06/16/sensu-alert-repeat/"/>
+    <updated>2015-06-16T16:33:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/06/16/sensu-alert-repeat</id>
+    <content type="html"><![CDATA[<h2><a href="https://sensuapp.org/docs/0.19/checks">https://sensuapp.org/docs/0.19/checks</a></h2>
+
+<p>ここの<code>refresh</code>の項目がそれ。完全に忘れていたところ<br/>
+@la_luna_azulさんが即答してくれて感謝。</p>
+
+<p>PagerDutyの費用の計算間違えてて涙目です。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[sensuのmackerel用のmetrics handlerをつくった #mackerelio]]></title>
@@ -207,44 +221,6 @@ Then I created this plugin.<br/>
 
 <p>Please try it.<br/>
 よかったらご利用ください。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sensuで一つのJSONファイルに複数の設定を記述する]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/05/12/sensu-multi-settings/"/>
-    <updated>2014-05-12T16:40:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/05/12/sensu-multi-settings</id>
-    <content type="html"><![CDATA[<p>deep_mergeなのでこう書けます。</p>
-
-<ul>
-<li>/etc/sensu/conf.d/checks/check_hoge.json</li>
-</ul>
-
-
-<pre><code>{
-  "checks": {
-    "check_hoge_one": {
-      "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
-      "interval": 60,
-      "subscribers": ["all"],
-      "handlers": ["hipchat", "mailer"]
-    },
-    "check_hoge_two": {
-      "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
-      "interval": 60,
-      "subscribers": ["all"],
-      "handlers": ["hipchat", "mailer"]
-    },
-    "check_hoge_three": {
-      "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
-      "interval": 60,
-      "subscribers": ["all"],
-      "handlers": ["hipchat", "mailer"]
-    }
-  }
-}
-</code></pre>
 ]]></content>
   </entry>
   
