@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-06-28T00:15:02+09:00</updated>
+  <updated>2015-07-30T12:14:12+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[組織が鈍化したり硬直化していると無駄に仮想敵をつくってワイワイやりたがる]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/07/30/virtual-enemy/"/>
+    <updated>2015-07-30T12:06:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/07/30/virtual-enemy</id>
+    <content type="html"><![CDATA[<p>のではないかと思った。<br/>
+生きるのに必死だったらどうでもいいことに時間使ってる暇なんて一瞬もないはずなので。</p>
+
+<p>気を引き締めて時間を使っていこう</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[大変便利なMySQL::Sandboxのインストールメモ(GTID有効編)]]></title>
@@ -54,6 +66,16 @@ MySQL-Sandbox v3.0.50</p></blockquote>
 
 
 <h2>MySQL 5.6.25のレプリケーションを作成する</h2>
+
+<p><code>$HOME/mysqls</code>というディレクトリにMySQLをインストールする</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% mkdir ~/mysqls
+</span><span class='line'>['-']% cd ~/mysqls</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1761,62 +1783,6 @@ itamaeのような使い方は本当に上手だと思う。</p>
 Asuraっていうコードネームめちゃめちゃ好きでした。</p>
 
 <p>この本はまた何回か読み直したい本だ。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ansibleはcheck modeだとshellやcommandは実行されない]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode/"/>
-    <updated>2015-01-08T11:46:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/01/08/ansible-check-mode</id>
-    <content type="html"><![CDATA[<p>最近は深刻なjinja2とAnsible疲れです。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TASK: [ruby | check ruby rbenv installed] *************************************
-</span><span class='line'>skipping: [192.0.2.100]
-</span><span class='line'>ok: [192.0.2.100] =&gt; {"msg": "check mode not supported for command", "skipped": true}
-</span><span class='line'>
-</span><span class='line'>TASK: [ruby | rbenv install ] *******************************
-</span><span class='line'>fatal: [192.0.2.100] =&gt; error while evaluating conditional: ruby_installed.find(2.1.4)
-</span><span class='line'>
-</span><span class='line'>FATAL: all hosts have already failed -- aborting</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんなエラーが出た。</p>
-
-<p><a href="http://docs.ansible.com/playbooks_checkmode.html">Check Mode (Dry Run)</a></p>
-
-<p>dry runでは<code>shell</code>や<code>command</code>はskipされるとのことなので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check ruby rbenv installed
-</span><span class='line'>  shell: cd; bash -lc "rbenv versions | grep  | tr '*' ' ' | sed -e 's/\s\+//' | cut -f1 -d' '"
-</span><span class='line'>  register: ruby_installed
-</span><span class='line'>  always_run: yes
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように<code>always_run: yes</code>にしなければならない。<br/>
-自分メモ。</p>
 ]]></content>
   </entry>
   

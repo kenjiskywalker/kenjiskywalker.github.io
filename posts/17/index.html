@@ -9,10 +9,25 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="とてもおもしろかったです。ありがとうございました！ 以下個人メモ Chef 手順書の代わりにコードにする
-Communityモノは必要以上に汎用性を持たせて複雑化していたり
-include_recipeなど必要以上に密結合していたりするので基本的に利用しない
-複雑なコード、 &hellip;">
+  <meta name="description" content="bashの奥は深い。 ext-list.sh 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+#!/bin/bash dir=`pwd`
+list=`find ${dir} -type f -perm 755` # not = !
+# list=`find ${dir &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +79,186 @@ include_recipeなど必要以上に密結合していたりするので基本的
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/27/get-extension-list/">対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-27T03:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>bashの奥は深い。</p>
+
+<ul>
+<li>ext-list.sh</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>dir=`pwd`
+</span><span class='line'>list=`find ${dir} -type f -perm 755`
+</span><span class='line'>
+</span><span class='line'># not = !
+</span><span class='line'># list=`find ${dir} -type f ! -perm 755`
+</span><span class='line'>
+</span><span class='line'>for file in $list
+</span><span class='line'>do
+</span><span class='line'>    filename=`basename $file`
+</span><span class='line'>    ext=${filename##*.}
+</span><span class='line'>    ext_list=("${ext_list[@]}" ${ext})
+</span><span class='line'>done
+</span><span class='line'>
+</span><span class='line'>echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などというスクリプトを作成しておいて<br/>
+確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
+
+<p><strong>/usr/local/Cellar</strong>で実行したら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% sh /tmp/ext-list.sh | tail -n10
+</span><span class='line'>   5 1
+</span><span class='line'>   5 6
+</span><span class='line'>   6 0
+</span><span class='line'>   7 py
+</span><span class='line'>  10 test
+</span><span class='line'>  11 sh
+</span><span class='line'>  16 pl
+</span><span class='line'>  27 result
+</span><span class='line'>  62 so
+</span><span class='line'> 116 la
+</span><span class='line'>['-']% </span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じの結果になりました。</p>
+
+<h3>便利コマンド</h3>
+
+<ul>
+<li>basename</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% basename /usr/local/bin/zsh
+</span><span class='line'>zsh
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>dirname</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% dirname /usr/local/bin/zsh
+</span><span class='line'>/usr/local/bin
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>シャープ</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge##*.}
+</span><span class='line'>so
+</span><span class='line'>['-']% echo ${hoge#*.}
+</span><span class='line'>0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>パーセント</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% echo ${hoge%.*}
+</span><span class='line'>/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -492,102 +687,6 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
 
 <div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51b6JBk8CcL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank">私本太平記 01 あしかが帖</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-22</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00G3QMEZY" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/14/hatena-lunch/">はてなの東京オフィスに美味しいランチをたべさせてもらいに行ってきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T00:41:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" alt="http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png" /></p>
-
-<p>エントランスがスタイリッシュ</p>
-
-<p><img src="http://i.gyazo.com/52f29e4701ec70b36c206d837c297f88.png" alt="http://i.gyazo.com/52f29e4701ec70b36c206d837c297f88.png" /></p>
-
-<p>めちゃうま健康ランチ</p>
-
-<hr />
-
-<p>経緯</p>
-
-<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 是非どうぞ！</p>&mdash; Shinji Tanaka (@stanaka) <a href="https://twitter.com/stanaka/statuses/413163134078029825">December 18, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>stanakaさんにOKを頂いたのが去年の12月で<br/>
-色々モジモジしたりしていて、行きたいな〜行ってもいいのかな〜<br/>
-とモジモジしており、モジモジしてても仕方ない<br/>
-連絡しよう！と思ったのが火曜日の夜で、京都には何人か知り合いの人がいるけど<br/>
-東京オフィスはどの人を頼ったらいいんだ&hellip;<br/>
-と悩んだ挙句、お問い合わせフォームから連絡しました。</p>
-
-<p>これが色々とお手数をおかけしてしまったらしく<br/>
-気軽に誰かに声かけた方がよかったらしいので、これを読まれている識者の方々は<br/>
-オフィスへ遊びに行くときはまず知り合いの人を頼って連絡しましょう。</p>
-
-<p>id:tomomiiさんからご連絡頂き、木曜日のランチにお邪魔させて頂きました。<br/>
-id:onishiさんにご対応頂いてしまって本当に申し訳なかったでした。<br/>
-今週末行われる</p>
-
-<ul>
-<li><a href="http://dev.classmethod.jp/cloud/aws/jaws-days-2014-immutable-infrastructure/">JAWS DAYS 2014Immutable Infrastructure Track</a></li>
-</ul>
-
-
-<p>のパネルディスカッションのモデレーターと、今月末に行われる超満員の</p>
-
-<ul>
-<li><a href="http://atnd.org/events/47786">Immutable Infrastructure Conference #1</a></li>
-</ul>
-
-
-<p>を開催される神様のid:stanakaさんもいらっしゃって、<br/>
-サマリーメンバーもなかなかの緊張感を持ったお昼でした。</p>
-
-<p>突然の訪問にも関わらず、カンバン方式での開発態勢や<br/>
-デザイナーとエンジニアの仕事の進め方など色々お話しすることができて<br/>
-ともて有り難かったです。</p>
-
-<p>ご飯も健康的で美味しくて、最近毎日のように学食ばかり食べている我々にとっては<br/>
-最高の昼食でありました。ごちそうさまでした。美味しかったです。</p>
-
-<p>次にお伺いするときはもうちょっと余裕を持って遊びに行けるようにします。<br/>
-お邪魔させて頂きありがとうございました。</p>
-
-<p>はてなさんでは<a href="http://hatenacorp.jp/recruit/career/sp-application-engineer">iOSエンジニアを募集中</a>とのことでした。<br/>
-美味しいお昼ごはんが食べられるので<br/>
-美味しいお昼ごはんが食べたい人は応募してみると良さそうです。</p>
 </div>
   
   
