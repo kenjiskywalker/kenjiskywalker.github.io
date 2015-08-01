@@ -9,7 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="こんな感じでイケました。 参考： - Ruby の HTTP クライアントライブラリ Faraday が便利そう / mitukiii gist - Zabbix APIを使って値を取ってみる / ike-daiの日記 アクセストークンは、ike-daiさんのブログを参考にcurlコマンドで取得し &hellip;">
+  <meta name="description" content="お腹が痛くて会社休んでた。
+お腹が痛くて会社休みますってすごいウソ感あるなって思った。 念の為病院行って調整薬貰った。 インターネットで似た症状調べたらストレスっぽいかなーって思ったんですけど
+って話したら、ストレスは色んな症状出るから。って言われて
+そうですね。ってなった。 良い先生だった。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +65,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/09/fukutsuu/">腹痛</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-09T20:49:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>お腹が痛くて会社休んでた。<br/>
+お腹が痛くて会社休みますってすごいウソ感あるなって思った。</p>
+
+<p>念の為病院行って調整薬貰った。</p>
+
+<p>インターネットで似た症状調べたらストレスっぽいかなーって思ったんですけど<br/>
+って話したら、ストレスは色んな症状出るから。って言われて<br/>
+そうですね。ってなった。</p>
+
+<p>良い先生だった。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -678,197 +727,6 @@
 
 <p>初心者ながら地道にやっていきたいということで超初級の恥ずかしいメモを<br/>
 アップしました。誤りなどありましたら教えてくださいませ！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/03/zabbix/">Zabbix v2.0.4 + Nginx v1.0.15 Installed</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-03T15:38:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>nginxでZabbix2.0.4をインストールしたのでメモ。</p>
-
-<h2>環境</h2>
-
-<ul>
-<li>nginx v1.0.15</li>
-<li>zabbix v2.0.4</li>
-<li>MySQL - 5.5.28</li>
-<li>CentOS 6.3</li>
-</ul>
-
-
-<h3>Zabbixをyumでインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install zabbix20-server-mysql.x86_64
-</span><span class='line'>$ yum install zabbix20-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-mysql-2.0.4-1.el6.x86_64
-</span><span class='line'>$ yum install zabbix20-server-2.0.4-1.el6.x86_64</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbix用のデータベースを用意</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mysql
-</span><span class='line'>&gt; grant all privileges on zabbix.* to zabbix@localhost identified by '********';
-</span><span class='line'>&gt; create database zabbix character set utf8;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Zabbixのデータをさきほど作成したデータベースに装入</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd /usr/share/zabbix-mysql/
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; schema.sql
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; images.sql 
-</span><span class='line'>$ mysql -uzabbix -p zabbix  &lt; data.sql</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/zabbix_server.conf</code>に
-<em>DBPassword</em>を記述。<br/>
-デフォルトで書き込み権限ないの意識高い。</p>
-
-<h3>Zabbix Serverを起動</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/zabbix-server start
-</span><span class='line'>tail /var/log/zabbix/zabbix_server.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>nginxとphp-fpmのインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi nginx php php-fpm php-devel \  
-</span><span class='line'>php-cli php-xml php-mysql php-mbstring php-gd</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>WebUIのファイルがないことに気付きzabbix2&ndash;webをインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install --enablerepo=remi zabbix20-web.noarch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>nginxのデフォルトルートにシンボリックリンク</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /usr/share/zabbix /usr/share/nginx/html/zabbix</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/etc/nginx/conf.d/zabbix.conf</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name home.kenjiskywalker.org;
-</span><span class='line'>    index index.html;
-</span><span class='line'>    access_log /var/log/nginx/zabbix/access_log main;
-</span><span class='line'>    error_log  /var/log/nginx/zabbix/error_log  error;
-</span><span class='line'>
-</span><span class='line'>    location /zabbix {
-</span><span class='line'>        index index.php;
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    location ~ \.php$ {
-</span><span class='line'>        fastcgi_pass 127.0.0.1:9000;
-</span><span class='line'>        fastcgi_index index.php;
-</span><span class='line'>        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-</span><span class='line'>        include fastcgi_params;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><em>/var/log/nginx/zabbix/</em>ディレクトリは自分で掘る</p>
-
-<p><code>/etc/php.ini</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Date]
-</span><span class='line'>; Defines the default timezone used by the date functions
-</span><span class='line'>; http://php.net/date.timezone
-</span><span class='line'>; date.timezone = 
-</span><span class='line'>date.timezone = Asia/Tokyo
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>; 追記
-</span><span class='line'>post_max_size = 32M
-</span><span class='line'>max_execution_time = 300
-</span><span class='line'>max_input_time = 300</span></code></pre></td></tr></table></div></figure>
-
-
-<p>timezoneの設定はphp-fpmをstop/startしないと反映されなかった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/nginx start
-</span><span class='line'>$ /etc/init.d/php-fpm start</span></code></pre></td></tr></table></div></figure>
-
-
-<p>あとは<code>http://domain/zabbix/</code>にアクセスすれば閲覧できるはず。
-ログイン確認後はすみやかにパスワードを変更してとりあえずは完了。</p>
 </div>
   
   

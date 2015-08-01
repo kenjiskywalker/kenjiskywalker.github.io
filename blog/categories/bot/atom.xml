@@ -4,7 +4,7 @@
   <title><![CDATA[Category: bot | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/bot/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-07-30T12:14:12+09:00</updated>
+  <updated>2015-08-02T01:13:32+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/"/>
+    <updated>2015-08-02T01:08:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack</id>
+    <content type="html"><![CDATA[<p>Ruboty、nodeの書き方思い出さなくても良いし<br/>
+何よりRubyのエコシステムに乗っかれるのが最高だ。</p>
+
+<p>子供もまだちっさいのでこれで少しは便利になったかな</p>
+
+<p><img src="http://i.gyazo.com/e2d4fa1dfbf708d1fc08315ed4ef059e.png" alt="" /></p>
+
+<ul>
+<li><a href="http://getirkit.com/">IRKit</a></li>
+<li><a href="https://github.com/r7kamura/ruboty">ruboty</a></li>
+<li><a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a></li>
+<li><a href="http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f">Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[imayaro-bot]]></title>
