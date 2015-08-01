@@ -36,6 +36,13 @@ Successfully installed MySQL-Sandbox-v3.0.50
 
 ## MySQL 5.6.25のレプリケーションを作成する
 
+`$HOME/mysqls`というディレクトリにMySQLをインストールする
+
+```
+['-']% mkdir ~/mysqls
+['-']% cd ~/mysqls
+```
+
 ```
 ['-']% make_replication_sandbox 5.6.25
 installing and starting master
