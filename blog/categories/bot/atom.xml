@@ -4,7 +4,7 @@
   <title><![CDATA[Category: bot | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/bot/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-02T01:13:32+09:00</updated>
+  <updated>2015-08-03T12:36:48+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -19,7 +19,8 @@
     <updated>2015-08-02T01:08:00+09:00</updated>
     <id>http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack</id>
     <content type="html"><![CDATA[<p>Ruboty、nodeの書き方思い出さなくても良いし<br/>
-何よりRubyのエコシステムに乗っかれるのが最高だ。</p>
+何よりRubyのエコシステムに乗っかれるのが最高だ。<br/>
+ruboty自体はRaspiの上にsupervisorで動かしている。</p>
 
 <p>子供もまだちっさいのでこれで少しは便利になったかな</p>
 
@@ -27,7 +28,8 @@
 
 <ul>
 <li><a href="http://getirkit.com/">IRKit</a></li>
-<li><a href="https://github.com/r7kamura/ruboty">ruboty</a></li>
+<li><p><a href="http://www.amazon.co.jp/gp/product/B00T356SFO/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B00T356SFO&amp;linkCode=as2&amp;tag=13nightcrows-22">Raspi2</a></p></li>
+<li><p><a href="https://github.com/r7kamura/ruboty">ruboty</a></p></li>
 <li><a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a></li>
 <li><a href="http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f">Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty</a></li>
 </ul>
