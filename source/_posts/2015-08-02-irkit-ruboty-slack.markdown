@@ -18,7 +18,6 @@ ruboty自体はRaspiの上にsupervisorで動かしている。
 
 - [IRKit](http://getirkit.com/)
 - [Raspi2](http://www.amazon.co.jp/gp/product/B00T356SFO/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=B00T356SFO&linkCode=as2&tag=13nightcrows-22) 
-    
 - [ruboty](https://github.com/r7kamura/ruboty)
 - [ruboty-slack_rtm](https://github.com/rosylilly/ruboty-slack_rtm)
 - [Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty](http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f)
