@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-03T12:38:43+09:00</updated>
+  <updated>2015-08-05T18:36:19+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed/"/>
+    <updated>2015-08-05T18:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed</id>
+    <content type="html"><![CDATA[<blockquote><p>OS X Yosemite 10.10.4</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl: (51) SSL: certificate verification failed (result: 5)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>🙏  ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"
+</span><span class='line'>"/usr/local/etc/openssl/cert.pem"
+</span><span class='line'>🙏
+</span><span class='line'>🙏
+</span><span class='line'>🙏  cd /usr/local/etc/openssl/
+</span><span class='line'>🙏
+</span><span class='line'>🙏  curl -O http://curl.haxx.se/ca/cacert.pem
+</span><span class='line'>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span><span class='line'>                                 Dload  Upload   Total   Spent    Left  Speed
+</span><span class='line'>100  252k  100  252k    0     0  55123      0  0:00:04  0:00:04 --:--:-- 58321
+</span><span class='line'>🙏
+</span><span class='line'>🙏  mv cacert.pem cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で解決できた。正しいかどうかは知らん。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした]]></title>
@@ -1714,32 +1757,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 <p>minibutsu、Yahoo!ショッピングでは買えるっぽい。<br/>
 <a href="http://store.shopping.yahoo.co.jp/minibutsu/18.html">http://store.shopping.yahoo.co.jp/minibutsu/18.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「イシューからはじめよ」を読んだ]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/01/12/issue-book/"/>
-    <updated>2015-01-12T01:49:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/01/12/issue-book</id>
-    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%A4%E3%82%B7%E3%83%A5%E3%83%BC%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%88-%E2%80%95-%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E3%81%AE%E3%80%8C%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E6%9C%AC%E8%B3%AA%E3%80%8D-%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA-ebook/dp/B00MTL340G%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MTL340G" target="_blank" title="イシューからはじめよ ― 知的生産の「シンプルな本質」"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL.jpg" width="317" height="500" alt="イシューからはじめよ ― 知的生産の「シンプルな本質」" /></a></p>
-
-<p>MTGとか方法が目的になりがちになる。<br/>
-ゴールを意識して、そのゴールを達成する為に何をすべきかを常に意識する必要がある。<br/>
-実作業においても、目的があって、その目的を達成する為に色々な作業が発生して<br/>
-余計なことに時間がかかったりする。綺麗にしたり冗長性をなくしたりとか<br/>
-そういうことに時間を使いがちだけど、まずはゴール(目的)を持ってそれを達成して<br/>
-次に品質を上げることに注力しないと何時までたっても終わらない。</p>
-
-<p>自分の仕事の進め方で悪いところがまさにそれで、取り敢えず手を動かして<br/>
-動くことをゴールとして、品質についてはまた次の機会へ。とすることが<br/>
-今の自分の課題だと認識している。</p>
-
-<p>だからといってメンテナンスのしづらいものでも良いかというとそうではなく<br/>
-次への段階を踏みやすいように足あとと次への段階は明示的にしておくことが大切だと思う。</p>
-
-<p>とにかく常に物事に対してのゴールと、そのゴールを達成する為に必要な作業を<br/>
-計画的に、スピード感を持って仕事に取り組んでいきたいと改めて思った。</p>
 ]]></content>
   </entry>
   

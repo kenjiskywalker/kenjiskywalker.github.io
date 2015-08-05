@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした - さよならインターネット</title>
+  <title>curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法 - さよならインターネット</title>
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした Ruboty、nodeの書き方思い出さなくても良いし
-何よりRubyのエコシステムに乗っかれるのが最高だ。
-ruboty自体はRaspiの上にsupervisorで動かしている。 &hellip;">
+  <meta name="description" content="Curlでcurl: (51) SSL: Certificate Verification Failed (Result: 5)が出る時の対処法 OS X Yosemite 10.10.4 1
+curl: (51) SSL: certificate verification failed ( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@ ruboty自体はRaspiの上にsupervisorで動かしている。 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/">
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -66,7 +65,7 @@ ruboty自体はRaspiの上にsupervisorで動かしている。 &hellip;">
   
   <header>
     
-      <h1 class="entry-title">夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした</h1>
+      <h1 class="entry-title">Curlでcurl: (51) SSL: Certificate Verification Failed (Result: 5)が出る時の対処法</h1>
     
     
       <p class="meta">
@@ -82,29 +81,48 @@ ruboty自体はRaspiの上にsupervisorで動かしている。 &hellip;">
   
 
 
-<time datetime="2015-08-02T01:08:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2015-08-05T18:24:00+09:00" pubdate data-updated="true"></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Ruboty、nodeの書き方思い出さなくても良いし<br/>
-何よりRubyのエコシステムに乗っかれるのが最高だ。<br/>
-ruboty自体はRaspiの上にsupervisorで動かしている。</p>
+<div class="entry-content"><blockquote><p>OS X Yosemite 10.10.4</p></blockquote>
 
-<p>子供もまだちっさいのでこれで少しは便利になったかな</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl: (51) SSL: certificate verification failed (result: 5)</span></code></pre></td></tr></table></div></figure>
 
-<p><img src="http://i.gyazo.com/e2d4fa1dfbf708d1fc08315ed4ef059e.png" alt="" /></p>
 
-<ul>
-<li><a href="http://getirkit.com/">IRKit</a></li>
-<li><a href="http://www.amazon.co.jp/gp/product/B00T356SFO/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B00T356SFO&amp;linkCode=as2&amp;tag=13nightcrows-22">Raspi2</a></li>
-<li><a href="https://github.com/r7kamura/ruboty">ruboty</a></li>
-<li><a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a></li>
-<li><a href="http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f">Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty</a></li>
-</ul>
 
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>🙏  ruby -ropenssl -e "p OpenSSL::X509::DEFAULT_CERT_FILE"
+</span><span class='line'>"/usr/local/etc/openssl/cert.pem"
+</span><span class='line'>🙏
+</span><span class='line'>🙏
+</span><span class='line'>🙏  cd /usr/local/etc/openssl/
+</span><span class='line'>🙏
+</span><span class='line'>🙏  curl -O http://curl.haxx.se/ca/cacert.pem
+</span><span class='line'>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span><span class='line'>                                 Dload  Upload   Total   Spent    Left  Speed
+</span><span class='line'>100  252k  100  252k    0     0  55123      0  0:00:04  0:00:04 --:--:-- 58321
+</span><span class='line'>🙏
+</span><span class='line'>🙏  mv cacert.pem cert.pem</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で解決できた。正しいかどうかは知らん。</p>
 </div>
 
 
@@ -137,12 +155,12 @@ ruboty自体はRaspiの上にsupervisorで動かしている。</p>
   
 
 
-<time datetime="2015-08-02T01:08:00+09:00" pubdate data-updated="true"></time>
+<time datetime="2015-08-05T18:24:00+09:00" pubdate data-updated="true"></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/bot/'>bot</a>
+    <a class='category' href='/blog/categories/curl/'>curl</a>
   
 </span>
 
@@ -150,9 +168,9 @@ ruboty自体はRaspiの上にsupervisorで動かしている。</p>
     </p>
     
       <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/08/05/curl-ssl-certificate-verification-failed/" >Tweet</a>
   
   
   
@@ -163,10 +181,8 @@ ruboty自体はRaspiの上にsupervisorで動かしている。</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/30/virtual-enemy/" title="Previous Post: 組織が鈍化したり硬直化していると無駄に仮想敵をつくってワイワイやりたがる">&laquo; 組織が鈍化したり硬直化していると無駄に仮想敵をつくってワイワイやりたがる</a>
+        <a class="basic-alignment left" href="/blog/2015/08/02/irkit-ruboty-slack/" title="Previous Post: 夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした">&laquo; 夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/08/05/curl-ssl-certificate-verification-failed/" title="Next Post: curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法">curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法 &raquo;</a>
       
     </p>
   </footer>

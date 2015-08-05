@@ -9,11 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="お腹が痛くて会社休んでた。
-お腹が痛くて会社休みますってすごいウソ感あるなって思った。 念の為病院行って調整薬貰った。 インターネットで似た症状調べたらストレスっぽいかなーって思ったんですけど
-って話したら、ストレスは色んな症状出るから。って言われて
-そうですね。ってなった。 良い先生だった。
-">
+  <meta name="description" content="誰しも中2力全開だった時があると思う。
+学生の頃DTMやろうと思って
+フリーのVSTプラグインで遊んでた頃の曲をSoundCloudに上げた。 https://soundcloud.com/kenjiskywalker 全般的に黒歴史っぽい感じだけど人間っぽいから良いと思った。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +63,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/12/soundcloud/">鍼とお灸と黒歴史とSoundCloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-12T19:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>誰しも中2力全開だった時があると思う。<br/>
+学生の頃DTMやろうと思って<br/>
+フリーのVSTプラグインで遊んでた頃の曲をSoundCloudに上げた。</p>
+
+<p><a href="https://soundcloud.com/kenjiskywalker">https://soundcloud.com/kenjiskywalker</a></p>
+
+<p>全般的に黒歴史っぽい感じだけど人間っぽいから良いと思った。<br/>
+音圧高めてスピーカー壊れれば良いとか思ってた頃だった気がする。</p>
+
+<p>あとお腹がヤバかったの胃腸が冷え込んでたみたいで<br/>
+いつも通ってる鍼とお灸の先生、保険効かないから5000円かかるんだけど<br/>
+すごいよくしてくれる人で、これでダメだったら大学病院やなー！って思ってたら<br/>
+全身に鍼とお灸キメたら良くなってきた。東洋の医学すごい。</p>
+
+<p>近所のちょっと大きめの病院、適当な先生多いかもしれないから<br/>
+不安だったらさっさと大きい病院行った方がお金無駄に使わなくて良さそう。</p>
+
+<p>死にかけたことある人みんなそうだろうけど、何か身体に変調があると<br/>
+すぐ死を意識してしまう。すごくダサいから止めたい。</p>
+
+<p>みなさん健康には気を付けましょう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -248,485 +302,6 @@
 <blockquote><p>雌の性成熟は遅い（4–13年、高緯度地帯では6–43年）</p></blockquote>
 
 <p>43歳のウナギ、かっこいい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/05/fluent-pluing/">超初級！Fluentdのプラグインを書きたくなった時の下地づくり</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-05T00:52:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>fluentdをまともに動かしたことないけど<br/>
-プラグイン書いたらわかるのでは！！？<br/>
-と思い立って取り敢えず下地だけつくったのでメモ。</p>
-
-<h4>参考</h4>
-
-<ul>
-<li><a href="http://d.hatena.ne.jp/tagomoris/20120221/1329815126">fluentdのためのプラグインをイチから書く手順(bundler版) / tagomorisのメモ置き場</a></li>
-<li><a href="http://docs.fluentd.org/articles/plugin-development">Writing plugins / fluentd</a></li>
-<li><a href="https://github.com/fujiwara/fluent-plugin-imkayac">fluent-plugin-imkayac / fujiwara</a></li>
-<li><a href="https://github.com/studio3104/fluent-plugin-r18">fluent-plugin-r18 / studio3104</a></li>
-</ul>
-
-
-<p>基本はもりす先生の手順にそって行えば問題なし。<br/>
-参考にオフィシャルのドキュメントと<br/>
-@fujiwaraさんのシンプルなプラグイン<br/>
-@studio3104さんの下地を見ながら書くとなおよし。</p>
-
-<p>また、rake testまで通したものを</p>
-
-<p><a href="https://github.com/kenjiskywalker/fluent-plugin-hoge">https://github.com/kenjiskywalker/fluent-plugin-hoge</a></p>
-
-<p>こちらに上げておきました。ここから遊んでみても良いのではないかと思います。</p>
-
-<h3>作成手順</h3>
-
-<h4>bunldeで作成</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle gem fluent-plugin-hoge
-</span><span class='line'>$ cd fluent-plugin-hoge/
-</span><span class='line'>$ mkdir -p lib/fluent/plugin
-</span><span class='line'>$ mv lib/fluent-plugin-hoge.rb lib/fluent/plugin/out_hoge.rb
-</span><span class='line'>$ rm lib/fluent-plugin-hoge/version.rb
-</span><span class='line'>$ rmdir lib/fluent-plugin-hoge
-</span><span class='line'>$ mkdir -p test/plugin
-</span><span class='line'>$ touch test/plugin/test_out_hoge.rb</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>gemspecファイルの修正</h4>
-
-<p><code>fluent-plugin-hoge.gemspec</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># -*- encoding: utf-8 -*-
-</span><span class='line'>lib = File.expand_path('../lib', __FILE__)
-</span><span class='line'>$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-</span><span class='line'>
-</span><span class='line'>Gem::Specification.new do |gem|
-</span><span class='line'>  gem.name          = "fluent-plugin-hoge"
-</span><span class='line'>  gem.version       = "0.0.1"
-</span><span class='line'>  gem.authors       = ["kenjiskywalker"]
-</span><span class='line'>  gem.email         = ["git@kenjiskywalker.org"]
-</span><span class='line'>  gem.description   = %q{TODO: Write a gem description}
-</span><span class='line'>  gem.summary       = %q{TODO: Write a gem summary}
-</span><span class='line'>  gem.homepage      = ""
-</span><span class='line'>
-</span><span class='line'>  gem.files         = `git ls-files`.split($/)
-</span><span class='line'>  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-</span><span class='line'>  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-</span><span class='line'>  gem.require_paths = ["lib"]
-</span><span class='line'>  gem.add_development_dependency "fluentd"
-</span><span class='line'>  gem.add_runtime_dependency "fluentd"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>version周りの設定の変更とfluentdの依存周りの設定の追加</p>
-
-<h4>out_hoge.rbの作成</h4>
-
-<p><code>fluent-plugin-hoge/lib/fluent/plugin/out_hoge.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Fluent::HogeOutput &lt; Fluent::BufferedOutput
-</span><span class='line'>  Fluent::Plugin.register_output('hoge', self)
-</span><span class='line'>
-</span><span class='line'>  include Fluent::SetTagKeyMixin
-</span><span class='line'>  config_set_default :include_tag_key, false
-</span><span class='line'>
-</span><span class='line'>  include Fluent::SetTimeKeyMixin
-</span><span class='line'>  config_set_default :include_time_key, true
-</span><span class='line'>
-</span><span class='line'>  # config_param :hoge, :string, :default =&gt; 'hoge'
-</span><span class='line'>
-</span><span class='line'>  def initialize
-</span><span class='line'>    super
-</span><span class='line'>    # require 'hogepos'
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def configure(conf)
-</span><span class='line'>    super
-</span><span class='line'>    # @path = conf['path']
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def start
-</span><span class='line'>    super
-</span><span class='line'>    # init
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def shutdown
-</span><span class='line'>    super
-</span><span class='line'>    # destroy
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def format(tag, time, record)
-</span><span class='line'>    [tag, time, record].to_msgpack
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def write(chunk)
-</span><span class='line'>    records = []
-</span><span class='line'>    chunk.msgpack_each { |record|
-</span><span class='line'>      # records &lt;&lt; record
-</span><span class='line'>    }
-</span><span class='line'>    # write records
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>test周りの設定</h4>
-
-<p><code>fluent-plugin-hoge/test/helper.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'rubygems'
-</span><span class='line'>require 'bundler'
-</span><span class='line'>begin
-</span><span class='line'>  Bundler.setup(:default, :development)
-</span><span class='line'>rescue Bundler::BundlerError =&gt; e
-</span><span class='line'>  $stderr.puts e.message
-</span><span class='line'>  $stderr.puts "Run `bundle install` to install missing gems"
-</span><span class='line'>  exit e.status_code
-</span><span class='line'>end
-</span><span class='line'>require 'test/unit'
-</span><span class='line'>
-</span><span class='line'>$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-</span><span class='line'>$LOAD_PATH.unshift(File.dirname(__FILE__))
-</span><span class='line'>require 'fluent/test'
-</span><span class='line'>unless ENV.has_key?('VERBOSE')
-</span><span class='line'>  nulllogger = Object.new
-</span><span class='line'>  nulllogger.instance_eval {|obj|
-</span><span class='line'>    def method_missing(method, *args)
-</span><span class='line'>      # pass
-</span><span class='line'>    end
-</span><span class='line'>  }
-</span><span class='line'>  $log = nulllogger
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>require 'fluent/plugin/out_hoge'
-</span><span class='line'>
-</span><span class='line'>class Test::Unit::TestCase
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>fluent-plugin-hoge/test/plugin/test_out_hoge.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'helper'
-</span><span class='line'># require 'time'
-</span><span class='line'>
-</span><span class='line'>class HogeOutputTest &lt; Test::Unit::TestCase
-</span><span class='line'>  # TMP_DIR = File.dirname(__FILE__) + "/../tmp"
-</span><span class='line'>
-</span><span class='line'>  def setup
-</span><span class='line'>    Fluent::Test.setup
-</span><span class='line'>    # FileUtils.rm_rf(TMP_DIR)
-</span><span class='line'>    # FileUtils.mkdir_p(TMP_DIR)
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  CONFIG = %[
-</span><span class='line'>  ]
-</span><span class='line'>  # CONFIG = %[
-</span><span class='line'>  #   path #{TMP_DIR}/out_file_test
-</span><span class='line'>  #   compress gz
-</span><span class='line'>  #   utc
-</span><span class='line'>  # ]
-</span><span class='line'>
-</span><span class='line'>  def create_driver(conf = CONFIG)
-</span><span class='line'>    Fluent::Test::BufferedOutputTestDriver.new(Fluent::HogeOutput).configure(conf)
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_configure
-</span><span class='line'>    #### set configurations
-</span><span class='line'>    # d = create_driver %[
-</span><span class='line'>    #   path test_path
-</span><span class='line'>    #   compress gz
-</span><span class='line'>    # ]
-</span><span class='line'>    #### check configurations
-</span><span class='line'>    # assert_equal 'test_path', d.instance.path
-</span><span class='line'>    # assert_equal :gz, d.instance.compress
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_format
-</span><span class='line'>    d = create_driver
-</span><span class='line'>
-</span><span class='line'>    # time = Time.parse("2011-01-02 13:14:15 UTC").to_i
-</span><span class='line'>    # d.emit({"a"=&gt;1}, time)
-</span><span class='line'>    # d.emit({"a"=&gt;2}, time)
-</span><span class='line'>
-</span><span class='line'>    # d.expect_format %[2011-01-02T13:14:15Z\ttest\t{"a":1}\n]
-</span><span class='line'>    # d.expect_format %[2011-01-02T13:14:15Z\ttest\t{"a":2}\n]
-</span><span class='line'>
-</span><span class='line'>    # d.run
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def test_write
-</span><span class='line'>    d = create_driver
-</span><span class='line'>
-</span><span class='line'>    # time = Time.parse("2011-01-02 13:14:15 UTC").to_i
-</span><span class='line'>    # d.emit({"a"=&gt;1}, time)
-</span><span class='line'>    # d.emit({"a"=&gt;2}, time)
-</span><span class='line'>
-</span><span class='line'>    # ### FileOutput#write returns path
-</span><span class='line'>    # path = d.run
-</span><span class='line'>    # expect_path = "#{TMP_DIR}/out_file_test._0.log.gz"
-</span><span class='line'>    # assert_equal expect_path, path
-</span><span class='line'>
-</span><span class='line'>    # data = Zlib::GzipReader.open(expect_path) {|f| f.read }
-</span><span class='line'>    # assert_equal %[2011-01-02T13:14:15Z\ttest\t{"a":1}\n] +
-</span><span class='line'>    #                 %[2011-01-02T13:14:15Z\ttest\t{"a":2}\n],
-</span><span class='line'>    #              data
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Rakefileの設定</h4>
-
-<p><code>Rakefile</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env rake
-</span><span class='line'>require "bundler/gem_tasks"
-</span><span class='line'>require "rake/testtask"
-</span><span class='line'>
-</span><span class='line'>Rake::TestTask.new(:test) do |test|
-</span><span class='line'>  test.libs &lt;&lt; 'lib' &lt;&lt; 'test'
-</span><span class='line'>  test.pattern = 'test/**/test_*.rb'
-</span><span class='line'>  test.verbose = true
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>task :default =&gt; :test</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>rake testの実行</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake test
-</span><span class='line'># Running tests:
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>Finished tests in 0.065174s, 46.0306 tests/s, 0.0000 assertions/s.
-</span><span class='line'>
-</span><span class='line'>3 tests, 0 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
-
-
-<p>うおおおおおおおおお！！！自分で何も書いてないけどテストが通った喜びッッ！！！</p>
-
-<p>ということで、ここからつくりあげていく感じになるでしょうか。<br/>
-当初、何もわかっていない状態で<em>fluent-plugin-postfix-logger</em>などと<br/>
-ドヤ顔でつくりはじめたのですが、ファイルの関係性とか全く理解していない状態で<br/>
-ややこしいファイル名にすると間違っている箇所が特定しづらいので<br/>
-最初は<em>fluent-plugin-hoge</em>などと作成して、最低限自分が確認したい状態まで<br/>
-持っていった上で確認していくのがいいという、初心者っぽい気付きがありました。</p>
-
-<p>初心者ながら地道にやっていきたいということで超初級の恥ずかしいメモを<br/>
-アップしました。誤りなどありましたら教えてくださいませ！</p>
 </div>
   
   
