@@ -9,9 +9,16 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="serverspec use chef json file and cookbooks.
-serverspec take run_list of host.json,
-serverspec do test each cookbook_name/spec/any_test_spec.rb. &hellip;">
+  <meta name="description" content="run_listを渡してるところを探した。
+といってもほとんど@soh335が教えてくれた。さすが一流エンジニアだ。 /chef/lib/chef/run_list.rb 1
+2
+3
+4
+5
+6
+7
+8
+def expansion_for_data_source(environment, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +70,213 @@ serverspec do test each cookbook_name/spec/any_test_spec.rb. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/17/chef-run_list/">Chefの中身読んで、外部からrun_listを利用する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T00:29:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>run_listを渡してるところを探した。<br/>
+といってもほとんど<a href="https://twitter.com/soh335">@soh335</a>が教えてくれた。さすが一流エンジニアだ。</p>
+
+<p><code>/chef/lib/chef/run_list.rb</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def expansion_for_data_source(environment, data_source, opts={})
+</span><span class='line'>  case data_source.to_s
+</span><span class='line'>  when 'disk'
+</span><span class='line'>    RunListExpansionFromDisk.new(environment, @run_list_items)
+</span><span class='line'>  when 'server'
+</span><span class='line'>    RunListExpansionFromAPI.new(environment, @run_list_items, opts[:rest])
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここが怪しかった。</p>
+
+<p><code>/chef/spec/unit/run_list_spec.rb</code></p>
+
+<p>ここ見たら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe "from disk" do
+</span><span class='line'>  it "should load the role from disk" do
+</span><span class='line'>    Chef::Role.should_receive(:from_disk).with("stubby")
+</span><span class='line'>    @run_list.expand("_default", "disk")
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  it "should log a helpful error if the role is not available" do
+</span><span class='line'>    Chef::Role.stub!(:from_disk).and_raise(Chef::Exceptions::RoleNotFound)
+</span><span class='line'>    Chef::Log.should_receive(:error).with("Role stubby (included by 'top level') is in the runlist but does not exist. Skipping expand.")
+</span><span class='line'>    @run_list.expand("_default", "disk")
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんなん書いてあった。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
+</span><span class='line'>
+</span><span class='line'>require 'rubygems'
+</span><span class='line'>require 'pp'
+</span><span class='line'>require 'json'
+</span><span class='line'>require 'chef/run_list'
+</span><span class='line'>
+</span><span class='line'>json_file = "./json/yoshimasa.json"
+</span><span class='line'>
+</span><span class='line'>host_config = JSON.parse(File.read(json_file))
+</span><span class='line'>
+</span><span class='line'>Chef::Config[:cookbook_path] = '/root/chef/cookbook/'
+</span><span class='line'>Chef::Config[:role_path] = '/root/chef/json/'
+</span><span class='line'>
+</span><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
+</span><span class='line'>
+</span><span class='line'>p run_list
+</span><span class='line'># #&lt;Chef::RunList:0x7f6fb8732510 @run_list_items=[#&lt;Chef::RunList::RunListItem:0x7f6fb87323d0 @type=:recipe, @version=nil, @name="nginx"&gt;, #&lt;Chef::RunList::RunListItem:0x7f6fb87323a8 @type=:role, @version=nil, @name="hoge"&gt;]&gt;
+</span><span class='line'>
+</span><span class='line'>pp run_list.expand("_default", "disk")
+</span><span class='line'># #&lt;Chef::RunList::RunListExpansionFromDisk:0x7f6fb8732100
+</span><span class='line'>#  @applied_roles={"hage"=&gt;true, "hoge"=&gt;true},
+</span><span class='line'>#  @default_attrs={},
+</span><span class='line'>#  @environment="_default",
+</span><span class='line'>#  @missing_roles_with_including_role=[],
+</span><span class='line'>#  @override_attrs={},
+</span><span class='line'>#  @recipes=["nginx", "postfix", "yum"],
+</span><span class='line'>#  @run_list_items=[],
+</span><span class='line'>#  @run_list_trace=
+</span><span class='line'>#   {"role[hoge]"=&gt;["role[hage]", "recipe[postfix]", "recipe[yum]"],
+</span><span class='line'>#    "top level"=&gt;["recipe[nginx]", "role[hoge]"]},
+</span><span class='line'>#  @source=nil&gt;
+</span><span class='line'>
+</span><span class='line'>p run_list.expand("_default", "disk").recipes
+</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでrun_listを読める。何が便利かっていうと</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "role[hage]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "recipe[postfix]", "recipe[yum]"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>p run_list.expand("_default", "disk").recipes
+</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という感じにroleの中のrun_listを読み込んでrecipesに突っ込んでくれる。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -416,127 +630,6 @@ Jenkins用のアカウントとしてSSHログインさせてテストを回す�
 
 <p>ikasam_aさんのおかげでできるようになった！！！ありがたい！！！<br/>
 もうちょっと触っていったら色々やりたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
-取り敢えずインストールしてみた。</p>
-
-<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
-誰でも見れちゃうので悲しい感じになる。<br/>
-ということでVPNを貼って内部で接続しに行く。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
-</span><span class='line'>| sakura | --- vpn --- | MBA |
-</span><span class='line'>+--------+             +-----+
-</span><span class='line'>[10.9.0.1]             [10.9.0.6]
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
-
-<h3>Jenkins氏</h3>
-
-<ul>
-<li>/etc/sysconfig/jenkins</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>として、自分自身のアクセスだけ許可</p>
-
-<h3>nginx氏</h3>
-
-<ul>
-<li>/etc/nginx/conf.d/hoge.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
-</span><span class='line'>    root /home/skywalker/www;
-</span><span class='line'>
-</span><span class='line'>    location /{
-</span><span class='line'>        proxy_pass http://localhost:8080;
-</span><span class='line'>        allow 10.9.0.0/16;
-</span><span class='line'>        deny all;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
-
-<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
-
-<ul>
-<li>/usr/local/etc/dnsmasq.conf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
-<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
-<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
-
-<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
 </div>
   
   

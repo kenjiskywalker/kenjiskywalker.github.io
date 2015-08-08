@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-05T18:36:19+09:00</updated>
+  <updated>2015-08-08T21:24:02+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RailsのARで取ってきたオブジェクトにアクセスする]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/08/access-element-in-rails-controller-object/"/>
+    <updated>2015-08-08T20:57:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/08/access-element-in-rails-controller-object</id>
+    <content type="html"><![CDATA[<p>考えたら当たり前なんだけど</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; desc people;
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>| Field         | Type         | Null | Key | Default | Extra          |
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>| id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+</span><span class='line'>| name          | varchar(255) | YES  |     | NULL    |                |
+</span><span class='line'>| prefecture    | varchar(255) | YES  |     | NULL    |                |
+</span><span class='line'>| created_at    | datetime     | YES  |     | NULL    |                |
+</span><span class='line'>| updated_at    | datetime     | YES  |     | NULL    |                |
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>7 rows in set (0.00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいなものがあってView側で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@prefecture_name = People.group(:prefecture)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでprefectureをまとめておいて<br/>
+プルダウンでprefectureを選択してsubmitして</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= form_tag({:action=&gt;"list"}, {:method=&gt;"get"}) do %&gt;
+</span><span class='line'>  # all_peoplesはpeoples
+</span><span class='line'>  &lt;%= select_tag 'prefecture', options_from_collection_for_select(@prefecture_name, "prefecture", "prefecture") %&gt;
+</span><span class='line'>  &lt;%= submit_tag 'subsubsub' %&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で<code>prefecture</code>を<code>params</code>で受け取れるようにしておいて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def list
+</span><span class='line'>    @people_selected_by_prefecture = People.where(prefecture: params[:prefecture])
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでControllerで選択されたprefectureでレコードを抜いておいて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% @people_selected_by_prefecture.each do |p| %&gt;
+</span><span class='line'>  &lt;%= p.name %&gt; | &lt;%= p.prefecture %&gt;&lt;br&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでプルダウンで選んだprefectureに該当する人間を選ぶ<br/>
+みたいな感じ</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% @people_selected_by_prefecture.each do |p| %&gt;
+</span><span class='line'>  &lt;%= p[0] %&gt; | &lt;%= p[1] %&gt;&lt;br&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかでやろうとしていたけどそもそもHashではない</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法]]></title>
@@ -1725,38 +1816,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「降三世明王」について]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/01/21/trailokyavijaya/"/>
-    <updated>2015-01-21T00:30:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/01/21/trailokyavijaya</id>
-    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/gp/product/B009NOI46Q/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B009NOI46Q&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B009NOI46Q&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B009NOI46Q" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>降三世明王が好きなのでそのことについて書く。</p>
-
-<p>降三世明王、仏像のつくりはヒンドゥー教と仏教の争いみたいな感じで<br/>
-シヴァ神を踏みつけていてあんまりよろしくはない。</p>
-
-<p>三世は過去現在未来という意味が強く、受け取り側次第でいかようにも取れる。<br/>
-天下布武の天下は全国なのか近畿だけなのかみたいな感じで。</p>
-
-<p>それはそれとして、降三世明王のある側面では「人間の三毒を取り除く」という意味合いがある。<br/>
-三毒とは「貪・瞋・痴」、貪り、怒り、愚痴を吐くことだ。</p>
-
-<p>人間のできていない自分はこの三毒にすぐにハマる。<br/>
-特に対人間となるとすぐに怒ったり愚痴ったりする。</p>
-
-<p>そういう時に降三世明王を自分の中に入れ<br/>
-衆生や世界、宇宙を感じることを思い出して、<br/>
-今という瞬間と、自分という我執を俯瞰できたら良いなといつも思う。</p>
-
-<p>降三世明王、身につまされる神様だ。</p>
-
-<p>minibutsu、Yahoo!ショッピングでは買えるっぽい。<br/>
-<a href="http://store.shopping.yahoo.co.jp/minibutsu/18.html">http://store.shopping.yahoo.co.jp/minibutsu/18.html</a></p>
 ]]></content>
   </entry>
   

@@ -9,10 +9,13 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="あかっぽいあじさい あおっぽいあじさい 一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし
-家で見ると７割ぐらいピント合ってなくて面白い。 確実性求めすぎない方が心に余裕生まれる気がする。
-">
+  <meta name="description" content="Jenkins氏、存在は知ってるけど自分で使ったことなかったので
+取り敢えずインストールしてみた。 さくらVPSだとグローバル経由でアクセスすることになって
+誰でも見れちゃうので悲しい感じになる。
+ということでVPNを貼って内部で接続しに行く。 1
+2
+3
+4 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +67,127 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
+取り敢えずインストールしてみた。</p>
+
+<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
+誰でも見れちゃうので悲しい感じになる。<br/>
+ということでVPNを貼って内部で接続しに行く。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
+</span><span class='line'>| sakura | --- vpn --- | MBA |
+</span><span class='line'>+--------+             +-----+
+</span><span class='line'>[10.9.0.1]             [10.9.0.6]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
+
+<h3>Jenkins氏</h3>
+
+<ul>
+<li>/etc/sysconfig/jenkins</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>として、自分自身のアクセスだけ許可</p>
+
+<h3>nginx氏</h3>
+
+<ul>
+<li>/etc/nginx/conf.d/hoge.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>    listen 80;
+</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
+</span><span class='line'>    root /home/skywalker/www;
+</span><span class='line'>
+</span><span class='line'>    location /{
+</span><span class='line'>        proxy_pass http://localhost:8080;
+</span><span class='line'>        allow 10.9.0.0/16;
+</span><span class='line'>        deny all;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
+
+<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
+
+<ul>
+<li>/usr/local/etc/dnsmasq.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
+<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
+<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
+
+<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -315,54 +439,6 @@ EC2が単体でスケールアウトができる構成じゃない場合つら�
 <h2>あわせてよみたい</h2>
 
 <p><a href="http://soh335.hatenablog.com/entry/2013/05/23/003124">サードウェーブ！ ： サンフランシスコ周辺で体験した最新コーヒーカルチャー - soh335 memo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/22/music-20130522/">音楽</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-22T00:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://bleep.com/release/43946-hvl-flats">Flats / HVL</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43946.jpg" alt="https://bleep.com/media/images/r/g/43946.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43967-pvgvn-black">Black / PVGVN</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43967.jpg" alt="https://bleep.com/media/images/r/g/43967.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43292-the-last-skeptik-thanks-for-trying">The Last Skeptik / Thanks For Trying</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43292.jpg" alt="https://bleep.com/media/images/r/g/43292.jpg" /></p>
-
-<p>どれも良かった</p>
 </div>
   
   
