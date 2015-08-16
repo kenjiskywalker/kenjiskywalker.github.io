@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-08T21:24:02+09:00</updated>
+  <updated>2015-08-17T00:07:59+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[YAPC::Asia 2015 で冗長化に失敗した話を話します]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/"/>
+    <updated>2015-08-16T23:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk</id>
+    <content type="html"><![CDATA[<p>今年もYAPCで発表させて頂くことになりました。<br/>
+投票してくれた方、ありがとうございます。</p>
+
+<h2><a href="http://yapcasia.org/2015/talk/show/f2816038-10ec-11e5-89bf-d7f07d574c3a">我々はどのように冗長化を失敗したのか / YAPC::Asia 2015</a></h2>
+
+<p>追記にも記載しましたが、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>挑戦したこと
+</span><span class='line'>冗長化について
+</span><span class='line'>Redis + Redis Sentinel
+</span><span class='line'>Consul
+</span><span class='line'>MySQL + mysqlfailover
+</span><span class='line'>consul-template
+</span><span class='line'>hostsの順番
+</span><span class='line'>クラウドという名の混乱
+</span><span class='line'>対応
+</span><span class='line'>冗長化の終わり、そして</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という内容になりそうです。色々なソフトウェアを利用し、ある思想を持って冗長化にチャレンジしたが<br/>
+アマチュアのような見積り、構成の甘さや、インフラではなくプロジェクト全体の問題などを含め<br/>
+改めて実体験として経験したこと、改めて大切だと理解したことなどをお話しできればと考えています。</p>
+
+<p>Webサービスを運用しているけど、インフラ担当なんていない、<br/>
+サーバ管理はよーわからんが新しいことにチャレンジしてみたい！けれど失敗はしたくない、<br/>
+など、インターネットにいるようなすごい人達ではなくてもチャレンジすることができるが<br/>
+こういう失敗はしないようにね、という反面教師のお話を聞きに来て頂ければと思います。</p>
+
+<p>当日はどうぞよろしくお願いいたします。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RailsのARで取ってきたオブジェクトにアクセスする]]></title>
@@ -1775,47 +1822,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 
 <p>Systemd？はて？</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2015/1読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/02/01/201501-book/"/>
-    <updated>2015-02-01T15:32:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/02/01/201501-book</id>
-    <content type="html"><![CDATA[<p>太平記が面白かった.</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2015年01月 (8作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51zPI%2B%2Bq2%2BL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R6Q3Y" target="_blank">私本太平記 12 湊川帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月02日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Ep36mVdtL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00G3R8G78" target="_blank">私本太平記 13 黒白帖</a><br /><a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51X5dD2wvLL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MUN15IQ" target="_blank">超高速勉強法</a><br /><a href="http://booklog.jp/author/%E6%A4%8B%E6%9C%A8%E4%BF%AE%E4%B8%89" target="_blank">椋木修三</a><br />読了日：01月03日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41XI1PP4cHL._SL75_.jpg" width="52" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00L0WYS50" target="_blank">相手をイラつかせない怒らせない話し方と聞き方のルール</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E5%86%85%E5%B9%B8%E5%AD%90" target="_blank">竹内幸子</a><br />読了日：01月10日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4873117097" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4873117097" target="_blank">Serverspec</a><br /><a href="http://booklog.jp/author/%E5%AE%AE%E4%B8%8B%E5%89%9B%E8%BC%94" target="_blank">宮下剛輔</a><br />読了日：01月11日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL._SL75_.jpg" width="48" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00MTL340G" target="_blank">イシューからはじめよ ― 知的生産の「シンプルな本質」</a><br /><a href="http://booklog.jp/author/%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA" target="_blank">安宅和人</a><br />読了日：01月12日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063884163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/615G5PMrhkL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063884163" target="_blank">GIANT KILLING(34) (モーニング KC)</a><br /><a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a><br />読了日：01月25日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41%2BjUZcmLmL._SL75_.jpg" width="51" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00LNBVVX0" target="_blank">35歳から「一生、負けない」生き方</a><br /><a href="http://booklog.jp/author/%E7%AB%B9%E7%94%B0%E9%99%BD%E4%B8%80" target="_blank">竹田陽一</a><br />読了日：01月29日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
-
 ]]></content>
   </entry>
   

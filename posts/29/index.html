@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content=" 誕生日です〜とか言ってウィッシュリストのURL送りまくってたら
-@hsbtさん、@soh335さん、@hisaichi5518くん、@Keita_Shiyaくんから誕生日プレゼント頂きました。
-ありがとうございます！ 勉強します！
-">
+  <meta name="description" content="isucon 2013の1日目に参加しました。
+@fujiwaraさん、@acidlemonさんありがとうございました。
+本戦の問題作成頑張ってくださいね(・ω&lt;) 細かいことはisucon3 の予選に参加しました #isucon - @soh335 memoに書いてあります。
+大切なことは &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,161 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/07/isucon2013/">#isucon 2013 予選1日目に参加しました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-07T09:55:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://isucon.net/">isucon 2013</a>の1日目に参加しました。<br/>
+@fujiwaraさん、@acidlemonさんありがとうございました。<br/>
+本戦の問題作成頑張ってくださいね(・ω&lt;)</p>
+
+<p>細かいことは<a href="http://soh335.hatenablog.com/entry/2013/10/06/230741">isucon3 の予選に参加しました #isucon - @soh335 memo</a>に書いてあります。<br/>
+大切なことは<a href="http://hisaichi5518.hatenablog.jp/entry/2013/10/07/094347">#isucon の予選に参加してきた。 - パルカワ2</a>に書いてあります。</p>
+
+<p>補足としては、ひさいち君は335さんがあれ〜〜〜〜〜？？？なんで〜〜〜〜？？？<br/>
+って言い出したらコード見てこれがこうじゃない？？？って言って、<br/>
+あ〜〜〜〜〜〜〜〜〜！！！っていう<br/>
+デバッグ職人の役割とアプリケーションの細かい修正とかをやってもらってました。<br/>
+漫画読んでたのは残り時間2時間残して、5位以内当確間違いないでしょ〜みたいな<br/>
+奢りの象徴でした。</p>
+
+<p>残り2時間ぐらいやることなくなったのは、<br/>
+workload数を昔のISUCONのレギュレーションと勘違いして<br/>
+時間内の最高スコアが実スコアなのに、最後に運営側で回したスコアがそれだろ。<br/>
+って335さんと勘違いしてworkload 1しばりやってたからでした。<br/>
+これはひさいちが遅刻してこなければ免れたかもしれません。</p>
+
+<p>開始からいきなり忙しいぶってたり、攻殻機動隊のサントラをかけろ！！！<br/>
+gitの設定より先にそれやれ、gitはオレがやるから！！！な！！<br/>
+テンションあげてこ！！！？？とかやらずに<br/>
+開始と同時に、良い茶葉が入りましたので、<br/>
+ハーブティーでも飲みませんか？ぐらいの心の余裕が必要でした。</p>
+
+<p>それと、ベンチマーク走らせる度に <br/>
+「カムカムカムカム〜〜〜〜〜〜〜〜〜！！！！」「ノオ〜〜〜〜〜〜〜〜〜！！！！」<br/>
+「ワイワイワイワイワイエラー！！！」<br/>
+「きっとベンチマーク遅くなると思うけどやらせてくれッッ！！！！」<br/>
+「ヒュ〜〜〜〜〜〜！！！キマったぜ！！！」みたいに<br/>
+やたらテンションが高かったのも反省点でした。</p>
+
+<p>自分がやったことは<br/>
+1- nginx化はボトルネックわかってからやろう！って言ってたのに<br/>
+nginx化してもらわないとわからないみたいな<br/>
+当たり屋みたなこと言われて渋々ボトルネック探す前にnginx化し、<br/>
+ログフォーマットはLTSVを利用し、必要最低限のログだけ出すようにし、<br/>
+閲覧性を向上させていました。</p>
+
+<p>2- MySQLは、結局見ませんでしたが<br/>
+取り敢えずクエリを全部吐くようにしてログに出しておきました。</p>
+
+<p>3- ボトルネック探しはdstatとiotopでCPUとI/O周りを確認していました。<br/>
+一番効果があったのはDBIx::SunnyがどこのコードがそのSQL吐いてるのか<br/>
+クエリに出してくれるので、そこひたすら眺め<br/>
+335さんとこうした方が良い、ああした方が良い。って話していました。<br/>
+実装は全部335さんに任せていました。</p>
+
+<p>SQLで重い処理はRedisに持って行きました。<br/>
+Redis、長期的に運用すること考えない場合こんなに楽なのか〜って震えました。</p>
+
+<p>4- 335さんがRedisの実装書いてる時はチラチラコード読んで、データの中身確認して</p>
+
+<blockquote class="twitter-tweet"><p>こそ泥みたいなチューニングしてる <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386401079199399936">October 5, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>こんな感じのことをしていました。</p>
+
+<p>残り2時間ぐらいになってくると、innodb_buffer_pool_size上げるだけ上げたので<br/>
+ほとんどのデータがメモリに載り、Disk Readなどほとんどなくなり<br/>
+サーバの資源がだいぶ余る感じになってきて、nginxの受け口増やしたりアプリの起動数<br/>
+増やしたりしても変わらなくなってきてて、これはベンチマークツールの限界だな(笑)<br/>
+などとフラグを立てることに集中していました。</p>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a> 予選中間発表続き &#10;6. 335&#10;7. isuco&#10;8. 代々木の緑色の会社&#10;9. └(&#39;-&#39;└)&#10;10. Noder&#10;&#10;1位のスコアは14926.8点です</p>&mdash; 941 (@941) <a href="https://twitter.com/941/statuses/386386639297069056">October 5, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>この時の計測時点で8000とかで3位ぐらいには入れるな。みたな感じだったのですが<br/>
+ここからみなさん怒涛のスコアアップがはじまり、五桁台が当たり前になり</p>
+
+<p>エッエッ？？？？って完全にパニックに陥って、5位もあやしくなってきて<br/>
+「なにこれ？？？何が起こってるんです？？？」<br/>
+「5位以内じゃなきゃ死んだも同然だ！！！」<br/>
+「ディスクリードだ！！！ディスクリードさえなくせばええんや！！！」<br/>
+「もう温泉に行こう！！！」と完全に冷静さを失い、<br/>
+時間から逆算しても抜本的な対策もできなくなり</p>
+
+<p>残り1時間ぐらいはiptablesオフったりtcp_tw_recycle設定したり<br/>
+skip_innodb_doublewriteの設定いじったりして、微妙にスコア伸びましたが、<br/>
+全然5桁行く感じではなくて、時間ももうなくて<br/>
+もうダメだ！！！温泉行こう！！！温泉！！！な！！！みたいな感じになっていました。</p>
+
+<p>結果敵に</p>
+
+<blockquote class="twitter-tweet"><p>こそ泥みたいなチューニングで5位以内確定できるかと思ってたら無理っぽい <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386405476218314752">October 5, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>こうなりました。</p>
+
+<p>同じ会社という利点を利用して</p>
+
+<blockquote class="twitter-tweet"><p>チーム335、社内IRCでめっちゃつっかかってる <a href="https://twitter.com/search?q=%23isucon&amp;src=hash">#isucon</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/386422737968705536">October 5, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>こんな感じでworkloadの文章がわかりづらいとつっかかっていました。<br/>
+どうしようもないですね。結果敵にNoderと50ms or die.チームもworkload 1縛りで<br/>
+我々より上位にランクインしているので、小物感が増しただけでした。</p>
+
+<p>本戦に出られたら、落ち着いて全体の実装全体確認して<br/>
+対応の方向性決めてから手を動かすようにしたいと思います。</p>
+
+<p>とても楽しかったです。<br/>
+ありがとうございました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -484,110 +639,6 @@ Perl、どこか東山文化の風を感じますね。</p>
 
 <p>某面白法人、YAPCスピーカーが多くて大変素晴らしい環境です。<br/>
 某はてな社、YAPCスピーカーが多くて大変素晴らしい環境です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/20/serverspec-with-cron/">本番環境でのserverspecの運用方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-20T02:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li>ミドルウェアの管理はchefを使用している</li>
-<li>サーバへのデプロイはcapistranoを使用している</li>
-</ul>
-
-
-<p>上記2点が当てはまる場合、serverspecの使い方として</p>
-
-<ul>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/31/serverspec-attribute/">serverspecでchefのjsonを読み込む / さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について / さよならインターネット</a></li>
-</ul>
-
-
-<p>上記エントリーを参考にして頂ければchef + serverspecである程度の<br/>
-インフラストラクチャの構築とテストが行えるかと思います。</p>
-
-<p>また、こちらのエントリーのように、chefのrecipeからserverspecのテスト自体を<br/>
-生成してしまうという素晴らしいアイデアもあります。最高ですね。</p>
-
-<h4><a href="http://tily.hatenablog.com/entry/2013/07/21/150404">Chef のレシピから serverspec のテストを自動生成する chef-serverspec-handler という gem を作ってみた</a></h4>
-
-<p>で、結局使えるのはわかったのですが、どのように運用すべきか<br/>
-というところは各所で試行錯誤中かと思います。<br/>
-一例として、基礎的な内容ではありますが、現在試している内容を<br/>
-記載してみようと思います。</p>
-
-<h2>前提条件</h2>
-
-<blockquote><p>capistranoを実行するサーバは、対象の全サーバのrootアカウントに<br/>
-鍵認証でノーパスワードでログインが可能である</p></blockquote>
-
-<h2>chefをcapistranoでdeploy時にテスト</h2>
-
-<p>capistranoの設定にserverspecの項目を増やすことで<br/>
-chef-soloなどが実行された後に、serverspecが実行されます。<br/>
-これは台数が多いと時間が結構かかるので良し悪しがあるかと思います。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  desc "run serverspec"
-</span><span class='line'>  task :run_serverspec do
-</span><span class='line'>    `cd /root/chef/ ; rake`
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>cronで定時実行</h2>
-
-<p><code>/etc/cron.d/serverspec</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0 */1 * * * root cd /root/chef/ ; rake 1&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
-
-
-<p>正常終了であればログを破棄、エラーが出力された際には<br/>
-メールにて通知するようにします。</p>
-
-<h2>とても簡単なことですが</h2>
-
-<p>取り敢えずの導入としては、上記２つの方法を実践しています。<br/>
-新しくミドルウェアを追加した際にテストがコケたりするので<br/>
-なかなか面白いです。</p>
-
-<p>serverspecでどのような監視をしているかなど話し合うの面白そうですよね。</p>
-
-<p>以上、ご参考になれば幸いです。</p>
 </div>
   
   
