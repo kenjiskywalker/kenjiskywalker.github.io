@@ -9,14 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="新しくグループとかつくる時に
-アラートメールの送り先の設定項目多くて毎回忘れるのでメモ ユーザつくる
-ユーザのメディアにアラート通知先登録する
-ユーザグループつくる
-ユーザグループにユーザ入れる
-ホストつくる
-ホストグループつくる
-ホストグループにホスト入れる &hellip;">
+  <meta name="description" content="色々とあれだったのでシンプルにキメうちにしました
+thanks: @sawanoboly
+update: 2013/03/22 環境 Redis version 2.6.7 Redis Sentinelは Monitoring 、 Notification 、Automatic failover &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +63,114 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/20/redis-sentinel-slaveof/">Redis Sentinelが動いていたらslaveof No Oneしない</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T02:36:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sentinel monitor check_one 192.168.2.100 6379 2
+</span><span class='line'>sentinel down-after-milliseconds check_one 5000
+</span><span class='line'>sentinel failover-timeout check_one 50000
+</span><span class='line'>sentinel can-failover check_one yes
+</span><span class='line'>sentinel parallel-syncs check_one 1
+</span><span class='line'>
+</span><span class='line'>daemonize yes
+</span><span class='line'>pidfile /var/run/redis-sentinel.pid
+</span><span class='line'>loglevel notice
+</span><span class='line'>logfile /var/log/redis-sentinel.log
+</span><span class='line'>port 26379</span></code></pre></td></tr></table></div></figure>
+
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -545,110 +648,6 @@ disに対するアンサーソングみたいなのみんなキメてて怖か�
 <strong>md0</strong>でつくっても必ず、再起動後に<strong>md127</strong>として起動してくる。</p>
 
 <p>きっと神の意思なんだと思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/27/chef-variables-same-cookbook/">Chefのtemplateにrecipeからデータを渡すvariablesについて</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
-異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
-
-<p>@fujiwaraさん++</p>
-
-<blockquote><p>検証環境<br/>
-Chef v11.4.0</p></blockquote>
-
-<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
-結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
-
-<p>当初、この課題に対する解決方法として、<br/>
-複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
-実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
-複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
-最初に読み込まれた <em>role</em> は認識されなかった。</p>
-
-<h2>variablesを利用したレシピをみていこう</h2>
-
-<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>recipe内で<br/>
-<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
-また、わかりづらいのだが</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
-</span><span class='line'>  :port =&gt; port  
-</span><span class='line'>})  </span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br/>
-<strong>@port</strong> に代入している。</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>template内で、代入された <strong>@port</strong> を利用する</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>上記内容の結果、出力ファイルとして</p>
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>期待した通り、複数のvalueを受け取り<br/>
-それぞれ異なったファイルに出力されることが確認できた。</p>
-
-<p>もう少しエレガントな方法があるように思うので<br/>
-他の方法などがあれば、是非是非コメントを頂きたい。</p>
 </div>
   
   

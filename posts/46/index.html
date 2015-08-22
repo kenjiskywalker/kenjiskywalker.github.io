@@ -9,11 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="1
-({HostName:net.if.out[eth0,bytes].max(#10)}&lt;50K) とかで設定すると、アイテムが30秒間隔の場合
-30sec * 10 = 300secの間の最大値が全て50Kbps以下であれば
-トリガーを発動する。みたいな設定ができる。 1
-({ &hellip;">
+  <meta name="description" content="こんな感じでイケました。 参考： - Ruby の HTTP クライアントライブラリ Faraday が便利そう / mitukiii gist - Zabbix APIを使って値を取ってみる / ike-daiの日記 アクセストークンは、ike-daiさんのブログを参考にcurlコマンドで取得し &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +61,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/07/faraday-ruby-zabbix-api/">Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T19:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>こんな感じでイケました。</p>
+
+<div><script src='https://gist.github.com/4473915.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>参考：<br/>
+ - <a href="https://gist.github.com/2775321">Ruby の HTTP クライアントライブラリ Faraday が便利そう / mitukiii gist</a><br/>
+ - <a href="http://d.hatena.ne.jp/ike-dai/20110418/1303129550">Zabbix APIを使って値を取ってみる / ike-daiの日記</a></p>
+
+<p>アクセストークンは、ike-daiさんのブログを参考に<code>curl</code>コマンドで取得し、<br/>
+取得したアクセストークンを<code>auth</code>に入れています。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -826,145 +869,6 @@
 
 <p>あとは<code>http://domain/zabbix/</code>にアクセスすれば閲覧できるはず。
 ログイン確認後はすみやかにパスワードを変更してとりあえずは完了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/02/ocococtopress/">さくらVPSでOctopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-02T19:34:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>新年あけましておめでとうございます。<br/>
-年初めは意識高いのでやろうと思ってたこと実行するのに良い機会ですね。</p>
-
-<p>ということで<a href="http://octopress.org/">Octopress</a>を入れてみました。</p>
-
-<h3>手順</h3>
-
-<h4>1. nginxの設定</h4>
-
-<p><code>nginx.conf</code>に下記内容を記述</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 8080;
-</span><span class='line'>    server_name blog.kenjiskywalker.org;
-</span><span class='line'>    root /home/blog/;
-</span><span class='line'>    index index.html;
-</span><span class='line'>    access_log /var/log/nginx/blog/access_log skywalker;
-</span><span class='line'>    error_log  /var/log/nginx/blog/error_log  error;</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>8080</code>なのは、フロントにvarnishがいるから。<br/>
-これで <em>blog.kenjiskywalker.org</em> にアクセスが来たら<br/>
-<code>/home/blog/</code>のディレクトリを見に行くようになる。</p>
-
-<h4>2. オフィシャルのドキュメントを読みながらOctopressの設定</h4>
-
-<p><a href="http://java.com/en/download/apple_manual.jsp">Octopress Setup</a></p>
-
-<p>とくに躓くところはなし。</p>
-
-<p><a href="http://octopress.org/docs/deploying/">Deploying</a></p>
-
-<p>さくらVPSで運用する予定なので<br/>
-<a href="http://octopress.org/docs/deploying/rsync/">Deploying With Rsync</a>を読みながら作業。問題なし。</p>
-
-<p><code>Rakefile</code>はnginxにて設定したように</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>document_root  = "/home/blog/" </span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>/home/blog/</code>を記述。</p>
-
-<p><a href="http://octopress.org/docs/configuring/">Configuring Octopress</a></p>
-
-<p>最低限の設定を行った。
-この辺はもうちょっといじくりたい。</p>
-
-<ul>
-<li>右サイドバーにGithubのリポジトリ表示したり</li>
-<li>Twitterのストリーミング流したり</li>
-<li>Google Analyticsの設定したりするのもここで行える</li>
-</ul>
-
-
-<p>カスタマイズページを右上に表示してみたかったので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/about.html, </span></code></pre></td></tr></table></div></figure>
-
-
-<p>と<em>about.html</em>の設定を追記して</p>
-
-<p><code>/source/_includes/asides/about.html</code>にファイルを設置。</p>
-
-<p>参考：<a href="http://qiita.com/items/ac729ec076f477f05ac6">Octopressでサイドバーに簡易プロフィールを表示させよう！</a></p>
-
-<h4>3. Glide Noteさんを参考にvimの設定</h4>
-
-<p><a href="http://blog.glidenote.com/blog/2012/04/02/octoeditor.vim/">Octopressの記事管理用プラグイン、Octoeditor.vimを作った</a></p>
-
-<p>神様。このエントリーもOctoeditor.vim使って書かせてもらっています！</p>
-
-<h4>4. 記事を書いて確認してみる</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>で、source/配下の(記事であればsource/_post/)ファイルをよしなにpublicへゴリゴリしながらつくりあげて
-</span><span class='line'>
-</span><span class='line'>$ rake preview
-</span><span class='line'>で、localhost:4000で確認
-</span><span class='line'>
-</span><span class='line'>$ rake deploy
-</span><span class='line'>問題がなければデプロイでfinish！</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記コマンドはすべてOctoeditorで完結しているのですが<br/>
-念の為コマンドを打ってみて動きを確認。</p>
-
-<p>deploy先で正常に閲覧できればOKです。</p>
 </div>
   
   

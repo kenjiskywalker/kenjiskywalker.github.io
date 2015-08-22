@@ -9,8 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="忙しくて本読んでなかったかな
-">
+  <meta name="description" content="LT;DR かっぱ先輩！ かっぱ先輩のブログを読んで 深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP 同じようなことを最近やっていたのでメモ。 追記(03/12) 14:00 リダイレクトやめましょうとのこと
+503でお返事しましょうとのこと &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,242 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/12/nginx-maintenance/">Nginxでメンテナンスページ用意する技</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-12T12:22:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>LT;DR</h2>
+
+<p>かっぱ先輩！</p>
+
+<h2>かっぱ先輩のブログを読んで</h2>
+
+<ul>
+<li><a href="http://inokara.hateblo.jp/entry/2014/02/22/134221">深夜メンテナンスに役立ちそうな nginx 小ネタ - ようへいの日々精進 XP </a></li>
+</ul>
+
+
+<p>同じようなことを最近やっていたのでメモ。</p>
+
+<h2>追記(03/12) 14:00</h2>
+
+<ul>
+<li>リダイレクトやめましょうとのこと</li>
+<li>503でお返事しましょうとのこと</li>
+</ul>
+
+
+<blockquote class="twitter-tweet" lang="en"><p>メンテナンス時にメンテページにリダイレクトするのやめましょう</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575875916506640384">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 元ネタの自分の記事は503返してるよ <a href="http://t.co/lONIVrv7OF">http://t.co/lONIVrv7OF</a></p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575877278355214336">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/sora_h">@sora_h</a> 静的ページ更新して差し替えぐらいでいいんじゃないですかねえ</p>&mdash; fujiwara (@fujiwara) <a href="https://twitter.com/fujiwara/status/575880371214020609">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> <a href="https://twitter.com/fujiwara">@fujiwara</a> あ、そういう話か。ちょっと勘違いしてた。静的ページ更新の差し替えしかないのでは。</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/status/575880494400729088">March 12, 2015</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>ノーSEO(disallow: /)だったので完全に無視してた</p>
+
+<h3>nginxに設定しているメンテナンスモードの条件</h3>
+
+<ul>
+<li><p><code>/var/nginx/html/maintenance/maintenance.html</code>ファイルがあればメンテナンスモードとして<code>maintenance.html</code>を表示するように</p></li>
+<li><p><code>/healthcheck</code>のリクエストはメンテナンスモードでも通す</p></li>
+<li><p>管理IPアドレスからはメンテナンスモードでも通す</p></li>
+</ul>
+
+
+<p>という3点を設定しています。</p>
+
+<ul>
+<li>nginx.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>upstream example_pool {
+</span><span class='line'>    server 127.0.0.1:3000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>geo $allow_ip_flag {
+</span><span class='line'>    default 0;
+</span><span class='line'>    192.0.2.0/24 1;    #TEST-NET-1
+</span><span class='line'>    198.51.100.0/24 1; #TEST-NET-2
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'>    listen       80;
+</span><span class='line'>    server_name  example.com;
+</span><span class='line'>
+</span><span class='line'>    access_log  /var/log/nginx/example_com_access.log  ltsv;
+</span><span class='line'>    error_log  /var/log/nginx/example_com_error.log warn;
+</span><span class='line'>
+</span><span class='line'>    root /var/nginx/html/example;
+</span><span class='line'>
+</span><span class='line'>    location /robots.txt {
+</span><span class='line'>            alias /var/nginx/html/robots.txt;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    location / {
+</span><span class='line'>
+</span><span class='line'>        ### メンテナンスの設定 ここから ###############################
+</span><span class='line'>        if ( -e /var/nginx/html/maintenance/maintenance.html ) {
+</span><span class='line'>            set $maintenance true;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # health checkのリクエストはログに出さずに
+</span><span class='line'>        # メンテナンスページを通過する
+</span><span class='line'>        if ( $request_uri ~ /healthcheck ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>            access_log off;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # 許可IPアドレスならメンテナンスページを通過する
+</span><span class='line'>        if ( $allow_ip_flag ) {
+</span><span class='line'>            set $maintenance false;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        # それ以外は/maintenance.htmlに飛ばす
+</span><span class='line'>        if ( $maintenance = true ) {
+</span><span class='line'>            rewrite ^ /maintenance.html redirect;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        location /maintenance.html {
+</span><span class='line'>            alias /var/nginx/html/maintenance/maintenance.html;
+</span><span class='line'>            expires 0;
+</span><span class='line'>        }
+</span><span class='line'>        ### メンテナンスの設定 ここまで ###############################
+</span><span class='line'>
+</span><span class='line'>        proxy_pass http://example_pool;
+</span><span class='line'>
+</span><span class='line'>        proxy_set_header Host              $http_host;
+</span><span class='line'>        proxy_set_header X-Real-IP         $remote_addr;
+</span><span class='line'>        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+</span><span class='line'>
+</span><span class='line'>        client_max_body_size 710M;
+</span><span class='line'>        proxy_connect_timeout      3000;
+</span><span class='line'>        proxy_send_timeout         3000;
+</span><span class='line'>        proxy_read_timeout         3000;
+</span><span class='line'>        break;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>nginxは複数の条件の場合bit立てて判断するの知らなかった。</p>
+
+<ul>
+<li><a href="http://wiki.nginx.org/IfIsEvil">IfIsEvil</a></li>
+</ul>
+
+
+<p>こういうのはエレガントにngx_mrubyでやった方が運用楽そう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -515,160 +751,6 @@ c3.4xlargeも$0.5/hで借りれて最高だ。</p>
 
 
 <p>こちらからは以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/02/07/update-resolv-conf/">起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-07T17:41:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>みんなこういうのはどういう対応しているんだろう</p></blockquote>
-
-<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか</p>&mdash; TSUNEMATSU Shinya (@tnmt) <a href="https://twitter.com/tnmt/status/564019209189851136">February 7, 2015</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>常松先生が一瞬で解決方法を教えてくれました。<br/>
-ありがとうございます！</p>
-
-<h2>resolv.confが圧倒的暴力によって上書きされる場合</h2>
-
-<p>対応として<code>resolv-update</code>みたいな雑なサービス定義をして、サーバ起動時に実行させるようにした。<br/>
-ポイントはcloud-initとかそれ系のヤツが実行される前に上書いてもその後に上書きされるのでタイミングが大切。</p>
-
-<p>ここの</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># chkconfig: 2345 49 49</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>49 49</code>の最初の数字が起動時に実行される順番で、後ろの数字が終了時に実行される順番。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ chkconfig --add resolv-update</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とすることで自動に実行されるようになる。</p>
-
-<p>runlevel 3のものを確認したければ<code>/etc/rc3.d/</code>とか見ればわかる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
-</span><span class='line'>#
-</span><span class='line'># resolv-update
-</span><span class='line'># create by kenjiskywalker
-</span><span class='line'>#
-</span><span class='line'># chkconfig: 2345 49 49
-</span><span class='line'># description: resolv-update
-</span><span class='line'>
-</span><span class='line'>lock_file="/var/lock/subsys/resolv-update"
-</span><span class='line'>redis_port="6379"
-</span><span class='line'>
-</span><span class='line'>start()
-</span><span class='line'>{
-</span><span class='line'>    # lock_fileを生成しないとshutdownの時に実行されない
-</span><span class='line'>    touch ${lock_file}
-</span><span class='line'>
-</span><span class='line'>    # 圧倒的暴力によってresolv.confが上書きされていたら更に上書きする
-</span><span class='line'>    if [[ -z "`grep 'nameserver 127.0.0.1' /etc/resolv.conf`" ]]
-</span><span class='line'>    then
-</span><span class='line'>        sed -i '1s/^/nameserver 127.0.0.1\n/' /etc/resolv.conf
-</span><span class='line'>    fi
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>stop()
-</span><span class='line'>{
-</span><span class='line'>    # lock_fileの削除
-</span><span class='line'>    rm -r ${lock_file}
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>case "$1" in
-</span><span class='line'>    start)
-</span><span class='line'>        start
-</span><span class='line'>    ;;
-</span><span class='line'>    stop)
-</span><span class='line'>        stop
-</span><span class='line'>    ;;
-</span><span class='line'>    *)
-</span><span class='line'>        echo "Usage: $0 {start|stop}"
-</span><span class='line'>    ;;
-</span><span class='line'>esac
-</span><span class='line'>
-</span><span class='line'>exit 0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Systemd？はて？</p>
 </div>
   
   
