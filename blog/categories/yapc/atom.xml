@@ -4,7 +4,7 @@
   <title><![CDATA[Category: yapc | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/yapc/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-22T14:04:09+09:00</updated>
+  <updated>2015-08-24T12:00:59+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -42,12 +42,20 @@
 <p>この方法は良かった印象がある。<br/>
 で、スライドはこちらになります</p>
 
-<script async class="speakerdeck-embed" data-id="cde37ad797ab49dd92584770e9798d9a" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+<div style="width: 65%">
+<script async class="speakerdeck-embed" data-id="cde37ad797ab49dd92584770e9798d9a" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>  
+</div>
 
 
-<p></p>
 
-<p>(speakerdeckめっちゃでかいな)</p>
+
+<blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p lang="ja" dir="ltr">Nice try / SpeakerDeckでかい問題は <a href="http://t.co/MKonnBdKsX">http://t.co/MKonnBdKsX</a> で解決ですよ / “YAPC::Asia 2015で冗長化に失敗した話をしてきました <a href="https://twitter.com/hashtag/yapcasia?src=hash">#yapcasia</a> - さよならインター…” <a href="http://t.co/l3F9su5RCE">http://t.co/l3F9su5RCE</a></p>&mdash; Uchio KONDO (@udzura) <a href="https://twitter.com/udzura/status/635644624120340481">August 24, 2015</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote><p>うづらさんありがとうございます！</p></blockquote>
 
 <p>何回か発表の練習したんですが、何回やっても時間過ぎなくて、<br/>
 本当かな〜って思ったんだけど緊張しながら話すとやっぱり色々うまく行かなくて<br/>
