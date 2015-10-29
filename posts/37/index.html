@@ -9,9 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="国宝 大神社展 神道、基本アニミズム信仰だから仏教と違って
-神を象ることはないんだけど、祀ることに関するものが色々あった。 色々あったけどどれも地味だったからあんまり面白くなかった。
-そもそも神道が地味だからそんなもんだと思う。 秀吉の字がめちゃくちゃ汚いとか、空海の字がめちゃめちゃ綺麗だとか &hellip;">
+  <meta name="description" content="Amazon EC2 リザーブドインスタンス 先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで
+割り引いてもらえるサービス。 詳しくはこちら 【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加 古い情報なので値段など変更されている場合があるので &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +62,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/18/reserved-instances/">AWSのリザーブドインスタンスについて理解していなかったので理解した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-18T15:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="http://aws.amazon.com/jp/ec2/reserved-instances/">Amazon EC2 リザーブドインスタンス</a></h2>
+
+<p>先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで<br/>
+割り引いてもらえるサービス。</p>
+
+<p>詳しくはこちら</p>
+
+<h4><a href="http://aws.typepad.com/aws_japan/2011/12/additional-reserved-instance-options-for-amazon-ec2-.html">【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加</a></h4>
+
+<p>古い情報なので値段など変更されている場合があるので<br/>
+あくまで参考までに。</p>
+
+<h4>リザーブドインスタンスの種類</h4>
+
+<ul>
+<li>軽度使用(Light)  RI</li>
+<li>中度使用(Medium) RI</li>
+<li>重度使用(Heavy)  RI</li>
+</ul>
+
+
+<h4>何が違うの？</h4>
+
+<blockquote><p>15%以下:          オンデマンドインスタンス<br/>
+15% - 40%:        ライトユース・リザーブドインタンス<br/>
+40%-80%:          ミディアムユース・リザーブドインタンス<br/>
+80%以上:          ヘビーユース・リザーブドインタンス</p></blockquote>
+
+<p>上のパーセンテージは年間で使用するパーセント。<br/>
+雑な計算をすると、365日中の15%だから、54.75日。<br/>
+<code>54.75日以下</code>しか使わない場合はリザーブドインスタンスの方が損をしてしまう。<br/>
+<code>15%以上(54.75) - 40%以内(146日)以内</code>であれば、軽度使用RIを使った方がお得。<br/>
+どれぐらいお得かは参考ページに記載されている。</p>
+
+<p>取り敢えず2ヶ月以上使う予定があれば軽度使用で安くなる。<br/>
+ただ当たり前だけどインスタンスサイズ変更できないので<br/>
+カジュアルにスケールアップすることができなくなる。<br/>
+EC2が単体でスケールアウトができる構成じゃない場合つらくなる可能性ある。<br/>
+不要になったRIはマーケットプレイスで販売もできるらしいけど<br/>
+今はまだ米国専用って感じっぽい。</p>
+
+<p>なにはともあれ選択ができるっていうのはありがたいことだ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -547,57 +623,6 @@ knife-solo_data_bag 0.3.2</p></blockquote>
 
 <p><a href="http://d.hatena.ne.jp/toritori0318/20130516/1368722444">アルパカchef日記３日目　data bagについて / またはユーザ管理クックブックなど &ndash; アルパカDiary</a><br/>
 大変勉強になるエントリーだ</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/07/zabbix-proxy-not-many-server/">zabbix-proxyに複数のServerを設定することはできない</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-07T17:50:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>忘れそうだから書いておく。</p>
-
-<ul>
-<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_agentd">3.2.3 Zabbixエージェント (UNIX、スタンドアロンデーモン)</a></li>
-<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_proxy">3.2.2 Zabbixプロキシ</a></li>
-</ul>
-
-
-<blockquote><p>ZabbixサーバのIPアドレス(またはホスト名)をカンマ区切りで指定します。</p></blockquote>
-
-<p>っていう文言の有無で確認すればよかった。<br/>
-けど、書いてないのは「わざわざ言わせんな恥ずかしい・・・///」<br/>
-みたいな感じにも受け取れるけど、取り敢えず送れない。</p>
-
-<p>2時間ぐらいあーだこーだしてた。最終的にngrepして<br/>
-パケットの送受信されていないこと確認して終わった。ngrep便利だ。</p>
 </div>
   
   

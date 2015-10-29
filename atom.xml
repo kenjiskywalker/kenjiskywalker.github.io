@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2015-08-24T12:00:59+09:00</updated>
+  <updated>2015-10-30T07:12:52+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[「お母さんの「敏感期」―モンテッソーリ教育は子を育てる、親を育てる」を読んだ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/10/30/learning-montessori-system-fisrt/"/>
+    <updated>2015-10-30T06:59:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/10/30/learning-montessori-system-fisrt</id>
+    <content type="html"><![CDATA[<p>最近自分で考えて誰かに伝えることが疎かになってきているので<br/>
+雑でも良いので書いていく。</p>
+
+<p><a href="http://www.amazon.co.jp/%E3%81%8A%E6%AF%8D%E3%81%95%E3%82%93%E3%81%AE%E3%80%8C%E6%95%8F%E6%84%9F%E6%9C%9F%E3%80%8D%E2%80%95%E3%83%A2%E3%83%B3%E3%83%86%E3%83%83%E3%82%BD%E3%83%BC%E3%83%AA%E6%95%99%E8%82%B2%E3%81%AF%E5%AD%90%E3%82%92%E8%82%B2%E3%81%A6%E3%82%8B%E3%80%81%E8%A6%AA%E3%82%92%E8%82%B2%E3%81%A6%E3%82%8B-%E6%96%87%E6%98%A5%E6%96%87%E5%BA%AB-%E7%9B%B8%E8%89%AF-%E6%95%A6%E5%AD%90/dp/416771745X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D416771745X" target="_blank" title="お母さんの「敏感期」―モンテッソーリ教育は子を育てる、親を育てる (文春文庫)"><img src="http://ecx.images-amazon.com/images/I/413Pf23jBaL.jpg" width="342" height="500" alt="お母さんの「敏感期」―モンテッソーリ教育は子を育てる、親を育てる (文春文庫)" /></a></p>
+
+<p>最近いろいろと知る機会があってモンテッソーリの書いてある本を読んでみたくて読んだ。<br/>
+個人的に子供と接する時に気を付けているのは</p>
+
+<ul>
+<li>この世界に絶対はないこと</li>
+<li>物事の背景を理解するようにすること</li>
+<li>何歳であろうと一人の人間として丁寧に物事を教えること</li>
+<li>やりたいものはやらせて自分の頭で学ばせること</li>
+</ul>
+
+
+<p>この辺を気を付けていたけど、モンテッソーリはもう少し体系的に<br/>
+より高度に実践しているようだった。<br/>
+ちゃんとした教材を読んでみたくなった。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[YAPC::Asia 2015で冗長化に失敗した話をしてきました #yapcasia]]></title>
@@ -1457,297 +1484,6 @@ TERA COFFEEの豆入れに豆入れて冷凍庫で保存している。</p>
 これからはUUID。時代はUUID。</p>
 
 <blockquote><p>root権限じゃないと足したディスクが表示されないので気をつけよう;)</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[負荷テストが気軽に行えるsiegeでちょっとハマった]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/02/13/siege/"/>
-    <updated>2015-02-13T18:06:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/02/13/siege</id>
-    <content type="html"><![CDATA[<blockquote><p>siege: version 3.0.9</p></blockquote>
-
-<h2>TL;DR</h2>
-
-<p>httpsのリクエストの際にうんともすんともいわなくて、lddで見たら<br/>
-opensslのライブラリ読み込んでなかった。</p>
-
-<h2>Siege</h2>
-
-<ul>
-<li><a href="http://www.joedog.org/siege-home/">Siege Home</a></li>
-<li><a href="http://qiita.com/inokappa/items/84f42dbd718a8070bd1d">Siege でお手軽 Web 負荷テスト - Qiita</a></li>
-</ul>
-
-
-<p>詳しくは上記URLを参照してください。</p>
-
-<p>kappa大先生の記事を見て、これいいやん！ってなって導入した。<br/>
-負荷テストをかけるサーバも今ではAWSのスポットインスタンスを利用すれば<br/>
-c3.4xlargeも$0.5/hで借りれて最高だ。</p>
-
-<h2>インストール</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># gccが必要なのでインストール
-</span><span class='line'>$ yum install gcc
-</span><span class='line'>
-</span><span class='line'>$ wget http://download.joedog.org/siege/siege-3.0.9.tar.gz
-</span><span class='line'>$ tar xzf siege-3.0.9.tar.gz
-</span><span class='line'>$ cd siege-3.0.9
-</span><span class='line'>$ ./configure
-</span><span class='line'>$ make -j 16
-</span><span class='line'>$ make install</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>HTTPSにつながらない?</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 2S http://example.com/
-</span><span class='line'>** SIEGE 3.0.9
-</span><span class='line'>** Preparing 1 concurrent users for battle.
-</span><span class='line'>The server is now under siege...
-</span><span class='line'>HTTP/1.1 200   0.69 secs:    5121 bytes ==&gt; GET  /
-</span><span class='line'>HTTP/1.1 200   0.68 secs:    5123 bytes ==&gt; GET  /
-</span><span class='line'>
-</span><span class='line'>Lifting the server siege...      done.
-</span><span class='line'>
-</span><span class='line'>Transactions:                      0 hits
-</span><span class='line'>Availability:                   0.00 %
-</span><span class='line'>Elapsed time:                   1.00 secs
-</span><span class='line'>Data transferred:               0.00 MB
-</span><span class='line'>Response time:                  0.00 secs
-</span><span class='line'>Transaction rate:               0.00 trans/sec
-</span><span class='line'>Throughput:                     0.00 MB/sec
-</span><span class='line'>Concurrency:                    0.01
-</span><span class='line'>Successful transactions:           1
-</span><span class='line'>Failed transactions:               0
-</span><span class='line'>Longest transaction:            0.01
-</span><span class='line'>Shortest transaction:           0.01
-</span><span class='line'>
-</span><span class='line'>FILE: /root/siege.log
-</span><span class='line'>You can disable this annoying message by editing
-</span><span class='line'>the .siegerc file in your home directory; change
-</span><span class='line'>the directive 'show-logfile' to false.
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>では応答したのに</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1-t 2S https://example.com/
-</span><span class='line'>** SIEGE 3.0.9
-</span><span class='line'>** Preparing 1 concurrent users for battle.
-</span><span class='line'>The server is now under siege...
-</span><span class='line'>Lifting the server siege...      done.
-</span><span class='line'>
-</span><span class='line'>Transactions:                      0 hits
-</span><span class='line'>Availability:                   0.00 %
-</span><span class='line'>Elapsed time:                   4.68 secs
-</span><span class='line'>Data transferred:               0.00 MB
-</span><span class='line'>Response time:                  0.00 secs
-</span><span class='line'>Transaction rate:               0.00 trans/sec
-</span><span class='line'>Throughput:                     0.00 MB/sec
-</span><span class='line'>Concurrency:                    0.00
-</span><span class='line'>Successful transactions:           0
-</span><span class='line'>Failed transactions:               3
-</span><span class='line'>Longest transaction:            0.00
-</span><span class='line'>Shortest transaction:           0.00
-</span><span class='line'>
-</span><span class='line'>FILE: /root/siege.log
-</span><span class='line'>You can disable this annoying message by editing
-</span><span class='line'>the .siegerc file in your home directory; change
-</span><span class='line'>the directive 'show-logfile' to false.
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>などとFailedになってしまった。<br/>
-最初、cookieで認証しているのでcookieの渡し方が悪かったのかと思ったが<br/>
-ふとライブラリちゃんと読み込んでいるのか気になったので確認してみた。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
-</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff0a7fe000)
-</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fe27e031000)
-</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fe27dc8c000)
-</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007fe27e253000)
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>おや&hellip; <br/>
-ということで<code>yum install openssl-devel</code>をしてから再度インストールしなおす。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
-</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff3a561000)
-</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f77766e2000)
-</span><span class='line'>        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f77764de000)
-</span><span class='line'>        libssl.so.10 =&gt; /usr/lib64/libssl.so.10 (0x00007f7776270000)
-</span><span class='line'>        libcrypto.so.10 =&gt; /lib64/libcrypto.so.10 (0x00007f7775e8c000)
-</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f7775ae7000)
-</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007f7776904000)
-</span><span class='line'>        libgssapi_krb5.so.2 =&gt; /lib64/libgssapi_krb5.so.2 (0x00007f77758a3000)
-</span><span class='line'>        libkrb5.so.3 =&gt; /lib64/libkrb5.so.3 (0x00007f77755be000)
-</span><span class='line'>        libcom_err.so.2 =&gt; /usr/lib64/libcom_err.so.2 (0x00007f77753bb000)
-</span><span class='line'>        libk5crypto.so.3 =&gt; /lib64/libk5crypto.so.3 (0x00007f777518f000)
-</span><span class='line'>        libz.so.1 =&gt; /lib64/libz.so.1 (0x00007f7774f79000)
-</span><span class='line'>        libkrb5support.so.0 =&gt; /lib64/libkrb5support.so.0 (0x00007f7774d6e000)
-</span><span class='line'>        libkeyutils.so.1 =&gt; /lib64/libkeyutils.so.1 (0x00007f7774b6a000)
-</span><span class='line'>        libresolv.so.2 =&gt; /lib64/libresolv.so.2 (0x00007f7774953000)
-</span><span class='line'>        libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007f777473d000)
-</span><span class='line'>        libselinux.so.1 =&gt; /usr/lib64/libselinux.so.1 (0x00007f777451b000)
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>おお、色々読み込んでいる</p>
-
-<h2>改めて確認</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/
-</span><span class='line'>** SIEGE 3.0.9
-</span><span class='line'>** Preparing 1 concurrent users for battle.
-</span><span class='line'>The server is now under siege...
-</span><span class='line'>HTTP/1.1 200   0.78 secs:    5119 bytes ==&gt; GET  /
-</span><span class='line'>
-</span><span class='line'>Lifting the server siege...      done.
-</span><span class='line'>
-</span><span class='line'>Transactions:                      1 hits
-</span><span class='line'>Availability:                 100.00 %
-</span><span class='line'>Elapsed time:                   2.89 secs
-</span><span class='line'>Data transferred:               0.00 MB
-</span><span class='line'>Response time:                  0.78 secs
-</span><span class='line'>Transaction rate:               0.35 trans/sec
-</span><span class='line'>Throughput:                     0.00 MB/sec
-</span><span class='line'>Concurrency:                    0.27
-</span><span class='line'>Successful transactions:           1
-</span><span class='line'>Failed transactions:               0
-</span><span class='line'>Longest transaction:            0.78
-</span><span class='line'>Shortest transaction:           0.78
-</span><span class='line'>
-</span><span class='line'>FILE: /root/siege.log
-</span><span class='line'>You can disable this annoying message by editing
-</span><span class='line'>the .siegerc file in your home directory; change
-</span><span class='line'>the directive 'show-logfile' to false.
-</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
-
-
-<p>無事レスポンスを取得することができた。</p>
-
-<h3>cookieの渡し方</h3>
-
-<p><code>--header="Cookie: k=v; k=v;"</code>みたいな渡し方でいけた。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/ --header="Cookie: key_one=value_one; domain=.example.com; path=/; expires=Fri, 13 Feb 2015 16:41:26 -0000; key_two=value_two; path=/;"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらからは以上です。</p>
 ]]></content>
   </entry>
   
