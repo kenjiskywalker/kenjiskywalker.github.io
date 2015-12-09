@@ -9,8 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Amazon EC2 リザーブドインスタンス 先に1年か3年かのどちらか使用する予定の期間の予約金を支払うことで
-割り引いてもらえるサービス。 詳しくはこちら 【AWS発表】 リザーブドインスタンスに新しい2つの料金モデルを追加 古い情報なので値段など変更されている場合があるので &hellip;">
+  <meta name="description" content="あかっぽいあじさい あおっぽいあじさい 一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。
+DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし
+家で見ると７割ぐらいピント合ってなくて面白い。 確実性求めすぎない方が心に余裕生まれる気がする。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +64,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/26/ajisai-2013/">2013 / あじさい / 鎌倉</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-26T00:47:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>あかっぽいあじさい</h3>
+
+<p><img src="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" alt="http://farm3.staticflickr.com/2821/9117215174_a318d68fc4_c.jpg" /></p>
+
+<h3>あおっぽいあじさい</h3>
+
+<p><img src="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" alt="http://farm4.staticflickr.com/3682/9117214348_220faf73dc_c.jpg" /></p>
+
+<p>一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。<br/>
+DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし<br/>
+家で見ると７割ぐらいピント合ってなくて面白い。</p>
+
+<p>確実性求めすぎない方が心に余裕生まれる気がする。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -313,316 +363,6 @@ EC2が単体でスケールアウトができる構成じゃない場合つら�
 <p><img src="https://bleep.com/media/images/r/g/43292.jpg" alt="https://bleep.com/media/images/r/g/43292.jpg" /></p>
 
 <p>どれも良かった</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/20/chef-databag/">Chefで公開したくないJSONデータを暗号化するためにDataBagsを利用してみた記録</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-20T18:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>ruby 1.8.7<br/>
-chef 11.4.4<br/>
-knife-solo_data_bag 0.3.2</p></blockquote>
-
-<p>2013/05/20 現在</p>
-
-<blockquote><p>knife-solo 0.2.0 では &ldquo;knife solo data bag&rdquo; は使えず<br/>
-<a href="https://github.com/thbishop/knife-solo_data_bag">https://github.com/thbishop/knife-solo_data_bag</a> こちらを利用</p></blockquote>
-
-<hr />
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://docs.opscode.com/essentials_data_bags.html">About Data Bags — Chef Docs</a></li>
-<li><a href="http://docs.opscode.com/essentials_data_bags_encrypt.html">Encrypt a Data Bag — Chef Docs</a></li>
-</ul>
-
-
-<h2>knife-solo_data_bagのインストール</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># gem install knife-solo_data_bag 
-</span><span class='line'># cd /root/chef/ ; pwd</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>暗号化用の鍵を用意</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># openssl rand -base64 512 &gt; encrypted_data_bag_secret</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>環境整備</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># mkdir /root/chef/data_bags
-</span><span class='line'># cat /root/.chef/knife.rb
-</span><span class='line'>cookbook_path '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path '/root/chef/data_bags'
-</span><span class='line'>encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret'
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のような感じでknifeの設定を整えます</p>
-
-<h2>data_bagをつくる</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#
-</span><span class='line'># knife solo data bag create data_hoge bag_hoge --secret-file ./encrypted_data_bags_secret
-</span><span class='line'>ERROR: RuntimeError: Please set EDITOR environment variable
-</span><span class='line'>#
-</span><span class='line'># export EDITOR=vim
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag create data_hoge bag_hoge --secret-file ./encrypted_data_bags_secret
-</span><span class='line'>{
-</span><span class='line'>    "id": "bag_hoge",
-</span><span class='line'>  "data": "bagbag"
-</span><span class='line'>}
-</span><span class='line'># 
-</span><span class='line'># cat /root/chef/data_bags/data_hoge/bag_hoge.json
-</span><span class='line'>{
-</span><span class='line'>  "data_bag": "data_hoge",
-</span><span class='line'>  "chef_type": "data_bag_item",
-</span><span class='line'>  "name": "data_bag_item_data_hoge_bag_hoge",
-</span><span class='line'>  "json_class": "Chef::DataBagItem",
-</span><span class='line'>  "raw_data": {
-</span><span class='line'>    "id": "bag_hoge",
-</span><span class='line'>    "data": {
-</span><span class='line'>      "iv": "++q0Yc6EHUu8bdAxb/Ekuw==\n",
-</span><span class='line'>      "version": 1,
-</span><span class='line'>      "encrypted_data": "ErOwQM7QzvSJavsHPQovjwmRk7egm6EOCvDz2cUMd0Y=\n",
-</span><span class='line'>      "cipher": "aes-256-cbc"
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}#
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data: bagbag
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>bag_hoge.json</code>の実ファイルを開いても中身は暗号化されている</p>
-
-<h2>秘密鍵が利用されているか確認</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># cat /root/.chef/knife.rb
-</span><span class='line'>cookbook_path '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path '/root/chef/data_bags'
-</span><span class='line'># encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret' 
-</span><span class='line'>
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>コメントアウトしてみる</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aws_keys = Chef::EncryptedDataBagItem.load(, secret)
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data:
-</span><span class='line'>  cipher:         aes-256-cbc
-</span><span class='line'>  encrypted_data: ErOwQM7QzvSJavsHPQovjwmRk7egm6EOCvDz2cUMd0Y=
-</span><span class='line'>
-</span><span class='line'>  iv:             ++q0Yc6EHUu8bdAxb/Ekuw==
-</span><span class='line'>
-</span><span class='line'>  version:        1
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>復号化されない。秘密鍵が使われていることがわかる</p>
-
-<h2>recipeから呼び出す</h2>
-
-<p><code>solo.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>file_cache_path '/tmp/chef-solo'
-</span><span class='line'>cookbook_path   '/root/chef/cookbooks'
-</span><span class='line'>data_bag_path   '/root/chef/data_bags'
-</span><span class='line'>encrypted_data_bag_secret '/root/chef/encrypted_data_bag_secret'</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>data_bag_path</code>と<code>encrypted_data_bag_secret</code>でファイルの位置をsoloに教える。</p>
-
-<p><code>/root/chef/cookbooks/data_bag_test/recipes/default.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>data_bag = Chef::EncryptedDataBagItem.load('data_hoge','bag_hoge')
-</span><span class='line'>hoge = data_bag['data']
-</span><span class='line'>
-</span><span class='line'>p "data_bag is [#{hoge}]"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じのrecipeをつくる</p>
-
-<p><code>data_bag_test.json</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>   "run_list": [
-</span><span class='line'>    "data_bag_test"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようなテストJSONを作成し、chef-soloを走らせる</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># chef-solo -j data_bag_test.json -c solo.rb
-</span><span class='line'>Starting Chef Client, version 11.4.4
-</span><span class='line'>Compiling Cookbooks...
-</span><span class='line'>"data_bag is [bagbag]"
-</span><span class='line'>Converging 0 resources
-</span><span class='line'>Chef Client finished, 0 resources updated
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のようにdata_bagの値が取得できれば成功。<br/>
-秘密鍵をcookbooksとは別で管理することにより<br/>
-漏洩してほしくない情報を暗号化することが可能になる。</p>
-
-<p>とても便利。</p>
-
-<h2>暗号化しないで保存するパターン (05/28 追記)</h2>
-
-<p><code>--secret-file</code>鍵を指定しなければ暗号化はされない。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># knife solo data bag create data_hoge bag_hoge
-</span><span class='line'>#
-</span><span class='line'># knife solo data bag show data_hoge bag_hoge
-</span><span class='line'>data: bagbag
-</span><span class='line'>id:   bag_hoge
-</span><span class='line'>#
-</span><span class='line'># cat /root/chef/data_bags/data_hoge/bag_hoge.json
-</span><span class='line'>{"name":"data_bag_item_data_hoge_bag_hoge","data_bag":"data_hoge","chef_type":"data_bag_item","raw_data":{"id":"bag_hoge","data":"bagbag"},"json_class":"Chef::DataBagItem"}
-</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>recipe</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aws_keys = data_bag_item("data_hoge","bag_hoge")
-</span><span class='line'>
-</span><span class='line'>p "data_bag is [#{hoge}]"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>でいける</p>
-
-<h3>あわせて読みたい</h3>
-
-<p><a href="http://d.hatena.ne.jp/toritori0318/20130516/1368722444">アルパカchef日記３日目　data bagについて / またはユーザ管理クックブックなど &ndash; アルパカDiary</a><br/>
-大変勉強になるエントリーだ</p>
 </div>
   
   
