@@ -9,10 +9,12 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
-nodes/hoge.jsonで与えられたnode[:hoge]の値を
-roles/role.jsonで値を追加したい場合があります。
-そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
+  <meta name="description" content="supervisorをインストール 1
+2
+3
+$ sudo yum -y install python-setuptools
+$ sudo easy_install supervisor
+$ echo_supervisord_conf &gt; /etc/supervisord.conf &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +66,228 @@ roles/role.jsonで値を追加したい場合があります。
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/">supervisorでログのディレクトリをSIGUSR2を使って開き直す</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T20:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>supervisorをインストール</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install python-setuptools
+</span><span class='line'>$ sudo easy_install supervisor
+</span><span class='line'>$ echo_supervisord_conf &gt; /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>テストスクリプト(/root/while.sh)を置く</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>while true ; do date ; sleep 1 ; done</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>/etc/supervisord.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[unix_http_server]
+</span><span class='line'>file=/tmp/supervisor.sock   ; (the path to the socket file)
+</span><span class='line'>[supervisord]
+</span><span class='line'>logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
+</span><span class='line'>logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+</span><span class='line'>logfile_backups=10           ; (num of main logfile rotation backups;default 10)
+</span><span class='line'>loglevel=info                ; (log level;default info; others: debug,warn,trace)
+</span><span class='line'>pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+</span><span class='line'>nodaemon=false               ; (start in foreground if true;default false)
+</span><span class='line'>minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+</span><span class='line'>minprocs=200                 ; (min. avail process descriptors;default 200)
+</span><span class='line'>childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
+</span><span class='line'>[rpcinterface:supervisor]
+</span><span class='line'>supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+</span><span class='line'>[supervisorctl]
+</span><span class='line'>serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+</span><span class='line'>[program:hello]
+</span><span class='line'>priority = 100
+</span><span class='line'>command = sh /root/while.sh
+</span><span class='line'>redirect_stderr = true</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>supervisorを走らせる</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor
+</span><span class='line'>$ supervisord -c /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>ログが出力されているのか確認</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
+</span><span class='line'>==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
+</span><span class='line'>Wed Dec  4 10:32:17 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:18 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:19 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:20 UTC 2013</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>状態を確認するためにプロセスを監視しておく</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>/var/log/supervisor/を移動する</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mv /var/log/supervisor /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tailで流しているログが流れ続けているか確認する。<br/>
+ログが止まっていたりしたらがんばってください。</p>
+
+<ul>
+<li>別のディレクトリを作成してsymlinkしてみる</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor_new
+</span><span class='line'>$ ln -s /var/log/supervisor_new /var/log/supervisor
+</span><span class='line'>$ ls -la /var/log/supervisor</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
+
+<ul>
+<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
+</ul>
+
+
+<p>出力され続けていることを確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls -la /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>SIGUSR2</code>を発行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kill -SIGUSR2 `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでシグナルがやってきて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`
+</span><span class='line'>Process 22859 attached - interrupt to quit
+</span><span class='line'>--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
+</span><span class='line'>open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
+</span><span class='line'>open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
+</span><span class='line'>Wed Dec  4 10:03:42 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:43 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:44 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:45 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:46 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:47 UTC 2013</span></code></pre></td></tr></table></div></figure>
+
+
+<p>学ぶことは多い。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -508,47 +732,6 @@ Immutable Infrastructureの概念を取り入れていたのです。</p>
 自分が何ができるか、というものを並べて、常に問いながら、<br/>
 なるべくならその選択が、自分を含めた環境にとって<br/>
 最善の選択になるように生きていければよいですね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/20/click-to-unsubscribe/">メルマガ、サイトにログインしないと配信停止できないの</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-20T23:15:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://harknesslabs.com/post/66570723467/stop-doing-this-crap-on-your-startups-website">Stop doing this crap on your startups website</a></p>
-
-<blockquote><p>1: One click unsubscribe<br/>
-Many sites butcher this process. You should have a link to 1-click unsubscribe at both the top and bottom of all emails you send. Don’t settle for “log in to unsubscribe” - Yes, its legal for transactional emails but its still stupid. You (the webmaster) will be the only one hurt when your user just marks you as spam instead because he doesn’t remember his password. If you want to ensure email deliver-ability for those who want your emails, there is zero benefit in hiding or making the unsubscribe difficult.</p></blockquote>
-
-<p>「別れる前に最後に１回だけデートしよ。」みたいになってるので止めましょう(意訳)</p>
 </div>
   
   

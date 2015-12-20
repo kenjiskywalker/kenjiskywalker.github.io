@@ -9,10 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="ELBのCloudWatchにあるメトリクスをZABBIXで取得するためにfluentdを利用しました。
-これでELBのアラートの設定もZABBIXで行えるので、通知の一元化が行えます。
-もちろんZABBIXでグラフにすることもできます。 fluent-plugin-zabbix
-fluent- &hellip;">
+  <meta name="description" content="2013年の梅。 1 2 3 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +61,54 @@ fluent- &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/23/ume/">梅</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-23T12:13:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2013年の梅。</p>
+
+<h2>1</h2>
+
+<p><img src="http://farm9.staticflickr.com/8231/8580864765_2e0ca7bdba_c.jpg" alt="http://farm9.staticflickr.com/8231/8580864765_2e0ca7bdba_c.jpg" /></p>
+
+<h2>2</h2>
+
+<p><img src="http://farm9.staticflickr.com/8249/8580864607_bc21257d4a_c.jpg" alt="http://farm9.staticflickr.com/8249/8580864607_bc21257d4a_c.jpg" /></p>
+
+<h2>3</h2>
+
+<p><img src="http://farm9.staticflickr.com/8379/8580863993_48ac112547_c.jpg" alt="http://farm9.staticflickr.com/8379/8580863993_48ac112547_c.jpg" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -453,260 +498,6 @@ update: 2013/03/22</p></blockquote>
 ちゃんと確認しないといけない。</p>
 
 <p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/20/znc-limechat-iphone/">ZNCでLimeChatをIRCクライアントにしてiPhoneだけBuffer効かせる設定とim.kayacの設定</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-20T00:36:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>環境<br/>
-ZNC vresion 1.0<br/>
-LimeChat version 2.33<br/>
-ZNC Packages from epel repository<br/>
-- znc-1.0-0.1.alpha1.el6.x86_64<br/>
-- znc-devel-1.0-0.1.alpha1.el6.x86_64<br/>
-- znc-modperl-1.0-0.1.alpha1.el6.x86_64</p></blockquote>
-
-<p>出先で、im.kayacの通知が来てて見ると<br/>
-「kenjiskywalkerマジでクソ、サーバさわんな」みたいなことが話されてて<br/>
-解脱〜、みたいな状況になった場合、iPhoneで直近の会話だけ<br/>
-みたい場合があるので、その設定をした。</p>
-
-<h4>参考:</h4>
-
-<blockquote><p><a href="http://blog.handlena.me/entry/2013/01/20/185717">ZNCってひとつのアカウントで複数サーバーに接続できるよね？ - handlename&rsquo;s blog</a><br/>
-<a href="http://soh335.hatenablog.com/entry/2013/01/29/170500">znc 内で keepbuffer on と off なものを作る - soh335 memo</a><br/>
-<a href="http://blog.64p.org/entry/20120703/1341288920">znc で im.kayac をつかうための NotifyImKayacSimple.pm をかいた - tokuhirom&rsquo;s blog.</a></p></blockquote>
-
-<h2>NotifyImKayacSimpleの設定</h2>
-
-<p><a href="http://d.hatena.ne.jp/sugyan/20120320/1332254901">特定のキーワードをim.kayac.comに通知するZNCモジュール書いた - すぎゃーんメモ</a><br/>
-このすぎゃーんさんのメモの&#8217;-fPIC&#8217;の設定を有効にした記憶がある。あまり覚えてない。</p>
-
-<p><code>~/.znc/modules/NotifyImkayacSimple.pm</code>に置いて
-<em>LoadModule = modperl</em>して、<br/>
-<em>NotifyImkayacSimple username=username keyword=key1,key2</em>で通知が来ると思う。</p>
-
-<p>設定書いて間違っていればzncが起動しないので、その辺で確認できると思う。<br/>
-デバッグモードを有効にするのもアリだと思う。</p>
-
-<h2>zncの設定</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// WARNING
-</span><span class='line'>//
-</span><span class='line'>// Do NOT edit this file while ZNC is running!
-</span><span class='line'>// Use webadmin or *admin instead.
-</span><span class='line'>//
-</span><span class='line'>// Buf if you feel risky, you might want to read help on /znc saveconfig and /znc rehash.
-</span><span class='line'>// Also check http://en.znc.in/wiki/Configuration
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'>&lt;Listener listener0&gt;
-</span><span class='line'>
-</span><span class='line'>    ...
-</span><span class='line'>
-</span><span class='line'>&lt;/Listener&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;User hotoke&gt;
-</span><span class='line'>
-</span><span class='line'>    ...
-</span><span class='line'>
-</span><span class='line'>    LoadModule = modperl
-</span><span class='line'>    AutoClearChanBuffer = false
-</span><span class='line'>
-</span><span class='line'>    &lt;Network default&gt;
-</span><span class='line'>
-</span><span class='line'>        ...
-</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=涅槃,解脱,成仏
-</span><span class='line'>        Server = hoge.example.com
-</span><span class='line'>        Buffer = 100
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #buddha&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>    &lt;/Network&gt;
-</span><span class='line'>
-</span><span class='line'>    &lt;Network freenode&gt;
-</span><span class='line'>
-</span><span class='line'>        ...
-</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=灌仏会
-</span><span class='line'>        Server = irc.freenode.net 6667
-</span><span class='line'>        Buffer = 1
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #isucon&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #monitoring-casual&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>    &lt;/Network&gt;
-</span><span class='line'>
-</span><span class='line'>    &lt;Network perl&gt;
-</span><span class='line'>
-</span><span class='line'>        ...
-</span><span class='line'>        LoadModule = NotifyImkayacSimple username=hotoke keyword=解脱
-</span><span class='line'>        Server = irc.perl.org 6667
-</span><span class='line'>        Buffer = 10
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #ark&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #dbi-ja&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>
-</span><span class='line'>        &lt;Chan #prepan&gt;
-</span><span class='line'>        &lt;/Chan&gt;
-</span><span class='line'>    &lt;/Network&gt;
-</span><span class='line'>
-</span><span class='line'>    &lt;Pass password&gt;
-</span><span class='line'>        ...
-</span><span class='line'>    &lt;/Pass&gt;
-</span><span class='line'>&lt;/User&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;User limechat&gt;
-</span><span class='line'>
-</span><span class='line'>     AutoClearChanBuffer = true
-</span><span class='line'>     Buffer = 500
-</span><span class='line'>
-</span><span class='line'>    &lt;Network znc&gt;
-</span><span class='line'>        ...
-</span><span class='line'>        Server = 127.0.0.1 +6669 [zncのパスワード]
-</span><span class='line'>
-</span><span class='line'>    &lt;/Network&gt;
-</span><span class='line'>
-</span><span class='line'>    &lt;Pass password&gt;
-</span><span class='line'>        ...
-</span><span class='line'>    &lt;/Pass&gt;
-</span><span class='line'>&lt;/User&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じで設定している。</p>
-
-<p>Userひとつで複数のNetworkに入れる。</p>
-
-<blockquote><p>PC => loginname: limechat/znc<br/>
-iPhone => loginname: hotoke/default, hotoke/freenode, hotoke/perl</p></blockquote>
-
-<p>みたいな感じにして、PC側は<em>AutoClearChanBuffer</em>を有効にして<br/>
-既読にしたものは消していって、iPhoneで接続する方は<br/>
-毎回過去の履歴が見れるようになる。</p>
-
-<p>これで出先で社内IRCで椅子がとんできても大丈夫なようになる。<br/>
-仏像彫刻教室情報お待ちしております。</p>
 </div>
   
   

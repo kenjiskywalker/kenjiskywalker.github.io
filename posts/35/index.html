@@ -9,10 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="本読むより人のコード読んだ方が勉強なるけど
-こういう所作の話全然知らないから面白かった。 自分メモ ワンラインでシュッっとさせてわかりづらくなるならそれは止めた方が良い
-汎用的な単語を使うのを止める。直接的で何をしているのかわかりやすい単語を使う
-hosts,status,get,list, &hellip;">
+  <meta name="description" content="Immutable Infrastracture について / apatheia.info
+こちらのエントリーを読んでふと思いついたので書きました。 式年遷宮 / 伊勢神宮 今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、
+このシステム、今のインターネットのインフラストラクチャの &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +63,82 @@ hosts,status,get,list, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://apatheia.info/blog/2013/08/10/immutable-infrastructure/">Immutable Infrastracture について / apatheia.info</a><br/>
+こちらのエントリーを読んでふと思いついたので書きました。</p>
+
+<p><a href="http://www.isejingu.or.jp/shikinensengu/">式年遷宮 / 伊勢神宮</a></p>
+
+<p>今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、<br/>
+このシステム、今のインターネットのインフラストラクチャの<br/>
+モデルとして結構参考になるのではないだろうか。</p>
+
+<p>さすがに20年間無停止で動いているサーバは<br/>
+その存在自体が重要文化財になってしまうが、例えば、１つのシステムを<br/>
+ロードバランサ、スイッチ、サーバ、ミドルウェア、ログ集約サーバなど<br/>
+完全に冗長化しておき、１週間毎に冗長化されたシステム、A、Bをそれぞれ入れ替える。</p>
+
+<p>このアーキテクチャを採用した場合、<br/>
+アプリケーションの大規模な改修が発生した場合にも<br/>
+スタンバイ側となっているインフラストラクチャ側で<br/>
+スナップショットのようなものを取得しておき、テストを行い、<br/>
+スナップショット時に戻れば、実サービスと同じ環境でテストが行える。</p>
+
+<p>アクティブ側となっているインフラストラクチャのハードに<br/>
+何かしらの問題が発生した場合、スタンバイ側のインフラストラクチャへ<br/>
+切り替えることにより、対障害性能を向上することが可能になる。</p>
+
+<p>また、アクティブスタンバイ化されたシステムは、なかなかどうして<br/>
+テスト時と同じ結果になってくれず、サービスダウンした際に<br/>
+フェイルオーバーしないことがよくある。</p>
+
+<p>しかし、この式年遷宮インフラストラクチャを採用すれば<br/>
+定期的に切り替えが発生するので、切り替え時にエラーが発生した場合にも<br/>
+発見が早くなり、結果的にシステムそのもののテストという側面を持ち、<br/>
+障害発生時に高確率でフェイルオーバーが成功するのではないだろうか。</p>
+
+<p>問題となるのは、切り替えそのものの正確性の確保、一つのシステムを冗長化するコスト、<br/>
+切り替え前、切り替え前後の監視対象の切り替え、切り替え時のログの欠落をなくす工夫、<br/>
+切り替え時にサービスに影響を及ぼさない工夫など、実現する為には様々な困難はある。</p>
+
+<p>とはいえ、機械を利用し利便性を向上してきた我々は<br/>
+やはりその機械を運用するというそのものについても利便性を求め<br/>
+職人の技、秘伝のタレなど閉鎖的な情報に頼ること無く、また、運用担当者が<br/>
+毎日深い眠りに就けるよう、日々楽をする為の努力をしていきたいものであります。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -449,213 +524,6 @@ Chefのjsonファイルでフラグ立てたりしてると、そのフラグに
 
 <p>江戸時代前は本当に今の常識が通じないすごい世界だ。<br/>
 しかし今までで１番長いエントリーだしこれからもこれを超えるエントリー書けなさそうだし業が深い</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/17/chef-run_list/">Chefの中身読んで、外部からrun_listを利用する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-17T00:29:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>run_listを渡してるところを探した。<br/>
-といってもほとんど<a href="https://twitter.com/soh335">@soh335</a>が教えてくれた。さすが一流エンジニアだ。</p>
-
-<p><code>/chef/lib/chef/run_list.rb</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def expansion_for_data_source(environment, data_source, opts={})
-</span><span class='line'>  case data_source.to_s
-</span><span class='line'>  when 'disk'
-</span><span class='line'>    RunListExpansionFromDisk.new(environment, @run_list_items)
-</span><span class='line'>  when 'server'
-</span><span class='line'>    RunListExpansionFromAPI.new(environment, @run_list_items, opts[:rest])
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>ここが怪しかった。</p>
-
-<p><code>/chef/spec/unit/run_list_spec.rb</code></p>
-
-<p>ここ見たら</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>describe "from disk" do
-</span><span class='line'>  it "should load the role from disk" do
-</span><span class='line'>    Chef::Role.should_receive(:from_disk).with("stubby")
-</span><span class='line'>    @run_list.expand("_default", "disk")
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  it "should log a helpful error if the role is not available" do
-</span><span class='line'>    Chef::Role.stub!(:from_disk).and_raise(Chef::Exceptions::RoleNotFound)
-</span><span class='line'>    Chef::Log.should_receive(:error).with("Role stubby (included by 'top level') is in the runlist but does not exist. Skipping expand.")
-</span><span class='line'>    @run_list.expand("_default", "disk")
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんなん書いてあった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env ruby
-</span><span class='line'>
-</span><span class='line'>require 'rubygems'
-</span><span class='line'>require 'pp'
-</span><span class='line'>require 'json'
-</span><span class='line'>require 'chef/run_list'
-</span><span class='line'>
-</span><span class='line'>json_file = "./json/yoshimasa.json"
-</span><span class='line'>
-</span><span class='line'>host_config = JSON.parse(File.read(json_file))
-</span><span class='line'>
-</span><span class='line'>Chef::Config[:cookbook_path] = '/root/chef/cookbook/'
-</span><span class='line'>Chef::Config[:role_path] = '/root/chef/json/'
-</span><span class='line'>
-</span><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
-</span><span class='line'>
-</span><span class='line'>p run_list
-</span><span class='line'># #&lt;Chef::RunList:0x7f6fb8732510 @run_list_items=[#&lt;Chef::RunList::RunListItem:0x7f6fb87323d0 @type=:recipe, @version=nil, @name="nginx"&gt;, #&lt;Chef::RunList::RunListItem:0x7f6fb87323a8 @type=:role, @version=nil, @name="hoge"&gt;]&gt;
-</span><span class='line'>
-</span><span class='line'>pp run_list.expand("_default", "disk")
-</span><span class='line'># #&lt;Chef::RunList::RunListExpansionFromDisk:0x7f6fb8732100
-</span><span class='line'>#  @applied_roles={"hage"=&gt;true, "hoge"=&gt;true},
-</span><span class='line'>#  @default_attrs={},
-</span><span class='line'>#  @environment="_default",
-</span><span class='line'>#  @missing_roles_with_including_role=[],
-</span><span class='line'>#  @override_attrs={},
-</span><span class='line'>#  @recipes=["nginx", "postfix", "yum"],
-</span><span class='line'>#  @run_list_items=[],
-</span><span class='line'>#  @run_list_trace=
-</span><span class='line'>#   {"role[hoge]"=&gt;["role[hage]", "recipe[postfix]", "recipe[yum]"],
-</span><span class='line'>#    "top level"=&gt;["recipe[nginx]", "role[hoge]"]},
-</span><span class='line'>#  @source=nil&gt;
-</span><span class='line'>
-</span><span class='line'>p run_list.expand("_default", "disk").recipes
-</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こんな感じでrun_listを読める。何が便利かっていうと</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "role[hage]"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "run_list": [
-</span><span class='line'>    "recipe[postfix]", "recipe[yum]"
-</span><span class='line'>  ]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>run_list = Chef::RunList.new("recipe[nginx]", "role[hoge]")
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>p run_list.expand("_default", "disk").recipes
-</span><span class='line'># ["nginx", "postfix", "yum"]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>という感じにroleの中のrun_listを読み込んでrecipesに突っ込んでくれる。</p>
 </div>
   
   
