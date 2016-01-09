@@ -9,9 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Sensu Casual Talks #1にいってきた。 @timwataさんのGraphiteのスケールの話が興味深かった。
-3000台ぐらいのクライアントをSensuとGraphiteで見てるの
-相当貴重な知見だと思う。 自分が話してきたのは特にどうということもなくて &hellip;">
+  <meta name="description" content="Mackerel Meetup #2 Tokyoに参加してきました。 美味しいサバ料理頂いたりピザ頂いたりビール頂いたりして最高でした。
+個人的には監視はSensuかnagiosかに任せて、
+メトリクス周りをmackerelに任せたいなという構想があったりなかったりしています。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,75 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/25/sensu-mackerel-handler/">Sensuのmackerel用のmetrics Handlerをつくった #mackerelio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-25T14:38:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://mackerelio.connpass.com/event/8458/">Mackerel Meetup #2 Tokyo</a>に参加してきました。</p>
+
+<p>美味しいサバ料理頂いたりピザ頂いたりビール頂いたりして最高でした。<br/>
+個人的には監視はSensuかnagiosかに任せて、<br/>
+メトリクス周りをmackerelに任せたいなという構想があったりなかったりしています。</p>
+
+<p>mackerelがDataDogを超えて全世界で使われるようになったら<br/>
+面白そうですよね。</p>
+
+<p>個人的にほしい機能は監視の充実より先にメトリクス周りの整備をしてほしいです。</p>
+
+<p>@fujiwaraさんが、n分前と現在の差分データを取得できると良いとおっしゃっていて<br/>
+それあったら便利だな〜、と便乗していました(もちろんZabbixは可能です)。</p>
+
+<p>使うか使わないかはわかりませんが、Sensuのhandlerで<br/>
+mackerelを指定できるようプラグインを作成しました。</p>
+
+<p>hostの登録は別でしないといけませんが(plugin側で担保しても良いかも)<br/>
+既にSensuを利用している方は、こちらのhandlerを入れてもらえれば<br/>
+mackerelへmetricsを送信することが可能です。</p>
+
+<p>どうぞご利用ください。</p>
+
+<ul>
+<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.rb">mackerel-metrics.rb</a></li>
+<li><a href="https://github.com/kenjiskywalker/sensu-community-plugins/blob/master/handlers/metrics/mackerel-metrics.json">mackerel-metrics.json</a></li>
+</ul>
+
+
+<p><a href="https://github.com/sensu/sensu-community-plugins/pull/777">pull requst</a>中です。<br/>
+777番目なのでめでたいです。</p>
+
+<blockquote><p>はてな社の方へ<br/>
+headerが雑なのでプロモーションも兼ねて編集して頂いた方がいいかもしれないです</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -591,136 +660,6 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/06/ss-command/">Ssコマンドの使えそうなもののメモ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-06T23:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>$ss -lt</code>と<code>$ss -ltp</code>は使える。<br/>
-<code>-i</code>は面白いけど本当に確認するなら<code>ngrep</code>か<code>tcpdump</code>だろうな</p>
-
-<h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>セッションを開いているホスト名を名前解決する</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>TCPのセッションのみ表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UDPのセッションのみ表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>TCPとUDPのセッションのみ表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UNIX Domainのセッションのみ表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>特定のセッションの状態のものを抽出</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>TCPでLISTENしているポートを表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>TCPでLISTENしているポートのプロセス名を表示</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>コマンド名自体が短いからササッと確認するのには良さそう</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -734,7 +673,7 @@ OS X上に簡単に作成できるスクリプトをつくりましたので<br/
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

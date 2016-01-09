@@ -9,9 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Slackを使い始めたので昔つくったunazu_kunの機能を
-hubotに持ってきました。 hubot-at というように 1
-&gt; hubot at HH:MM message と指定することによって、その指定した時間にmessageを通知してくれます。 元々taiyohさんが &hellip;">
+  <meta name="description" content="$ss -ltと$ss -ltpは使える。
+-iは面白いけど本当に確認するならngrepかtcpdumpだろうな セッションを開いているホスト名を名前解決しない(デフォルト) 1
+$ss -n セッションを開いているホスト名を名前解決する 1
+$ss -r TCPのセッションのみ表示 1
+$ss &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +65,136 @@ hubotに持ってきました。 hubot-at というように 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/06/ss-command/">Ssコマンドの使えそうなもののメモ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-06T23:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>$ss -lt</code>と<code>$ss -ltp</code>は使える。<br/>
+<code>-i</code>は面白いけど本当に確認するなら<code>ngrep</code>か<code>tcpdump</code>だろうな</p>
+
+<h2>セッションを開いているホスト名を名前解決しない(デフォルト)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -n
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>セッションを開いているホスト名を名前解決する</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -r
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -u
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPとUDPのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -tu
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A tcp,udp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UNIX Domainのセッションのみ表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -x
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -A unix
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>特定のセッションの状態のものを抽出</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -t state fin-wait-2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートを表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -lt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TCPでLISTENしているポートのプロセス名を表示</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ss</span> -ltp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コマンド名自体が短いからササッと確認するのには良さそう</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -370,83 +502,6 @@ Go言語の登場から各種プロビジョニングツール、様々なクラ
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/27/yapcasia2014-before/">YAPC::Asia 2014 で時間旅行をしながらサービスの成長を体験し、人間とシステムの在り方について話します</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-27T12:35:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://yapcasia.org/2014/talk/show/4c7651e8-ed53-11e3-9faf-6ba36aeab6a4">完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014</a></p>
-
-<p>という話をします(題名長すぎて本番絶対噛むしそもそも覚えられない)</p>
-
-<p>YAPCへの参加は3回目で、今回はyusukebe氏が運営されるとのことで<br/>
-ヨッシャ！ワシもこのニューウェーブに乗るんや！とポエム先行型エントリーを行い</p>
-
-<ul>
-<li>これ題名で完結してるんじゃねーの？</li>
-<li>何かすごそうだけど結局何の話するの？</li>
-<li>で、誰？</li>
-</ul>
-
-
-<p>と色々なコメントを頂きつつ、お話しをする機会を頂きました。<br/>
-選んで頂きありがとうございます。</p>
-
-<p>実際ちゃんと話すことがまとまったのは一昨日ぐらいなのですが<br/>
-サービスが産まれ、成長していく時間の旅をしながら<br/>
-その時に何が必要だったのか、何を基準に構築、運用すれば良いのか<br/>
-というお話をする予定です。</p>
-
-<p>オレ自身がインフラだおじさんやインターネット懐古厨おじさん、<br/>
-インフラとかよくわからないけど担当しなければならない人、<br/>
-オレがインフラだおじさんとかインターネット懐古厨おじさんとかどうでもよくて、<br/>
-サーバの保守とか構築とかやらないといけないんだけど<br/>
-どういう思想を持って運用していけば良いのかいまいちわからない人とか<br/>
-ウェブオペレーションについて興味はあるけど、難しそうでよくわからない人とか<br/>
-そんな感じの人に是非聞きに来てほしいと思っています。</p>
-
-<p>興味ある方は是非 08/29 11:00 に藤原洋記念ホールに足を運んでみてください。<br/>
-朝早いですが、きっと何か得るものはあると思います;)</p>
-
-<p>参考情報</p>
-
-<ul>
-<li><a href="http://mizzy.org/blog/2013/10/29/1/">インフラ系技術の流れ - mizzy.org</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/09/13/the-unix-philosophy/">UNIXという考え方 - さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/12/01/monitoringcasual-kyoto/">ディスポーザブル長屋 - さよならインターネット</a></li>
-<li><a href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture - さよならインターネット</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -460,7 +515,7 @@ Go言語の登場から各種プロビジョニングツール、様々なクラ
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

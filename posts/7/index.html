@@ -9,17 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="最近は深刻なjinja2とAnsible疲れです。 1
-2
-3
-4
-5
-6
-7
-8
-TASK: [ruby | check ruby rbenv installed] *************************************
-skipping: [192.0.2.100]
-ok &hellip;">
+  <meta name="description" content="執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！ Serverspec - O'Reilly Japan
+「Serverspec」という本が出ます - mizzy.org 書籍について 最近はソフトウェアの本はあまり読まなくて、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +62,100 @@ ok &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/11/serverspec-book/">「Serverspec」本を読んだ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-11T23:44:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
+
+<ul>
+<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
+<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
+</ul>
+
+
+<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
+
+<h2>書籍について</h2>
+
+<p>最近はソフトウェアの本はあまり読まなくて、<br/>
+オフィシャルサイトのドキュメントを読むように心がけている(一次情報大切)ので<br/>
+そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
+
+<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
+ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
+
+<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
+というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
+背景を書籍を通じて理解できてとても有意義だった。</p>
+
+<h2>初めての人は？</h2>
+
+<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
+Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
+よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
+
+<h2>状態を担保する存在の必要性</h2>
+
+<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
+設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
+最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
+何かしら必要だと思う。<br/>
+実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
+最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
+それを元に負荷分散に追加するようにしていた。</p>
+
+<h2>Specinfraについて</h2>
+
+<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
+その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
+ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
+itamaeのような使い方は本当に上手だと思う。</p>
+
+<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
+
+<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
+どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
+インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
+
+<h2>最後に</h2>
+
+<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
+改めて思った。mizzyさんありがとうございます。<br/>
+Asuraっていうコードネームめちゃめちゃ好きでした。</p>
+
+<p>この本はまた何回か読み直したい本だ。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -325,132 +410,6 @@ ok &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/14/immunity-of-change/">「なぜ人と組織は変われないのか」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-14T13:27:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>「なぜ人と組織は変われないのか ― ハーバード流 自己変革の理論と実践」を読んだ。</p>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%81%AA%E3%81%9C%E4%BA%BA%E3%81%A8%E7%B5%84%E7%B9%94%E3%81%AF%E5%A4%89%E3%82%8F%E3%82%8C%E3%81%AA%E3%81%84%E3%81%AE%E3%81%8B-%E2%80%95-%E3%83%8F%E3%83%BC%E3%83%90%E3%83%BC%E3%83%89%E6%B5%81-%E8%87%AA%E5%B7%B1%E5%A4%89%E9%9D%A9%E3%81%AE%E7%90%86%E8%AB%96%E3%81%A8%E5%AE%9F%E8%B7%B5-%E3%83%AD%E3%83%90%E3%83%BC%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%82%AC%E3%83%B3-ebook/dp/B00MRRF3K6%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MRRF3K6" target="_blank"><img src="http://ecx.images-amazon.com/images/I/512kb6uEZSL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%81%AA%E3%81%9C%E4%BA%BA%E3%81%A8%E7%B5%84%E7%B9%94%E3%81%AF%E5%A4%89%E3%82%8F%E3%82%8C%E3%81%AA%E3%81%84%E3%81%AE%E3%81%8B-%E2%80%95-%E3%83%8F%E3%83%BC%E3%83%90%E3%83%BC%E3%83%89%E6%B5%81-%E8%87%AA%E5%B7%B1%E5%A4%89%E9%9D%A9%E3%81%AE%E7%90%86%E8%AB%96%E3%81%A8%E5%AE%9F%E8%B7%B5-%E3%83%AD%E3%83%90%E3%83%BC%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%82%AC%E3%83%B3-ebook/dp/B00MRRF3K6%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MRRF3K6" target="_blank">なぜ人と組織は変われないのか ― ハーバード流 自己変革の理論と実践</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%AD%E3%83%90%E3%83%BC%E3%83%88%E3%83%BB%E3%82%AD%E3%83%BC%E3%82%AC%E3%83%B3" target="_blank">ロバート・キーガン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">英治出版</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00MRRF3K6" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p>本書のKindle版を読んでいたが、50%付近で速読に変更してざっくりと内容を理解するに留めた。<br/>
-しっかり読んで内容を吸収しようとすると相当時間がかかると思う。</p>
-
-<p>何故かというと、この書籍は机上の話ではなく、実際に理論があって<br/>
-その理論を実践したユースケースを事細かく書いてあるからだ。</p>
-
-<p>ビジネスマンはこうあるべき、リーダーシップとは、あの人から学ぶ〜<br/>
-系のよくある本ではなく</p>
-
-<blockquote><p>&ldquo;なぜ人と組織が硬直(本書では&#8221;変革をはばむ免疫機能&#8221;と表現されている)するのか、<br/>
-どうしたら変化していけるのか&rdquo;</p></blockquote>
-
-<p>豊富なシナリオを用いて、課題、実践、結果というサイクルをいくつも<br/>
-紹介してくれている。</p>
-
-<p>とても長いですが、年末年始に読む意識高い系の本としておすすめできます。</p>
-
-<h2>個人的なメモ</h2>
-
-<h3>環境順応型知性</h3>
-
-<p>言われたことをきちんとやる・指示者や他部署の人間を敵視する人が多そう</p>
-
-<h3>自己主導型知性</h3>
-
-<p>情報を発信するときに自分が車の運転席に座ろうとするのか、それとも車に乗せて運んでもらおうとするのか</p>
-
-<h3>自己変容型知性</h3>
-
-<p>思い通り目的地に向けて車を走らせるためではなく、道路地図を描き直したり、目的地を修正できる</p>
-
-<p>この3パターンを体系化していたのはとてもわかりやすかった。<br/>
-優秀な人は基本的に&#8221;自己主導型知性&#8221;のパターンが多かったけど<br/>
-ああ、この人本当に良いな。って思う人はやっぱり&#8221;自己変容型知性&#8221;の人だった。</p>
-
-<p>日常の揉め事は不満から発生することがほとんどで、<br/>
-その不満を口に出して自分では何もしない人は&#8221;環境順応型知性&#8221;が多い印象だ。<br/>
-というか3パターンの内2パターンは不満や問題があるなら<br/>
-解決しようと試みるから当たり前っちゃあ当たり前だ。</p>
-
-<h2>暗黙の関係性</h2>
-
-<p>あの人ってああだから、あのグループはああだから、など<br/>
-人数が多ければ多いほどコミュニケーションはしづらくなって<br/>
-閉鎖的になったり変化が起こりにくくなったりする。</p>
-
-<p>当事者間の問題なら、腹割って話しましょうよ！とかで<br/>
-終わりだけど(そもそも腹割って話せる間柄ならそこまで深刻じゃないよね)<br/>
-組織として硬直するのは当事者全員で行わないと、<br/>
-本当の改善にはならないと思う。</p>
-
-<p>誰かがリーダーシップを発揮して解決してくれー！！！とか<br/>
-おままごとじゃないんだから全員でちゃんとした方が良い。</p>
-
-<h2>実践</h2>
-
-<p>そして風通しの悪い、グループ間の仲が悪い会社を<br/>
-どうやって改善していくかみたいなのが事例と共に大量に書いてある。<br/>
-本書の半分以上は事例を伴っての実践と結果の振り返りだった。<br/>
-<strong>&ldquo;one-big-thing&rdquo;</strong>という一つの焦点に絞って目標を設定するのも面白かった。</p>
-
-<h2>個人の成長と組織の成長が同じベクトルに向いているか</h2>
-
-<p>後半読み飽きてペラペラめくっていく感じで眺めていたが<br/>
-個人の成長が組織の成長と同じベクトルを向いているかは<br/>
-その人にとっても、組織にとっても重要だと気付かされた。</p>
-
-<p>多分会社に所属していると、ある特定のサイクルで<br/>
-&ldquo;面談&#8221;という形でそのサイクルの間どのような目標を持って<br/>
-どのような結果を行ったか上司と確認し合う場があるが、</p>
-
-<ul>
-<li>会社としての目標</li>
-<li>所属しているグループの目標</li>
-<li>個人の目標</li>
-</ul>
-
-
-<p>その3点が噛み合うか噛み合わないかで、<br/>
-関係するそれぞれの進化のスピードが<br/>
-何倍にも変わってくることはまさに目からウロコだった。</p>
-
-<h2>まとめ</h2>
-
-<p>長いけど面白い。<br/>
-実践は同じ目標持った人が集まったら試行錯誤しながらできると思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -464,7 +423,7 @@ ok &hellip;">
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

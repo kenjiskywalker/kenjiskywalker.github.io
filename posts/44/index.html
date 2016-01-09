@@ -9,12 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="大人とは〜みたいなの昔よく考えてて
-「子供は自分の意見を言うだけの人」
-「大人は自分の意見と相手の意見をすり合わせられる人」
-っていうことを考えてた。 最近とくに自分の足りないところとか考えてて
-何かの事象が起こった時に感情的に支配されて、
-それは勝手に自分がその対象にとらわれてしまっていて &hellip;">
+  <meta name="description" content="こんなエラーが出た。 Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets
+must exist in availability zones with sufficient capacity for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +62,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/15/rds-tarinai/">AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T13:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
+
+<p>こんなエラーが出た。</p>
+
+<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
+must exist in availability zones with sufficient capacity for
+VPC and provisioned IOPS for db.m1.small,<br/>
+so 1 more must be created in other availability zones;
+choose from these availability zones: ap-northeast-1c.</p></blockquote>
+
+<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
+<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
+
+<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
+Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
+缶コーヒーでもおごってあげたい気持ちになりました。</p>
+
+<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -312,114 +361,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/26/qpstudy-buddhism/">#qpstudyと仏教とわたし</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-26T23:24:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本エントリーはビール駆動記述によって書かれているため<br/>
-内容については3割で読んで頂けると幸いです。</p>
-
-<p><img src="https://dl.dropbox.com/u/5390179/qpstudy.png" alt="https://dl.dropbox.com/u/5390179/qpstudy.png" /></p>
-
-<p>先週、<a href="http://www.cross-party.com/">エンジニアサポートCROSS 2013</a>というイベントに参加して<br/>
-リーダーさんと初めてお会いして</p>
-
-<p>我「来週qpstudyですよね、DevOps。」<br/>
-我「社内ではDevOpsなんてものは存在しないって話なんですよ」</p>
-
-<p>リーダー「そのポジションでパネルディスカッション参加して！」<br/>
-我「！！！？」</p>
-
-<p>ということで、@kazeburoさんや@fujiwaraさんに<br/>
-一緒に出ましょうよ〜って誘ったんですけど、2人とも家族と過ごす！って言ってて<br/>
-ウッ、家族サービス。。では仕方ないですね&hellip;</p>
-
-<p>という流れで、情弱ながらパネラーとして参加してきました。</p>
-
-<p>スタッフのみなさま、参加されたみなさま<br/>
-パネラーのみなさま、おつかれさまでした！</p>
-
-<p>人生で初めての勉強会が<a href="http://connpass.com/event/213/">hb qp bp study 新年LT&amp;ビアバッシュ2012</a>で<br/>
-3月に転職してから、色々アウトプットし出したりした情弱な私が<br/>
-翌年にqpstudyのパネラーとして参加してるの、本当に場違いな感じだったんですが<br/>
-勉強会参加ぐらいしかしたことない方が<br/>
-<strong><em>アイツが出れるならオレだってもっと参加しても良いんじゃん！</em></strong><br/>
-みたいな気持ちになって頂けたらいいなと思い、参加しました。</p>
-
-<p>話したことは</p>
-
-<h4>「開発のとき運用を考えられないのは素人」「運用のために開発できないのは二流」</h4>
-
-<h4>「社畜が嫌なら自分に付加価値を付けなければいけない」</h4>
-
-<h4>「DevとかOpsという言葉で自分のフィールドを制限してはいけない」</h4>
-
-<h4>「DevOps、ただのバズワードとして扱って、自分の範囲外のものに目を向けてみるきっかけにしてみては」</h4>
-
-<p>みたいな内容を話しました。<br/>
-基本的にスピリチュアルな話でした。</p>
-
-<p>スピリチュアルといえば、仏教には<a href="http://ja.wikipedia.org/wiki/%E8%A1%86%E7%94%9F">衆生</a>という概念があります。<br/>
-元々<strong><em>人間</em></strong>、とか<strong><em>私</em></strong>という自己の存在は西洋文化から入ってきたもの<br/>
-というのはご存知でしょうか。</p>
-
-<p>例えば、「そこに山がある」という日本語を英語に訳すことは難しいんです。<br/>
-何故難しいのかというと</p>
-
-<ul>
-<li>「わたしは山を見ている」</li>
-<li>「その町には山がある」</li>
-</ul>
-
-
-<p>など、主体となる存在がないんです。</p>
-
-<p>宗派によって多少解釈が異なることはありますが、<br/>
-こんな感じで、境界線によって業が産まれるなら<br/>
-最初からそんな境界線なんて存在しないんじゃないの？<br/>
-みたいな発想があって、わたしはその発想がすごい好きなんですね。</p>
-
-<p>つまり、DevもOpsもないんです。<br/>
-自分で境界線を引かない限りは、そこに境界線は産まれないんです。<br/>
-境界線を引いた瞬間に、制限や争いが発生するんです。</p>
-
-<p>ということで、自分の業務外だとか、関係のないものだと思っていたものに<br/>
-目を向けてみたり、自分でもやってみるとかすると<br/>
-新しいことが見つかるかもしれません。<br/>
-そういう何かのきっかけになれたらいいなと思い、話しました。</p>
-
-<p>もしくは、業の深いインターネットから離れて、仏像を彫るのも良さそうです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -433,7 +374,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

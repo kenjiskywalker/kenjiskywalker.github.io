@@ -9,25 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="bashの奥は深い。 ext-list.sh 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-#!/bin/bash dir=`pwd`
-list=`find ${dir} -type f -perm 755` # not = !
-# list=`find ${dir &hellip;">
+  <meta name="description" content="Chefには冪等性という特徴がありますが、実際の運用では
+ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは
+自分の手で確認したい。という条件もあるかと思います。 設定ファイルは常に更新しても良い
+設定ファイルが更新された時だけミドルウェアを起動したい &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +64,136 @@ list=`find ${dir} -type f -perm 755` # not = !
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/28/chef-ruby-block/">Chefのruby_blockを利用してファイル更新時に条件によってログを出力する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-28T01:59:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Chefには冪等性という特徴がありますが、実際の運用では<br/>
+ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは<br/>
+自分の手で確認したい。という条件もあるかと思います。</p>
+
+<ul>
+<li>設定ファイルは常に更新しても良い</li>
+<li>設定ファイルが更新された時だけミドルウェアを起動したい</li>
+<li>設定ファイルが更新された時にミドルウェアが起動済みであればログに出力</li>
+</ul>
+
+
+<p>上記条件を満たすために実施した内容について共有します。</p>
+
+<ul>
+<li>chef/site-cookbooks/apache/recipes/default.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/httpd/conf/httpd.conf" do
+</span><span class='line'>  source "httpd.conf.erb"
+</span><span class='line'>  owner  "www"
+</span><span class='line'>  mode   0644
+</span><span class='line'>  notifies :run, "ruby_block[warn]", :immediately
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>ruby_block "warn" do
+</span><span class='line'>  block do
+</span><span class='line'>
+</span><span class='line'>    # httpdが起動中であればログ出力
+</span><span class='line'>    unless `pgrep httpd` == ""
+</span><span class='line'>      print &lt;&lt;"EOS"
+</span><span class='line'>
+</span><span class='line'>\e[33m===================================================================
+</span><span class='line'>recipe:apache
+</span><span class='line'>
+</span><span class='line'>apacheが起動中です。
+</span><span class='line'>新しい設定を反映させるためにはapahceを再起動してください。
+</span><span class='line'>===================================================================\e[0m
+</span><span class='line'>EOS
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>  action :nothing
+</span><span class='line'>  notifies :start, "service[httpd]"
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>service "httpd" do
+</span><span class='line'>  action :enable
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><code>/etc/httpd/conf/httpd.conf</code> が更新される</li>
+<li><code>notifies :run, "ruby_block[warn]"</code>で<code>ruby_block</code>を実行</li>
+<li><code>ruby_block</code>内でミドルウェアが起動中かどうかRubyのコードで条件分岐</li>
+<li>起動中であればログを出力</li>
+<li><code>ruby_block</code>で<code>notifies :start, "service[httpd]"</code>を実行、ミドルウェアの起動を行う</li>
+</ol>
+
+
+<p><code>ruby_block</code>は実行順序が最後になるというChefの設計上、<br/>
+<code>notifies :start, "service[httpd]"</code>という方法を選択しました。</p>
+
+<p>もう少しマシな方法があれば是非とも教えてください。<br/>
+Chefは何か込み入ったことをしようとすると色々と工夫しないといけないのが難点ですね。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -642,58 +757,6 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/15/201402-book/">2014/02読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-15T21:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB1-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194280%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194280" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51eRw7Xha8L._SL160_.jpg" width="104" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB1-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194280%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194280" target="_blank">基本にカエル英語の本 英文法入門 レベル1</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-07</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194280" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB2-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194299%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194299" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51BNO%2B%2BCijL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB2-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194299%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194299" target="_blank">基本にカエル英語の本 英文法入門 レベル2</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-09</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194299" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB3-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194302%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194302" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51Fo8Uu0GNL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E5%9F%BA%E6%9C%AC%E3%81%AB%E3%82%AB%E3%82%A8%E3%83%AB%E8%8B%B1%E8%AA%9E%E3%81%AE%E6%9C%AC-%E8%8B%B1%E6%96%87%E6%B3%95%E5%85%A5%E9%96%80-%E3%83%AC%E3%83%99%E3%83%AB3-%E7%9F%B3%E5%B4%8E-%E7%A7%80%E7%A9%82/dp/4883194302%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4883194302" target="_blank">基本にカエル英語の本 英文法入門 レベル3</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E7%9F%B3%E5%B4%8E%E7%A7%80%E7%A9%82" target="_blank">石崎秀穂</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">スリーエーネットワーク</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2007-10</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4883194302" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51b6JBk8CcL._SL160_.jpg" width="100" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E7%A7%81%E6%9C%AC%E5%A4%AA%E5%B9%B3%E8%A8%98-01-%E3%81%82%E3%81%97%E3%81%8B%E3%81%8C%E5%B8%96-%E5%90%89%E5%B7%9D-%E8%8B%B1%E6%B2%BB-ebook/dp/B00G3QMEZY%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00G3QMEZY" target="_blank">私本太平記 01 あしかが帖</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E5%90%89%E5%B7%9D%E8%8B%B1%E6%B2%BB" target="_blank">吉川英治</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-22</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00G3QMEZY" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -707,7 +770,7 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

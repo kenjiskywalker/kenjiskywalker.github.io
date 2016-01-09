@@ -9,10 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Chefで、同じcookbookを利用して
-異なった値を入れてよしなにファイルをつくりたかったメモ。 @fujiwaraさん++ 検証環境
-Chef v11.4.0 Chefにて、同じcookbookを使い、異なった複数の値を与えて
-結果を異なったファイルに出力する場合は、 &hellip;">
+  <meta name="description" content="こんなスクリプトを置いておいて /etc/rc.local 1
+sh ec2-raid0.sh こんな感じでrc.localに一行書いておけば
+エフェメラルディスク2つをRAID0としてマウントする。
+なんでmd127なのかは、AWSさんに聞いてほしい。
+md0でつくっても必ず、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +65,59 @@ Chef v11.4.0 Chefにて、同じcookbookを使い、異なった複数の値を�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/">EC2でEphemeral DiskをRAID0で構築した状態でブートする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-04T21:26:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div><script src='https://gist.github.com/5081937.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんなスクリプトを置いておいて</p>
+
+<p><code>/etc/rc.local</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sh ec2-raid0.sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じで<em>rc.local</em>に一行書いておけば<br/>
+エフェメラルディスク2つをRAID0としてマウントする。<br/>
+なんで<strong>md127</strong>なのかは、AWSさんに聞いてほしい。<br/>
+<strong>md0</strong>でつくっても必ず、再起動後に<strong>md127</strong>として起動してくる。</p>
+
+<p>きっと神の意思なんだと思う。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -318,59 +372,6 @@ CloudWatchでデータ取るなら自分でメトリクスつくらないとダ�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/15/rds-tarinai/">AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-15T13:21:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png" alt="RDS Error Capture" /></p>
-
-<p>こんなエラーが出た。</p>
-
-<blockquote><p>Cannot create a db.m1.small Multi-AZ instance because at least 2 subnets<br/>
-must exist in availability zones with sufficient capacity for
-VPC and provisioned IOPS for db.m1.small,<br/>
-so 1 more must be created in other availability zones;
-choose from these availability zones: ap-northeast-1c.</p></blockquote>
-
-<p>AZが足りなさそうだったのでVPCとRDSのSubnetGroupsそれぞれに<br/>
-<em>ap-northeast-1c</em>を追加したらエラーが消えてRDS作成できた。</p>
-
-<p>AZ、<em>ap-northeast-1a</em>が一番使われて<em>ap-northeast-1c</em>が一番使われないの人間っぽいし<br/>
-Amazonさんもキャパシティプランニングとか大変だなーって思って<br/>
-缶コーヒーでもおごってあげたい気持ちになりました。</p>
-
-<p>けどお給料はAmazonさんの方が良さそうなので、焼肉おごってほしいです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -384,7 +385,7 @@ Amazonさんもキャパシティプランニングとか大変だなーって�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="イーサネットスイッチ著者 : O'Reilly Japan発売日 : 2013-10-24ブクログでレビューを見る» メタプログラミングRuby著者 : Paolo Perrottaアスキー・メディアワークス発売日 : 2010-08-28ブクログでレビューを見る» Eloquent Ruby ( &hellip;">
+  <meta name="description" content="Fluentd Casual Talks #3 で話してきました 会場をご提供頂いたDeNAさん、主催者の@tagomorisさん、ありがとうございました。 スライドはこちらです。 設定が増えてくるとtd-agent.conf自体が肥えてきます。
+その場合、include config.d/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +62,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/14/fluentd-casual-3/">Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-14T01:46:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Fluentd Casual Talks #3 で話してきました</h2>
+
+<p>会場をご提供頂いたDeNAさん、主催者の@tagomorisさん、ありがとうございました。</p>
+
+<p>スライドはこちらです。</p>
+
+<script async class="speakerdeck-embed" data-id="b9dcc770460d0131db724af7eb411f76" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+<p></p>
+
+<p>設定が増えてくると<code>td-agent.conf</code>自体が肥えてきます。<br/>
+その場合、<code>include config.d/hoge.conf</code>というように<br/>
+機能別に設定ファイルを分けることで、人間が管理できるようになります。</p>
+
+<p>設定ファイルについては、必要な設定だけを人間が行って<br/>
+ファイルの設置などについては、Chefに行ってもらうのが良いです。<br/>
+Chefの設定方法についてはスライドを見てもらうとなんとなくわかるかなと思います。<br/>
+ポイントは<code>include_recipe</code>を利用して、Chefのrecipe自体も分割するところです。</p>
+
+<ul>
+<li>chef/site-cookbook/td-agent/recipes/td-agent.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;source&gt;
+</span><span class='line'>  type forward
+</span><span class='line'>  port 24224
+</span><span class='line'>&lt;/source&gt;
+</span><span class='line'>
+</span><span class='line'>include config.d/nginx.conf
+</span><span class='line'>
+</span><span class='line'>&lt;match **&gt;
+</span><span class='line'>  type file
+</span><span class='line'>  path /tmp/unmatched
+</span><span class='line'>&lt;/match&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>chef/site-cookbook/td-agent/recipes/nginx.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template "/etc/td-agent/config.d/nginx.conf" do
+</span><span class='line'>  owner "root"
+</span><span class='line'>  mode  0644
+</span><span class='line'>  source "nginx.conf.erb"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>chef/site-cookbooks/td-agent/templates/default/nginx.conf.erb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;match nginx.access.**&gt;
+</span><span class='line'>  type copy
+</span><span class='line'>  &lt;store&gt;
+</span><span class='line'>    type file_alternative
+</span><span class='line'>    time_slice_format %Y%m%d-%H
+</span><span class='line'>    path /var/log/aggregated/nginx/access
+</span><span class='line'>    output_data_type attr:message
+</span><span class='line'>    localtime
+</span><span class='line'>    output_include_time false
+</span><span class='line'>  &lt;/store&gt;
+</span><span class='line'>&lt;/match&gt;
+</span><span class='line'>
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このように分割します。<code>nginx.rb</code>や<code>rds.rb</code>には<br/>
+<code>nginx.conf</code>や<code>rds.conf</code>を生成するためのテンプレートが書かれています。<br/>
+スライド内の<code>s3cmd</code>の箇所を参照して頂ければ、どんな感じかわかると思います。</p>
+
+<p>世界を前進させるスーパーな話も良いですが、増えすぎる設定ファイルを<br/>
+どう管理するか。みたいな話があっても良いのではないかと思い<br/>
+発表するに至りました。みなさんも良い管理方法などあれば<br/>
+是非とも教えて下さい。</p>
+
+<p>また、わからないことがあれば気軽に@kenjiskywalkerや、<br/>
+kenji at kenjiskywalker.orgに聞いて下さい。</p>
+
+<p>fluentdのように設定が多岐に渡る場合などは<br/>
+Chefやpupet、Ansibleのような設定管理ツールを利用するのが良いですね。</p>
+
+<p>ライブリリース２本、ライブ感あってよかったですね。<br/>
+おつかれさまでした。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -627,67 +780,6 @@ Key-Valueで渡せばいけるらしいです。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/02/sumally/">Sumallyに入りました</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-02T22:50:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>人数の少ないスタートアップに参加して、<br/>
-お金持ちになる夢を一度ぐらい見てみたいものだ。<br/>
-サーバサイドだけどプロダクトにガッツリコミットして<br/>
-みんなでワイワイやってみたいものだ。</p>
-
-<p>という気持ちを持って<a href="http://sumally.co.jp/">Sumally</a>に入りました。<br/>
-<a href="http://www.kayac.com/recruit/career">カヤック</a>というエンジニア天国から身一つでどこまでできるかやってみます。</p>
-
-<p>似たようなサービスが色々とありますが<br/>
-できることをやっていこうと思うので、これからの活躍楽しみにしていてください。</p>
-
-<p>また、Sumallyのここがイケてない、ここを良くした方がいい。<br/>
-などご意見があれば気軽にお聞かせください。<br/>
-頂いたご意見については、必ずメンバーで話し合います。よろしくお願いします。</p>
-
-<p>=== 広告 ============================================</p>
-
-<p><a href="http://sumally.co.jp/jobs.html">Sumally</a>と<a href="http://www.kayac.com/recruit/career">カヤック</a>では広く人材を募集しております。<br/>
-気になる方は話を聞いてみるぐらいの感覚で連絡してみるとよいのではないでしょうか。</p>
-
-<hr />
-
-<p>恥ずかしながら、末尾にウィッシュリストを掲載させて頂きます。<br/>
-<a href="http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT">http://www.amazon.co.jp/registry/wishlist/2YLD8BNL4W5NT</a></p>
-
-<p>貢献と年収。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     <a href="/blog/archives">Blog Archives</a>
   </div>
@@ -701,7 +793,7 @@ Key-Valueで渡せばいけるらしいです。</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - kenjiskywalker -
+  Copyright &copy; 2016 - kenjiskywalker -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
