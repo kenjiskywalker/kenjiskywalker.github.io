@@ -9,9 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="同じような時期にChefの書籍が2冊(厚い方と普通の方)発行されるという
-大変おもしろい現象もあり、日本のChefコミュニティは
-これからより多くの人が活用する段階に入ってきたのかなという印象を持っています。 Chef活用ガイド コードではじめる構成管理著者 : 澤登亨彦KADOKAWA/ &hellip;">
+  <meta name="description" content="Colleagues said to me that I want to monitoring fluentd&rsquo;s state,
+Then I created this plugin.
+同僚がfluentdの状態を監視したいと言っていたので
+私はこのプラグインをつくりました。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +64,95 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/">Created Check-fluentd-monitor-agent of Sensu-plugin</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-30T19:08:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Colleagues said to me that I want to monitoring fluentd&rsquo;s state,<br/>
+Then I created this plugin.<br/>
+同僚がfluentdの状態を監視したいと言っていたので<br/>
+私はこのプラグインをつくりました。</p>
+
+<ul>
+<li><a href="http://docs.fluentd.org/articles/monitoring">Monitoring Fluentd - fluentd</a></li>
+<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">sensu-community-plugins/plugins/fluentd/check-fluentd-monitor-agent.rb</a></li>
+</ul>
+
+
+<p>how to use.<br/>
+使い方</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 1,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024 -c 5120 -m 'buffer_queue_length'",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "occurrences": 1,
+</span><span class='line'>      "subscribers": ["foo"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please try it.<br/>
+よかったらご利用ください。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -849,100 +939,6 @@ BlueGreenDeploymentなシステムをつくるなら<br/>
 
 
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/09/autoscaling-tag/">AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-09T18:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html">【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ</a></p>
-
-<p>こちらの便利機能が追加されたので早速設定してみました。</p>
-
-<h2><a href="http://docs.aws.amazon.com/cli/latest/reference/autoscaling/create-or-update-tags.html">AWS CLI - create-or-update-tags</a></h2>
-
-<blockquote><p>&ndash;tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>aws --region REGION autoscaling create-or-update-tags \
-</span><span class='line'>    --tags ResourceId=AUTOSCALINGGROUP_NAME, \
-</span><span class='line'>           ResourceType=auto-scaling-group, \
-</span><span class='line'>           Key=KEY, \
-</span><span class='line'>           Value=VALUE, \
-</span><span class='line'>           PropagateAtLaunch=true</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>ResourceId</li>
-</ul>
-
-
-<p>tagを設定するAutoScalingGroupの名前を指定</p>
-
-<ul>
-<li>ResourceType</li>
-</ul>
-
-
-<p>他に何の設定があるのかは不明ですが<code>auto-scaling-group</code>を指定しておけば問題ないかと</p>
-
-<ul>
-<li>Key</li>
-</ul>
-
-
-<p>tagのKey名</p>
-
-<ul>
-<li>Value</li>
-</ul>
-
-
-<p>tagのValue名</p>
-
-<ul>
-<li>PropagateAtLaunch</li>
-</ul>
-
-
-<p>設定したtagをAutoScalingGroupによって起動されたEC2インスタンスにも適用させるかどうか</p>
-
-<p>上記の設定を行うことで、AutoScalingGroupにて起動されたEC2インスタンスへ<br/>
-タグが適用されるようになります。大変便利ですね。ありがとうございます。</p>
 </div>
   
   

@@ -9,9 +9,28 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="iPhone水没した。人生で二度目だ。トイレで諸所の動作をする時はスマホいじくるのやめよう。
-高校サッカーの準決勝を見に行った。高校サッカー、本当に面白い。 東福岡の藤川虎太朗くんがとても良かった。
-国学院久我山の澁谷雅也くんと名倉巧くんがとても魅力的だった。 &hellip;">
+  <meta name="description" content="自分用メモ 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+#!/usr/bin/env ruby loadbalancers = `aws elb describe-load-balancers | jq &#39;.[][][& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +82,87 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-19T11:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>自分用メモ</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">loadbalancers</span> <span class="o">=</span> <span class="sb">`aws elb describe-load-balancers | jq &#39;.[][][&quot;LoadBalancerName&quot;]&#39; -r `</span>
+</span><span class='line'><span class="n">alert_sns</span> <span class="o">=</span> <span class="s2">&quot;SNS&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">loadbalancers</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">lb</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">lb</span><span class="o">.</span><span class="n">chomp!</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="n">lb</span>
+</span><span class='line'><span class="sb">`aws cloudwatch put-metric-alarm --alarm-name &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> UnHealthyHostCountUp&quot; --alarm-description &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> ELB UnHealthyHostCountUp&quot; \</span>
+</span><span class='line'><span class="sb">  --actions-enabled \</span>
+</span><span class='line'><span class="sb">  --alarm-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --insufficient-data-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --metric-name &quot;UnHealthyHostCount&quot; \</span>
+</span><span class='line'><span class="sb">  --namespace AWS/ELB \</span>
+</span><span class='line'><span class="sb">  --statistic Maximum\</span>
+</span><span class='line'><span class="sb">  --dimensions Name=LoadBalancerName,Value=</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --period 60 \</span>
+</span><span class='line'><span class="sb">  --evaluation-periods 5 \</span>
+</span><span class='line'><span class="sb">  --threshold 1 \</span>
+</span><span class='line'><span class="sb">  --comparison-operator GreaterThanOrEqualToThreshold`</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -418,89 +518,6 @@
 
 <p>この本はあんまり得られるものはなかった。<br/>
 本当になかったかKindleのハイライト見なおしてみたけどあまりなかった。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/08/curry-2015/">もうやんカレーお持ち帰りという解脱の境地</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-12-08T17:48:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>この記事は<a href="http://www.adventar.org/calendars/725">カレー Advent Calendar 2015</a>の9日目の記事です。</p>
-
-<p>今、とある事情で都庁前で働いているが、都庁前、空間設計が素晴らしく<br/>
-まるで洗練された欧州の町並みを感じさせる(実際は地上と地下という概念があってファンタジー)。</p>
-
-<p>そんな都庁前では、多種多様な飲食店があり、食べることにはまず困ることはない。<br/>
-しかし、どうしても1000円前後の出費がかかってしまう。<br/>
-それを避けたければ牛丼屋か、コンビニ、ビル内にある弁当屋で食べるという選択肢もあるが<br/>
-どうも満たされない。そんな経験は誰にでもあるだろう。</p>
-
-<p>そこで私がおすすめしたいのは<a href="http://www.moyan.jp">もうやんカレー</a>である。<br/>
-もうやん？あそこはランチ1,000円だろ？何書いちゃってんのコイツ？<br/>
-などと思われる方は題名を読んでくれ。お持ち帰りの話をしたいんだ。</p>
-
-<p>お持ち帰り？カレー食べ放題のビュッフェという楽園を捨てて<br/>
-貴様は何をほざいているんだ？と思われる方は年末年始は是非お寺に行って<br/>
-煩悩を取り払ってくれ。</p>
-
-<p>個人的にもうやんカレーの唯一のデメリットは「食べ過ぎてしまうこと」だった。<br/>
-何故ならもうやんカレーはビュッフェスタイルを取っており、カレーが飲み放題なのだ。<br/>
-これは仏教でいう三毒の中のひとつ、「貪」に該当するものだ。</p>
-
-<p>何故、薬膳カレーのもうやんカレーをたべたのに毒を得る必要があるのか。<br/>
-私はもうやんカレーを食べる度に悩み苦しんでいた。</p>
-
-<p>そして、食べ終わった後オフィスに帰ると、食べ過ぎた反動で頭が働かなくなっているのだ。<br/>
-私は怒りに震え、キーボードで頭を何度も叩き割ろうとした。「瞋」だ。</p>
-
-<p>壊れたキーボードを眺めながら、冷静になった時に激しい後悔に襲わる。<br/>
-「俺は地獄へ行く必要があるんだ。俺みたいなどうしようもない奴はどうせ地獄行きだ」<br/>
-と愚痴り続け、仕事さえもままならない状態に至ってしまう。「癡」だ。</p>
-
-<p>本来最高の食物であるもうやんカレーを食べることで、自己の制御ができず<br/>
-貪り、怒り、愚痴り、私はいつも三毒の中心で悩み苦しんでいた。</p>
-
-<p>そんなある日、同僚のエンジニア(仏陀)が言った。<br/>
-「おもちかえりしましょう。630円で箱に詰めるだけなんで食べ過ぎないですよ」</p>
-
-<p>これは悟りであり、解であった。目の前は大いなる光に包まれ<br/>
-祝福の鐘は鳴り響き、心はどこまでも高く舞い上がっていった。</p>
-
-<p>ということでもうやんカレーのおもちかえり630円、おすすめです。<br/>
-個人的に米なし大量チキンでやらせて頂いています。</p>
-
-<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="6" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAAGFBMVEUiIiI9PT0eHh4gIB4hIBkcHBwcHBwcHBydr+JQAAAACHRSTlMABA4YHyQsM5jtaMwAAADfSURBVDjL7ZVBEgMhCAQBAf//42xcNbpAqakcM0ftUmFAAIBE81IqBJdS3lS6zs3bIpB9WED3YYXFPmHRfT8sgyrCP1x8uEUxLMzNWElFOYCV6mHWWwMzdPEKHlhLw7NWJqkHc4uIZphavDzA2JPzUDsBZziNae2S6owH8xPmX8G7zzgKEOPUoYHvGz1TBCxMkd3kwNVbU0gKHkx+iZILf77IofhrY1nYFnB/lQPb79drWOyJVa/DAvg9B/rLB4cC+Nqgdz/TvBbBnr6GBReqn/nRmDgaQEej7WhonozjF+Y2I/fZou/qAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/_BnizDpqs9/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">解脱が具現化された様子です🍛</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by kenjiskywalker (@kenjiskywalker) on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-12-08T09:09:38+00:00">Dec 8, 2015 at 1:09am PST</time></p></div></blockquote>
-
-
-<p> <script async defer src="//platform.instagram.com/en_US/embeds.js"></script></p>
 </div>
   
   

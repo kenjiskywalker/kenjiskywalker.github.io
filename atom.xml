@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-01-10T00:29:50+09:00</updated>
+  <updated>2016-01-19T13:01:16+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/"/>
+    <updated>2016-01-19T11:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb</id>
+    <content type="html"><![CDATA[<h2>自分用メモ</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">loadbalancers</span> <span class="o">=</span> <span class="sb">`aws elb describe-load-balancers | jq &#39;.[][][&quot;LoadBalancerName&quot;]&#39; -r `</span>
+</span><span class='line'><span class="n">alert_sns</span> <span class="o">=</span> <span class="s2">&quot;SNS&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">loadbalancers</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">lb</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">lb</span><span class="o">.</span><span class="n">chomp!</span>
+</span><span class='line'>  <span class="nb">p</span> <span class="n">lb</span>
+</span><span class='line'><span class="sb">`aws cloudwatch put-metric-alarm --alarm-name &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> UnHealthyHostCountUp&quot; --alarm-description &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> ELB UnHealthyHostCountUp&quot; \</span>
+</span><span class='line'><span class="sb">  --actions-enabled \</span>
+</span><span class='line'><span class="sb">  --alarm-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --insufficient-data-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --metric-name &quot;UnHealthyHostCount&quot; \</span>
+</span><span class='line'><span class="sb">  --namespace AWS/ELB \</span>
+</span><span class='line'><span class="sb">  --statistic Maximum\</span>
+</span><span class='line'><span class="sb">  --dimensions Name=LoadBalancerName,Value=</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">  --period 60 \</span>
+</span><span class='line'><span class="sb">  --evaluation-periods 5 \</span>
+</span><span class='line'><span class="sb">  --threshold 1 \</span>
+</span><span class='line'><span class="sb">  --comparison-operator GreaterThanOrEqualToThreshold`</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った]]></title>
@@ -1407,40 +1461,6 @@ aws-sdkとかは使わずにシンプルに<a href="http://aws.amazon.com/jp/cli
 
 
 <p>定常業務はどんどんbotにやらせて、生産的な業務に注力してバリュー出していこ</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[2015/03読んだ本]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/04/05/201503-book/"/>
-    <updated>2015-04-05T16:22:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/04/05/201503-book</id>
-    <content type="html"><![CDATA[<p>WEB+DB PRESS Vol.85 の菅原さんの記事が面白かった.<br/>
-色々と便利ツールをつくるけど汎用的に公開できるものをつくることで<br/>
-品質の高いものをつくる意識をつくっていくのは大切だ.</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2015年03月 (5作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774171417" target="_blank"><img src="http://ecx.images-amazon.com/images/I/611JK2E4TZL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774171417" target="_blank">WEB+DB PRESS Vol.85</a><br /><a href="http://booklog.jp/author/%E8%8F%85%E5%8E%9F%E5%85%83%E6%B0%97" target="_blank">菅原元気</a><br />読了日：03月06日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00S5TMPEW" target="_blank"><img src="http://ecx.images-amazon.com/images/I/61y%2Blg9CuVL._SL75_.jpg" width="56" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00S5TMPEW" target="_blank">サッカーダイジェスト 2015年 2/26 号 [雑誌]</a><br />読了日：03月12日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00R2R1TF4" target="_blank"><img src="http://ecx.images-amazon.com/images/I/519vf3oC9vL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00R2R1TF4" target="_blank">フットボール批評issue03</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00K2RFJK2" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51uLiMEIS%2BL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00K2RFJK2" target="_blank">良いウェブサービスを支える「利用規約」の作り方</a><br /><a href="http://booklog.jp/author/%E9%9B%A8%E5%AE%AE%E7%BE%8E%E5%AD%A3" target="_blank">雨宮美季</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00T71MYZC" target="_blank"><img src="http://ecx.images-amazon.com/images/I/5136en3PhGL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00T71MYZC" target="_blank">MariaDB & MySQL全機能バイブル</a><br /><a href="http://booklog.jp/author/%E9%88%B4%E6%9C%A8%E5%95%93%E4%BF%AE" target="_blank">鈴木啓修</a><br />読了日：03月13日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
-
 ]]></content>
   </entry>
   

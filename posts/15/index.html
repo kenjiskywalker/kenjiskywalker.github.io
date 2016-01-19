@@ -9,10 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="GitHub Chrome Web Store ファイルが半年以上更新されていなければオレンジに、
-1年以上更新されていなければ赤に色が変わるようになる。
-比較的実利的だと思うのでご利用ください。 土曜日酒飲みながらダラダラとChrome Extention Hackathonみたいなのを
-@ &hellip;">
+  <meta name="description" content="TL;DR peco入れた。速い peco https://github.com/lestrrat/peco まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。 percol https://github.com/mooz/percol &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +61,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/12/peco/">Pecoを導入してzshのhistoryに使うようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-12T16:48:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>peco入れた。速い</p>
+
+<h2>peco</h2>
+
+<p><a href="https://github.com/lestrrat/peco">https://github.com/lestrrat/peco</a></p>
+
+<p>まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。</p>
+
+<h2>percol</h2>
+
+<p><a href="https://github.com/mooz/percol">https://github.com/mooz/percol</a></p>
+
+<p>元々moozさんが書いたpercolというものがあってlestrratさんがGoで書いたものがpeco。</p>
+
+<h2>導入方法</h2>
+
+<ul>
+<li>peco を go get</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ go get github.com/lestrrat/peco/cmd/peco/</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>.zshrc</h2>
+
+<p>percolのものを流用させて頂きました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function peco-select-history() {
+</span><span class='line'>    local tac
+</span><span class='line'>    if which tac &gt; /dev/null; then
+</span><span class='line'>        tac="tac"
+</span><span class='line'>    else
+</span><span class='line'>        tac="tail -r"
+</span><span class='line'>    fi
+</span><span class='line'>    BUFFER=$(history -n 1 | \
+</span><span class='line'>        eval $tac | \
+</span><span class='line'>        peco --query "$LBUFFER")
+</span><span class='line'>    CURSOR=$#BUFFER
+</span><span class='line'>    zle clear-screen
+</span><span class='line'>}
+</span><span class='line'>zle -N peco-select-history
+</span><span class='line'>bindkey '^r' peco-select-history</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>~/.peco/config.json</h2>
+
+<p>C-c でキャンセルできるように</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "Keymap": {
+</span><span class='line'>        "C-p": "peco.SelectPrevious",
+</span><span class='line'>        "C-n": "peco.SelectNext",
+</span><span class='line'>        "C-c": "peco.Cancel"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://gifzo.net/BE8NmHmus2A.gif" alt="http://gifzo.net/BE8NmHmus2A.gif" /></p>
+
+<blockquote><p>いまいちなキャプチャだこれ</p></blockquote>
+
+<p><a href="http://motemen.hatenablog.com/entry/2014/06/01/introducing-ghq">ghq</a>もまだ入れたばかりなので<br/>
+これから色々試していこうと思います。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -831,95 +952,6 @@ Escape Sequenceとして認識させないようにして上手くいった。</
 
 
 <p>こちらからは以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/30/sensu-plugin-check-fluentd-monitor-agent/">Created Check-fluentd-monitor-agent of Sensu-plugin</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-30T19:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Colleagues said to me that I want to monitoring fluentd&rsquo;s state,<br/>
-Then I created this plugin.<br/>
-同僚がfluentdの状態を監視したいと言っていたので<br/>
-私はこのプラグインをつくりました。</p>
-
-<ul>
-<li><a href="http://docs.fluentd.org/articles/monitoring">Monitoring Fluentd - fluentd</a></li>
-<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">sensu-community-plugins/plugins/fluentd/check-fluentd-monitor-agent.rb</a></li>
-</ul>
-
-
-<p>how to use.<br/>
-使い方</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 1,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    },
-</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024 -c 5120 -m 'buffer_queue_length'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 1,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Please try it.<br/>
-よかったらご利用ください。</p>
 </div>
   
   

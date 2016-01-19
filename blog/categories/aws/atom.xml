@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-01-10T00:29:50+09:00</updated>
+  <updated>2016-01-19T13:01:16+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/"/>
+    <updated>2016-01-19T11:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb</id>
+    <content type="html"><![CDATA[<h2>自分用メモ</h2>
+
+<pre><code class="rb">#!/usr/bin/env ruby
+
+loadbalancers = `aws elb describe-load-balancers | jq '.[][]["LoadBalancerName"]' -r `
+alert_sns = "SNS"
+
+loadbalancers.each_line do |lb|
+  lb.chomp!
+  p lb
+`aws cloudwatch put-metric-alarm --alarm-name "#{lb} UnHealthyHostCountUp" --alarm-description "#{lb} ELB UnHealthyHostCountUp" \
+  --actions-enabled \
+  --alarm-actions #{alert_sns} \
+  --insufficient-data-actions #{alert_sns} \
+  --metric-name "UnHealthyHostCount" \
+  --namespace AWS/ELB \
+  --statistic Maximum\
+  --dimensions Name=LoadBalancerName,Value=#{lb} \
+  --period 60 \
+  --evaluation-periods 5 \
+  --threshold 1 \
+  --comparison-operator GreaterThanOrEqualToThreshold`
+end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Route53を利用したフェイルオーバーシステムの作成]]></title>
@@ -303,43 +335,6 @@ ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
 </code></pre>
 
 <p>以上です。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[EC2のインスタンスが立ち上がってきた時にEphemeral Diskを束ねてRAID0にするスクリプト]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/02/24/ec2-start-raid0-script/"/>
-    <updated>2014-02-24T18:15:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/02/24/ec2-start-raid0-script</id>
-    <content type="html"><![CDATA[<p>Ephemeral Diskが8本ある場合は条件を増やせば良い。</p>
-
-<pre><code>#!/bin/bash
-
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin:/usr/local/bin
-
-if [[ \`test -e /dev/xvdc ; echo \$?\` -eq 0 ]] ; then
-    if [[ \`test -e /dev/xvde ; echo \$?\` -eq 0 ]] ; then
-
-        # RAID用のファイルをつくる(ephemeral x4バージョン)
-        umount /media/ephemeral0
-        yes | mdadm --create /dev/md127 --level=0 --raid-devices=4 /dev/xvd[bcde]
-        mkfs.ext4 /dev/md127
-        mount /dev/md127 /media/ephemeral0
-    else
-
-        # RAID用のファイルをつくる(ephemeral x2バージョン)
-        umount /media/ephemeral0
-        yes | mdadm --create /dev/md127 --level=0 --raid-devices=2 /dev/xvd[bc]
-        mkfs.ext4 /dev/md127
-        mount /dev/md127 /media/ephemeral0
-    fi
-fi
-</code></pre>
-
-<p>このスクリプトを<code>rc.local</code>とか<code>/etc/rc3.d/S~</code>とかに置いておけば<br/>
-起動時にRAID0として束ねて立ち上がってくれる。</p>
-
-<blockquote><p>このクールなアイデアは自分発のものではない</p></blockquote>
 ]]></content>
   </entry>
   

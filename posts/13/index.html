@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014 という話をします(題名長すぎて本番絶対噛むしそもそも覚えられない) YAPCへの参加は3回目で、 &hellip;">
+  <meta name="description" content="The world is not complete 邦題: 「完成されたシステムなどない。完成された人間もいない。 あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ」 ウェブサービスを頭に描きながら、そのウェブサービスの成長の旅を体験することで
+その時その時に何が必要か、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +62,98 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/29/yapcasia2014-cosmo/">#yapcasia 2014 でシステムとの時間の旅の話をしてきました</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-29T12:38:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://speakerdeck.com/kenjiskywalker/yapcasia2014">The world is not complete </a></h2>
+
+<blockquote><p>邦題: <br/>
+「完成されたシステムなどない。完成された人間もいない。<br/>
+  あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ」</p></blockquote>
+
+<p>ウェブサービスを頭に描きながら、そのウェブサービスの成長の旅を体験することで<br/>
+その時その時に何が必要か、ということをお話をしました。後半はトークショーでした。</p>
+
+<blockquote><p>システムは完全ではないので壊れることを前提につくる<br/>
+人間は失敗をするので、失敗をしても復旧できるようにシステムをつくる</p>
+
+<p>システムや一部の機能を疎結合にし、再現性を保つことで、障害に強くする<br/>
+再現性をシンプルに保つことで、システム自体を変更の強いものにする</p></blockquote>
+
+<p>例えば、現代でいえば、クラウドサービスでしか動かない、<br/>
+特定のオンプレでしか動かないシステムではなく、<br/>
+機能毎に環境に依存しないようにシステムをつくることを忘れないでね。</p>
+
+<p>壊れたりした時に慌てるのではなく、保険をつくって<br/>
+再現性を持たせて同じ状態に戻せるようにしておいてね。ということでした。</p>
+
+<p>その意識があるかないかで、規模が拡大したり、機能が追加され<br/>
+複雑化した時に、大きな違いになってくることを私は経験してきました。</p>
+
+<p>大規模の経験がある人は、この辺は体験的に理解していますが<br/>
+大規模の経験がない人は、最初の構成を複雑にしてしまい<br/>
+後々苦労してしまうのはあるあるネタかと思います。</p>
+
+<p>再現性については、puppet、Chef、Ansible、Consul、Serfなど<br/>
+プロビジョニング、オーケストラレーションツールを利用し<br/>
+環境に依存しない構築が可能になり、<br/>
+簡易性、疎結合については、Dockerや各種クラウドサービスの登場で、<br/>
+機能毎にプラットフォームを渡りやすくなってきたのではないでしょうか。</p>
+
+<p>ただ、その記録、保険、再現性、簡易性は<br/>
+どのタイミングで、どの程度の精度を持たせるかは<br/>
+つくる時間・つくらなかった時のリスク・復旧時間・構築時間など<br/>
+都度見積もって、判断してね。という当たり前の話をしました。</p>
+
+<p>Infrastructure as Codeの時代、プログラミングで良く言われている<br/>
+「変化に強く、シンプルであれ」という哲学は、Infrastructureにも<br/>
+当てはまる時代になってきたのではないでしょうか。<br/>
+それは、UNIXの哲学や、日本の文化から学ぶことができます。</p>
+
+<p>そうして、みなさんのウェブサービスの旅は、これからも続いていきます。</p>
+
+<p>という発表を大ホールならではのエモーショナルな空気感で発表してきました。<br/>
+理想論だ、と吐き捨てることはできますが、その理想の世界が<br/>
+Go言語の登場から各種プロビジョニングツール、様々なクラウドサービスの登場で<br/>
+段々と実現可能になってきたのではないでしょうか。</p>
+
+<p>発表が結構早く終わってしまったけど、発表の補足を質問を回答する形ででき<br/>
+結果的に、視聴者参加型のとても素晴らしい空間が生まれました。<br/>
+みなさん、ありがとうございました。</p>
+
+<p>聞いてくれた人たち、選んでくれた人たち、ありがとうございました。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -374,120 +467,6 @@ BSD sedは拡張はしていないから使えない。<br/>
 
 <p>みたいに<code>-i ''</code>でファイル名に空文字与えないと<br/>
 ファイルに上書きされないのもハマった記憶ある。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/09/monitor_agent-and-sensu/">Monitoring Monitor_agent by Sensu</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-09T19:39:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
-
-<p>Monitor the state of the Fluentd by Sensu.<br/>
-SensuでFluentdの状態を監視する</p>
-
-<h3>利用するソフトウェア(Using Software)</h3>
-
-<ul>
-<li><a href="https://github.com/fluent/fluentd">fluentd</a></li>
-<li><a href="https://github.com/sensu/sensu">Sensu</a></li>
-<li><a href="https://github.com/sensu/sensu-community-plugins/blob/master/plugins/fluentd/check-fluentd-monitor-agent.rb">check-fluentd-monitor-agent.rb</a></li>
-</ul>
-
-
-<h3>監視設定(Monitoring Settings)</h3>
-
-<p>Sensu&rsquo;s Configuration Example<br/>
-Sensuの設定例</p>
-
-<p><code>check_fluentd_monitor_agent.json</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "check_fluentd_monitor_agent_retry": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 5 -c 10 -m 'retry_count'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 3,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    },
-</span><span class='line'>    "check_fluentd_monitor_agent_buffer_total_queued_size": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-fluentd-monitor-agent.rb -w 1024000 -c 51200000 -m 'buffer_queue_length'",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 3,
-</span><span class='line'>      "subscribers": ["foo"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>アラート例(Example Alert)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CheckFluentdMonitorAgent WARNING: plugin_id object:XXXXXXX retry_count 8</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>アラートが出ているプラグインの確認(Check the plug-in target)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://localhost:24220/api/plugins.json | jq . | grep -10 XXXXXXX</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Thus, It is useful to grasp if Fluentd could not be temporarily connected to the another service.<br/>
-このように、Fluentdが他のサービスへ一時的に接続できなかった場合にアラートが来たりして便利です。</p>
 </div>
   
   
