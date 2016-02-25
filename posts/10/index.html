@@ -9,7 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="太平記、いよいよ尊氏がのし上がってきた。 kenjiskywalkerの本棚 - 2014年10月 (7作品) 本を読む本 (講談社学術文庫)J・モーティマー・アドラー読了日：10月10日 私本太平記 07 千早帖吉川英治読了日：10月10日 GIANT KILLING(33) (モーニング KC &hellip;">
+  <meta name="description" content="参考 KAIZEN platform Inc. における運用自動化 - Speaker Deck
+Continous Integration and Delivery with Docker - CircleCI TL;DR CircleCI上でDockerコンテナを立て、 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +62,256 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/13/circleci-docker-ansible-serverspec/">CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-13T21:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>参考</h3>
+
+<p><a href="https://speakerdeck.com/naoya/kaizen-platform-inc-niokeruyun-yong-zi-dong-hua">KAIZEN platform Inc. における運用自動化 - Speaker Deck</a><br/>
+<a href="https://circleci.com/docs/docker">Continous Integration and Delivery with Docker - CircleCI</a></p>
+
+<h2>TL;DR</h2>
+
+<p>CircleCI上でDockerコンテナを立て、<br/>
+そのコンテナに対してプロビジョニングを行い、<br/>
+プロビジョニング後のコンテナに対してテストを行う</p>
+
+<h2>DockerコンテナにAnsibleを実行する</h2>
+
+<p>コミットする度にDockerのimageをpullするのは時間がもったいないので<br/>
+<code>cache_directories</code>を利用し、imageをexportしておき<br/>
+実行時にimportするようにすると多少速くなる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>├── Dockerfile
+</span><span class='line'>├── ansible/
+</span><span class='line'>└── circle.yml</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Dockerfile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>FROM kenjiskywalker/dockerfile-centos-ansible</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>circle.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>machine:
+</span><span class='line'>  services:
+</span><span class='line'>    - docker
+</span><span class='line'>
+</span><span class='line'>dependencies:
+</span><span class='line'>  pre:
+</span><span class='line'>    - if [[ -e docker_ansible_image.tar ]]; then cat docker_ansible_image.tar | docker import - kenjiskywalker/dockerfile-centos-ansible ; docker load --input docker_ansible_image.tar ; else docker build . ; docker save -o docker_ansible_image.tar kenjiskywalker/dockerfile-centos-ansible ; fi
+</span><span class='line'>
+</span><span class='line'>  cache_directories:
+</span><span class='line'>    - "docker_ansible_image.tar"
+</span><span class='line'>
+</span><span class='line'>test:
+</span><span class='line'>  post:
+</span><span class='line'>    - docker run -v `pwd`/ansible:/ansible kenjiskywalker/dockerfile-centos-ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じの設定ファイルを置いておくと<code>ansible</code>ディレクトリをマウントし<br/>
+Dockerコンテナがansibleを実行できる状態であればDockerコンテナに対して<br/>
+ansibleが実行できる。この続きにServerspecを記述することで</p>
+
+<ol>
+<li>リポジトリにansibleのファイルをコミットする</li>
+<li>CircleCI上にてDockerコンテナを起動</li>
+<li>Dockerコンテナに対してansibleでプロビジョニング</li>
+<li>そのプロビジョニング結果をServerspecでテストをする</li>
+</ol>
+
+
+<p>のようなことができる。</p>
+
+<h2>wercker</h2>
+
+<p>werckerでも同じようなことができる。<br/>
+CircleCIと同様にファイルをキャッシュするには<br/>
+<code>$WERCKER_CACHE_DIR</code>を利用すればよいかと。</p>
+
+<ul>
+<li>wercker.yml</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>box: wercker-labs/docker
+</span><span class='line'>build:
+</span><span class='line'>  steps:
+</span><span class='line'>    - script:
+</span><span class='line'>        name: docker build
+</span><span class='line'>        code: docker build .
+</span><span class='line'>    - script:
+</span><span class='line'>        name: docker run
+</span><span class='line'>        code: docker run -v `pwd`/ansible:/ansible dockerfile/ansible ansible-playbook /ansible/ci.yml -i /ansible/inventory_localhost -c local</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上、メモです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/10/shellscript-old-style/">シェルスクリプトで外部コマンドを利用する場合の注意点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-10T15:37:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>シェルスクリプトでbackquoteを見つけたら<br/>
+オールドスタイルおじさんを探し、矯正させよう</p>
+
+<blockquote><p>GNU Bash-2.05 manual</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
+</span><span class='line'>   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
+</span><span class='line'>   a backslash terminates the command substitution.  When using the $(command) form,  all  
+</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">a</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s1">&#39;\&#39;`</span>
+</span><span class='line'><span class="s1">echo ${a} # \</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">b=`echo &quot;\\&quot;`</span>
+</span><span class='line'><span class="s1">echo ${b} # unexpected EOF while looking for matching `&quot;&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">c</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="err">&#39;</span><span class="se">\&#39;</span><span class="k">)</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">c</span><span class="k">}</span> <span class="c"># \</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">d</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;\\&quot;</span><span class="k">)</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">d</span><span class="k">}</span> <span class="c"># \</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考</h2>
+
+<p><a href="http://hyperpolyglot.org/unix-shells#cmd-subst-note">http://hyperpolyglot.org/unix-shells#cmd-subst-note</a></p>
+
+<h2>追記</h2>
+
+<blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -803,375 +1054,6 @@ CentOS 6.5でRuby 2.1.3が使えるコンテナを用意した(名前の通りsq
 <li><a href="http://blog.docker.com/2014/10/fig-1-0-boot2docker-compatibility-and-more/">Fig 1.0: boot2docker compatibility and more | Docker Blog</a></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/24/ansible-vagrant/">Ansibleを利用してRailsが動くVagrantfileを作成する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-24T05:56:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
-
-<h2>TL;DR</h2>
-
-<p>Ansibleを利用したからって複雑な処理がシンプルになるわけではない</p>
-
-<h3>1st</h3>
-
-<p>対象のサーバに何か設定をする必要はないので<br/>
-このように少量のコードでやりたいことが実現できる。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
-</span><span class='line'>['-']% cat hosts
-</span><span class='line'>ansible.example.com
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible -m ping -i hosts ansible.example.com
-</span><span class='line'>ansible.example.com | success &gt;&gt; {
-</span><span class='line'>    "changed": false,
-</span><span class='line'>    "ping": "pong"
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% cat playbook.yml
-</span><span class='line'>- hosts: all
-</span><span class='line'>
-</span><span class='line'>  tasks:
-</span><span class='line'>  - name: Install dstat
-</span><span class='line'>    yum: name=dstat
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible-playbook -i hosts playbook.yml
-</span><span class='line'>
-</span><span class='line'>PLAY [all] ********************************************************************
-</span><span class='line'>
-</span><span class='line'>GATHERING FACTS ***************************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>TASK: [Install dstat] *********************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>PLAY RECAP ********************************************************************
-</span><span class='line'>ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0
-</span><span class='line'>
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br/>
-各社独自で工夫してるんだろうな&hellip;</p>
-
-<h2>Role</h2>
-
-<p>1.2から使える機能とのこと、詳しくは<br/>
-<a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements</a>を読んでもらいたい.<br/>
-Chefを利用している人は馴染みがあるというか<br/>
-そういう構成なのか、とすんなりと理解できると思う.</p>
-
-<p>Chefでいうcookbookの構成に近いというか<br/>
-Chefを意識したつくりになっている気がする.<br/>
-ある程度の規模になったらRoleを利用しないとつらいと思う.</p>
-
-<h2>Railsの環境をAsibleで用意してみる</h2>
-
-<p><a href="https://github.com/kenjiskywalker/ansible">https://github.com/kenjiskywalker/ansible</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% tree .
-</span><span class='line'>.
-</span><span class='line'>├── dev.yml
-</span><span class='line'>└── roles
-</span><span class='line'>    ├── mysql
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    ├── rails
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    └── ruby
-</span><span class='line'>        ├── files
-</span><span class='line'>        ├── handlers
-</span><span class='line'>        ├── tasks
-</span><span class='line'>        │   ├── main.yml
-</span><span class='line'>        │   ├── rbenv.yml
-</span><span class='line'>        │   ├── ruby-build.yml
-</span><span class='line'>        │   └── ruby-install.yml
-</span><span class='line'>        └── templates
-</span><span class='line'>            └── rbenv.sh.j2
-</span><span class='line'>
-</span><span class='line'>10 directories, 8 files</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>軽く書いてみて気がついたこと</h3>
-
-<ul>
-<li><code>command</code>がコマンドだけで<code>shell</code>がパイプも使えるとか気が付かなくてハマった</li>
-<li><code>ohai</code>がいないので<code>apt</code>や<code>yum</code>など、ディストリビューションのパッケージ管理ツールを<code>package</code>みたいにラッピングしてくれない</li>
-<li><code>register</code>の概念が面白かった</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check Rails installed
-</span><span class='line'>  shell: rails -v | cut -f 2 -d ' '
-</span><span class='line'>  register: rails_installed
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install
-</span><span class='line'>
-</span><span class='line'>- name: gem install rails -v 
-</span><span class='line'>  command: gem install rails -v 
-</span><span class='line'>  when: rails_installed.stdout != rails_version
-</span><span class='line'>  tags:
-</span><span class='line'>    - rails
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br/>
-<code>rails_installed</code>という変数に格納し、その変数を利用して<br/>
-条件分岐などを行うことができる.</p>
-
-<h3>Vagrantfile</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
-</span><span class='line'>
-</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-</span><span class='line'>  config.vm.box = "centos65"
-</span><span class='line'>  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
-</span><span class='line'>  config.vm.define :"dev" do |dev|
-</span><span class='line'>    dev.vm.network :private_network, ip: '192.168.77.11'
-</span><span class='line'>  end
-</span><span class='line'>  config.vm.provision "ansible" do |ansible|
-</span><span class='line'>    ansible.playbook = "./ansible/dev.yml"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br/>
-READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br/>
-ansibleが実行されます.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant provision</span></code></pre></td></tr></table></div></figure>
-
-
-<p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br/>
-プロビジョニングすることが可能です。</p>
-
-<h3>Chefの闇はAnsibleで光を得るのか</h3>
-
-<ul>
-<li>構成や管理方法が複雑であれば何を使ってもあまり変わらない</li>
-<li>新しく覚える時間が許されるなら両方試してみれば良いのでは</li>
-<li>上から下に実行されるだけ(ruby_blockとか使わなくていい)のは良い</li>
-</ul>
-
-
-<h3>個人的感想</h3>
-
-<ul>
-<li>Ansible縛りでなければ<a href="https://github.com/ryotarai/itamae">Itamae</a>試したかった</li>
-<li>まだちょっとしかさわってないので知見があればシェアさせて頂きます</li>
-</ul>
-
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements - Ansible</a></li>
-<li><a href="http://docs.ansible.com/playbooks_best_practices.html">Best Practices - Ansible</a></li>
-<li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/06/isucon4/">#isucon 4の予選に出た</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-06T13:46:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ISUCON4に参加してきました。</p>
-
-<ul>
-<li><a href="http://isucon.net/archives/40576269.html">ISUCON4 本戦出場者決定のお知らせと本選出場者の利用言語比率</a></li>
-</ul>
-
-
-<p>上記の結果本戦出場にはたどり着けませんでした。<br/>
-もし次回ISUCONがあれば、AMI提出の確認は全員で行いたいと思います。</p>
-
-<blockquote><p>競技終了前に、全員でレギュレーション音読<br/>
-競技終了後に、全員でAMI提出指差し確認実施</p></blockquote>
-
-<h3>やったこと</h3>
-
-<ul>
-<li>とくになし</li>
-</ul>
-
-
-<h3>振り返り</h3>
-
-<p>チームとして前進した気がする。</p>
-
-<ul>
-<li>走りだす前に全体つかむことができてよかった</li>
-<li>実装前にその実装が可能かどうか確認することができてよかった</li>
-<li>再起動を終了1時間前に実施できたのはよかった</li>
-<li>全体のアクセスの統計とレスポンスタイムが遅いアクセスの割合を出した</li>
-<li>335さんとひさいちが読んでコード書いててくれたのでここオンメモリやろ〜ヤジってればよかった</li>
-<li>コンテキストスイッチ気にしすぎた。それよりもindexの改善はオレの役割だった</li>
-</ul>
-
-
-<p>4になって、事前に準備できることはしておかないといけない<br/>
-リアル競技になってきた感が強い。</p>
-
-<h2>参考</h2>
-
-<ul>
-<li><a href="http://hisaichi5518.hatenablog.jp/entry/2014/09/30/001034">#isucon 4の予選に出た - パルカワ2</a></li>
-<li><a href="http://soh335.hatenablog.com/entry/2014/09/30/003912">#isucon 4 の予選に参加した- @soh335 memo</a></li>
-</ul>
-
-
-<p>運営の方、お疲れ様でした！<br/>
-データホテルチームがんばれ〜</p>
 </div>
   
   

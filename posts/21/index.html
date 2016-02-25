@@ -9,28 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Ephemeral Diskが8本ある場合は条件を増やせば良い。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-#!/bin/bash PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/ &hellip;">
+  <meta name="description" content="2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections
+https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149 Sentinel &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +62,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/12/redis-2-8-sentinel-split-brain/">Redisの2.8.2からsplit Brainの対策がされているようです</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-12T01:46:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections
+<a href="https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149">https://github.com/antirez/redis/blob/2.8/00-RELEASENOTES#L149</a></p>
+
+<p>Sentinel: better time desynchronization.
+<a href="https://github.com/antirez/redis/commit/75347ada7f431925b97b037b56b5e3801e3fd16d">https://github.com/antirez/redis/commit/75347ada7f431925b97b037b56b5e3801e3fd16d</a></p>
+
+<blockquote><p>Sentinels are now desynchronized in a better way changing the time
+handler frequency between 10 and 20 HZ. This way on average a
+desynchronization of 25 milliesconds is produced that should be larger
+enough compared to network latency, avoiding most split-brain condition
+during the vote.</p>
+
+<p>Now that the clocks are desynchronized, to have larger random delays when
+performing operations can be easily achieved in the following way.
+Take as example the function that starts the failover, that is
+called with a frequency between 10 and 20 HZ and will start the
+failover every time there are the conditions. By just adding as an
+additional condition something like rand()%4 == 0, we can amplify the
+desynchronization between Sentinel instances easily.</p></blockquote>
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/01/zen-cha-hannya/">禅、写経、茶の湯</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-01T17:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>テレビでお坊さんが、写経をすることで別世界へ行くことができる。<br/>
+言葉を永遠と写すことで精神の深いところへたどり着ける。<br/>
+という話をされていた。</p>
+
+<p>禅と瞑想も同じで、今日気になっていた茶の湯の本読んでいたら<br/>
+決められた動作を静かに正確に行うことによって、精神の深いところへたどり着ける。<br/>
+って書いてあって、昔から市中の山居なんて言葉もあったことだし<br/>
+当時の人もまた、色々と忙しかったり表層的な事象にやんや悩んだりしていたんだろう。</p>
+
+<p>禅、写経、茶の湯、全部のルーツは心の再生というか<br/>
+深いところまで潜っていく浄化作用というか、そういうものがあったのではないかと<br/>
+ふと考えた。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -572,106 +655,6 @@ nginxのinit scriptでも</p>
 
 <div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/GIANT-KILLING-30-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2/dp/406387284X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D406387284X" target="_blank"><img src="http://ecx.images-amazon.com/images/I/618fqUkk0kL._SL160_.jpg" width="105" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/GIANT-KILLING-30-%E3%83%A2%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0KC-%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2/dp/406387284X%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D406387284X" target="_blank">GIANT KILLING(30) (モーニングKC)</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%84%E3%82%B8%E3%83%88%E3%83%A2" target="_blank">ツジトモ</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">講談社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2014-01-23</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/406387284X" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/05/about-smtp/">SMTPが何故嫌いか</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-05T18:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>雑談です。</p>
-
-<ul>
-<li>送り先を間違えると二度と取り戻せない(メールサーバを管理している場合を除く)</li>
-<li>そのSMTPのトラフィックの半分以上はスパム(<a href="http://www.securelist.com/en/analysis/204792322/Kaspersky_Security_Bulletin_Spam_evolution_2013">Kaspersky Security Bulletin. Spam evolution 2013</a>)</li>
-</ul>
-
-
-<p>送り先を間違えると二度と取り戻せないのは、人間に対して厳しい仕様ではないのかなと。<br/>
-万が一間違えた場合、インターネットは無力なことが多くて<br/>
-該当のメールを削除してくださいと電話したり、メール誤送信についてのFAXを送ったりする。</p>
-
-<p>インターネットでは物騒が当たり前なようですが、大半がSPAMのトラフィックを捌く方も大変ですね。</p>
-
-<p>で、どうしたら良いって話なんですが<br/>
-メールアドレスじゃなくてhash値生成してそこのURLへアクセスすると <br/>
-メッセージが見れてやり取りができる。万が一内容を間違えた場合は<br/>
-誤った内容のメッセージを削除して再生成する。とかが良いのかなと。</p>
-
-<p>そしてそのURLをどうやって送るかっていうとSMT(この文章はここで終わっている)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/02/2014-02-movie/">「ワールド・ウォーZ」と「ニュー・ジャック・シティ」見た</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-02T23:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe src="https://banners.itunes.apple.com/banner.html?partnerId=&aId=11ldGT&id=756496633&c=jp&l=ja-JP&bt=catalog&t=catalog_black&w=300&h=250" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height:250px;border:0px"></iframe>
-
-
-<p>意外に面白かった。</p>
-
-<iframe src="https://banners.itunes.apple.com/banner.html?partnerId=&aId=11ldGT&id=718046714&c=jp&l=ja-JP&bt=catalog&t=catalog_black&w=300&h=250" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height:250px;border:0px"></iframe>
-
-
-<p>今の原宿にいる女の子の服装こんな感じだった。<br/>
-なんだかんだでこのジャケットが一番おもしろいと思う。</p>
 </div>
   
   

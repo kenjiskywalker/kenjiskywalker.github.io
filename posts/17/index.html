@@ -9,7 +9,12 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ こちらの便利機能が追加されたので早速設定してみました。 AWS CLI - create-or-update-tags &ndash;tags ResourceId= &hellip;">
+  <meta name="description" content="AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。
+存在しない場合は無視されるので、下記のように4本など
+事前に指定しておくのが良いかと思います。 create-launch-configuration 1
+2
+3
+4 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +66,252 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/">AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-12T18:13:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
+存在しない場合は無視されるので、下記のように4本など<br/>
+事前に指定しておくのが良いかと思います。</p>
+
+<ul>
+<li>create-launch-configuration</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \
+</span><span class='line'>                  --image-id AMI \
+</span><span class='line'>                  --instance-type m1.small \
+</span><span class='line'>                  --key-name KEYNAME \
+</span><span class='line'>                  --security-groups sg-00000000 sg-00000001 \
+</span><span class='line'>                  --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
+</span><span class='line'>                                             {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
+</span><span class='line'>                                           ]'
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>aws autoscaling &ndash;region REGION describe-launch-configurations</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "LaunchConfigurations": [
+</span><span class='line'>        {
+</span><span class='line'>            "UserData": null,
+</span><span class='line'>            "EbsOptimized": false,
+</span><span class='line'>            "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
+</span><span class='line'>            "InstanceMonitoring": {
+</span><span class='line'>                "Enabled": true
+</span><span class='line'>            },
+</span><span class='line'>            "ImageId": "AMI",
+</span><span class='line'>            "CreatedTime": "2014-01-01T01:00:00.000Z",
+</span><span class='line'>            "BlockDeviceMappings": [
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdd",
+</span><span class='line'>                    "VirtualName": "ephemeral2"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdb",
+</span><span class='line'>                    "VirtualName": "ephemeral0"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sde",
+</span><span class='line'>                    "VirtualName": "ephemeral3"
+</span><span class='line'>                },
+</span><span class='line'>                {
+</span><span class='line'>                    "DeviceName": "/dev/sdc",
+</span><span class='line'>                    "VirtualName": "ephemeral1"
+</span><span class='line'>                }
+</span><span class='line'>            ],
+</span><span class='line'>            "KeyName": "KEYNAME",
+</span><span class='line'>            "SecurityGroups": [
+</span><span class='line'>                "sg-00000000",
+</span><span class='line'>                "sg-00000001"
+</span><span class='line'>            ],
+</span><span class='line'>            "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
+</span><span class='line'>            "KernelId": null,
+</span><span class='line'>            "RamdiskId": null,
+</span><span class='line'>            "InstanceType": "m1.small"
+</span><span class='line'>        }
+</span><span class='line'>    ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/12/sensu-multi-settings/">Sensuで一つのJSONファイルに複数の設定を記述する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-12T16:40:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>deep_mergeなのでこう書けます。</p>
+
+<ul>
+<li>/etc/sensu/conf.d/checks/check_hoge.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "checks": {
+</span><span class='line'>    "check_hoge_one": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 1",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_two": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 2",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    },
+</span><span class='line'>    "check_hoge_three": {
+</span><span class='line'>      "command": "/etc/sensu/plugins/check-hoge.rb -C 3",
+</span><span class='line'>      "interval": 60,
+</span><span class='line'>      "subscribers": ["all"],
+</span><span class='line'>      "handlers": ["hipchat", "mailer"]
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -601,458 +852,6 @@ Sensu serverと接続できなくなるということはありません。</p>
 
 <p>監視をする上での細かい設定内容の解説でした。<br/>
 ドキュメントを読み進める上でのお役に立てれば幸いです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/02/newbie-sensu/">Sensu導入と初期設定について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-02T14:48:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Chef: 11.8.0<br/>
-sensu: 0.12.3<br/>
-RabbitMQ: 3.1.5<br/>
-erlang R14B-04.1.4<br/>
-Redis :2.6.17</p></blockquote>
-
-<h2>参考 :</h2>
-
-<p><a href="http://blog.glidenote.com/blog/2013/11/26/sensu/">監視ソフトをNagiosからSensuに切り替えて2ヶ月経ったのでまとめた - Glide Note</a><br/>
-<a href="http://inokara.hateblo.jp/entry/2014/03/03/013147">Amazon Linux 上に sensu-server を構築する（1）- ようへいの日々精進 XP</a></p>
-
-<p>特にようへいさんのブログはSensuのエントリーが多く、大変参考になります。<br/>
-ありがとうございます。</p>
-
-<h2>Sensu server + Sensu client のインストール</h2>
-
-<p>Chefを利用します。<br/>
-インストール自体は<a href="http://blog.kenjiskywalker.org/blog/2014/01/05/sensu-centos6-4-erlang-install/">RabbitMQでコケる記事</a>を参考にして下さい。<br/>
-2014/05/02 現在、RabbitMQのインストールで失敗することはなくなりました。
-また、下記に記載しますが、インストール先サーバのRubyのバージョンに環境が左右されないように<br/>
-<code>"use_embedded_ruby": true</code>としてembedded rubyを利用することをおすすめいたします。</p>
-
-<h4>tips</h4>
-
-<p><a href="https://github.com/kenjiskywalker/sensu-chef/commit/9377295e8c5fabf9631104b52a84ee6d10683383">sensu-chef から include_recipe&#8221;yum&#8221; 外す</a></p>
-
-<p>基本的にsensuをインストールするのに既存のものを破壊することはないのですが<br/>
-<code>sensu-chef</code>の中に<strong>include_recipe &ldquo;yum&rdquo;</strong>しているところがあり<br/>
-この設定をよしなにしないと<code>yum.conf</code>が書き換えられてしまいます。</p>
-
-<p>sensuのインストールは<code>sensu.repo</code>を追加して行うので「include_recipe &ldquo;yum&#8221;」は不要です。<br/>
-既存のサーバにインストールするときは気を付けて下さい。</p>
-
-<p>この前<a href="https://github.com/sensu/sensu-chef/pull/235">ryuzeeさんのpull request</a>が取り込まれて<br/>
-Amazon Linuxにインストールすることができるようになりました。</p>
-
-<ul>
-<li>sensu_server.json</li>
-</ul>
-
-
-<p>sensuとredisとrabbitmqをインストールしてください。</p>
-
-<ul>
-<li>sensu_server.json</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "sensu": {
-</span><span class='line'>      "use_embedded_ruby": true,
-</span><span class='line'>      "dashboard": {
-</span><span class='line'>          "user": "foo",
-</span><span class='line'>          "password": "bar"
-</span><span class='line'>      },
-</span><span class='line'>       "rabbitmq": {
-</span><span class='line'>          "host": "localhost",
-</span><span class='line'>          "port": 5671,
-</span><span class='line'>          "vhost": "/sensu",
-</span><span class='line'>          "password": "baz"
-</span><span class='line'>      },
-</span><span class='line'>      "node_subscriptions": [
-</span><span class='line'>          "sensu_server"
-</span><span class='line'>      ]
-</span><span class='line'>  },
-</span><span class='line'>  "run_list": ["recipe[sensu]", "recipe[sensu::redis]", "recipe[sensu::rabbitmq]"]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記内容でChefを廻せばインストールされるかと思います。<br/>
-パスワードやポートなどデフォルトの設定のままで問題なければ指定は不要です。</p>
-
-<h2>Sensu client のインストール</h2>
-
-<p>clientはsensu-clientだけが動いていれば大丈夫です。</p>
-
-<ul>
-<li>sensu_client.json</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "sensu": {
-</span><span class='line'>        "use_embedded_ruby": true,
-</span><span class='line'>        "node_subscriptions": [ "sensu_client" ],
-</span><span class='line'>        "use_embedded_ruby": true,
-</span><span class='line'>        "rabbitmq": {
-</span><span class='line'>              "host": "sensu-server",
-</span><span class='line'>              "port": 5671,
-</span><span class='line'>              "vhost": "/sensu",
-</span><span class='line'>              "password": "baz"
-</span><span class='line'>          }
-</span><span class='line'>
-</span><span class='line'>    }
-</span><span class='line'>  },
-</span><span class='line'>  "run_list": ["recipe[sensu]"]
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記内容でChefを廻せばインストールされるかと思います。<br/>
-パスワードやポートなどデフォルトの設定のままで問題なければ指定は不要です。</p>
-
-<h2>Sensu serverの設定</h2>
-
-<p>Chefの動作が問題なければ<code>/etc/sensu/config.json</code>のファイルが作成されているかと思います。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/sensu-server start
-</span><span class='line'>$ tail -F /var/log/sensu/sensu-server.log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>起動できることを確認してください。<br/>
-最初、すごい勘違いしていたのですが、sensu-apiはdashboardの為の機能で<br/>
-sensu-serverには必要ないと思っていたのですが、基本的なミドルウェア間のやり取りは<br/>
-sensu-apiを通して利用することになります。なので</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/sensu-api start
-</span><span class='line'>$ tail -F /var/log/sensu/sensu-api.log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>として、sensu-apiを起動してください。<br/>
-これでsensu-clientからデータを受け付ける準備ができました。</p>
-
-<h2>Sensu clientの設定</h2>
-
-<p><a href="https://github.com/kenjiskywalker/sensu-client-plugin">https://github.com/kenjiskywalker/sensu-client-plugin</a></p>
-
-<p>多分みなさんこのような自前recipeを作成しているかと思いますが<br/>
-上記のrecipeを利用して<code>/etc/sensu/conf.d/client.json</code>という<br/>
-client用のjsonファイルを作成します。</p>
-
-<p>pluginの配布も上記cookbookを利用して配布しようかなと考えていますが<br/>
-Chefの実行自体のコストが地味に大きいので、配布自体はrsyncか何かで配布して<br/>
-Chefで冪等性を確保するのが効率良いのかなとも考えています。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ /etc/init.d/sensu-client start
-</span><span class='line'>$ tail -F /var/log/sensu/sensu-client.log</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>監視項目の追加(server)</h2>
-
-<ul>
-<li>監視に利用するプラグインのコマンド置き場</li>
-</ul>
-
-
-<p><code>/etc/sensu/plugins/</code></p>
-
-<ul>
-<li>通知に利用するプラグインのコマンド置き場</li>
-</ul>
-
-
-<p><code>/etc/sensu/handlers/</code></p>
-
-<ul>
-<li>監視内容の設定・通知の設定など</li>
-</ul>
-
-
-<p><code>/etc/sensu/conf.d/</code></p>
-
-<h2>ファイル構成</h2>
-
-<ul>
-<li>server</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/sensu/
-</span><span class='line'>├── conf.d
-</span><span class='line'>│   ├── checks
-</span><span class='line'>│   │   ├── check_cpu.json
-</span><span class='line'>│   │   ├── check_disk.json
-</span><span class='line'>│   │   ├── check_mailq.json
-</span><span class='line'>│   │   ├── check_memcached.json
-</span><span class='line'>│   │   ├── check_mongodb.json
-</span><span class='line'>│   │   ├── check_mongodb_replica.json
-</span><span class='line'>│   │   ├── check_proc_apache.json
-</span><span class='line'>│   │   ├── check_proc_nginx.json
-</span><span class='line'>│   │   ├── check_redis_info.json
-</span><span class='line'>│   │   ├── check_redis_info_slave.json
-</span><span class='line'>│   │   ├── check_smtp.json
-</span><span class='line'>│   ├── handlers
-</span><span class='line'>│   │   ├── graphite.json
-</span><span class='line'>│   │   ├── hipchat.json
-</span><span class='line'>│   │   └── mailer.json
-</span><span class='line'>│   ├── metrics
-</span><span class='line'>│   │   ├── metrics-cpu.json
-</span><span class='line'>│   │   ├── metrics-disk_usage.json
-</span><span class='line'>│   │   ├── metrics-net.json
-</span><span class='line'>│   │   ├── metrics-netstat-tcp.json
-</span><span class='line'>│   │   └── metrics-vmstat.json
-</span><span class='line'>│   └── README.md
-</span><span class='line'>├── config.json
-</span><span class='line'>├── extensions
-</span><span class='line'>├── handlers
-</span><span class='line'>│   ├── hipchat.rb
-</span><span class='line'>│   └── mailer.rb
-</span><span class='line'>├── mutators
-</span><span class='line'>├── plugins
-</span><span class='line'>└── ssl
-</span><span class='line'>    ├── cert.pem
-</span><span class='line'>    └── key.pem</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sensu serverを監視しないとういことはないので<br/>
-<code>/etc/sensu/plugins/</code>配下に監視用のコマンドを起きますが<br/>
-Sensu serverが動く最低限の設定例を記載します。</p>
-
-<p>Sensu serverはSensu clientにこれを実行してねという機能を持ち<br/>
-Sensu clientはserverから受け取ったjobを実行し<br/>
-serverへ結果を返す。という繰り返しを行います。</p>
-
-<ul>
-<li>client</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/sensu/
-</span><span class='line'>├── conf.d
-</span><span class='line'>│   ├── client.json
-</span><span class='line'>│   └── README.md
-</span><span class='line'>├── config.json
-</span><span class='line'>├── extensions
-</span><span class='line'>├── handlers
-</span><span class='line'>├── mutators
-</span><span class='line'>├── plugins
-</span><span class='line'>│   ├── check-cpu.rb
-</span><span class='line'>│   ├── check-disk.rb
-</span><span class='line'>│   ├── check-http.rb
-</span><span class='line'>│   ├── check-mailq.rb
-</span><span class='line'>│   ├── check-memcached-stats.rb
-</span><span class='line'>│   ├── check_mongodb.py
-</span><span class='line'>│   ├── check_mongo_replica_stat.rb
-</span><span class='line'>│   ├── check-procs.rb
-</span><span class='line'>│   ├── check-redis-info.rb
-</span><span class='line'>│   ├── cpu-pcnt-usage-metrics.rb
-</span><span class='line'>│   ├── disk-usage-metrics.rb
-</span><span class='line'>│   ├── metrics-net.rb
-</span><span class='line'>│   ├── metrics-netstat-tcp.rb
-</span><span class='line'>│   └── vmstat-metrics.rb
-</span><span class='line'>└── ssl
-</span><span class='line'>    ├── cert.pem
-</span><span class='line'>    └── key.pem</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Sensu server</h3>
-
-<ul>
-<li>監視の設定は必要(<em>/etc/sensu/conf.d/etc/</em>)</li>
-<li>監視のコマンドは必要ない(<em>/etc/sensu/plugins/</em>)</li>
-</ul>
-
-
-<h3>Sensu client</h3>
-
-<ul>
-<li>監視の設定は必要ない(<em>/etc/sensu/conf.d/etc/</em>)</li>
-<li>監視のコマンドは必要(<em>/etc/sensu/plugins/</em>)</li>
-</ul>
-
-
-<p>ということになります。</p>
-
-<p>まだ完全に動作を理解してるわけではないので<br/>
-次はもう少し確認した後、監視の仕組みについてまとめたいと思います。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/28/alice-in-secret/">Heartbleedの件があったので「秘密の国のアリス」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-28T21:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00H372H18/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00H372H18&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00H372H18&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00H372H18" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p><a href="http://heartbleed.com/">heartbleed</a>の件を持って、そもそもSSLというか<br/>
-暗号はどうやってやりとりされているんだ？という謎に光りを当てててくれる本でした。</p>
-
-<p>情報系の大学出てたり、根っからのプログラマだと理解しているのかもしれないけど<br/>
-コンピュータについて詳しくないので大変助かった。</p>
-
-<p>みんな当たり前に読んでるのかもしれないけど徳丸本</p>
-
-<p><a href="http://www.amazon.co.jp/gp/product/B00E5TJ120/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B00E5TJ120&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00E5TJ120&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00E5TJ120" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>と合わせて必読なタイプの本だと思いました。<br/>
-おすすめです。</p>
 </div>
   
   

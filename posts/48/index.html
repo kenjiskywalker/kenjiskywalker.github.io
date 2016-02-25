@@ -9,10 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="fluentdをまともに動かしたことないけど
-プラグイン書いたらわかるのでは！！？
-と思い立って取り敢えず下地だけつくったのでメモ。 参考 fluentdのためのプラグインをイチから書く手順(bundler版) / tagomorisのメモ置き場
-Writing plugins / fluentd &hellip;">
+  <meta name="description" content="1
+({HostName:net.if.out[eth0,bytes].max(#10)}&lt;50K) とかで設定すると、アイテムが30秒間隔の場合
+30sec * 10 = 300secの間の最大値が全て50Kbps以下であれば
+トリガーを発動する。みたいな設定ができる。 1
+({ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +65,103 @@ Writing plugins / fluentd &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/07/zabbix-min/">Zabbixで5分間閾値以下だったらアラート</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T10:53:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(#10)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかで設定すると、アイテムが30秒間隔の場合<br/>
+<code>30sec * 10 = 300sec</code>の間の最大値が全て<code>50Kbps以下</code>であれば<br/>
+トリガーを発動する。みたいな設定ができる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>({HostName:net.if.out[eth0,bytes].max(300)}&lt;50K)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こっちの方がシンプルでわかりやすいかもしれない。</p>
+
+<p>@fujiwara++<br/>
+@qryuu++</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/05/unagi/">ウナギ</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-05T11:39:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>淡水魚と海水魚と川と海の境目について考えていた。</p>
+
+<p><a href="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg"><img src="http://upload.wikimedia.org/wikipedia/commons/1/19/Eel-life-circle1.svg" alt="wikipedia" /></a></p>
+
+<blockquote><p>ウナギ科魚類がなぜこれほど長距離に及ぶ回遊をするのか、何を目印として元の産卵場所へたどりつくのか、確かなことはわかってない</p></blockquote>
+
+<p>かっこいい。</p>
+
+<blockquote><p>雌の性成熟は遅い（4–13年、高緯度地帯では6–43年）</p></blockquote>
+
+<p>43歳のウナギ、かっこいい。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

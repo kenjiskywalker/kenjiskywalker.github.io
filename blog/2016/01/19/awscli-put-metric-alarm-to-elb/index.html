@@ -30,7 +30,8 @@
 19
 20
 21
-#!/usr/bin/env &hellip;">
+22
+#!/usr/bin/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -131,6 +132,7 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
+<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">loadbalancers</span> <span class="o">=</span> <span class="sb">`aws elb describe-load-balancers | jq &#39;.[][][&quot;LoadBalancerName&quot;]&#39; -r `</span>
@@ -141,6 +143,7 @@
 </span><span class='line'>  <span class="nb">p</span> <span class="n">lb</span>
 </span><span class='line'><span class="sb">`aws cloudwatch put-metric-alarm --alarm-name &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> UnHealthyHostCountUp&quot; --alarm-description &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> ELB UnHealthyHostCountUp&quot; \</span>
 </span><span class='line'><span class="sb">  --actions-enabled \</span>
+</span><span class='line'><span class="sb">  --ok-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --alarm-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --insufficient-data-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --metric-name &quot;UnHealthyHostCount&quot; \</span>
@@ -214,6 +217,8 @@
       
         <a class="basic-alignment left" href="/blog/2016/01/10/iphone-soccer/" title="Previous Post: iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った">&laquo; iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2016/01/21/codedeploy-applicationstop-failed/" title="Next Post: CodeDeployでApplicationStopでどうしようもなくなったら">CodeDeployでApplicationStopでどうしようもなくなったら &raquo;</a>
       
     </p>
   </footer>

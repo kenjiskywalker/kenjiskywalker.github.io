@@ -9,10 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="http://www.emperor-movie.jp/ 面白かった。アヤのところいらないだろって思ったら
-おじいちゃんが"情熱的な愛のエピソードがあるといいね"ってと言って
-ってあったから、それは仕方ないなって思った。 宮城事件とか知らない人多いと思うし
-一度「日本のいちばん長い日」 &hellip;">
+  <meta name="description" content="@kenjiskywalker DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー&mdash; con_mame (@con_mame) August 19, 2013 AWSで悩みがあったら大体@ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +61,112 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/20/ebs-terminate-remove/">EC2をTerminateした時にEBSも削除してほしい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-20T19:35:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー</p>&mdash; con_mame (@con_mame) <a href="https://twitter.com/con_mame/statuses/369439049037017089">August 19, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<p>AWSで悩みがあったら大体@con_mameさんが解決してくれるんだ。<br/>
+お会いしたらbeerをおごりたい。</p>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/08/14/aws-vpc-autoscaling/">先日のAuto Scalingの検証時</a>に、インスタンスがTerminateされても<br/>
+利用されたEBSがうんちみたいに残ってしまうことがあった。</p>
+
+<p>残したくない場合は、AMI作成時に</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" alt="https://dl.dropboxusercontent.com/u/5390179/ami_create.png" /></p>
+
+<p>上記のように<code>DeleteOnTermination</code>を有効化すれば良い。<br/>
+Auto Scalingで<code>DeleteOnTermination</code>を有効化したAMIを指定すれば<br/>
+EC2のインスタンスがTerminateされた時に、同時にEBSボリュームも削除してくれる。</p>
+
+<p>便利だ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/18/mini-keyboad/">便利キーボード情報です</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-18T19:41:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>外出時、iPad miniとかで対応する必要がある場合</p>
+
+<p><a href="http://www.amazon.co.jp/gp/product/B005LKIR72/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B005LKIR72&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005LKIR72&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B005LKIR72" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>これあればまず困らない。</p>
+
+<p>サーバで軽く作業したい場合</p>
+
+<p><a href="http://www.amazon.co.jp/gp/product/B004CR61QY/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B004CR61QY&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B004CR61QY&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B004CR61QY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<p>これがあればマウスとかいらないのでまず困らない。</p>
+
+<p>おすすめの品です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -478,164 +581,6 @@ AutoScalingGroupのメトリクス内容を見て<br/>
 
 <p>由来がよくわからないお盆(盂蘭盆会)だけど、先祖供養は良いことだと思う。<br/>
 じーさんばーさんの墓参りに行きたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/12/mv-mysql-slave-server/">MySQLのスレーブサーバを別サーバに移設する時に注意すること</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-12T19:20:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>移設元のスレーブサーバのMySQLが停止できる場合<br/>
-移設先のスレーブサーバで</p>
-
-<ul>
-<li>CREATE DATABASEして</li>
-<li>master.infoからreplユーザ作成して</li>
-<li>dumpファイルをバックアップサーバから持ってきて〜</li>
-</ul>
-
-
-<p>などの作業を行わなくても<code>SLAVE STOP</code>し<br/>
-MySQLを落とし変更が走らない状態にして<br/>
-MySQLのディレクトリを移設先に<code>rsync</code>で渡した方が手間も処理速度も遥かに速い。<br/>
-ただし、移設先でMySQLを起動して<code>SLAVE START</code>をすると</p>
-
-<blockquote><p>Could not find target log during relay log initialization rellay.log</p></blockquote>
-
-<p>このようにrelay_logが見つからないよ。というエラーが発生する。</p>
-
-<p><a href="http://dev.mysql.com/doc/refman/5.1/en/slave-logs-relaylog.html">16.2.2.1. The Slave Relay Log / MySQL 5.1 Reference Manual </a></p>
-
-<p>上記のようにホスト名が変わった場合にrelay_logのindexを修正する必要がある。<br/>
-これでレプリケーションが再開できるはずだ。</p>
-
-<p>オペレーションの手間も少なく効率的なので、移設元のスレーブサーバの<br/>
-MySQLが一時的に停止可能であれば、<code>rsync</code>でデータを持っていくのが<br/>
-効率的ではないでしょうか。</p>
-
-<p>移設先のサーバの利用可能なメモリ容量により<br/>
-<code>innodb_buffer_pool_size</code>などのチューニングが必要になるので<br/>
-設定ファイルなどは注意したい。</p>
-
-<p>また、スレーブサーバの増設などの場合は、<code>server-id</code>の変更漏れにも<br/>
-気を付けたい。取り敢えず移設でも<code>server-id</code>変えておくのが吉だ。</p>
-
-<p>毎回同じようなハマり方をする自分の為への戒めも兼ねた戒メモ</p>
-
-<h2>追記(2013/08/13)</h2>
-
-<blockquote class="twitter-tweet"><p>relay_logとか暗黙のデフォルトでホスト名が使われるところは明示的に指定しておいたほうがハマりにくいですよ / “MySQLのスレーブサーバを別サーバに移設する時に注意すること - さよならインターネット” <a href="http://t.co/IVPKvyxXWi">http://t.co/IVPKvyxXWi</a></p>&mdash; Ryuta Kamizono (@kamipo) <a href="https://twitter.com/kamipo/statuses/366906226359009280">August 12, 2013</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>kamipoさんのこちらの<a href="https://github.com/kamipo/etcfiles/blob/master/etc/my.cnf#L57">my.cnf</a>が参考になる。<br/>
-kamipoさん、ありがとうございます。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/11/shikinen-sengoo-infrastracture/">式年遷宮Infrastracture</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://apatheia.info/blog/2013/08/10/immutable-infrastructure/">Immutable Infrastracture について / apatheia.info</a><br/>
-こちらのエントリーを読んでふと思いついたので書きました。</p>
-
-<p><a href="http://www.isejingu.or.jp/shikinensengu/">式年遷宮 / 伊勢神宮</a></p>
-
-<p>今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、<br/>
-このシステム、今のインターネットのインフラストラクチャの<br/>
-モデルとして結構参考になるのではないだろうか。</p>
-
-<p>さすがに20年間無停止で動いているサーバは<br/>
-その存在自体が重要文化財になってしまうが、例えば、１つのシステムを<br/>
-ロードバランサ、スイッチ、サーバ、ミドルウェア、ログ集約サーバなど<br/>
-完全に冗長化しておき、１週間毎に冗長化されたシステム、A、Bをそれぞれ入れ替える。</p>
-
-<p>このアーキテクチャを採用した場合、<br/>
-アプリケーションの大規模な改修が発生した場合にも<br/>
-スタンバイ側となっているインフラストラクチャ側で<br/>
-スナップショットのようなものを取得しておき、テストを行い、<br/>
-スナップショット時に戻れば、実サービスと同じ環境でテストが行える。</p>
-
-<p>アクティブ側となっているインフラストラクチャのハードに<br/>
-何かしらの問題が発生した場合、スタンバイ側のインフラストラクチャへ<br/>
-切り替えることにより、対障害性能を向上することが可能になる。</p>
-
-<p>また、アクティブスタンバイ化されたシステムは、なかなかどうして<br/>
-テスト時と同じ結果になってくれず、サービスダウンした際に<br/>
-フェイルオーバーしないことがよくある。</p>
-
-<p>しかし、この式年遷宮インフラストラクチャを採用すれば<br/>
-定期的に切り替えが発生するので、切り替え時にエラーが発生した場合にも<br/>
-発見が早くなり、結果的にシステムそのもののテストという側面を持ち、<br/>
-障害発生時に高確率でフェイルオーバーが成功するのではないだろうか。</p>
-
-<p>問題となるのは、切り替えそのものの正確性の確保、一つのシステムを冗長化するコスト、<br/>
-切り替え前、切り替え前後の監視対象の切り替え、切り替え時のログの欠落をなくす工夫、<br/>
-切り替え時にサービスに影響を及ぼさない工夫など、実現する為には様々な困難はある。</p>
-
-<p>とはいえ、機械を利用し利便性を向上してきた我々は<br/>
-やはりその機械を運用するというそのものについても利便性を求め<br/>
-職人の技、秘伝のタレなど閉鎖的な情報に頼ること無く、また、運用担当者が<br/>
-毎日深い眠りに就けるよう、日々楽をする為の努力をしていきたいものであります。</p>
 </div>
   
   

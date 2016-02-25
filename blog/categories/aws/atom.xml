@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-01-19T13:01:16+09:00</updated>
+  <updated>2016-02-25T14:21:00+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CodeDeployでApplicationStopでどうしようもなくなったら]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/"/>
+    <updated>2016-01-21T17:37:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed</id>
+    <content type="html"><![CDATA[<p>これやで</p>
+
+<pre><code>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん]]></title>
@@ -30,6 +42,7 @@ loadbalancers.each_line do |lb|
   p lb
 `aws cloudwatch put-metric-alarm --alarm-name "#{lb} UnHealthyHostCountUp" --alarm-description "#{lb} ELB UnHealthyHostCountUp" \
   --actions-enabled \
+  --ok-actions #{alert_sns} \
   --alarm-actions #{alert_sns} \
   --insufficient-data-actions #{alert_sns} \
   --metric-name "UnHealthyHostCount" \
@@ -262,79 +275,6 @@ fluentdの集約サーバを冗長構成にしておいて</p>
 
 <p>上記の設定を行うことで、AutoScalingGroupにて起動されたEC2インスタンスへ<br/>
 タグが適用されるようになります。大変便利ですね。ありがとうございます。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Instance Store-BackedのAMIをつくる]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/03/18/instance-store-backed-ami/"/>
-    <updated>2014-03-18T23:04:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/03/18/instance-store-backed-ami</id>
-    <content type="html"><![CDATA[<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html">Creating an Instance Store-Backed Linux AMI</a></p>
-
-<p>基本的にドキュメントに従って作業をすれば作成できます。<br/>
-気を付けなければいけない点が何点かあったのでシェアさせて頂きます。</p>
-
-<blockquote><p>ec2-api-tools 1.6.12.0<br/>
-ec2-bundle-vol 1.4.0.9 20071010<br/>
-ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
-
-<ul>
-<li>AMIをつくる元のインスタンスにて</li>
-</ul>
-
-
-<pre><code>[ec2-user ~]$ mkdir /tmp/cert
-[ec2-user ~]$ cd /tmp/cert
-</code></pre>
-
-<ul>
-<li>手元からファイルを送る</li>
-</ul>
-
-
-<pre><code>$ scp -i my-private-key.pem /path/to/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
-ec2-user@ec2-203-0-113-25.compute-1.amazonaws.com:/tmp/cert/
-</code></pre>
-
-<ul>
-<li>image元となるデータを作成</li>
-</ul>
-
-
-<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/CLTRG-ami-bundle-vol.html">ami-bundle-vol</a>に書いてある通り<code>--no-filter</code>を付けないと<br/>
-所々ファイルが消えます。</p>
-
-<pre><code>[root ec2-user]# $EC2_AMITOOL_HOME/bin/ec2-bundle-vol  --no-filter \
--k /tmp/cert/pk-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
--c /tmp/cert/cert-HKZYKTAIG2ECMXYIBH3HXV4ZBEXAMPLE.pem \
--u your_aws_account_id -r x86_64 -e /tmp/cert
-</code></pre>
-
-<ul>
-<li>S3にAMIの元となるデータをアップロードします</li>
-</ul>
-
-
-<p>AMIを作成するregionと合わせないとエラーになります。<br/>
-<code>--region</code>ではなく<code>--location</code></p>
-
-<pre><code>[ec2-user ~]$ ec2-upload-bundle -b my-s3-bucket/bundle_folder/bundle_name \
--m /tmp/image.manifest.xml -a your_access_key_id -s your_secret_access_key \
---location us-west-2
-</code></pre>
-
-<ul>
-<li>AMIにregisterします</li>
-</ul>
-
-
-<pre><code>[ec2-user ~]$ ec2-register my-s3-bucket/bundle_folder/bundle_name/image.manifest.xml \
--n AMI_name -O your_access_key_id -W your_secret_access_key \
---region us-west-2
-</code></pre>
-
-<p>以上です。</p>
 ]]></content>
   </entry>
   

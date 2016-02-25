@@ -9,11 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="風雲児たちがついに最新刊まで追い付いた(booklogには登録してない)。
-最新刊付近になってくると魔法少女の話とかでてきて
-10年ぐらいタイムスリップして面白かった。
-黒船が突然来たわけではないこと、日本を開国させようと
-色んな人たちががんばっていたこと、たくさん知れて面白かった。 &hellip;">
+  <meta name="description" content="以前MySQLの師匠のyoku0825さんに教えてもらったMySQL::Sandboxが
+大変便利だったので改めてインストール方法をメモしておく 参考URL MySQL Sandboxを使ってみる - まめ畑
+Easily testing MySQL 5.6 GTID in a sandbox &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +63,594 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/28/install-mysql-sandobx/">大変便利なMySQL::Sandboxのインストールメモ(GTID有効編)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-28T00:07:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>以前MySQLの師匠のyoku0825さんに教えてもらったMySQL::Sandboxが<br/>
+大変便利だったので改めてインストール方法をメモしておく</p>
+
+<p>参考URL</p>
+
+<ul>
+<li><a href="http://d.conma.me/entry/20100616/1276683437">MySQL Sandboxを使ってみる - まめ畑</a></li>
+<li><a href="http://datacharmer.blogspot.jp/2013/01/easily-testing-mysql-56-gtid-in-sandbox.html">Easily testing MySQL 5.6 GTID in a sandbox - The Data Charmer</a></li>
+</ul>
+
+
+<blockquote><p>環境<br/>
+OS X 10.10.3<br/>
+MySQL-Sandbox v3.0.50</p></blockquote>
+
+<h2>cpanmでMySQL::Sandboxをインストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% cpanm MySQL::Sandbox
+</span><span class='line'>--&gt; Working on MySQL::Sandbox
+</span><span class='line'>Fetching http://www.cpan.org/authors/id/G/GM/GMAX/MySQL-Sandbox-3.0.50.tar.gz ... OK
+</span><span class='line'>Configuring MySQL-Sandbox-v3.0.50 ... OK
+</span><span class='line'>Building and testing MySQL-Sandbox-v3.0.50 ... OK
+</span><span class='line'>Successfully installed MySQL-Sandbox-v3.0.50
+</span><span class='line'>1 distribution installed
+</span><span class='line'>['-']% </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>MySQL 5.6.25のレプリケーションを作成する</h2>
+
+<p><code>$HOME/mysqls</code>というディレクトリにMySQLをインストールする</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% mkdir ~/mysqls
+</span><span class='line'>['-']% cd ~/mysqls</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% make_replication_sandbox 5.6.25
+</span><span class='line'>installing and starting master
+</span><span class='line'>installing slave 1
+</span><span class='line'>installing slave 2
+</span><span class='line'>starting slave 1
+</span><span class='line'>.. sandbox server started
+</span><span class='line'>starting slave 2
+</span><span class='line'>.. sandbox server started
+</span><span class='line'>initializing slave 1
+</span><span class='line'>initializing slave 2
+</span><span class='line'>replication directory installed in $HOME/sandboxes/rsandbox_5_6_25
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これだけでインストールとレプリケーションが完了。</p>
+
+<p>ちゃんと入っているか確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% cd ~/sandboxes/rsandbox_5_6_25/
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./check_slaves
+</span><span class='line'>master
+</span><span class='line'>             File: mysql-bin.000001
+</span><span class='line'>         Position: 2696
+</span><span class='line'>slave # 1
+</span><span class='line'>              Master_Log_File: mysql-bin.000001
+</span><span class='line'>          Read_Master_Log_Pos: 2696
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 2696
+</span><span class='line'>slave # 2
+</span><span class='line'>              Master_Log_File: mysql-bin.000001
+</span><span class='line'>          Read_Master_Log_Pos: 2696
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 2696
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GTIDモードに変更</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% ./enable_gtid
+</span><span class='line'># option 'master-info-repository=table' added to master configuration file
+</span><span class='line'># option 'relay-log-info-repository=table' added to master configuration file
+</span><span class='line'># option 'gtid_mode=ON' added to master configuration file
+</span><span class='line'># option 'log-slave-updates' added to master configuration file
+</span><span class='line'># option 'enforce-gtid-consistency' added to master configuration file
+</span><span class='line'># option 'master-info-repository=table' added to node1 configuration file
+</span><span class='line'># option 'relay-log-info-repository=table' added to node1 configuration file
+</span><span class='line'># option 'gtid_mode=ON' added to node1 configuration file
+</span><span class='line'># option 'log-slave-updates' added to node1 configuration file
+</span><span class='line'># option 'enforce-gtid-consistency' added to node1 configuration file
+</span><span class='line'># option 'master-info-repository=table' added to node2 configuration file
+</span><span class='line'># option 'relay-log-info-repository=table' added to node2 configuration file
+</span><span class='line'># option 'gtid_mode=ON' added to node2 configuration file
+</span><span class='line'># option 'log-slave-updates' added to node2 configuration file
+</span><span class='line'># option 'enforce-gtid-consistency' added to node2 configuration file
+</span><span class='line'># executing "stop" on /Users/kenjiskywalker/sandboxes/rsandbox_5_6_25
+</span><span class='line'>executing "stop" on slave 1
+</span><span class='line'>executing "stop" on slave 2
+</span><span class='line'>executing "stop" on master
+</span><span class='line'># executing "start" on /Users/kenjiskywalker/sandboxes/rsandbox_5_6_25
+</span><span class='line'>executing "start" on master
+</span><span class='line'>. sandbox server started
+</span><span class='line'>executing "start" on slave 1
+</span><span class='line'>.. sandbox server started
+</span><span class='line'>executing "start" on slave 2
+</span><span class='line'>. sandbox server started
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これだけでGTIDモードへ変更される。<br/>
+何をやったかはコメントアウトで出力されていて大変便利。</p>
+
+<p>先ほどと同様にレプリケーションのチェック</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% ./check_slaves
+</span><span class='line'>master
+</span><span class='line'>             File: mysql-bin.000002
+</span><span class='line'>         Position: 151
+</span><span class='line'>slave # 1
+</span><span class='line'>              Master_Log_File: mysql-bin.000002
+</span><span class='line'>          Read_Master_Log_Pos: 151
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 151
+</span><span class='line'>slave # 2
+</span><span class='line'>              Master_Log_File: mysql-bin.000002
+</span><span class='line'>          Read_Master_Log_Pos: 151
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 151
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正常にレプリケーションがされいているようだ。</p>
+
+<h2>テストデータの投入とGTIDのチェック</h2>
+
+<ul>
+<li>m = master</li>
+<li>s1 = slave 1</li>
+<li>s2 = slave 2</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% ./m -e 'CREATE TABLE test.t1(i INT NOT NULL PRIMARY KEY)'
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./m -e 'INSERT INTO test.t1 VALUES (1)'
+</span><span class='line'>['-']% ./m -e 'INSERT INTO test.t1 VALUES (2)'
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./m -e 'SHOW MASTER STATUS;'
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set                        |
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>| mysql-bin.000002 |      825 |              |                  | c924fe80-1cda-11e5-89ae-14d803869455:1-3 |
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./m -e 'SHOW BINLOG EVENTS IN "mysql-bin.000002"'
+</span><span class='line'>+------------------+-----+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>| Log_name         | Pos | Event_type     | Server_id | End_log_pos | Info                                                              |
+</span><span class='line'>+------------------+-----+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>| mysql-bin.000002 |   4 | Format_desc    |         1 |         120 | Server ver: 5.6.25-log, Binlog ver: 4                             |
+</span><span class='line'>| mysql-bin.000002 | 120 | Previous_gtids |         1 |         151 |                                                                   |
+</span><span class='line'>| mysql-bin.000002 | 151 | Gtid           |         1 |         199 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:1' |
+</span><span class='line'>| mysql-bin.000002 | 199 | Query          |         1 |         317 | CREATE TABLE test.t1(i INT NOT NULL PRIMARY KEY)                  |
+</span><span class='line'>| mysql-bin.000002 | 317 | Gtid           |         1 |         365 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:2' |
+</span><span class='line'>| mysql-bin.000002 | 365 | Query          |         1 |         440 | BEGIN                                                             |
+</span><span class='line'>| mysql-bin.000002 | 440 | Query          |         1 |         540 | INSERT INTO test.t1 VALUES (1)                                    |
+</span><span class='line'>| mysql-bin.000002 | 540 | Xid            |         1 |         571 | COMMIT /* xid=29 */                                               |
+</span><span class='line'>| mysql-bin.000002 | 571 | Gtid           |         1 |         619 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:3' |
+</span><span class='line'>| mysql-bin.000002 | 619 | Query          |         1 |         694 | BEGIN                                                             |
+</span><span class='line'>| mysql-bin.000002 | 694 | Query          |         1 |         794 | INSERT INTO test.t1 VALUES (2)                                    |
+</span><span class='line'>| mysql-bin.000002 | 794 | Xid            |         1 |         825 | COMMIT /* xid=32 */                                               |
+</span><span class='line'>+------------------+-----+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SLAVEの状態チェック</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% ./check_slaves
+</span><span class='line'>master
+</span><span class='line'>             File: mysql-bin.000002
+</span><span class='line'>         Position: 825
+</span><span class='line'>slave # 1
+</span><span class='line'>              Master_Log_File: mysql-bin.000002
+</span><span class='line'>          Read_Master_Log_Pos: 825
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 825
+</span><span class='line'>slave # 2
+</span><span class='line'>              Master_Log_File: mysql-bin.000002
+</span><span class='line'>          Read_Master_Log_Pos: 825
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>          Exec_Master_Log_Pos: 825
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GTIDのチェック</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% ./s1 -e 'SHOW SLAVE STATUS\G' | egrep 'Running|Gtid'
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>      Slave_SQL_Running_State: Slave has read all relay log; waiting for the slave I/O thread to update it
+</span><span class='line'>           Retrieved_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-3
+</span><span class='line'>            Executed_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-3
+</span><span class='line'>['-']% ./s2 -e 'SHOW SLAVE STATUS\G' | egrep 'Running|Gtid'
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>      Slave_SQL_Running_State: Slave has read all relay log; waiting for the slave I/O thread to update it
+</span><span class='line'>           Retrieved_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-3
+</span><span class='line'>            Executed_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-3
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>更にテストデータを追加</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% ./m -e 'INSERT INTO test.t1 VALUES (3)'
+</span><span class='line'>['-']% ./m -e 'SHOW MASTER STATUS;'
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set                        |
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>| mysql-bin.000002 |     1079 |              |                  | c924fe80-1cda-11e5-89ae-14d803869455:1-4 |
+</span><span class='line'>+------------------+----------+--------------+------------------+------------------------------------------+
+</span><span class='line'>['-']% ./m -e 'SHOW BINLOG EVENTS IN "mysql-bin.000002"'
+</span><span class='line'>+------------------+------+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>| Log_name         | Pos  | Event_type     | Server_id | End_log_pos | Info                                                              |
+</span><span class='line'>+------------------+------+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>| mysql-bin.000002 |    4 | Format_desc    |         1 |         120 | Server ver: 5.6.25-log, Binlog ver: 4                             |
+</span><span class='line'>| mysql-bin.000002 |  120 | Previous_gtids |         1 |         151 |                                                                   |
+</span><span class='line'>| mysql-bin.000002 |  151 | Gtid           |         1 |         199 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:1' |
+</span><span class='line'>| mysql-bin.000002 |  199 | Query          |         1 |         317 | CREATE TABLE test.t1(i INT NOT NULL PRIMARY KEY)                  |
+</span><span class='line'>| mysql-bin.000002 |  317 | Gtid           |         1 |         365 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:2' |
+</span><span class='line'>| mysql-bin.000002 |  365 | Query          |         1 |         440 | BEGIN                                                             |
+</span><span class='line'>| mysql-bin.000002 |  440 | Query          |         1 |         540 | INSERT INTO test.t1 VALUES (1)                                    |
+</span><span class='line'>| mysql-bin.000002 |  540 | Xid            |         1 |         571 | COMMIT /* xid=29 */                                               |
+</span><span class='line'>| mysql-bin.000002 |  571 | Gtid           |         1 |         619 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:3' |
+</span><span class='line'>| mysql-bin.000002 |  619 | Query          |         1 |         694 | BEGIN                                                             |
+</span><span class='line'>| mysql-bin.000002 |  694 | Query          |         1 |         794 | INSERT INTO test.t1 VALUES (2)                                    |
+</span><span class='line'>| mysql-bin.000002 |  794 | Xid            |         1 |         825 | COMMIT /* xid=32 */                                               |
+</span><span class='line'>| mysql-bin.000002 |  825 | Gtid           |         1 |         873 | SET @@SESSION.GTID_NEXT= 'c924fe80-1cda-11e5-89ae-14d803869455:4' |
+</span><span class='line'>| mysql-bin.000002 |  873 | Query          |         1 |         948 | BEGIN                                                             |
+</span><span class='line'>| mysql-bin.000002 |  948 | Query          |         1 |        1048 | INSERT INTO test.t1 VALUES (3)                                    |
+</span><span class='line'>| mysql-bin.000002 | 1048 | Xid            |         1 |        1079 | COMMIT /* xid=44 */                                               |
+</span><span class='line'>+------------------+------+----------------+-----------+-------------+-------------------------------------------------------------------+
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./s1 -e 'SHOW SLAVE STATUS\G' | egrep 'Running|Gtid'
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>      Slave_SQL_Running_State: Slave has read all relay log; waiting for the slave I/O thread to update it
+</span><span class='line'>           Retrieved_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-4
+</span><span class='line'>            Executed_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-4
+</span><span class='line'>['-']% ./s2 -e 'SHOW SLAVE STATUS\G' | egrep 'Running|Gtid'
+</span><span class='line'>             Slave_IO_Running: Yes
+</span><span class='line'>            Slave_SQL_Running: Yes
+</span><span class='line'>      Slave_SQL_Running_State: Slave has read all relay log; waiting for the slave I/O thread to update it
+</span><span class='line'>           Retrieved_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-4
+</span><span class='line'>            Executed_Gtid_Set: c924fe80-1cda-11e5-89ae-14d803869455:1-4
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでテスト環境が完成した</p>
+
+<h2>高速に検証が可能になる</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% ./s2 -e 'SELECT i FROM test.t1'
+</span><span class='line'>+---+
+</span><span class='line'>| i |
+</span><span class='line'>+---+
+</span><span class='line'>| 1 |
+</span><span class='line'>| 2 |
+</span><span class='line'>| 3 |
+</span><span class='line'>+---+
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% ./use_all 'SELECT i FROM test.t1'
+</span><span class='line'># master
+</span><span class='line'>i
+</span><span class='line'>1
+</span><span class='line'>2
+</span><span class='line'>3
+</span><span class='line'># server: 1:
+</span><span class='line'>i
+</span><span class='line'>1
+</span><span class='line'>2
+</span><span class='line'>3
+</span><span class='line'># server: 2:
+</span><span class='line'>i
+</span><span class='line'>1
+</span><span class='line'>2
+</span><span class='line'>3
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うーむ、便利だ。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/16/sensu-alert-repeat/">Sensuのアラートを復旧するまで繰り返し通知させたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-16T16:33:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://sensuapp.org/docs/0.19/checks">https://sensuapp.org/docs/0.19/checks</a></h2>
+
+<p>ここの<code>refresh</code>の項目がそれ。完全に忘れていたところ<br/>
+@la_luna_azulさんが即答してくれて感謝。</p>
+
+<p>PagerDutyの費用の計算間違えてて涙目です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -283,172 +869,6 @@
 
 
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/25/music-20150425/">音楽</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-25T02:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul>
-<li><a href="https://bleep.com/release/59602-nils-frahm-solo">Solo - Nils Frahm</a></li>
-<li><a href="https://bleep.com/release/32180-bvdub-i-remember">I Remember - Bvdub</a></li>
-<li><a href="https://bleep.com/search/query?q=The+Breathing+Effect">Mars Is A Very Bad Place For Love - The Breathing Effect</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/20/aws-cloudwatch-billing-chatops/">AWSのCloudWatchで取得できるBillingの情報を毎日Slackに通知させて費用を常に把握する</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-20T19:03:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>DevOpsManの様子</p></blockquote>
-
-<p><img src="http://i.gyazo.com/676b021a544cf4c8cb33ef8eaa829e0c.png" alt="" /></p>
-
-<p>AWSの利用金額は毎日知りたい。<br/>
-そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。<br/>
-aws-sdkとかは使わずにシンプルに<a href="http://aws.amazon.com/jp/cli/">aws-cli</a>と<a href="http://stedolan.github.io/jq/">jq</a>とcurlだけでやるようにしている。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 今日の日付</span>
-</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 昨日の 00:00:00 ~ 23:59:59 の間のデータを利用して</span>
-</span><span class='line'><span class="n">start_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">end_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 一日分の Sum 値を使って</span>
-</span><span class='line'><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;86400&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># CloudWatchの値を取得してきて</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">=</span> <span class="s2">&quot;昨日までのAWSの利用費(月ごと)になります</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Billingのデータを持ってくる</span>
-</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="sb">`aws cloudwatch --region us-east-1 get-metric-statistics \</span>
-</span><span class='line'><span class="sb">           --namespace &#39;AWS/Billing&#39; \</span>
-</span><span class='line'><span class="sb">           --dimensions &quot;Name=Currency,Value=USD&quot; \</span>
-</span><span class='line'><span class="sb">           --metric-name EstimatedCharges </span>
-</span><span class='line'><span class="sb">           --start-time </span><span class="si">#{</span><span class="n">start_time</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">           --end-time </span><span class="si">#{</span><span class="n">end_time</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">           --period </span><span class="si">#{</span><span class="n">period</span><span class="si">}</span><span class="sb"> --statistics &#39;Sum&#39; \</span>
-</span><span class='line'><span class="sb">           | jq &#39;.Datapoints[].Sum&#39;`</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;EstimatedCharges : $</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;ご確認をよろしくお願いいたします&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># DevOpsManに伝える</span>
-</span><span class='line'><span class="sb">`curl -s https://slack.com/api/chat.postMessage -X POST \</span>
-</span><span class='line'><span class="sb">  -d &#39;channel=#CHANNEL&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;text= </span><span class="si">#{</span><span class="n">strings</span><span class="si">}</span><span class="sb">&#39;</span>
-</span><span class='line'><span class="sb">  -d &#39;username=USERNAME&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;icon_emoji=:ICON:&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;token=xoxp-0000000000-0000000000-00000000000000000&#39;`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>定常業務はどんどんbotにやらせて、生産的な業務に注力してバリュー出していこ</p>
 </div>
   
   

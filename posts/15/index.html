@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="TL;DR peco入れた。速い peco https://github.com/lestrrat/peco まだターミナルのヒストリの絞り込みぐらいしか使っていないけど便利です。 percol https://github.com/mooz/percol &hellip;">
+  <meta name="description" content="homebrewがバージョン指定してインストールできないので
+packageを作成してインストールする方法を記載します。 バージョン指定してインストールできるようにするissueとかp-rあるだろう
+と思って探してみたんですが見つからなかった。探し方が悪いかもしれない。 TL;DR &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +63,256 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/19/brew-version-specify/">Homebrewでバージョンを固定してインストールしたい</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T18:11:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>homebrewがバージョン指定してインストールできないので<br/>
+packageを作成してインストールする方法を記載します。</p>
+
+<blockquote><p>バージョン指定してインストールできるようにするissueとかp-rあるだろう<br/>
+と思って探してみたんですが見つからなかった。探し方が悪いかもしれない。</p></blockquote>
+
+<h3>TL;DR</h3>
+
+<p><code>Brewfile</code>などでバージョン指定してインストールできないので<br/>
+自分で利用したいバージョンのpackageを作成してそれをインストールする</p>
+
+<h3>Ref</h3>
+
+<p><a href="https://github.com/Homebrew/homebrew/wiki/brew-tap">brew tap - Homebrew/homebrew</a><br/>
+<a href="https://github.com/Homebrew/homebrew/wiki/Formula-Cookbook">Formula Cookbook - Homebrew/homebrew</a><br/>
+<a href="http://deeeet.com/writing/2014/05/20/brew-tap/">HomeBrewで自作ツールを配布する - SOTA</a><br/>
+<a href="http://ja.ngs.io/2014/05/08/homebrew-boxen/">Homebrew vs Boxen を比較して、brewproj に着手 - ja.ngs.io</a></p>
+
+<h3>How To</h3>
+
+<p>例えばnginxの1.2.8のバージョンを静的に指定してインストールしたい場合</p>
+
+<ol>
+<li>GitHubの自分の利用したいアカウントにて、<code>homebrew-foo</code>というリポジトリを作成する。</li>
+<li><code>brew versions nginx</code>を実行してgitのハッシュを取得する</li>
+<li><code>/usr/local/Library/</code>配下にて<em>2.</em>で取得したハッシュをcheckout</li>
+<li><code>/usr/local/Library/Formula/nginx.rb</code>を<code>homebrew-foo/nginx128.rb</code>という名前で保存</li>
+<li><p><code>nginx128.rb</code></p></li>
+<li><p>before</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Nginx &lt; Formula</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>after</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Nginx128 &lt; Formula</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のようにclass名を変更</p>
+
+<ol>
+<li><code>nginx128.rb</code> をcommitしてpush</li>
+<li><code>brew tap username/foo</code>のコマンドを発行して<code>nginx128.rb</code>を取得</li>
+<li><code>brew search nginx</code>のコマンドを発行して</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nginx          nginx128</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と出れくれば成功。</p>
+
+<ol>
+<li><code>brew install nginx128</code>のコマンドを発行してインストール</li>
+<li>nginx -v でバージョンを確認<br/>
+(/etc/pathsで/usr/bin/より先に/usr/local/bin/を見に行くようにしておく)</li>
+</ol>
+
+
+<p>上記流れで、自前のtapリポジトリを作成し、<br/>
+そこに必要な分の静的なバージョンを指定したソフトウェアの設定を格納することで<br/>
+バージョン指定がバリバリの環境も無難に構築することが可能になります。</p>
+
+<p>ちなみに既存のhomebrewでインストールしたnginxを上書きしたくない場合は<br/>
+<code>nginx128.rb</code>の中身をよしなに変更することで可能です。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>brewでバージョン固定したソフトウェアを配布しまくる雑なノウハウが溜まっていく</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/479544803370102784">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" data-conversation="none" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> うちは redis24.rb で class Redis24 とか雑に変えて独自の tap リポジトリにつっこんでますよ</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/statuses/479545416204025856">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p></p>
+
+<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> 仲間!</p>&mdash; そらは (@sora_h) <a href="https://twitter.com/sora_h/statuses/479545592897490944">June 19, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/18/peco-get-aws-instance-list/">pecoを利用してAWSのインスタンスを取得する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-18T12:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><a href="https://github.com/lestrrat/peco">peco</a> を利用してAWSのEC2に簡単ログイン</h2>
+
+<p>zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。</p>
+
+<h3>TL;DR</h3>
+
+<p>zsh使っててaws-cli使っていてshellscriptを利用できるなら<br/>
+aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの</p>
+
+<h3>設定</h3>
+
+<ul>
+<li>shellscriptを起きます(get-ec2-list.sh)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>
+</span><span class='line'>instances=$(aws ec2 describe-instances \
+</span><span class='line'>    --filters 'Name=instance-state-name,Values=running' \
+</span><span class='line'>    --query 'Reservations[].Instances[?PublicDnsName!=`null`].[Tags[*][?Key==`Name`].Value[],PublicDnsName]' \
+</span><span class='line'>    --output text)
+</span><span class='line'>
+</span><span class='line'>for item in ${instances[@]}; do
+</span><span class='line'>    if [[ `echo $item | grep 'compute.amazonaws.com'` ]]; then
+</span><span class='line'>        printf "$item\n"
+</span><span class='line'>    else
+</span><span class='line'>        printf "$item "
+</span><span class='line'>    fi
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>zshの設定にこんな感じのものを書きます(zshrc)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function get_ec2_list() {
+</span><span class='line'>    local get_list
+</span><span class='line'>    get_list="/home/hoge/get-ec2-list.sh"
+</span><span class='line'>    BUFFER=$(eval $get_list | peco  | awk '{print $2}')
+</span><span class='line'>    CURSOR=$#BUFFER
+</span><span class='line'>    zle clear-screen
+</span><span class='line'>}
+</span><span class='line'>zle -N get_ec2_list
+</span><span class='line'>bindkey '^v' get_ec2_list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じのものをつくると</p>
+
+<blockquote><p>QUERY><br/>
+web  ec2-192-0-2-1.region.compute.amazonaws.com<br/>
+db   ec2-192-0-2-2.region.compute.amazonaws.com<br/>
+app1 ec2-192-0-2-3.region.compute.amazonaws.com<br/>
+app2 ec2-192-0-2-4.region.compute.amazonaws.com</p></blockquote>
+
+<p>こんな感じでEC2のNameを利用してPublic DNSを絞り込める。<br/>
+awkを利用して、選択したら<br/>
+Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br/>
+便利。便利だけど落書きレベルなのでGoで完結できるようにした方が良い。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -765,193 +1017,6 @@ nodeとは別にserviceという概念があり、DNSラウンドロビンが行
 
 
 <p>以上、メモになります。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/06/route53-healthcheck-failover/">Route53を利用したフェイルオーバーシステムの作成</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-06T00:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。</p>
-
-<h2>TL;DR</h2>
-
-<p>同一のレコードをPrimaryとSecondaryで作成し<br/>
-Primary、SecondaryそれぞれでHealth Check to Associateを設定する。<br/>
-PrimaryのHealth Checkが失敗した場合、Secondaryに遷移する。<br/>
-SecondaryもダメだったらPrimaryに変わる。<br/>
-両方同じタイミングでダメになったらPrimaryのまま。</p>
-
-<h2>手順</h2>
-
-<h3>Health Checkの設定</h3>
-
-<h5>1. <em>Health Checks</em> にてヘルスチェック対象のホスト・サービスを設定</h5>
-
-<h3>Health Checkを利用するレコードの作成</h3>
-
-<h5>2-1. <em>Hosted Zones</em> にてフェイルオーバーを行いたいDNSを設定</h5>
-
-<h5>2-2. <em>Create Record Set</em> にてレコードの作成(Primary)</h5>
-
-<h5>2-3. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
-
-<h5>2-4. <em>Failover Record Type</em> にて <em>Primary</em> を選択</h5>
-
-<h5>2-5. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
-
-<h5>2-6. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
-
-<h5>2-7. <em>Create Record Set</em> にてレコードの作成(Secondary)</h5>
-
-<h5>2-8. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
-
-<h5>2-9. <em>Failover Record Type</em> にて <em>Secondary</em> を選択</h5>
-
-<h5>2-10. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
-
-<h5>2-11. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
-
-<p>２つの同じレコードを作成し、応答するレコードをそれぞれ<br/>
-Primary, Secondaryと指定することでフェイルオーバーする仕組み。</p>
-
-<blockquote><p>www.example.com:80</p>
-
-<p>  => Primary
-   hoge01.example.com:80 (health check <a href="http://hoge01.example.com">http://hoge01.example.com</a>)</p>
-
-<p>  => Secondary
-   hoge02.example.com:80 (health check <a href="http://hoge02.example.com">http://hoge02.example.com</a>)</p></blockquote>
-
-<p>こんな構成で <em><a href="http://www.example.com_">http://www.example.com_</a> へのアクセスは通常だと<br/>
-</em>hoge01<em> へアクセスが行くようになっていて、 </em>hoge01<em> の<br/>
-レスポンスに異常があった場合に </em>hoge02_ へ行くようになる。</p>
-
-<p>試しに ヘルスチェックを <em>tcp:24224</em> にしても問題なく認識したので<br/>
-fluentdの集約サーバを冗長構成にしておいて</p>
-
-<blockquote><p>log.example.com:24224</p>
-
-<p>  => Primary
-   hoge01.example.com (health check tcp://hoge01.example.com:24224)</p>
-
-<p>  => Secondary
-   hoge02.example.com (health check tcp://hoge02.example.com:24224)</p></blockquote>
-
-<p>通常は <em>hoge01</em> にて集約し、メンテナンスなど<br/>
-行いたい場合に <em>hoge01</em> のfluentdを落としたら、自動的に<br/>
-レコードが切り替わり、 <em>hoge02</em> の方へログが流れていくような構成が組めたりする。<br/>
-<em>hoge01</em> のfluentd を立ち上げるとPrimaryが正常になったことが認識され<br/>
-レコードは元の <em>hoge01</em> へ向き直る。</p>
-
-<p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/04/gmail-noname/">shellscriptでmailコマンドを利用してGmailにメールを送るとnonameという添付ファイルが添付される問題</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-04T02:56:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>FOO=`command`
-</span><span class='line'>
-</span><span class='line'>echo ${FOO} | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>のようなスクリプトを作成した時に、送信先である<br/>
-Gmailで受信すると本文にコマンドの結果が出力されるのではなく<br/>
-nonameという添付ファイルが送られてきた。</p>
-
-<p>原因はコマンドの結果にEscape Sequenceが入っていたため<br/>
-文字コードを上手く認識できなかったようだ。</p>
-
-<p>Escape Sequenceとかガッツリやったことがなくて<br/>
-IRCに色付けたりターミナルの文字列に色付けたりするぐらいしか<br/>
-使ったことがなくて、原因が特定できなかった。</p>
-
-<p>@keitap氏は一撃でEscape Sequenceだってわかった。<br/>
-対応としては</p>
-
-<p><a href="http://d.hatena.ne.jp/hogem/20100320/1269132856">colでエスケープシーケンスを除去 - うまい棒blog</a></p>
-
-<p>hogemさんが書いてくれたように<code>\</code>を除外するとかして<br/>
-Escape Sequenceとして認識させないようにして上手くいった。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>FOO=`command`
-</span><span class='line'>
-</span><span class='line'>echo ${FOO} | col -b | mail -s "foo command dayo" foo@example.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>こちらからは以上です。</p>
 </div>
   
   

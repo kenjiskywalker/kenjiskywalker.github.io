@@ -9,10 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="2013年オワコンの代表格として名指しされているChefですが
-nodes/hoge.jsonで与えられたnode[:hoge]の値を
-roles/role.jsonで値を追加したい場合があります。
-そのやり方として、オフィシャルにはディープマージという方法が載っていました。 http:// &hellip;">
+  <meta name="description" content="http://www.rikyu-movie.jp/ 本物の黒茶碗が使われるのと、利休の異常さが見れそうだったので見てきました。
+オープニングの10分ぐらいで利休の異常さに気付くと思います。 先週末、京都に行ったついでに利休追悼ツアーで大徳寺と北野天満宮に行ったので &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +62,278 @@ roles/role.jsonで値を追加したい場合があります。
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/10/riq/">「利休にたずねよ」を見てきた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-10T10:08:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.rikyu-movie.jp/">http://www.rikyu-movie.jp/</a></p>
+
+<p>本物の黒茶碗が使われるのと、利休の異常さが見れそうだったので見てきました。<br/>
+オープニングの10分ぐらいで利休の異常さに気付くと思います。</p>
+
+<p>先週末、京都に行ったついでに利休追悼ツアーで大徳寺と北野天満宮に行ったので<br/>
+よりリアルに感じることができました。</p>
+
+<p>利休の異常さ、朝顔の話が有名だけど人間そぎ落としていくと最高の美が見つかるっていうのは<br/>
+よくある話だし、それに関してはつきつめていくのが正しいと思います。</p>
+
+<p>昔の人も色々とせわしなくて、市中の山居という概念が必要とされていたし<br/>
+それはいつの時代も変わらないのかなとも思います。</p>
+
+<p>弟子の織部も異常で、その異常さを面白く読めるへうげものはおすすめです。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/04/supervisor-sigusr2-reopen-logdir/">supervisorでログのディレクトリをSIGUSR2を使って開き直す</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-04T20:04:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>supervisorをインストール</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install python-setuptools
+</span><span class='line'>$ sudo easy_install supervisor
+</span><span class='line'>$ echo_supervisord_conf &gt; /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>テストスクリプト(/root/while.sh)を置く</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>while true ; do date ; sleep 1 ; done</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>/etc/supervisord.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[unix_http_server]
+</span><span class='line'>file=/tmp/supervisor.sock   ; (the path to the socket file)
+</span><span class='line'>[supervisord]
+</span><span class='line'>logfile=/var/log/supervisord.log ; (main log file;default $CWD/supervisord.log)
+</span><span class='line'>logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+</span><span class='line'>logfile_backups=10           ; (num of main logfile rotation backups;default 10)
+</span><span class='line'>loglevel=info                ; (log level;default info; others: debug,warn,trace)
+</span><span class='line'>pidfile=/tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+</span><span class='line'>nodaemon=false               ; (start in foreground if true;default false)
+</span><span class='line'>minfds=1024                  ; (min. avail startup file descriptors;default 1024)
+</span><span class='line'>minprocs=200                 ; (min. avail process descriptors;default 200)
+</span><span class='line'>childlogdir=/var/log/supervisor  ; ('AUTO' child log dir, default $TEMP)
+</span><span class='line'>[rpcinterface:supervisor]
+</span><span class='line'>supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+</span><span class='line'>[supervisorctl]
+</span><span class='line'>serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+</span><span class='line'>[program:hello]
+</span><span class='line'>priority = 100
+</span><span class='line'>command = sh /root/while.sh
+</span><span class='line'>redirect_stderr = true</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>supervisorを走らせる</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor
+</span><span class='line'>$ supervisord -c /etc/supervisord.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>ログが出力されているのか確認</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
+</span><span class='line'>==&gt; /var/log/supervisor/hello-stdout---supervisor-4rZfjC.log &lt;==
+</span><span class='line'>Wed Dec  4 10:32:17 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:18 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:19 UTC 2013
+</span><span class='line'>Wed Dec  4 10:32:20 UTC 2013</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>状態を確認するためにプロセスを監視しておく</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>/var/log/supervisor/を移動する</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mv /var/log/supervisor /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tailで流しているログが流れ続けているか確認する。<br/>
+ログが止まっていたりしたらがんばってください。</p>
+
+<ul>
+<li>別のディレクトリを作成してsymlinkしてみる</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir /var/log/supervisor_new
+</span><span class='line'>$ ln -s /var/log/supervisor_new /var/log/supervisor
+</span><span class='line'>$ ls -la /var/log/supervisor</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><a href="http://supervisord.org/running.html">http://supervisord.org/running.html</a></h2>
+
+<ul>
+<li><code>SIGUSR2</code>を発行して新しいディレクトリの方にファイルを出力するか確認する</li>
+</ul>
+
+
+<p>出力され続けていることを確認</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls -la /var/log/supervisor_old</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>SIGUSR2</code>を発行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kill -SIGUSR2 `pgrep supervisor`</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでシグナルがやってきて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ strace -e trace=open -p `pgrep supervisor`
+</span><span class='line'>Process 22859 attached - interrupt to quit
+</span><span class='line'>--- SIGUSR2 (User defined signal 2) @ 0 (0) ---
+</span><span class='line'>open("/var/log/supervisord.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
+</span><span class='line'>open("/var/log/supervisor/hello-stdout---supervisor-4rZfjC.log", O_WRONLY|O_CREAT|O_APPEND, 0666) = 5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新しいディレクトリ(symlinkを貼った方に)にログが出力されはじめる</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tail -f /var/log/supervisor/hello-std*
+</span><span class='line'>Wed Dec  4 10:03:42 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:43 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:44 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:45 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:46 UTC 2013
+</span><span class='line'>Wed Dec  4 10:03:47 UTC 2013</span></code></pre></td></tr></table></div></figure>
+
+
+<p>学ぶことは多い。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -443,112 +713,6 @@ Immutable Infrastructureの概念を取り入れていたのです。</p>
 
 <p>このように学びを得るために毎年京都に来たいです。<br/>
 ありがとうございました。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/29/work-shift/">「ワーク・シフト 孤独と貧困から自由になる働き方の未来図<2025>」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-29T04:04:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>何故これを借りたのか全く覚えてなくて、<br/>
-流し読み程度で読んでいたのですが大変興味深い書籍でした。<br/>
-将来の自分の社会との関わり方に疑問を抱いていたので<br/>
-今後の物事の指標を置くための補助としての情報として、役立てられればと想います。</p>
-
-<div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q5jtSKEQL._SL160_.jpg" width="103" height="150" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B7%E3%83%95%E3%83%88-%E2%80%95-%E5%AD%A4%E7%8B%AC%E3%81%A8%E8%B2%A7%E5%9B%B0%E3%81%8B%E3%82%89%E8%87%AA%E7%94%B1%E3%81%AB%E3%81%AA%E3%82%8B%E5%83%8D%E3%81%8D%E6%96%B9%E3%81%AE%E6%9C%AA%E6%9D%A5%E5%9B%B3%E3%80%882025%E3%80%89-%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3/dp/4833420163%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4833420163" target="_blank">ワーク・シフト ― 孤独と貧困から自由になる働き方の未来図〈2025〉</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/%E3%83%AA%E3%83%B3%E3%83%80%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%83%E3%83%88%E3%83%B3" target="_blank">リンダ・グラットン</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">プレジデント社</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-07-28</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/4833420163" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>
-
-
-<p>訳者あとがきの一節が大変すばらしくまとまっていましたので<br/>
-備忘録の為に抜粋させて頂きます。</p>
-
-<blockquote><p>略) 私たちが働き方をどう&lt;シフト(転換)>させるべきかを提案する。</p>
-
-<p>&lt;第一のシフト>は、一つの企業の中でしか通用しない技能で満足せず、高度な専門技能を磨き、ほかの多くの人たちから自分を差別化するために「自分」ブランドを築くこと</p>
-
-<p>&lt;第二のシフト>は、難しい課題に取り組む上で頼りになる少人数の盟友グループ(ポッセ)と、
-イノベーションの源泉となるバラエティに富んだ大勢の知り合いのネットワーク(ビッグアイデア・クラウド)、そしてストレスを和らげるための打算のない友人関係(自己再生のコミュニティ)
-という、三種類の人的ネットワークをはぐくむこと</p>
-
-<p>&lt;第三のシフト>は、大量消費主義を脱却し、家庭や趣味、社会貢献などの面で充実した創造的経験をすることを重んじる生き方に転換すること。</p></blockquote>
-
-<p>物質的にも精神的にも裕福ではなかった時代があって、<br/>
-物質的に裕福になった一部の地域ができてきた時に、精神的に裕福になるためには<br/>
-過剰に物質的欲求を満たすのではなく、社会貢献や、家族、仲間との時間を過ごす<br/>
-方向に流れていくのは自然かなとは思います。</p>
-
-<p>先人の経験や慣例から得られるものと、これから先の大きな変化と<br/>
-自分が何ができるか、というものを並べて、常に問いながら、<br/>
-なるべくならその選択が、自分を含めた環境にとって<br/>
-最善の選択になるように生きていければよいですね。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/20/click-to-unsubscribe/">メルマガ、サイトにログインしないと配信停止できないの</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-20T23:15:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://harknesslabs.com/post/66570723467/stop-doing-this-crap-on-your-startups-website">Stop doing this crap on your startups website</a></p>
-
-<blockquote><p>1: One click unsubscribe<br/>
-Many sites butcher this process. You should have a link to 1-click unsubscribe at both the top and bottom of all emails you send. Don’t settle for “log in to unsubscribe” - Yes, its legal for transactional emails but its still stupid. You (the webmaster) will be the only one hurt when your user just marks you as spam instead because he doesn’t remember his password. If you want to ensure email deliver-ability for those who want your emails, there is zero benefit in hiding or making the unsubscribe difficult.</p></blockquote>
-
-<p>「別れる前に最後に１回だけデートしよ。」みたいになってるので止めましょう(意訳)</p>
 </div>
   
   

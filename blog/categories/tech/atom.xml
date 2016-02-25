@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tech | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/tech/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-02-25T14:21:00+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/"/>
+    <updated>2016-02-25T14:18:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group</id>
+    <content type="html"><![CDATA[<p>以上です。(どこかドキュメント落ちてるかな)</p>
+]]></content>
+  </entry>
+  
+</feed>

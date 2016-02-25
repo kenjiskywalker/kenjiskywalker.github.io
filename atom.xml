@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-01-19T13:01:16+09:00</updated>
+  <updated>2016-02-25T14:21:00+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/"/>
+    <updated>2016-02-25T14:18:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group</id>
+    <content type="html"><![CDATA[<p>以上です。(どこかドキュメント落ちてるかな)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CodeDeployでApplicationStopでどうしようもなくなったら]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/"/>
+    <updated>2016-01-21T17:37:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed</id>
+    <content type="html"><![CDATA[<p>これやで</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん]]></title>
@@ -41,6 +65,7 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
+<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">loadbalancers</span> <span class="o">=</span> <span class="sb">`aws elb describe-load-balancers | jq &#39;.[][][&quot;LoadBalancerName&quot;]&#39; -r `</span>
@@ -51,6 +76,7 @@
 </span><span class='line'>  <span class="nb">p</span> <span class="n">lb</span>
 </span><span class='line'><span class="sb">`aws cloudwatch put-metric-alarm --alarm-name &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> UnHealthyHostCountUp&quot; --alarm-description &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> ELB UnHealthyHostCountUp&quot; \</span>
 </span><span class='line'><span class="sb">  --actions-enabled \</span>
+</span><span class='line'><span class="sb">  --ok-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --alarm-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --insufficient-data-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
 </span><span class='line'><span class="sb">  --metric-name &quot;UnHealthyHostCount&quot; \</span>
@@ -1349,118 +1375,6 @@ MySQL-Sandbox v3.0.50</p></blockquote>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[音楽]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/04/25/music-20150425/"/>
-    <updated>2015-04-25T02:37:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/04/25/music-20150425</id>
-    <content type="html"><![CDATA[<ul>
-<li><a href="https://bleep.com/release/59602-nils-frahm-solo">Solo - Nils Frahm</a></li>
-<li><a href="https://bleep.com/release/32180-bvdub-i-remember">I Remember - Bvdub</a></li>
-<li><a href="https://bleep.com/search/query?q=The+Breathing+Effect">Mars Is A Very Bad Place For Love - The Breathing Effect</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AWSのCloudWatchで取得できるBillingの情報を毎日Slackに通知させて費用を常に把握する]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/04/20/aws-cloudwatch-billing-chatops/"/>
-    <updated>2015-04-20T19:03:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/04/20/aws-cloudwatch-billing-chatops</id>
-    <content type="html"><![CDATA[<blockquote><p>DevOpsManの様子</p></blockquote>
-
-<p><img src="http://i.gyazo.com/676b021a544cf4c8cb33ef8eaa829e0c.png" alt="" /></p>
-
-<p>AWSの利用金額は毎日知りたい。<br/>
-そこでSlackに昨日までの利用金額(月ごとにリセットされる)をSlackに通知するようにした。<br/>
-aws-sdkとかは使わずにシンプルに<a href="http://aws.amazon.com/jp/cli/">aws-cli</a>と<a href="http://stedolan.github.io/jq/">jq</a>とcurlだけでやるようにしている。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 今日の日付</span>
-</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 昨日の 00:00:00 ~ 23:59:59 の間のデータを利用して</span>
-</span><span class='line'><span class="n">start_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">end_time</span> <span class="o">=</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 一日分の Sum 値を使って</span>
-</span><span class='line'><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;86400&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># CloudWatchの値を取得してきて</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">=</span> <span class="s2">&quot;昨日までのAWSの利用費(月ごと)になります</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Billingのデータを持ってくる</span>
-</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="sb">`aws cloudwatch --region us-east-1 get-metric-statistics \</span>
-</span><span class='line'><span class="sb">           --namespace &#39;AWS/Billing&#39; \</span>
-</span><span class='line'><span class="sb">           --dimensions &quot;Name=Currency,Value=USD&quot; \</span>
-</span><span class='line'><span class="sb">           --metric-name EstimatedCharges </span>
-</span><span class='line'><span class="sb">           --start-time </span><span class="si">#{</span><span class="n">start_time</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">           --end-time </span><span class="si">#{</span><span class="n">end_time</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">           --period </span><span class="si">#{</span><span class="n">period</span><span class="si">}</span><span class="sb"> --statistics &#39;Sum&#39; \</span>
-</span><span class='line'><span class="sb">           | jq &#39;.Datapoints[].Sum&#39;`</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;EstimatedCharges : $</span><span class="si">#{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;```</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">strings</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;ご確認をよろしくお願いいたします&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># DevOpsManに伝える</span>
-</span><span class='line'><span class="sb">`curl -s https://slack.com/api/chat.postMessage -X POST \</span>
-</span><span class='line'><span class="sb">  -d &#39;channel=#CHANNEL&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;text= </span><span class="si">#{</span><span class="n">strings</span><span class="si">}</span><span class="sb">&#39;</span>
-</span><span class='line'><span class="sb">  -d &#39;username=USERNAME&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;icon_emoji=:ICON:&#39; \</span>
-</span><span class='line'><span class="sb">  -d &#39;token=xoxp-0000000000-0000000000-00000000000000000&#39;`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>定常業務はどんどんbotにやらせて、生産的な業務に注力してバリュー出していこ</p>
 ]]></content>
   </entry>
   

@@ -9,10 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="あかっぽいあじさい あおっぽいあじさい 一眼もらったんだけど持ち歩くの面倒くさくて相変わらずDP2持って歩いてる。
-DP2、家に帰るまでどんな感じで撮れてるのか全くわからないし
-家で見ると７割ぐらいピント合ってなくて面白い。 確実性求めすぎない方が心に余裕生まれる気がする。
-">
+  <meta name="description" content="今流行りのserverspec、みなさんどうやって活用しているのでしょうか。
+インフラもCIだ！みたいな話最近よく聞くので、CIといえばJenkins！
+的な感じで試してみました。 ほんのさわり程度やってみたところで、工夫が必要だと感じたのは
+Jenkinsをどうやって回すか。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,193 @@ DP2、家に帰るまでどんな感じで撮れてるのか全くわからな�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-30T02:47:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今流行りの<a href="http://serverspec.org/">serverspec</a>、みなさんどうやって活用しているのでしょうか。<br/>
+インフラもCIだ！みたいな話最近よく聞くので、CIといえばJenkins！<br/>
+的な感じで試してみました。</p>
+
+<p>ほんのさわり程度やってみたところで、工夫が必要だと感じたのは<br/>
+Jenkinsをどうやって回すか。という根本的なところです。</p>
+
+<p>Jenkinsのアカウントをsudo許可するのか、別アカウントを用意するのか、<br/>
+もうなんだったらルート権限付与してしまうのか。色々方法はあるかと思います。</p>
+
+<p>ほんのさわり程度ですが、良さそうだなと感じたのは<br/>
+<a href="https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin">Publish Over SSH Plugin</a>このプラグインを利用して<br/>
+NOPASS sudo権限のあるアカウントを作成し、秘密鍵を設定して<br/>
+Jenkins用のアカウントとしてSSHログインさせてテストを回すのが良いかなと。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/ea0d7aa2ae77caf8623cead6fdfa522e.png" alt="https://dl.dropboxusercontent.com/u/5390179/ea0d7aa2ae77caf8623cead6fdfa522e.png" /></p>
+
+<p>ほんのさわり程度なので、もっと良い方法ありそうですね。</p>
+
+<p>あと<a href="https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin">IRC Plugin</a>これ、動かなくて<br/>
+どっちかっていうとIRCでserverspecのテストの結果チラチラ見たいんんだよぉ〜<br/>
+むしろその為にやってたんだよぉ〜ってなって、3時間ぐらいああだこうだやってて<br/>
+なんで〜！！！ってなってたけど</p>
+
+<ul>
+<li><a href="http://ikasama.hateblo.jp/entry/2011/12/21/033421">Jenkins casual notification using Remote access API / 烏賊様</a></li>
+</ul>
+
+
+<p>ikasam_aさんのおかげでできるようになった！！！ありがたい！！！<br/>
+もうちょっと触っていったら色々やりたい。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/29/jenkins-dnsmasq-chef/">さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T20:49:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
+取り敢えずインストールしてみた。</p>
+
+<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
+誰でも見れちゃうので悲しい感じになる。<br/>
+ということでVPNを貼って内部で接続しに行く。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+--------+             +-----+
+</span><span class='line'>| sakura | --- vpn --- | MBA |
+</span><span class='line'>+--------+             +-----+
+</span><span class='line'>[10.9.0.1]             [10.9.0.6]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
+
+<h3>Jenkins氏</h3>
+
+<ul>
+<li>/etc/sysconfig/jenkins</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>として、自分自身のアクセスだけ許可</p>
+
+<h3>nginx氏</h3>
+
+<ul>
+<li>/etc/nginx/conf.d/hoge.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>    listen 80;
+</span><span class='line'>    server_name jenkins.kenjiskywalker.org;
+</span><span class='line'>    root /home/skywalker/www;
+</span><span class='line'>
+</span><span class='line'>    location /{
+</span><span class='line'>        proxy_pass http://localhost:8080;
+</span><span class='line'>        allow 10.9.0.0/16;
+</span><span class='line'>        deny all;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
+
+<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
+
+<ul>
+<li>/usr/local/etc/dnsmasq.conf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>address=/jenkins.kenjiskywalker.org/10.9.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo /usr/local/sbin/dnsmasq</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
+<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
+<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
+
+<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -258,111 +445,6 @@ EC2が単体でスケールアウトができる構成じゃない場合つら�
 日々冒険だなって。</p>
 
 <p>関係ないけど与論島行きたい。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/22/chataromameoh/">「サードウェーブ！：サンフランシスコ周辺で体験した最新コーヒーカルチャー」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-22T23:36:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/gp/product/B00CQW6XLK/ref=as_li_qf_sp_asin_il?ie=UTF8&camp=247&creative=1211&creativeASIN=B00CQW6XLK&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws.assoc-amazon.jp/widgets/q?_encoding=UTF8&ASIN=B00CQW6XLK&Format=_SL160_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=B00CQW6XLK" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
-
-<p>めちゃくちゃ面白くて、サラサラ〜って読んだ。<br/>
-会社、typester氏とかkameda氏とかSOMTD氏とかバリスタいて<br/>
-影響されて豆だけ持ってきて、飲む時は豆挽いてドリップしてるんだけど<br/>
-色々と良い感じなので、会社で豆挽いて飲むのおすすめしたい。</p>
-
-<p>私の行きつけの豆売ってるお店は<br/>
-横浜は白楽にある<a href="http://www.teracoffee.jp/">TERA COFFEE and ROASTER</a>。<br/>
-おじさんめちゃ良い人でどれも良い豆使ってて、<br/>
-エチオピア・ナチュラル最高で、近くまで行ったら<br/>
-是非足をはこんでほしいお店だ。</p>
-
-<p>コーヒー、淹れ方も色々あってこってくると色々と面白い。<br/>
-とかいって私は<a href="http://www.amazon.co.jp/gp/product/B000PK50QO/ref=as_li_qf_sp_asin_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=B000PK50QO&linkCode=as2&tag=13nightcrows-22">クレバーコーヒードリッパー</a><img src="http://www.assoc-amazon.jp/e/ir?t=13nightcrows-22&l=as2&o=9&a=B000PK50QO" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />で時間適当で<br/>
-スプーンで適当にまぜまぜして飲んでる。楽で良い。</p>
-
-<p>みんな忙しい感じだから、コーヒー飲んでゆっくりする時間つくると良さそう。</p>
-
-<h2>あわせてよみたい</h2>
-
-<p><a href="http://soh335.hatenablog.com/entry/2013/05/23/003124">サードウェーブ！ ： サンフランシスコ周辺で体験した最新コーヒーカルチャー - soh335 memo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/22/music-20130522/">音楽</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-22T00:26:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://bleep.com/release/43946-hvl-flats">Flats / HVL</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43946.jpg" alt="https://bleep.com/media/images/r/g/43946.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43967-pvgvn-black">Black / PVGVN</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43967.jpg" alt="https://bleep.com/media/images/r/g/43967.jpg" /></p>
-
-<h2><a href="https://bleep.com/release/43292-the-last-skeptik-thanks-for-trying">The Last Skeptik / Thanks For Trying</a></h2>
-
-<p><img src="https://bleep.com/media/images/r/g/43292.jpg" alt="https://bleep.com/media/images/r/g/43292.jpg" /></p>
-
-<p>どれも良かった</p>
 </div>
   
   

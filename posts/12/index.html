@@ -9,13 +9,50 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="https://github.com/kenjiskywalker/consul-test READMEのとおりですが 1
+  <meta name="description" content="TL;DR Consulでkey/valueを叩く 1
 2
 3
 4
 5
-Node Address Status Type Build Protocol
-node01 127.0.0.1:8301 alive server 0.4. &hellip;">
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +104,404 @@ node01 127.0.0.1:8301 alive server 0.4. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/09/consul-key-value/">Consulでkey/valueを叩く</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-09T23:09:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>Consulでkey/valueを叩く</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 540,
+</span><span class='line'>    "ModifyIndex": 540,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFyYmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>delete</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+</span><span class='line'>true%                                                                                                  ['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>再帰もいける</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 555,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFyYmFy"
+</span><span class='line'>  },
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 538,
+</span><span class='line'>    "ModifyIndex": 538,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": "YmFy"
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>flags</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 559,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 0,
+</span><span class='line'>    "Value": null
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -X PUT 'barbar' -s 'http://127.0.0.1:8500/v1/kv/foofoo?flags=1' | jq .
+</span><span class='line'>true
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+</span><span class='line'>[
+</span><span class='line'>  {
+</span><span class='line'>    "CreateIndex": 555,
+</span><span class='line'>    "ModifyIndex": 560,
+</span><span class='line'>    "LockIndex": 0,
+</span><span class='line'>    "Key": "foofoo",
+</span><span class='line'>    "Flags": 1,
+</span><span class='line'>    "Value": null
+</span><span class='line'>  }
+</span><span class='line'>]
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>階層化とdecode</h3>
+
+<blockquote><p>BSD の base64 コマンドだと<br/>
+-dがdebugで-Dがdecodeだった</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
+</span><span class='line'>true
+</span><span class='line'>['x']%
+</span><span class='line'>['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
+</span><span class='line'>{
+</span><span class='line'>  "CreateIndex": 565,
+</span><span class='line'>  "ModifyIndex": 568,
+</span><span class='line'>  "LockIndex": 0,
+</span><span class='line'>  "Key": "foo/bar/baz",
+</span><span class='line'>  "Flags": 0,
+</span><span class='line'>  "Value": "YmF6YmF6YmF6"
+</span><span class='line'>}
+</span><span class='line'>['-']%
+</span><span class='line'>['-']%
+</span><span class='line'>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
+</span><span class='line'>bazbazbaz
+</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/09/consul-event-handle-watches/">Consulでnodeの増減時に特定のスクリプトを実行させる</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-09T22:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>TL;DR</h2>
+
+<p>ConsulでSerfのEvent Handlerのようなものを試したメモ</p>
+
+<h2>main</h2>
+
+<p>Consulの<a href="https://www.hashicorp.com/blog/consul-0-4.html">0.4</a>から<code>Watches</code>という機能が追加されて<br/>
+Serfのevent handlerのようなことができるようになった。</p>
+
+<p>昨日つくった<a href="https://github.com/kenjiskywalker/consul-test">consul-test</a>に</p>
+
+<ul>
+<li>node01/config.json</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "node_name": "node01",
+</span><span class='line'>  "data_dir": "./node01/",
+</span><span class='line'>  "bind_addr": "127.0.0.1",
+</span><span class='line'>  "client_addr": "127.0.0.1",
+</span><span class='line'>  "ui_dir": "./dist/",
+</span><span class='line'>  "watches": [
+</span><span class='line'>    {
+</span><span class='line'>      "type": "nodes",
+</span><span class='line'>      "handler": "./node01/hosts_update.rb"
+</span><span class='line'>    }
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>watchesの設定を追加してみた。</p>
+
+<p><code>hosts_update.rb</code>でやっていることはシンプルで<br/>
+nodesに変化があった場合に、標準入力でnodesの情報を取得し、<br/>
+同ディレクトリに<code>_hosts</code>ファイルを生成して、<br/>
+nodeの名前とそのAddressを<br/>
+hostsファイルに似せて出力するようにしている。</p>
+
+<blockquote><p>Consulには<code>SERF_EVENT</code>のような<br/>
+管理しているnodeの変化の状態をSTDINで受け取る方法はないのだろうか</p></blockquote>
+
+<h2>雑談</h2>
+
+<p>このような簡単なスクリプトはGoで書いてもいいかもしれないけど<br/>
+バイナリだけ置いてあるような状態の時に<br/>
+<em>作成者を全面的に信用する</em>みたいな部活っぽい対応になりそう。<br/>
+簡易スクリプトをGoで書いたらバイナリとそのソースファイルを<br/>
+同ディレクトリに置いておくとかが良いんだろうか。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -310,159 +745,6 @@ hubotに持ってきました。</p>
 ありがとうございます。</p>
 
 <p>最低限の実装しかしていません。何かあればpull requestください:)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/31/201408-book/">2014/07読んだ本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-31T16:06:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>booklogというサービス、デザインと使い勝手が本当に良い。</p>
-
-<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年08月 (4作品)</div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4063951413" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51q59350wWL._SL75_.jpg" width="50" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4063951413" target="_blank">進撃の巨人(14) (講談社コミックス)</a><br /><a href="http://booklog.jp/author/%E8%AB%AB%E5%B1%B1%E5%89%B5" target="_blank">諫山創</a><br />読了日：08月09日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4041013992" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51qjvPhcfgL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4041013992" target="_blank">多重人格探偵サイコ (20) (カドカワコミックス・エース)</a><br /><a href="http://booklog.jp/author/%E7%94%B0%E5%B3%B6%E6%98%AD%E5%AE%87" target="_blank">田島昭宇</a><br />読了日：08月09日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4053031737" target="_blank"><img src="http://ecx.images-amazon.com/images/I/41OmvQ2%2BeZL._SL75_.jpg" width="54" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4053031737" target="_blank">成川の「なぜ」がわかる英文法の授業 (大学受験Nシリーズ)</a><br /><a href="http://booklog.jp/author/%E6%88%90%E5%B7%9D%E5%8D%9A%E5%BA%B7" target="_blank">成川博康</a><br />読了日：08月17日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/4774165786" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51XYWUokftL._SL75_.jpg" width="53" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/4774165786" target="_blank">フロントエンドエンジニア養成読本 [HTML、CSS、JavaScriptの基本から現場で役立つ技術まで満載! ] (Software Design plus)</a><br /><a href="http://booklog.jp/author/%E6%96%89%E8%97%A4%E7%A5%90%E4%B9%9F" target="_blank">斉藤祐也</a><br />読了日：08月17日<br /></div><br style="clear:both;" /></div>
-
-
-<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
-
-
-<p></p>
-
-<p>この前<br/>
-<a href="http://blog.kenjiskywalker.org/blog/2014/06/09/github-add-color-to-recently-not-update-file/">GitHubで最近更新されていないプロジェクトを簡単に見分けるChrome Extentionつくった</a><br/>
-で<br/>
-JavaScriptやってみたけど基本的なこと全然理解していなかったので<br/>
-本読んだ。JavaScriptとか目に見えて変わるものは面白い。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/31/yapcasia2014/">#yapcasia 2014 に発表者として参加してきたこと</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-31T00:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>YAPC::Asia 2014に参加してきました。<br/>
-今回は発表者という形で参加させて頂きました。<br/>
-スタッフのみなさま、yusukebeさん、現場でお声がけくれたみなさん<br/>
-トークを聞きに来てくれたみなさん、ありがとうございました。</p>
-
-<p>発表の時間が半分で終わったり、<br/>
-やたら時間余ったり、詰め込みすぎて発表の速度が早過ぎたり、<br/>
-時間配分間違えて最後駆け足になったりするのはただの準備不足なので<br/>
-反省。聞きに来てくれてがっかりした人申し訳ない！ごめん！</p>
-
-<p>発表内容は、サービスの開始、スケールアウト、機能追加の時点で<br/>
-それぞれ気を付けていかないといけないことを話した。</p>
-
-<p>細かくはこちらに書いたので参照してほしい。<br/>
-<a href="http://blog.kenjiskywalker.org/blog/2014/08/29/yapcasia2014-cosmo/">#yapcasia 2014 でシステムとの時間の旅の話をしてきました - さよならインターネット</a></p>
-
-<p>これからウェブサービスを大きくしていきたい、<br/>
-運用とかよくわからなくてどういう基準でどういう判断をしたら<br/>
-いいかわからない。という人に向けて話すつもりだったが</p>
-
-<p>聞きに来てくれた人は主にインフラを担当しているか<br/>
-大規模システムの運用者、技術部長や技術責任者の方がほとんどで<br/>
-思想とか良いから泥臭い話が聞きたかったという意見が多く<br/>
-求められていたものと話した内容の温度差があったことにも反省。</p>
-
-<p>発表方法は、淡々と話すよりかは、ウェブサービスを<br/>
-これから大きくしていこうとしている向けに、自分の携わっている<br/>
-サービスが大きくなっていく上で気を付けていかなければならないところを<br/>
-時系列で理解してほしかったので、その疑似体験を経験してほしかったので<br/>
-時間旅行的な話し方をしたが、発表方法が前衛的で<br/>
-話が頭の中に入ってこなかったという意見が多かったのでそこも反省。</p>
-
-<p>藤原洋記念ホールだったのでああいうプレゼンテーションの方法を取った。<br/>
-多目的教室だったら違う発表方法にしていたと思う。</p>
-
-<p>発表の動画はyoutubeにそのうち載せて頂けると思うので<br/>
-できそこないのTEDみたいな感じなので是非見てほしい。</p>
-
-<p>ああいう発表の方法で次もお願いします、みたいなことを言われたけど<br/>
-実際にやってみたらわかるけどああいう話し方無駄に疲れるし<br/>
-普段の発表方法である、<code>課題</code>・<code>やったこと</code>・<code>やって解決されたこと</code>の３つを<br/>
-文字多めのスライドで読み上げながら、発表していくのが一番楽で<br/>
-聞いている人もわかりやすいことがわかったのでもうやらないと思う。</p>
-
-<p>2015年、YAPCが日本で開催されるなら、お前らが求めてる<br/>
-泥臭い具体的でイノベーションなネタを応募したいと思う。</p>
-
-<p>ということで、こんな感じでトークするような人間もいるので<br/>
-今までYAPCで話してみたいんだけどちょっと怖いな&hellip;<br/>
-っていう人も応募したことのなかった人もほんのちょっと勇気出して<br/>
-応募してみると良いと思う。あんなんが良いなら<br/>
-(オレ|私)もちょっとやってみようかなみたいな感じでさ。</p>
-
-<p>@deeeet君、@tagomorisさん、@uzullaさん、おめでとうございました！</p>
-
-<p>おつかれさまでした！</p>
 </div>
   
   
