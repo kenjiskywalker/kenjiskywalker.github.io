@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>さよならインターネット</title>
+  <title>CodeDeployのfailをSlackに通知して原因までたどりやすくする - さよならインターネット</title>
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="AWS CodeDeploy Adds Push Notification Support ということで、これができるまではひたすらstate毎にslackに通知していたけど
-failしたらfailしたよって通知するようにした。 流れ的にはこう 1
-CodeDeploy fail -&gt; &hellip;">
+  <meta name="description" content="CodeDeployのfailをSlackに通知して原因までたどりやすくする AWS CodeDeploy Adds Push Notification Support ということで、これができるまではひたすらstate毎にslackに通知していたけど &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ CodeDeploy fail -&gt; &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/">
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -61,15 +59,12 @@ CodeDeploy fail -&gt; &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする</a></h1>
+      <h1 class="entry-title">CodeDeployのfailをSlackに通知して原因までたどりやすくする</h1>
     
     
       <p class="meta">
@@ -92,7 +87,7 @@ CodeDeploy fail -&gt; &hellip;">
   </header>
 
 
-  <div class="entry-content"><p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
+<div class="entry-content"><p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
 
 <p>ということで、これができるまではひたすらstate毎にslackに通知していたけど<br/>
 failしたらfailしたよって通知するようにした。</p>
@@ -219,58 +214,26 @@ failしたらfailしたよって通知するようにした。</p>
 <p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
 ご利用ください。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
 
-<time datetime="2016-02-25T14:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>以上です。(どこかドキュメント落ちてるかな)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -282,163 +245,47 @@ failしたらfailしたよって通知するようにした。</p>
   
 
 
-<time datetime="2016-01-21T17:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>これやで</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2016-03-14T11:03:00+09:00" pubdate data-updated="true"></time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/aws/'>aws</a>
+  
+</span>
 
 
-<time datetime="2016-01-19T11:24:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h2>自分用メモ</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">loadbalancers</span> <span class="o">=</span> <span class="sb">`aws elb describe-load-balancers | jq &#39;.[][][&quot;LoadBalancerName&quot;]&#39; -r `</span>
-</span><span class='line'><span class="n">alert_sns</span> <span class="o">=</span> <span class="s2">&quot;SNS&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">loadbalancers</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">lb</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">lb</span><span class="o">.</span><span class="n">chomp!</span>
-</span><span class='line'>  <span class="nb">p</span> <span class="n">lb</span>
-</span><span class='line'><span class="sb">`aws cloudwatch put-metric-alarm --alarm-name &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> UnHealthyHostCountUp&quot; --alarm-description &quot;</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> ELB UnHealthyHostCountUp&quot; \</span>
-</span><span class='line'><span class="sb">  --actions-enabled \</span>
-</span><span class='line'><span class="sb">  --ok-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">  --alarm-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">  --insufficient-data-actions </span><span class="si">#{</span><span class="n">alert_sns</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">  --metric-name &quot;UnHealthyHostCount&quot; \</span>
-</span><span class='line'><span class="sb">  --namespace AWS/ELB \</span>
-</span><span class='line'><span class="sb">  --statistic Maximum\</span>
-</span><span class='line'><span class="sb">  --dimensions Name=LoadBalancerName,Value=</span><span class="si">#{</span><span class="n">lb</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">  --period 60 \</span>
-</span><span class='line'><span class="sb">  --evaluation-periods 5 \</span>
-</span><span class='line'><span class="sb">  --threshold 1 \</span>
-</span><span class='line'><span class="sb">  --comparison-operator GreaterThanOrEqualToThreshold`</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-01-10T00:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iPhone水没した。人生で二度目だ。トイレで諸所の動作をする時はスマホいじくるのやめよう。<br/>
-高校サッカーの準決勝を見に行った。高校サッカー、本当に面白い。</p>
-
-<p>東福岡の藤川虎太朗くんがとても良かった。<br/>
-国学院久我山の澁谷雅也くんと名倉巧くんがとても魅力的だった。</p>
-
-<p>神谷くんは我らが湘南ベルマーレに来てくれるのでこれからが楽しみだ。<br/>
-見終わった後はおじさんたちで赤羽の町で飲み歩いた。話題は最初から最後まで最低だったが良い夜だった。<br/>
-ただ、iPhoneはこわれたままなので明日修理屋持って行ってみようと思う。</p>
+        <a class="basic-alignment left" href="/blog/2016/02/25/slack-api-channel-to-group/" title="Previous Post: SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう">&laquo; SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう</a>
+      
+      
+    </p>
+  </footer>
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    <a href="/blog/archives">Blog Archives</a>
-  </div>
-</div>
 <aside class="sidebar">
   
     
   
 </aside>
+</article>
+
+
 
     </div>
   </div>

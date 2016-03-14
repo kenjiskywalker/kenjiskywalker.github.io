@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-02-25T14:21:00+09:00</updated>
+  <updated>2016-03-14T14:58:09+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CodeDeployのfailをSlackに通知して原因までたどりやすくする]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/"/>
+    <updated>2016-03-14T11:03:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack</id>
+    <content type="html"><![CDATA[<p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
+
+<p>ということで、これができるまではひたすらstate毎にslackに通知していたけど<br/>
+failしたらfailしたよって通知するようにした。</p>
+
+<p>流れ的にはこう</p>
+
+<pre><code>CodeDeploy fail -&gt; AWS SNS -&gt; AWS Lambda -&gt; Slack
+</code></pre>
+
+<h2>やり方</h2>
+
+<h3>AWS SNSで受け口をつくる</h3>
+
+<p>CodeDeployがfailした歳に利用するSNSを用意する</p>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlack</li>
+</ul>
+
+
+<p>みたいな感じで。開発環境やステージングなどでslackの通知グループが別れる場合は<br/>
+都度SNSをつくっているんだけど、これもっと良いやり方ないのかな？</p>
+
+<h3>CodeDeployのtriggerに先ほどつくったSNSを設定する</h3>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" alt="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" /></p>
+
+<p>fail以外にもステータスがあるのでそこでhookかけても良いですね。<br/>
+自分のところはstate毎に通知させているので一旦この形です。</p>
+
+<h3>AWS LambdaでSlackへの通知を行う</h3>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlackFunction</li>
+</ul>
+
+
+<p>とか適当な名前でfunctionをつくる</p>
+
+<pre><code class="js">// Ref: https://gist.github.com/vgeshel/1dba698aed9e8b39a464
+console.log('Loading function');
+
+const https = require('https');
+const url = require('url');
+// to get the slack hook url, go into slack admin and create a new "Incoming Webhook" integration
+const slack_url = '';
+const region = 'ap-northeast-1'
+const codedeploy_url = 'https://' + region + '.console.aws.amazon.com/codedeploy/home?region=' + region + '#/deployments/'
+const slack_req_opts = url.parse(slack_url);
+slack_req_opts.method = 'POST';
+slack_req_opts.headers = {'Content-Type': 'application/json'};
+
+exports.handler = function(event, context) {
+  (event.Records || []).forEach(function (rec) {
+    if (rec.Sns) {
+      var req = https.request(slack_req_opts, function (res) {
+        if (res.statusCode === 200) {
+          context.succeed('posted to slack');
+        } else {
+          context.fail('status code: ' + res.statusCode);
+        }
+      });
+
+      req.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+        context.fail(e.message);
+      });
+
+      var message = JSON.parse(rec.Sns.Message);
+      var str = '*' + 'Application: ' + message.applicationName + ' deploymentGroupName: ' + message.deploymentGroupName + ' deploymentId: ' + message.deploymentId + '*' + ' ' + codedeploy_url + message.deploymentId;
+      req.write(JSON.stringify({text: str})); // for testing: , channel: '@vadim'
+
+      req.end();
+    }
+  });
+};
+</code></pre>
+
+<p><code>slack_url</code>に自前のIncoming Webhookを入れる</p>
+
+<h2>通知される</h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployError.png" alt="" /></p>
+
+<p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
+ご利用ください。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CodeDeployでApplicationStopでどうしようもなくなったら]]></title>
@@ -214,67 +309,6 @@ fluentdの集約サーバを冗長構成にしておいて</p>
 </code></pre>
 
 <p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/05/09/autoscaling-tag/"/>
-    <updated>2014-05-09T18:00:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/05/09/autoscaling-tag</id>
-    <content type="html"><![CDATA[<p><a href="http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html">【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ</a></p>
-
-<p>こちらの便利機能が追加されたので早速設定してみました。</p>
-
-<h2><a href="http://docs.aws.amazon.com/cli/latest/reference/autoscaling/create-or-update-tags.html">AWS CLI - create-or-update-tags</a></h2>
-
-<blockquote><p>&ndash;tags ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean</p></blockquote>
-
-<pre><code>aws --region REGION autoscaling create-or-update-tags \
-    --tags ResourceId=AUTOSCALINGGROUP_NAME, \
-           ResourceType=auto-scaling-group, \
-           Key=KEY, \
-           Value=VALUE, \
-           PropagateAtLaunch=true
-</code></pre>
-
-<ul>
-<li>ResourceId</li>
-</ul>
-
-
-<p>tagを設定するAutoScalingGroupの名前を指定</p>
-
-<ul>
-<li>ResourceType</li>
-</ul>
-
-
-<p>他に何の設定があるのかは不明ですが<code>auto-scaling-group</code>を指定しておけば問題ないかと</p>
-
-<ul>
-<li>Key</li>
-</ul>
-
-
-<p>tagのKey名</p>
-
-<ul>
-<li>Value</li>
-</ul>
-
-
-<p>tagのValue名</p>
-
-<ul>
-<li>PropagateAtLaunch</li>
-</ul>
-
-
-<p>設定したtagをAutoScalingGroupによって起動されたEC2インスタンスにも適用させるかどうか</p>
-
-<p>上記の設定を行うことで、AutoScalingGroupにて起動されたEC2インスタンスへ<br/>
-タグが適用されるようになります。大変便利ですね。ありがとうございます。</p>
 ]]></content>
   </entry>
   
