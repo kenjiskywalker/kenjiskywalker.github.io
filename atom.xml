@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-03-14T14:58:09+09:00</updated>
+  <updated>2016-07-06T10:48:09+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,186 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Terraformを始める上でのresourceの命名規則について]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/"/>
+    <updated>2016-07-06T09:52:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie</id>
+    <content type="html"><![CDATA[<h2>Terraformとは</h2>
+
+<p><a href="https://www.terraform.io">https://www.terraform.io</a>ここ見てください。<br/>
+<code>INFRASTRUCTURE AS CODE</code>と書いてあります。</p>
+
+<h2>何が便利か</h2>
+
+<p>たとえばAWSの新規VPCの作成など画面ポチポチで設定していくオペレーションをコードに落とせる。</p>
+
+<blockquote><p>それってAPI叩けば同じでは？<br/>
+PaaSが<a href="https://www.terraform.io/docs/providers/index.html">色々</a>対応している。MySQLにも対応しているの&hellip;</p></blockquote>
+
+<h2>伝えたいこと</h2>
+
+<p>たとえばVPCを構築するとして</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">Terraformの有識者にどうにかしてresourceの名前にvariableの値を入れる方法を教えてほしい🤔</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750200917312417792">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "${var.prefix}-${var.environment_name}-vpc" {
+</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
+</span><span class='line'>    enable_dns_hostnames = true
+</span><span class='line'>    enable_dns_support   = true
+</span><span class='line'>    instance_tenancy     = "default"
+</span><span class='line'>
+</span><span class='line'>    tags {
+</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などと<code>resource</code>名をユニークな感じでやろうとしたのだけれど</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">so this is by design.と言われればそれまでだ <a href="https://t.co/Im2kwIqiQa">https://t.co/Im2kwIqiQa</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750218349884301313">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p><code>by design</code>と言われていたので、なんだか使いづらいな〜と考えていた。が</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">そもそもresourceは固有な名前を設定すべきではないという思想が理解できていなかった、例えばpublicであればfoo-development-publicなどとうい名前を付けるべきではなかった</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750243305481396224">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>そうなのだ。そもそもこの発想で良く、<code>resource</code>はあくまでTerraform内での管理するためだけの命名であるので</p>
+
+<ul>
+<li>vpc.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "main-vpc" {
+</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
+</span><span class='line'>    enable_dns_hostnames = true
+</span><span class='line'>    enable_dns_support   = true
+</span><span class='line'>    instance_tenancy     = "default"
+</span><span class='line'>
+</span><span class='line'>    tags {
+</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このように<code>Name Tags</code>でユニークな情報を付与すれば良かった。  <br/>
+このことに気付かず<code>resource</code>にひたすら<code>variable</code>の値を入れようと頑張っていた。</p>
+
+<p>結局、上記のように<code>resource</code>にユニークな情報を入れない仕組みで汎用性は担保できた。<br/>
+これで似たような環境も</p>
+
+<ul>
+<li>vpc.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Create Subnet
+</span><span class='line'># - ec2:CreateSubnet
+</span><span class='line'>resource "aws_subnet" "some-subnet-a" {
+</span><span class='line'>    vpc_id            = "${aws_vpc.main-vpc.id}"
+</span><span class='line'>    cidr_block        = "${var.vpc.public_subnet_a}"
+</span><span class='line'>    availability_zone = "${var.availability_zone.a}"
+</span><span class='line'>    tags {
+</span><span class='line'>        Name = "${var.environment_name}-some-subnet-a"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>variables.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>variable "region" {
+</span><span class='line'>    default = "ap-northeast-1"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "environment_name" {
+</span><span class='line'>    default = "development"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "availability_zone" {
+</span><span class='line'>    default = {
+</span><span class='line'>        a = "ap-northeast-1a"
+</span><span class='line'>        c = "ap-northeast-1c"
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "vpc" {
+</span><span class='line'>    default = {
+</span><span class='line'>        cidr_block    = "10.200.0.0/16"
+</span><span class='line'>        some_subnet_a = "10.200.210.0/24"
+</span><span class='line'>        some_subnet_c = "10.200.211.0/24"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のように<code>variables.tf</code>などと値を別のファイルに分けておくことで<br/>
+汎用的なテンプレートが作成可能となる。しかし便利だな〜</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CodeDeployのfailをSlackに通知して原因までたどりやすくする]]></title>
@@ -1418,44 +1598,6 @@ MySQL-Sandbox v3.0.50</p></blockquote>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[「スクラム実践入門」を読んだ]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/05/08/scrum-book/"/>
-    <updated>2015-05-08T00:22:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/05/08/scrum-book</id>
-    <content type="html"><![CDATA[<p><a href="http://www.amazon.co.jp/%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%E6%88%90%E6%9E%9C%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E3%81%AA%E9%96%8B%E7%99%BA%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9-WEB-PRESS-plus/dp/4774172367%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774172367" target="_blank" title="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/51ABflXRwZL.jpg" width="352" height="500" alt="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)" /></a></p>
-
-<p>スクラムをやったことはない。けどこれを読んで<br/>
-スクラムやらアジャイルやら言われているものの、体系的な基礎的な知識と<br/>
-先人たちの貴重な体験を学ぶことができてとても素晴らしい本だった。</p>
-
-<p>個人的に本当に導入しようと思ったら、やはり一度お金払って<br/>
-知見を吸収してから行うか、インストラクターっぽい人を呼んでやるのが<br/>
-一番良さそうだなと感じた。</p>
-
-<p>&ldquo;人間が集まれば集まるほどろくなことが起きない&#8221;という持論があるが、<br/>
-スクラムやらアジャイルやら型を決めてその中で業務を遂行することで、<br/>
-人間が集まる欠点を補うことができるのかな、とか考えた。</p>
-
-<p>ただ、意識高い人がこの本を読んで所属しているグループに導入しようと考えると</p>
-
-<ul>
-<li>グループ全員が同じようにグループに改善が必要だと感じて導入に積極的である</li>
-<li>グループの権力を持った人間はグループに改善が必要だと感じているが他のメンバーは必要に感じていない</li>
-<li>グループの権力を持たない人間はグループに改善が必要だと感じているが権力を持ったメンバーは必要に感じていない</li>
-<li>グループの権力を持たない一部の人間がグループに改善が必要だと感じているが、グループ全体では感じていない</li>
-</ul>
-
-
-<p>みたいな背景があったりすると思う。少人数でも全員がグループに問題がないと感じていれば<br/>
-改善することはないだろうし、人数が多くても全員がグループに改善が必要だと感じており、<br/>
-行動をする術を探しているようなら改善される可能性は十分にある。</p>
-
-<p>いきなり全部をやって全部が成功するわけではないが<br/>
-少なくとも改善が必要な現場にいるので、できるところから色々やっていこうと思った。</p>
 ]]></content>
   </entry>
   

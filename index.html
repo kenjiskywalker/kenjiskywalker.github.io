@@ -9,9 +9,8 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="AWS CodeDeploy Adds Push Notification Support ということで、これができるまではひたすらstate毎にslackに通知していたけど
-failしたらfailしたよって通知するようにした。 流れ的にはこう 1
-CodeDeploy fail -&gt; &hellip;">
+  <meta name="description" content="Terraformとは https://www.terraform.ioここ見てください。
+INFRASTRUCTURE AS CODEと書いてあります。 何が便利か たとえばAWSの新規VPCの作成など画面ポチポチで設定していくオペレーションをコードに落とせる。 それってAPI叩けば同じでは？ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +62,213 @@ CodeDeploy fail -&gt; &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T09:52:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Terraformとは</h2>
+
+<p><a href="https://www.terraform.io">https://www.terraform.io</a>ここ見てください。<br/>
+<code>INFRASTRUCTURE AS CODE</code>と書いてあります。</p>
+
+<h2>何が便利か</h2>
+
+<p>たとえばAWSの新規VPCの作成など画面ポチポチで設定していくオペレーションをコードに落とせる。</p>
+
+<blockquote><p>それってAPI叩けば同じでは？<br/>
+PaaSが<a href="https://www.terraform.io/docs/providers/index.html">色々</a>対応している。MySQLにも対応しているの&hellip;</p></blockquote>
+
+<h2>伝えたいこと</h2>
+
+<p>たとえばVPCを構築するとして</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">Terraformの有識者にどうにかしてresourceの名前にvariableの値を入れる方法を教えてほしい🤔</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750200917312417792">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "${var.prefix}-${var.environment_name}-vpc" {
+</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
+</span><span class='line'>    enable_dns_hostnames = true
+</span><span class='line'>    enable_dns_support   = true
+</span><span class='line'>    instance_tenancy     = "default"
+</span><span class='line'>
+</span><span class='line'>    tags {
+</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などと<code>resource</code>名をユニークな感じでやろうとしたのだけれど</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">so this is by design.と言われればそれまでだ <a href="https://t.co/Im2kwIqiQa">https://t.co/Im2kwIqiQa</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750218349884301313">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p><code>by design</code>と言われていたので、なんだか使いづらいな〜と考えていた。が</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">そもそもresourceは固有な名前を設定すべきではないという思想が理解できていなかった、例えばpublicであればfoo-development-publicなどとうい名前を付けるべきではなかった</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750243305481396224">July 5, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>そうなのだ。そもそもこの発想で良く、<code>resource</code>はあくまでTerraform内での管理するためだけの命名であるので</p>
+
+<ul>
+<li>vpc.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "main-vpc" {
+</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
+</span><span class='line'>    enable_dns_hostnames = true
+</span><span class='line'>    enable_dns_support   = true
+</span><span class='line'>    instance_tenancy     = "default"
+</span><span class='line'>
+</span><span class='line'>    tags {
+</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このように<code>Name Tags</code>でユニークな情報を付与すれば良かった。  <br/>
+このことに気付かず<code>resource</code>にひたすら<code>variable</code>の値を入れようと頑張っていた。</p>
+
+<p>結局、上記のように<code>resource</code>にユニークな情報を入れない仕組みで汎用性は担保できた。<br/>
+これで似たような環境も</p>
+
+<ul>
+<li>vpc.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Create Subnet
+</span><span class='line'># - ec2:CreateSubnet
+</span><span class='line'>resource "aws_subnet" "some-subnet-a" {
+</span><span class='line'>    vpc_id            = "${aws_vpc.main-vpc.id}"
+</span><span class='line'>    cidr_block        = "${var.vpc.public_subnet_a}"
+</span><span class='line'>    availability_zone = "${var.availability_zone.a}"
+</span><span class='line'>    tags {
+</span><span class='line'>        Name = "${var.environment_name}-some-subnet-a"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>variables.tf</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>variable "region" {
+</span><span class='line'>    default = "ap-northeast-1"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "environment_name" {
+</span><span class='line'>    default = "development"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "availability_zone" {
+</span><span class='line'>    default = {
+</span><span class='line'>        a = "ap-northeast-1a"
+</span><span class='line'>        c = "ap-northeast-1c"
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>variable "vpc" {
+</span><span class='line'>    default = {
+</span><span class='line'>        cidr_block    = "10.200.0.0/16"
+</span><span class='line'>        some_subnet_a = "10.200.210.0/24"
+</span><span class='line'>        some_subnet_c = "10.200.211.0/24"
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記のように<code>variables.tf</code>などと値を別のファイルに分けておくことで<br/>
+汎用的なテンプレートが作成可能となる。しかし便利だな〜</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -379,50 +585,6 @@ failしたらfailしたよって通知するようにした。</p>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-01-10T00:11:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iPhone水没した。人生で二度目だ。トイレで諸所の動作をする時はスマホいじくるのやめよう。<br/>
-高校サッカーの準決勝を見に行った。高校サッカー、本当に面白い。</p>
-
-<p>東福岡の藤川虎太朗くんがとても良かった。<br/>
-国学院久我山の澁谷雅也くんと名倉巧くんがとても魅力的だった。</p>
-
-<p>神谷くんは我らが湘南ベルマーレに来てくれるのでこれからが楽しみだ。<br/>
-見終わった後はおじさんたちで赤羽の町で飲み歩いた。話題は最初から最後まで最低だったが良い夜だった。<br/>
-ただ、iPhoneはこわれたままなので明日修理屋持って行ってみようと思う。</p>
 </div>
   
   

@@ -9,7 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="みんなこういうのはどういう対応しているんだろう @kenjiskywalker PEERDNS=noを/etc/sysconfig/network-scripts/ifcfg-ethXに書くとか&mdash; TSUNEMATSU Shinya (@tnmt) February 7, 2015 &hellip;">
+  <meta name="description" content="siege: version 3.0.9 TL;DR httpsのリクエストの際にうんともすんともいわなくて、lddで見たら
+opensslのライブラリ読み込んでなかった。 Siege Siege Home
+Siege でお手軽 Web 負荷テスト - Qiita &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +63,324 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/13/siege/">負荷テストが気軽に行えるsiegeでちょっとハマった</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-13T18:06:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>siege: version 3.0.9</p></blockquote>
+
+<h2>TL;DR</h2>
+
+<p>httpsのリクエストの際にうんともすんともいわなくて、lddで見たら<br/>
+opensslのライブラリ読み込んでなかった。</p>
+
+<h2>Siege</h2>
+
+<ul>
+<li><a href="http://www.joedog.org/siege-home/">Siege Home</a></li>
+<li><a href="http://qiita.com/inokappa/items/84f42dbd718a8070bd1d">Siege でお手軽 Web 負荷テスト - Qiita</a></li>
+</ul>
+
+
+<p>詳しくは上記URLを参照してください。</p>
+
+<p>kappa大先生の記事を見て、これいいやん！ってなって導入した。<br/>
+負荷テストをかけるサーバも今ではAWSのスポットインスタンスを利用すれば<br/>
+c3.4xlargeも$0.5/hで借りれて最高だ。</p>
+
+<h2>インストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># gccが必要なのでインストール
+</span><span class='line'>$ yum install gcc
+</span><span class='line'>
+</span><span class='line'>$ wget http://download.joedog.org/siege/siege-3.0.9.tar.gz
+</span><span class='line'>$ tar xzf siege-3.0.9.tar.gz
+</span><span class='line'>$ cd siege-3.0.9
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make -j 16
+</span><span class='line'>$ make install</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>HTTPSにつながらない?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 2S http://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.69 secs:    5121 bytes ==&gt; GET  /
+</span><span class='line'>HTTP/1.1 200   0.68 secs:    5123 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   1.00 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.01
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.01
+</span><span class='line'>Shortest transaction:           0.01
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>では応答したのに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1-t 2S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   4.68 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.00
+</span><span class='line'>Successful transactions:           0
+</span><span class='line'>Failed transactions:               3
+</span><span class='line'>Longest transaction:            0.00
+</span><span class='line'>Shortest transaction:           0.00
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などとFailedになってしまった。<br/>
+最初、cookieで認証しているのでcookieの渡し方が悪かったのかと思ったが<br/>
+ふとライブラリちゃんと読み込んでいるのか気になったので確認してみた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff0a7fe000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fe27e031000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fe27dc8c000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007fe27e253000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おや&hellip; <br/>
+ということで<code>yum install openssl-devel</code>をしてから再度インストールしなおす。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff3a561000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f77766e2000)
+</span><span class='line'>        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f77764de000)
+</span><span class='line'>        libssl.so.10 =&gt; /usr/lib64/libssl.so.10 (0x00007f7776270000)
+</span><span class='line'>        libcrypto.so.10 =&gt; /lib64/libcrypto.so.10 (0x00007f7775e8c000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f7775ae7000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007f7776904000)
+</span><span class='line'>        libgssapi_krb5.so.2 =&gt; /lib64/libgssapi_krb5.so.2 (0x00007f77758a3000)
+</span><span class='line'>        libkrb5.so.3 =&gt; /lib64/libkrb5.so.3 (0x00007f77755be000)
+</span><span class='line'>        libcom_err.so.2 =&gt; /usr/lib64/libcom_err.so.2 (0x00007f77753bb000)
+</span><span class='line'>        libk5crypto.so.3 =&gt; /lib64/libk5crypto.so.3 (0x00007f777518f000)
+</span><span class='line'>        libz.so.1 =&gt; /lib64/libz.so.1 (0x00007f7774f79000)
+</span><span class='line'>        libkrb5support.so.0 =&gt; /lib64/libkrb5support.so.0 (0x00007f7774d6e000)
+</span><span class='line'>        libkeyutils.so.1 =&gt; /lib64/libkeyutils.so.1 (0x00007f7774b6a000)
+</span><span class='line'>        libresolv.so.2 =&gt; /lib64/libresolv.so.2 (0x00007f7774953000)
+</span><span class='line'>        libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007f777473d000)
+</span><span class='line'>        libselinux.so.1 =&gt; /usr/lib64/libselinux.so.1 (0x00007f777451b000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おお、色々読み込んでいる</p>
+
+<h2>改めて確認</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.78 secs:    5119 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      1 hits
+</span><span class='line'>Availability:                 100.00 %
+</span><span class='line'>Elapsed time:                   2.89 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.78 secs
+</span><span class='line'>Transaction rate:               0.35 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.27
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.78
+</span><span class='line'>Shortest transaction:           0.78
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>無事レスポンスを取得することができた。</p>
+
+<h3>cookieの渡し方</h3>
+
+<p><code>--header="Cookie: k=v; k=v;"</code>みたいな渡し方でいけた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/ --header="Cookie: key_one=value_one; domain=.example.com; path=/; expires=Fri, 13 Feb 2015 16:41:26 -0000; key_two=value_two; path=/;"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こちらからは以上です。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -389,100 +709,6 @@
 
 <p>とにかく常に物事に対してのゴールと、そのゴールを達成する為に必要な作業を<br/>
 計画的に、スピード感を持って仕事に取り組んでいきたいと改めて思った。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/11/serverspec-book/">「Serverspec」本を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-11T23:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！</p>
-
-<ul>
-<li><a href="http://www.oreilly.co.jp/books/9784873117096/">Serverspec - O&#8217;Reilly Japan</a></li>
-<li><a href="http://mizzy.org/blog/2014/12/25/1/">「Serverspec」という本が出ます - mizzy.org</a></li>
-</ul>
-
-
-<p><a href="http://www.amazon.co.jp/Serverspec-%E5%AE%AE%E4%B8%8B-%E5%89%9B%E8%BC%94/dp/4873117097%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4873117097" target="_blank" title="Serverspec"><img src="http://ecx.images-amazon.com/images/I/51P6qVOPALL.jpg" width="354" height="500" alt="Serverspec" /></a></p>
-
-<h2>書籍について</h2>
-
-<p>最近はソフトウェアの本はあまり読まなくて、<br/>
-オフィシャルサイトのドキュメントを読むように心がけている(一次情報大切)ので<br/>
-そのために技術書を購入することはなくなっていた。まずは手を動かすことが大切だろうと。</p>
-
-<p>mizzyさんには日頃から良くして頂いているけど、業務で普通にServerspec使ってるし<br/>
-ただのマニュアル網羅しているだけだったら買わなくてもいいかな。と考えていました。</p>
-
-<p>第4章を読んで反省した。めちゃくちゃ有意義だった。<br/>
-というか全体的にソフトウェアをつくる上での考え方みたいな普段なかなか聞くことのできない<br/>
-背景を書籍を通じて理解できてとても有意義だった。</p>
-
-<h2>初めての人は？</h2>
-
-<p>第2、第3章を読んで付録Aを見ながら手を動かせばすぐに動かせる。<br/>
-Serverspecの素敵なところは、とてもシンプルに、簡単に動かせるところなので<br/>
-よくわからんけどいっちょやってみるか〜で、30分もかからないで動かせると思う。</p>
-
-<h2>状態を担保する存在の必要性</h2>
-
-<p>イミュータブルやディスポーザブルな世界になったらServerspecは不要になるとかはあまり思わない。<br/>
-設定が実現されたかどうかはプロビジョニングツールでは担保できないから<br/>
-最終的に自動的にサーバが構築されたとしても、そのことを保証するためのツールは<br/>
-何かしら必要だと思う。<br/>
-実際にAWSでオートスケールでインスタンスを立ち上げていた時は<br/>
-最終的にそのインスタンスが期待した状態にあるかどうかをServerspecで確認し<br/>
-それを元に負荷分散に追加するようにしていた。</p>
-
-<h2>Specinfraについて</h2>
-
-<p>Serverspecが素晴らしいのはもう既に有名なんだけど<br/>
-その中で使われているSpecinfraがめちゃめちゃ便利で、Chefでいう<br/>
-ohaiのようなものなんだけど、OS毎の環境差分を抽象化してくれるので<br/>
-itamaeのような使い方は本当に上手だと思う。</p>
-
-<p>capistranoのsskitをSpecinfraに切り替えるとかしたら楽しそうではある。</p>
-
-<p>Serverspecという名前の本だけれど、それ以上にソフトウェアをつくる上での哲学や<br/>
-どのようにして運用するか、何を守り、何を捨てるか、どこへ向かうのかなど<br/>
-インターネットに関わって仕事をしている人ならば誰しもが楽しめる本だと思う。</p>
-
-<h2>最後に</h2>
-
-<p>この本を読ませて頂いて、インターネットの仕事をしていてよかったな〜と<br/>
-改めて思った。mizzyさんありがとうございます。<br/>
-Asuraっていうコードネームめちゃめちゃ好きでした。</p>
-
-<p>この本はまた何回か読み直したい本だ。</p>
 </div>
   
   

@@ -9,9 +9,10 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="TL;DR CircleCIのEnvironment variablesを利用して
-ファイルにdecryptのパスワードを記入する 設定 Environment variables - CircleCI
-Vault - Ansible CircleCIの環境変数に値を設定する機能を利用し、 &hellip;">
+  <meta name="description" content="Rails v4.1.2
+capistrano v3.3.3 TL;DR cap3でrails4のデプロイとbundle install
+unicornの操作をできるようにするまでのメモ 手元のマシンでcap3をインストール 1
+$ gem install capistrano &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +64,439 @@ Vault - Ansible CircleCIの環境変数に値を設定する機能を利用し�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/02/capistrano3-rails4-unicorn/">capistrano3を利用してRails4をdeployしunicornを使う</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-02T23:30:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Rails v4.1.2<br/>
+capistrano v3.3.3</p></blockquote>
+
+<h2>TL;DR</h2>
+
+<p>cap3でrails4のデプロイとbundle install<br/>
+unicornの操作をできるようにするまでのメモ</p>
+
+<h3>手元のマシンでcap3をインストール</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install capistrano</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Railsアプリケーションのあるパスに移動</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd app_name</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>cap install</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cap install
+</span><span class='line'>mkdir -p config/deploy
+</span><span class='line'>create config/deploy.rb
+</span><span class='line'>create config/deploy/staging.rb
+</span><span class='line'>create config/deploy/production.rb
+</span><span class='line'>mkdir -p lib/capistrano/tasks
+</span><span class='line'>create Capfile
+</span><span class='line'>Capified
+</span><span class='line'>$ </span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>app_name/config</code>配下にdeploy用の各種設定テンプレートが格納され、<br/>
+独自rake taskを格納する<code>app_name/lib/capistrano/tasks/</code>ディレクトリが作成され、<br/>
+capistrano用の設定ファイル?であるCapfileのひな形が作成される.</p>
+
+<h2>deployの設定</h2>
+
+<h4>config/deploy.rb</h4>
+
+<p>汎用的な設定はここに書くのかな</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lock '3.3.3'
+</span><span class='line'>
+</span><span class='line'># 自分のアプリケーション名
+</span><span class='line'>set :application, 'app_name'
+</span><span class='line'>
+</span><span class='line'># 自分のリポジトリ名.capistranoはrsyncではなくgit pullする
+</span><span class='line'>set :repo_url, 'git@github.com:kenjiskywalker/app_name.git'
+</span><span class='line'>
+</span><span class='line'># デプロイ先
+</span><span class='line'>set :deploy_to, '/home/foo/app_name'
+</span><span class='line'>
+</span><span class='line'># cap stage unicorn:start などの実行対象の role . デフォルトは app
+</span><span class='line'>set :unicorn_roles, :all
+</span><span class='line'>
+</span><span class='line'>set :ssh_options, {
+</span><span class='line'>
+</span><span class='line'># ここのオプションは ssh_config に記載されていれば不要
+</span><span class='line'># port: 2222,
+</span><span class='line'># keys: [File.expand_path('~/.ssh/hoge.key')],
+</span><span class='line'>
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'># ここは cap install するとコメントアウトで入るのでそのコメントアウトを解除
+</span><span class='line'>set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>config/deploy/stage.rb</h3>
+
+<p>汎用的な設定はdeploy.rbに書き、stage毎の設定はstage.rbに書くのかな</p>
+
+<ul>
+<li>config/deploy/development.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+</span><span class='line'>set :rails_env, 'development'
+</span><span class='line'>
+</span><span class='line'># unicorn で利用する RACK_ENV の指定
+</span><span class='line'>set :unicorn_rack_env, 'development'
+</span><span class='line'>
+</span><span class='line'># ここの user も ssh_config に記載されていれば不要
+</span><span class='line'>server 'dev-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>config/deploy/staging.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+</span><span class='line'>set :rails_env, 'staging'
+</span><span class='line'>
+</span><span class='line'># unicorn で利用する RACK_ENV の指定
+</span><span class='line'>set :unicorn_rack_env, 'staging'
+</span><span class='line'>
+</span><span class='line'># ここの user も ssh_config に記載されていれば不要
+</span><span class='line'>server 'stg-web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>config/deploy/production.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># RAILS_ENV の指定
+</span><span class='line'>set :rails_env, 'production'
+</span><span class='line'>
+</span><span class='line'># unicorn で利用する RACK_ENV の指定
+</span><span class='line'>set :unicorn_rack_env, 'production'
+</span><span class='line'>
+</span><span class='line'># ここの user も ssh_config に記載されていれば不要
+</span><span class='line'>server 'web1', user: 'foo', roles: %w{web}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Gemfile</h3>
+
+<p>capistranoで利用するgemを追加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :staging, :production do
+</span><span class='line'>  gem 'capistrano'
+</span><span class='line'>  gem 'capistrano-rails'
+</span><span class='line'>  gem 'capistrano-rbenv'
+</span><span class='line'>  gem 'capistrano-bundler'
+</span><span class='line'>  gem 'capistrano3-unicorn'
+</span><span class='line'>  gem 'unicorn'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Capfile</h3>
+
+<p>consoleとbundlerとunicornを有効化</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Load DSL and Setup Up Stages
+</span><span class='line'>require 'capistrano/setup'
+</span><span class='line'>
+</span><span class='line'># Includes default deployment tasks
+</span><span class='line'>require 'capistrano/deploy'
+</span><span class='line'>require 'capistrano/console' # cap stage console とかやると便利
+</span><span class='line'>
+</span><span class='line'># Includes tasks from other gems included in your Gemfile
+</span><span class='line'>#
+</span><span class='line'># For documentation on these, see for example:
+</span><span class='line'>#
+</span><span class='line'>#   https://github.com/capistrano/rvm
+</span><span class='line'>#   https://github.com/capistrano/rbenv
+</span><span class='line'>#   https://github.com/capistrano/chruby
+</span><span class='line'>#   https://github.com/capistrano/bundler
+</span><span class='line'>#   https://github.com/capistrano/rails
+</span><span class='line'>#
+</span><span class='line'># require 'capistrano/rvm'
+</span><span class='line'># require 'capistrano/rbenv'
+</span><span class='line'># require 'capistrano/chruby'
+</span><span class='line'>require 'capistrano/bundler' # deploy:updated の前に bundle install してくれる
+</span><span class='line'>require 'capistrano3/unicorn' # cap3で unicorn を操作できるようにしてくれる
+</span><span class='line'># require 'capistrano/rails/assets'
+</span><span class='line'># require 'capistrano/rails/migrations'
+</span><span class='line'>
+</span><span class='line'># Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
+</span><span class='line'>Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>config/unicorn/stage.rb</h3>
+
+<p><a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/lib/capistrano3/tasks/unicorn.rake#L4">:unicorn_config_path</a> を参考にすると<br/>
+<code>config/unicorn.rb</code>ではなく<code>config/unicorn/satge.rb</code>を記載する</p>
+
+<p>unicorn 設定例 : <a href="https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb">example.rb</a></p>
+
+<p>上記設定例を参考に設定.取り敢えず変更箇所は<code>app_path</code>ぐらい</p>
+
+<ul>
+<li>config/unicorn/stage.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># paths
+</span><span class='line'>app_path = "/home/foo/app_name"
+</span><span class='line'>working_directory "#{app_path}/current"
+</span><span class='line'>pid               "#{app_path}/current/tmp/pids/unicorn.pid"
+</span><span class='line'>
+</span><span class='line'># listen
+</span><span class='line'>listen "/tmp/hoge-api.socket", :backlog =&gt; 64
+</span><span class='line'>
+</span><span class='line'># logging
+</span><span class='line'>stderr_path "log/unicorn.stderr.log"
+</span><span class='line'>stdout_path "log/unicorn.stdout.log"
+</span><span class='line'>
+</span><span class='line'># workers
+</span><span class='line'>worker_processes 3
+</span><span class='line'>
+</span><span class='line'># use correct Gemfile on restarts
+</span><span class='line'>before_exec do |server|
+</span><span class='line'>  ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># preload
+</span><span class='line'>preload_app true
+</span><span class='line'>
+</span><span class='line'>before_fork do |server, worker|
+</span><span class='line'>  # the following is highly recomended for Rails + "preload_app true"
+</span><span class='line'>  # as there's no need for the master process to hold a connection
+</span><span class='line'>  if defined?(ActiveRecord::Base)
+</span><span class='line'>    ActiveRecord::Base.connection.disconnect!
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # Before forking, kill the master process that belongs to the .oldbin PID.
+</span><span class='line'>  # This enables 0 downtime deploys.
+</span><span class='line'>  old_pid = "#{server.config[:pid]}.oldbin"
+</span><span class='line'>  if File.exists?(old_pid) && server.pid != old_pid
+</span><span class='line'>    begin
+</span><span class='line'>      Process.kill("QUIT", File.read(old_pid).to_i)
+</span><span class='line'>    rescue Errno::ENOENT, Errno::ESRCH
+</span><span class='line'>      # someone else did our job for us
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>after_fork do |server, worker|
+</span><span class='line'>  if defined?(ActiveRecord::Base)
+</span><span class='line'>    ActiveRecord::Base.establish_connection
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>動作チェック</h2>
+
+<h3>deploy</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development deploy:check
+</span><span class='line'>$ bundle exec cap development deploy
+</span><span class='line'>$ bundle exec cap staging deploy
+</span><span class='line'>$ bundle exec cap production deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>unicorn</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec cap development unicorn:start
+</span><span class='line'>$ bundle exec cap development unicorn:legacy_restart
+</span><span class='line'>$ bundle exec cap development unicorn:stop</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>学び</h3>
+
+<p>rsyncではなくgit pullなので混乱することがある.<br/>
+currentやrelease, sharedなど見たらわかる面白構造.<br/>
+当たり前だけど上手くいかない時は手を動かすよりドキュメントとコードを読んだ方が早い.</p>
+
+<p>以上簡単なメモです.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -463,277 +897,6 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/26/server-infra-webdb-book/">「サーバ/インフラ徹底攻略」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-26T18:05:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank" title="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/61FyzLfkvnL.jpg" width="354" height="500" alt="サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)" /></a></p>
-
-<p><a href="http://www.amazon.co.jp/%E3%82%B5%E3%83%BC%E3%83%90-%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9%E5%BE%B9%E5%BA%95%E6%94%BB%E7%95%A5-WEB-PRESS-plus/dp/4774167681%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774167681" target="_blank">サーバ/インフラ徹底攻略 (WEB+DB PRESS plus)</a></p>
-
-<p>ご恵贈ありがとうございます！</p>
-
-<h2>TL;DR</h2>
-
-<p>mizzyさんのServerspecを利用したインフラCIの章、<br/>
-サイバーエージェント社のメンテナンスの章は最高だった</p>
-
-<h2>もくじ</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>巻頭企画
-</span><span class='line'>［入門］コードによるインフラ構築
-</span><span class='line'>サーバ構成管理の自動化を実現する
-</span><span class='line'>
-</span><span class='line'>第1章：ChefとVagrantによるインフラのコード化
-</span><span class='line'>設定の一元管理で作業を省力化する……伊藤 直也
-</span><span class='line'>第2章：Serverspecによるテスト駆動インフラ構築
-</span><span class='line'>設定変更の反映を確実なものにする……伊藤 直也
-</span><span class='line'>特集1
-</span><span class='line'>Amazon Web Services最新活用
-</span><span class='line'>レイヤ別比較，構築の定石，構成管理の自動化
-</span><span class='line'>
-</span><span class='line'>第1章：Amazon Web Servicesレイヤ別比較
-</span><span class='line'>各サービスの特徴を理解し，うまく使い分ける……片山 暁雄，平山 毅
-</span><span class='line'>第2章：EC2とVPCによるシステム構築
-</span><span class='line'>セキュアで可用性を高めたインフラの作り方……舟崎 健治，吉荒 祐一
-</span><span class='line'>第3章：RDSによるデータベースの活用
-</span><span class='line'>作成，デプロイ，バックアップ……今井 雄太，八木橋 徹平
-</span><span class='line'>第4章：CloudFormationによる構築の自動化
-</span><span class='line'>テンプレートの作成からミドルウェア構築設定まで……安川 健太
-</span><span class='line'>特集2
-</span><span class='line'>テスト駆動インフラ＆CI最前線
-</span><span class='line'>Infrastructure as Codeがもたらすワークフローの刷新
-</span><span class='line'>
-</span><span class='line'>第1章：インフラのテストとその重要性
-</span><span class='line'>「インフラのコード化」による開発手法の応用……宮下 剛輔
-</span><span class='line'>第2章：テスト駆動インフラの実践
-</span><span class='line'>VirtualBox，Vagrant，Puppet，Serverspecによるテスト自動化……宮下 剛輔
-</span><span class='line'>第3章：インフラCIの実践
-</span><span class='line'>GitHub，Wercker，DigitalOceanによる継続的テスト……宮下 剛輔
-</span><span class='line'>第4章：インフラの継続的改善の実践
-</span><span class='line'>GitHub Flowをベースとしたワークフロー変革……宮下 剛輔
-</span><span class='line'>特集3
-</span><span class='line'>実践Immutable Infrastructure
-</span><span class='line'>使い捨てサーバによる運用の変革
-</span><span class='line'>
-</span><span class='line'>第1章：Immutable Infrastructureとは何か
-</span><span class='line'>不変なサーバ，Blue-green Deploymentとそれらの利点……田中 慎司
-</span><span class='line'>第2章：Immutable Infrastructureで利用するツール／サービス
-</span><span class='line'>比較・整理と，システム全体での組み合わせ……田中 慎司
-</span><span class='line'>第3章：コンテナ型仮想化とクラウドによる実践
-</span><span class='line'>Docker+HAProxy，Amazon EC2+ELB……田中 慎司
-</span><span class='line'>第4章：クラスタ管理ツールによる実践
-</span><span class='line'>Apache Mesosでリソース管理の自動化……田中 慎司
-</span><span class='line'>特集4
-</span><span class='line'>［詳解］nginx
-</span><span class='line'>設定の柔軟性と優れたスケーラビリティ
-</span><span class='line'>
-</span><span class='line'>第1章：nginxの世界へようこそ
-</span><span class='line'>アーキテクチャ，用途，メリット，デメリット……久保 達彦
-</span><span class='line'>第2章：はじめてのnginx
-</span><span class='line'>インストール，起動と終了，基本設定……道井 俊介
-</span><span class='line'>第3章：一般的なWebサーバの構築
-</span><span class='line'>バーチャルホスト，アクセス制御，SSL通信，基本認証……飯田 祐基
-</span><span class='line'>第4章：実践的なWebアプリケーションサーバの構築
-</span><span class='line'>Unicorn/RailsやPHP-FPMと連携させる……道井 俊介
-</span><span class='line'>第5章：大規模コンテンツ配信システムの構築
-</span><span class='line'>キャッシュ，ロードバランシングを活用する……飯田 祐基
-</span><span class='line'>第6章：拡張モジュールのしくみと作り方
-</span><span class='line'>nginxを自由にカスタマイズするための基礎知識……久保 達彦
-</span><span class='line'>特集5
-</span><span class='line'>メンテナンス本格入門
-</span><span class='line'>緊急対応，計画停止，メンテフリー化
-</span><span class='line'>
-</span><span class='line'>第1章：メンテナンスとは
-</span><span class='line'>種類と手法を整理する……桑野 章弘
-</span><span class='line'>第2章：計画メンテナンスの流れ
-</span><span class='line'>事前準備，作業のチェック，振り返り……松浦 隼人
-</span><span class='line'>第3章：緊急メンテナンスの流れ
-</span><span class='line'>普段から備えるべきこと，障害時の対応……松浦 隼人
-</span><span class='line'>第4章：メンテフリーへのアプローチ【インフラ編】
-</span><span class='line'>省力運用を実現するインフラ，データベース設計と障害検知……松浦 隼人，中村 俊之
-</span><span class='line'>第5章：メンテフリーへのアプローチ【アプリケーション編】
-</span><span class='line'>ダウンタイムを減らすリリース手法とアプリケーション設計……福永 亘，中村 俊之，松浦 隼人
-</span><span class='line'>第6章：ガールフレンド（仮）とアメーバピグの事例
-</span><span class='line'>現場でどう実践し，どう障害を切り抜けたか……福永 亘，杉山 仁則
-</span><span class='line'>一般記事
-</span><span class='line'>
-</span><span class='line'>Dockerで軽量な仮想環境
-</span><span class='line'>Linuxコンテナでインフラを瞬時に構築する……伊藤 直也</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>感想</h2>
-
-<h3>なおやさんの章</h3>
-
-<p>Vagrant、Chef、Serverspecなどを利用したことのない人が<br/>
-手元でひと通り読みながら進めるとインフラのコード化を実感できる.</p>
-
-<h3>AWSさんの章</h3>
-
-<p>Amazon Web Servicesの章はひと通りのサービスの説明と<br/>
-実際にアプリケーションを動かす例が記載されている.<br/>
-これを読めばいきなりAWSを駆使できるかと言われればNoだが<br/>
-AWS全体のサービスを把握するのに良さそう.</p>
-
-<h3>mizzyさんの章</h3>
-
-<p>mizzyさんの章はServerspecの作者であるmizzyさんご自身の<br/>
-Serverspecの活用方法で、実際に<a href="https://www.digitalocean.com/">DigitalOcean</a>と<a href="http://wercker.com/">wercker</a>を利用して<br/>
-手を動かしながら、インフラのCIを体験することができる.<br/>
-利用しているサービスも、DigitalOceanは一般的なインスタンスでも<br/>
-1時間に1.6円(2014/10現在)で利用でき、<br/>
-werckerはまだ無料の(2014/10現在)CIサービスなのでとても簡単に始めることができる.</p>
-
-<p>導入だけでなく<a href="http://scottchacon.com/2011/08/31/github-flow.html">GitHub Flow</a>を利用してどのように運用するかまで載っているので<br/>
-インフラのCIインフラのCIって最近よく聞くけどどうやったらいいんだ.<br/>
-という私と同じようなエンジニアにとっては大変ありがたい章だ.<br/>
-全体のデザインのモチーフが宇宙観があって最高だった.</p>
-
-<h3>stanakaさんの章</h3>
-
-<p>先ほどのmizzyさんの章のモチーフが宇宙だったのに比べ、stanakaさんの章は神社だ.<br/>
-Immutable Infrastructureをどのように実践するかの具体的な内容が記載されている.<br/>
-はてな社はこの環境でプロダクトのサービスが動いているのだろうか.すごい.</p>
-
-<h3>nginxの章</h3>
-
-<p>nginxについて色々な内容が書いてあった.<br/>
-本書の全体の構成の中で、nginxだけを扱うというスコープが<br/>
-他の章と比べると少し変な感じがした.</p>
-
-<h3>メンテナンスの章</h3>
-
-<p>サイバーエージェント社の存在するサービスに対して<br/>
-どのようにメンテナンス作業を行っているのかという社外に出てこないような知見を<br/>
-このように書籍として読めるのは本当に貴重だと思う.</p>
-
-<p>ウェブサービス業界のサーバサイドの勉強会はかなり多く開催されているが、<br/>
-このような泥臭いというか、目新しくはないけど<br/>
-確実に行わなければならない企業毎の知見みたいなものを共有していく重要性を<br/>
-改めて考えさせられた章だった.ありがたい</p>
-
-<h3>Dockerの章</h3>
-
-<p>Vagrant + Dockerの基本的な内容が記載されている.<br/>
-とりあえずどんなものか知るのに良さそう.</p>
-
-<h2>まとめ</h2>
-
-<p>職人がサーバひとつひとつ温もりを持って構築している職場を改善したい人や、<br/>
-大企業でメンテナンス作業がどう行われているのか知りたいエンジニア、<br/>
-インフラのコード化、インフラのCI、AWSなどざざっと把握してみたい人には良いと思う.</p>
 </div>
   
   
