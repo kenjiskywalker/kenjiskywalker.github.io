@@ -9,9 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="俺の子連れおすすめスポット Advent Calendar 2014 http://www.env.go.jp/garden/shinjukugyoen/ 新宿御苑をおすすめします。 大人（15歳以上）200円　小・中学生50円　幼児無料で安い
-新宿駅から歩いていける
-無茶苦茶土地が広い &hellip;">
+  <meta name="description" content="なんかもうちょっと読んでた気がする&hellip; kenjiskywalkerの本棚 - 2014年11月 (1作品) & Premium (アンド プレミアム) 2015年 1月号読了日：11月24日 powered by booklog ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +61,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/07/201411-book/">2014/11読んだ本</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T05:21:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>なんかもうちょっと読んでた気がする&hellip;</p>
+
+<div style="margin-bottom:15px;"><a href="http://booklog.jp/users/kenjiskywalker" target="_blank">kenjiskywalkerの本棚</a> - 2014年11月 (1作品)</div>
+
+
+<div style="margin-bottom:5px;"><div style="width:75px;height:75px;float:left;margin-right:2px;"><a href="http://booklog.jp/item/1/B00OZY4G6G" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51mueCl2g9L._SL75_.jpg" width="58" height="75" alt="" /></a></div><div><a href="http://booklog.jp/item/1/B00OZY4G6G" target="_blank">& Premium (アンド プレミアム) 2015年 1月号</a><br />読了日：11月24日<br /></div><br style="clear:both;" /></div>
+
+
+<div style="margin:10px 0;font-size:80%;">powered by <a href="http://booklog.jp" target="_blank">booklog</a></div>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -788,104 +831,6 @@ CircleCIと同様にファイルをキャッシュするには<br/>
 
 
 <p>以上、メモです。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/10/shellscript-old-style/">シェルスクリプトで外部コマンドを利用する場合の注意点</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-10T15:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TL;DR</h2>
-
-<p>シェルスクリプトでbackquoteを見つけたら<br/>
-オールドスタイルおじさんを探し、矯正させよう</p>
-
-<blockquote><p>GNU Bash-2.05 manual</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   When the old-style backquote form of substitution is used, backslash retains its  lit-  
-</span><span class='line'>   eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
-</span><span class='line'>   a backslash terminates the command substitution.  When using the $(command) form,  all  
-</span><span class='line'>   characters between the parentheses make up the command; none are treated specially.</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">a</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s1">&#39;\&#39;`</span>
-</span><span class='line'><span class="s1">echo ${a} # \</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">b=`echo &quot;\\&quot;`</span>
-</span><span class='line'><span class="s1">echo ${b} # unexpected EOF while looking for matching `&quot;&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">c</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="err">&#39;</span><span class="se">\&#39;</span><span class="k">)</span>
-</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">c</span><span class="k">}</span> <span class="c"># \</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">d</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;\\&quot;</span><span class="k">)</span>
-</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">d</span><span class="k">}</span> <span class="c"># \</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考</h2>
-
-<p><a href="http://hyperpolyglot.org/unix-shells#cmd-subst-note">http://hyperpolyglot.org/unix-shells#cmd-subst-note</a></p>
-
-<h2>追記</h2>
-
-<blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
-
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 </div>
   
   

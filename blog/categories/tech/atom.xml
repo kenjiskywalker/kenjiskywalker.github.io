@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tech | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-08T13:00:16+09:00</updated>
+  <updated>2016-07-08T15:00:51+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/"/>
+    <updated>2016-07-08T13:32:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip</id>
+    <content type="html"><![CDATA[<p>件の通り</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr"><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> そんな仕組みあるの？</p>&mdash; そのっつ (Naotoshi Seo) (@sonots) <a href="https://twitter.com/sonots/status/751219867785711616">July 8, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr"><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> クレクレ</p>&mdash; そのっつ (Naotoshi Seo) (@sonots) <a href="https://twitter.com/sonots/status/751220071335235585">July 8, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>今見直したら結構ひどい感じだったけど一旦公開しておく。<br/>
+AWS SDK for Rubyを利用してもいいし、これぐらいならgoで書いても良いスね。</p>
+
+<h3>仕組み</h3>
+
+<ul>
+<li><code>Role</code>  - web, db, app, etc&hellip;</li>
+<li><code>Stage</code> - development, staging, production, etc&hellip;</li>
+</ul>
+
+
+<p><code>EC2</code>のインスタンスそれぞれに<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/Using_Tags.html">タグ</a>の設定を入れている。<br/>
+それぞれのインスタンスは<a href="http://docs.aws.amazon.com/ja_jp/AutoScaling/latest/DeveloperGuide/WhatIsAutoScaling.html">AutoScalingGroup</a>管理下にあり、<br/>
+上記タグもそれぞれのAutoScalingGroupにてインスタンス起動時に付与するようになっている。</p>
+
+<h4>起動時に浮いたEIPをアサインさせたい</h4>
+
+<p>Ref: <a href="http://qiita.com/toshihirock/items/81d6612511f0d1f5db77">Qiita:AmazonLinuxのcloud-initについての調査メモ</a></p>
+
+<p><code>cloud-init</code>のいい感じのオフィシャルドキュメントってどこにあるんだ&hellip;</p>
+
+<ul>
+<li>/var/lib/cloud/scripts/per-boot/004_assign-elastic-ip.rb</li>
+</ul>
+
+
+<pre><code class="rb">#!/usr/bin/env ruby
+
+#
+# 基本的に 各Role に EIP を付与するインスタンスは 2台 毎
+# 
+#
+
+INSTANCEID  = `curl -s http://169.254.169.254/latest/meta-data/instance-id/`
+
+REGION      = 'ap-northeast-1'
+ROLE        = `aws --region #{REGION} ec2 describe-instances \
+                 --instance-ids #{INSTANCEID} \
+                 --output text \
+                 --query 'Reservations[].Instances[].Tags[?Key==\`Role\`].[Value]' \
+                 `.chomp
+STAGE       = `aws --region #{REGION} ec2 describe-instances \
+                 --instance-ids #{INSTANCEID} \
+                 --output text \
+                 --query 'Reservations[].Instances[].Tags[?Key==\`Stage\`].[Value]' \
+                 `.chomp
+
+# foo, bar以外はEIPの付与はないので一旦この条件を設定する
+exit 0 unless ROLE == 'foo' || ROLE == 'bar'
+
+# 浮いたEIPを入れる変数
+elasticip_allocation_ids = []
+
+# ROLE と STAGE 毎に保持している EIP は違う
+# TODO: hash or json
+case ROLE
+when 'foo'
+  if STAGE == 'development'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX', 'eipalloc-XXXXXXXX']
+  elsif STAGE == 'staging'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX', 'eipalloc-XXXXXXXX']
+  else
+    exit 0
+  end
+when 'bar'
+  if STAGE == 'production'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX']
+  elsif STAGE == 'staging'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX']
+  else
+    exit 0
+  end
+when 'baz'
+  if STAGE == 'production'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX']
+  elsif STAGE == 'staging'
+    elasticip_allocation_ids = ['eipalloc-XXXXXXXX']
+  else
+    exit 0
+  end
+else
+  exit 0
+end
+
+elasticip_allocation_ids.each do |eip_id|
+  # 対象のEIPにEC2が紐付いているか確認(浮いたEIPを探す)
+  assigned_instance_id = `aws --region #{REGION} ec2 describe-addresses \
+                            --allocation-ids #{eip_id} \
+                            | jq '.Addresses[].InstanceId' \
+                            `.chomp
+
+  # 浮いたEIPがあれば付与する処理へ移る
+  next unless assigned_instance_id == 'null'
+
+  # EIPを付与する
+  `aws --region #{REGION} ec2 associate-address \
+     --allocation-id #{eip_id} \
+     --instance-id #{INSTANCEID}`
+  puts "COMPLETE: associate-address --allocation-id #{eip_id} --instance-id #{INSTANCEID}"
+  exit 0
+end
+
+puts "CANNOT ASSOCIATE EIP to `hostname`"
+exit 1
+</code></pre>
+
+<p>という感じで<code>/var/lib/cloud/scripts/per-boot/</code>配下にスクリプトを置いている。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話]]></title>

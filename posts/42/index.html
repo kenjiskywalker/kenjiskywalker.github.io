@@ -9,8 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="大人になったら会計のかの字ぐらいわかってないと
-いけないなと思って選んだ本書籍、実にまとまっていてすんなり読み進めることができた。 世界一わかりやすい会計の本 (East Press Business) 個人的メモ 貸方・借方 覚えない。右とか左で良い 経営分析は意味がない 一般企業の80% &hellip;">
+  <meta name="description" content="Opscode Chef 11 Release / OpsCode blog Long time contributor and past-MVP Andrea Campi added support for partial templates. This is a significant &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +61,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/01/chef-another-template-from-render/">Chef 11からtemplateの中でtemplateを呼び出せるようになっていた</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-01T18:20:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.opscode.com/blog/2013/02/04/chef-11-released/">Opscode Chef 11 Release / OpsCode blog</a></p>
+
+<blockquote><p>Long time contributor and past-MVP Andrea Campi added support for partial templates. This is a significant feature if you have templates with large sections that change based on attributes. You can now render additional templates inside a template with &lt;%= render &lsquo;other_template.erb&rsquo; %>. This functionality expands the capability of the template reasource in a huge way.</p></blockquote>
+
+<p>ということで、</p>
+
+<ul>
+<li>/chef/cookboof/hoge/templates/default/hoge.conf.erb</li>
+</ul>
+
+
+<p>の中で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= render 'homhom.conf.erb' %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と書くと</p>
+
+<ul>
+<li>/chef/cookboof/hoge/templates/default/homhom.conf.erb</li>
+</ul>
+
+
+<p>が呼び出されて、templateの中でtemplateを呼び出すことができる。<br/>
+だいぶ便利っぽい</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -811,54 +871,6 @@ Specファイルは <code>cookbook/*/spec/default_spec.rb</code> というファ
 
 <p>みたいな感じで一発でテストを通すことができて便利っぽいです。<br/>
 以上、簡単なchefspec情報でした。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/23/ume/">梅</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-23T12:13:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>2013年の梅。</p>
-
-<h2>1</h2>
-
-<p><img src="http://farm9.staticflickr.com/8231/8580864765_2e0ca7bdba_c.jpg" alt="http://farm9.staticflickr.com/8231/8580864765_2e0ca7bdba_c.jpg" /></p>
-
-<h2>2</h2>
-
-<p><img src="http://farm9.staticflickr.com/8249/8580864607_bc21257d4a_c.jpg" alt="http://farm9.staticflickr.com/8249/8580864607_bc21257d4a_c.jpg" /></p>
-
-<h2>3</h2>
-
-<p><img src="http://farm9.staticflickr.com/8379/8580863993_48ac112547_c.jpg" alt="http://farm9.staticflickr.com/8379/8580863993_48ac112547_c.jpg" /></p>
 </div>
   
   

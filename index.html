@@ -9,9 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="みんなのネットワーク環境が安定しているのか..
-我々の世界線にノイズが混在してしまっているのか&hellip; それを調べるすべはないが、下記のような問題があった。 mackerelで突然グラフが表示されなくなる
-そのグラフを表示しているのはfluent-plugin- &hellip;">
+  <meta name="description" content="件の通り @kenjiskywalker そんな仕組みあるの？&mdash; そのっつ (Naotoshi Seo) (@sonots) July 8, 2016 @kenjiskywalker クレクレ&mdash; そのっつ (Naotoshi Seo) (@sonots) July 8, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +61,239 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-08T13:32:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>件の通り</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr"><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> そんな仕組みあるの？</p>&mdash; そのっつ (Naotoshi Seo) (@sonots) <a href="https://twitter.com/sonots/status/751219867785711616">July 8, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr"><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> クレクレ</p>&mdash; そのっつ (Naotoshi Seo) (@sonots) <a href="https://twitter.com/sonots/status/751220071335235585">July 8, 2016</a></blockquote>
+
+
+<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>今見直したら結構ひどい感じだったけど一旦公開しておく。<br/>
+AWS SDK for Rubyを利用してもいいし、これぐらいならgoで書いても良いスね。</p>
+
+<h3>仕組み</h3>
+
+<ul>
+<li><code>Role</code>  - web, db, app, etc&hellip;</li>
+<li><code>Stage</code> - development, staging, production, etc&hellip;</li>
+</ul>
+
+
+<p><code>EC2</code>のインスタンスそれぞれに<a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/Using_Tags.html">タグ</a>の設定を入れている。<br/>
+それぞれのインスタンスは<a href="http://docs.aws.amazon.com/ja_jp/AutoScaling/latest/DeveloperGuide/WhatIsAutoScaling.html">AutoScalingGroup</a>管理下にあり、<br/>
+上記タグもそれぞれのAutoScalingGroupにてインスタンス起動時に付与するようになっている。</p>
+
+<h4>起動時に浮いたEIPをアサインさせたい</h4>
+
+<p>Ref: <a href="http://qiita.com/toshihirock/items/81d6612511f0d1f5db77">Qiita:AmazonLinuxのcloud-initについての調査メモ</a></p>
+
+<p><code>cloud-init</code>のいい感じのオフィシャルドキュメントってどこにあるんだ&hellip;</p>
+
+<ul>
+<li>/var/lib/cloud/scripts/per-boot/004_assign-elastic-ip.rb</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># 基本的に 各Role に EIP を付与するインスタンスは 2台 毎</span>
+</span><span class='line'><span class="c1"># </span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">INSTANCEID</span>  <span class="o">=</span> <span class="sb">`curl -s http://169.254.169.254/latest/meta-data/instance-id/`</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">REGION</span>      <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>
+</span><span class='line'><span class="no">ROLE</span>        <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="no">REGION</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
+</span><span class='line'><span class="sb">                 --instance-ids </span><span class="si">#{</span><span class="no">INSTANCEID</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">                 --output text \</span>
+</span><span class='line'><span class="sb">                 --query &#39;Reservations[].Instances[].Tags[?Key==\`</span><span class="no">Role</span><span class="p">\</span><span class="sb">`].[Value]&#39; \</span>
+</span><span class='line'><span class="sb">                 `</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'><span class="no">STAGE</span>       <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="no">REGION</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
+</span><span class='line'><span class="sb">                 --instance-ids </span><span class="si">#{</span><span class="no">INSTANCEID</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">                 --output text \</span>
+</span><span class='line'><span class="sb">                 --query &#39;Reservations[].Instances[].Tags[?Key==\`</span><span class="no">Stage</span><span class="p">\</span><span class="sb">`].[Value]&#39; \</span>
+</span><span class='line'><span class="sb">                 `</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># foo, bar以外はEIPの付与はないので一旦この条件を設定する</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">0</span> <span class="k">unless</span> <span class="no">ROLE</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span> <span class="o">||</span> <span class="no">ROLE</span> <span class="o">==</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 浮いたEIPを入れる変数</span>
+</span><span class='line'><span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ROLE と STAGE 毎に保持している EIP は違う</span>
+</span><span class='line'><span class="c1"># TODO: hash or json</span>
+</span><span class='line'><span class="k">case</span> <span class="no">ROLE</span>
+</span><span class='line'><span class="k">when</span> <span class="s1">&#39;foo&#39;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;development&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="p">,</span> <span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;staging&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="p">,</span> <span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">when</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;staging&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">when</span> <span class="s1">&#39;baz&#39;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="no">STAGE</span> <span class="o">==</span> <span class="s1">&#39;staging&#39;</span>
+</span><span class='line'>    <span class="n">elasticip_allocation_ids</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;eipalloc-XXXXXXXX&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">exit</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">exit</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">elasticip_allocation_ids</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">eip_id</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># 対象のEIPにEC2が紐付いているか確認(浮いたEIPを探す)</span>
+</span><span class='line'>  <span class="n">assigned_instance_id</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="no">REGION</span><span class="si">}</span><span class="sb"> ec2 describe-addresses \</span>
+</span><span class='line'><span class="sb">                            --allocation-ids </span><span class="si">#{</span><span class="n">eip_id</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">                            | jq &#39;.Addresses[].InstanceId&#39; \</span>
+</span><span class='line'><span class="sb">                            `</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 浮いたEIPがあれば付与する処理へ移る</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">unless</span> <span class="n">assigned_instance_id</span> <span class="o">==</span> <span class="s1">&#39;null&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># EIPを付与する</span>
+</span><span class='line'>  <span class="sb">`aws --region </span><span class="si">#{</span><span class="no">REGION</span><span class="si">}</span><span class="sb"> ec2 associate-address \</span>
+</span><span class='line'><span class="sb">     --allocation-id </span><span class="si">#{</span><span class="n">eip_id</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">     --instance-id </span><span class="si">#{</span><span class="no">INSTANCEID</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;COMPLETE: associate-address --allocation-id </span><span class="si">#{</span><span class="n">eip_id</span><span class="si">}</span><span class="s2"> --instance-id </span><span class="si">#{</span><span class="no">INSTANCEID</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="nb">exit</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;CANNOT ASSOCIATE EIP to `hostname`&quot;</span>
+</span><span class='line'><span class="nb">exit</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という感じで<code>/var/lib/cloud/scripts/per-boot/</code>配下にスクリプトを置いている。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -964,48 +1195,6 @@ failしたらfailしたよって通知するようにした。</p>
 
 
   <div class="entry-content"><p>以上です。(どこかドキュメント落ちてるかな)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-01-21T17:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>これやで</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*</span></code></pre></td></tr></table></div></figure>
-
-
-
 </div>
   
   

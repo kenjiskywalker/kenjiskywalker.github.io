@@ -9,8 +9,7 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="OS X Yosemite 10.10.4 1
-curl: (51) SSL: certificate verification failed (result: 5) 1
+  <meta name="description" content="考えたら当たり前なんだけど 1
 2
 3
 4
@@ -22,7 +21,10 @@ curl: (51) SSL: certificate verification failed (result: 5) 1
 10
 11
 12
-🙏 ruby -ropenssl -e "p OpenSSL::X509:: &hellip;">
+13
+mysql&gt; desc people;
++---------------+--------------+------+-----+---------+----------------+
+| Field &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +76,124 @@ curl: (51) SSL: certificate verification failed (result: 5) 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/08/access-element-in-rails-controller-object/">RailsのARで取ってきたオブジェクトにアクセスする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-08T20:57:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>考えたら当たり前なんだけど</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; desc people;
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>| Field         | Type         | Null | Key | Default | Extra          |
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>| id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+</span><span class='line'>| name          | varchar(255) | YES  |     | NULL    |                |
+</span><span class='line'>| prefecture    | varchar(255) | YES  |     | NULL    |                |
+</span><span class='line'>| created_at    | datetime     | YES  |     | NULL    |                |
+</span><span class='line'>| updated_at    | datetime     | YES  |     | NULL    |                |
+</span><span class='line'>+---------------+--------------+------+-----+---------+----------------+
+</span><span class='line'>7 rows in set (0.00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいなものがあってView側で</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@prefecture_name = People.group(:prefecture)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでprefectureをまとめておいて<br/>
+プルダウンでprefectureを選択してsubmitして</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= form_tag({:action=&gt;"list"}, {:method=&gt;"get"}) do %&gt;
+</span><span class='line'>  # all_peoplesはpeoples
+</span><span class='line'>  &lt;%= select_tag 'prefecture', options_from_collection_for_select(@prefecture_name, "prefecture", "prefecture") %&gt;
+</span><span class='line'>  &lt;%= submit_tag 'subsubsub' %&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で<code>prefecture</code>を<code>params</code>で受け取れるようにしておいて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def list
+</span><span class='line'>    @people_selected_by_prefecture = People.where(prefecture: params[:prefecture])
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでControllerで選択されたprefectureでレコードを抜いておいて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% @people_selected_by_prefecture.each do |p| %&gt;
+</span><span class='line'>  &lt;%= p.name %&gt; | &lt;%= p.prefecture %&gt;&lt;br&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>みたいな感じでプルダウンで選んだprefectureに該当する人間を選ぶ<br/>
+みたいな感じ</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;% @people_selected_by_prefecture.each do |p| %&gt;
+</span><span class='line'>  &lt;%= p[0] %&gt; | &lt;%= p[1] %&gt;&lt;br&gt;
+</span><span class='line'>&lt;% end %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とかでやろうとしていたけどそもそもHashではない</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -775,47 +895,6 @@ MySQL-Sandbox v3.0.50</p></blockquote>
 
 
 <p>うーむ、便利だ。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/16/sensu-alert-repeat/">Sensuのアラートを復旧するまで繰り返し通知させたい</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-16T16:33:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2><a href="https://sensuapp.org/docs/0.19/checks">https://sensuapp.org/docs/0.19/checks</a></h2>
-
-<p>ここの<code>refresh</code>の項目がそれ。完全に忘れていたところ<br/>
-@la_luna_azulさんが即答してくれて感謝。</p>
-
-<p>PagerDutyの費用の計算間違えてて涙目です。</p>
 </div>
   
   
