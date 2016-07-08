@@ -9,10 +9,16 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="Chefには冪等性という特徴がありますが、実際の運用では
-ミドルウェアの設定の更新はしたいが、ミドルウェアの再起動までは
-自分の手で確認したい。という条件もあるかと思います。 設定ファイルは常に更新しても良い
-設定ファイルが更新された時だけミドルウェアを起動したい &hellip;">
+  <meta name="description" content="iOS用にPPTPで接続できるようにしたら便利だったので
+VyattaでVPN(PPTP)設定したメモ。 参考：Vyatta で構築する簡単 VPN サーバ 1
+2
+3
+4
+5
+6
+7
+$ configure
+# set vpn pptp remote-access authentication &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +70,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/29/vyatta-pptp/">VyattaでVPN(PPTP)の設定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-29T18:01:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS用にPPTPで接続できるようにしたら便利だったので<br/>
+VyattaでVPN(PPTP)設定したメモ。</p>
+
+<p>参考：<a href="http://jedipunkz.github.io/blog/2012/06/13/vyatta-vpn/">Vyatta で構築する簡単 VPN サーバ</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ configure
+</span><span class='line'># set vpn pptp remote-access authentication local-users username ${USER} password ${PASSWORD}
+</span><span class='line'># set vpn pptp remote-access authentication mode local
+</span><span class='line'># set vpn pptp remote-access client-ip-pool start ${IP_START}
+</span><span class='line'># set vpn pptp remote-access client-ip-pool stop ${IP_END}
+</span><span class='line'># commit
+</span><span class='line'># save</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上です。市販のルータ使っていたらGUIで設定して<br/>
+反映する為にはルータの再起動が必要です。1分待って下さいとか<br/>
+なかなか渋いことになりますが、VyattaはCLIで設定すれば<br/>
+再起動など必要なく即反映されます。最高のユーザ体験です。</p>
+
+<p>もう市販のルータ使うことはないと思います。　</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -637,119 +705,6 @@ ec2-upload-bundle 1.4.0.9 20071010</p></blockquote>
 
 
 <p>以上です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/16/ant-and-grasshopper/">アリとキリギリス</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T16:33:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>たくさんのすごい話と、すごいことをしているすごい人たちと話す機会があって<br/>
-アリとキリギリスについて考えることがあったので書いてみる。</p>
-
-<p>きっかけは色々あった。常に高い、正しいモチベーションを<br/>
-持ち合わせていたわけではない。</p>
-
-<p>今でもそうだ、何事に対してもその中で頂点を取ろうとか<br/>
-有名になりたいとか、そういう強い志を持ち合わせているわけではない。</p>
-
-<p>選択の連続が、奇跡的に、高いモチベーションを持ち合わす人たちと<br/>
-出会うことができた現在に繋がっている。<br/>
-もちろん、ある地点では自分の限界を越えてやろうと挑戦したこともあった。</p>
-
-<p>選択の連続が世界を生んだが、自分の手で何かを切り開いてきたことではない。<br/>
-一歩を踏み出すチャンスはあった、しかし現実はそう簡単に選択できることはない。<br/>
-覚悟を産むのは自信だ。自信を産むのは何だ？自信を産むものは行動だ。</p>
-
-<p>先人たちは常に自分に挑戦し続けた人だ。アリはキリギリスを意識したことはない。<br/>
-アリは常に最善を選択し、目標を持ち、その目標にチャレンジし続けてきた結果だ。</p>
-
-<p>キリギリスの結末は飢えて死ぬことだ。当然の結果だ。<br/>
-何もせずに何かを得ることはそう簡単なことではない。</p>
-
-<p>私はキリギリスだ。私を特定できるものは何もない。</p>
-
-<p>先人たちは常に未来を見せてくれる。先人たちは常にチャレンジした結果を<br/>
-我々に教えてくれる。世界は常に開かれていると教えてくれる。</p>
-
-<p>生まれた時から閉ざされた世界に生まれた人もいる。<br/>
-環境が閉ざされた世界だ。</p>
-
-<iframe width="420" height="315" src="//www.youtube.com/embed/DV1hQSt2hSE" frameborder="0" allowfullscreen></iframe>
-
-
-<p>人間は環境によって影響される、毎日が映画のような素晴らしい日々ではない。<br/>
-目を背けたくなるような現実が今日も目の前にぶら下がっている。</p>
-
-<p>先人たちは常にチャレンジをし続けてきたからあの世界があり、<br/>
-これからもきっと辿り着くことはできないだろう。</p>
-
-<p>キリギリスの結末は飢えて死ぬことだ。当然の結果だ。</p>
-
-<p>自分の置かれた環境が、妥協の連続しかなかったんだ。<br/>
-そういう人が周りにいたら気付けたのかもしれない。しかしもう遅い。<br/>
-仕方ない結果だ。目を背けたくなるような現実が<br/>
-今日も目の前にぶら下がっているからだ。</p>
-
-<p>環境の違いだ。仕方ない。仕方のないことなんだ。<br/>
-どこかのタイミングで気付けていれば、何か突き抜けたものがありさえすれば<br/>
-今いる世界は違うだろう。<br/>
-私もアリの世界にいたのかもしれない。しかし現実は違う。</p>
-
-<p>始めるのが遅かったんだ。自分が置かれた環境が<br/>
-妥協の連続を選択してきた人間しかいなかったんだ。仕方のない結果だ。</p>
-
-<p>私はキリギリスだ。私を特定できるものは何もない。<br/>
-キリギリスの結末は飢えて死ぬことだ。当然の結果だ。</p>
-
-<p>キリギリスが動き出すのはアリが動くよりも大変なことだ。<br/>
-妥協の連続に慣れきった身体が鉛のように身動きを妨げるから。</p>
-
-<p>キリギリスが動き出すのはアリが動くよりも大変なことだ。<br/>
-目標なんてものを持ったこともなければ、達成した経験もない。</p>
-
-<p>環境さえ違えば、別の道があったのかもしれない。<br/>
-私はキリギリスの中で生まれてキリギリスのように死んでいく。</p>
-
-<p>力があれば、経験があれば、知識が、体験があれば。</p>
-
-<p>人間はいつか死ぬ。キリギリスはアリにはなれない。<br/>
-私はキリギリスだ。キリギリスの結末は飢えて死ぬことだ。<br/>
-当然の結果だ。</p>
-
-<p>言い分はわかった。キリギリスはアリにはなれない。<br/>
-環境が悪かった。周りの人間が悪かった。そうだろう。<br/>
-結局お前はキリギリスとして何も行動をせず、<br/>
-困難を受け入れるわけでもなく、目の前の現実に目を背け<br/>
-誰に喜ばれるわけでもなく死んでいくんだ。</p>
 </div>
   
   

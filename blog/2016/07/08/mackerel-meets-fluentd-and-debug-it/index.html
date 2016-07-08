@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>さよならインターネット</title>
+  <title>問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話 - さよならインターネット</title>
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="みんなのネットワーク環境が安定しているのか..
-我々の世界線にノイズが混在してしまっているのか&hellip; それを調べるすべはないが、下記のような問題があった。 mackerelで突然グラフが表示されなくなる
-そのグラフを表示しているのはfluent-plugin- &hellip;">
+  <meta name="description" content="問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話 みんなのネットワーク環境が安定しているのか..
+我々の世界線にノイズが混在してしまっているのか&hellip; それを調べるすべはないが、下記のような問題があった。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/">
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -61,15 +60,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話</a></h1>
+      <h1 class="entry-title">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話</h1>
     
     
       <p class="meta">
@@ -92,7 +88,7 @@
   </header>
 
 
-  <div class="entry-content"><p>みんなのネットワーク環境が安定しているのか..<br/>
+<div class="entry-content"><p>みんなのネットワーク環境が安定しているのか..<br/>
 我々の世界線にノイズが混在してしまっているのか&hellip;</p>
 
 <p>それを調べるすべはないが、下記のような問題があった。</p>
@@ -561,229 +557,26 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 <p>サービスを利用させてもらっている側もこのように地味なところで貢献できるので<br/>
 何かあったら色々とやってみよう💪</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
 
-<time datetime="2016-07-06T09:52:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Terraformとは</h2>
-
-<p><a href="https://www.terraform.io">https://www.terraform.io</a>ここ見てください。<br/>
-<code>INFRASTRUCTURE AS CODE</code>と書いてあります。</p>
-
-<h2>何が便利か</h2>
-
-<p>たとえばAWSの新規VPCの作成など画面ポチポチで設定していくオペレーションをコードに落とせる。</p>
-
-<blockquote><p>それってAPI叩けば同じでは？<br/>
-PaaSが<a href="https://www.terraform.io/docs/providers/index.html">色々</a>対応している。MySQLにも対応しているの&hellip;</p></blockquote>
-
-<h2>伝えたいこと</h2>
-
-<p>たとえばVPCを構築するとして</p>
-
-<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">Terraformの有識者にどうにかしてresourceの名前にvariableの値を入れる方法を教えてほしい🤔</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750200917312417792">July 5, 2016</a></blockquote>
-
-
-<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "${var.prefix}-${var.environment_name}-vpc" {
-</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
-</span><span class='line'>    enable_dns_hostnames = true
-</span><span class='line'>    enable_dns_support   = true
-</span><span class='line'>    instance_tenancy     = "default"
-</span><span class='line'>
-</span><span class='line'>    tags {
-</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>などと<code>resource</code>名をユニークな感じでやろうとしたのだけれど</p>
-
-<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">so this is by design.と言われればそれまでだ <a href="https://t.co/Im2kwIqiQa">https://t.co/Im2kwIqiQa</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750218349884301313">July 5, 2016</a></blockquote>
-
-
-<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<p><code>by design</code>と言われていたので、なんだか使いづらいな〜と考えていた。が</p>
-
-<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">そもそもresourceは固有な名前を設定すべきではないという思想が理解できていなかった、例えばpublicであればfoo-development-publicなどとうい名前を付けるべきではなかった</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/750243305481396224">July 5, 2016</a></blockquote>
-
-
-<p> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<p>そうなのだ。そもそもこの発想で良く、<code>resource</code>はあくまでTerraform内での管理するためだけの命名であるので</p>
-
-<ul>
-<li>vpc.tf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>resource "aws_vpc" "main-vpc" {
-</span><span class='line'>    cidr_block           = "${var.vpc.cidr_block}"
-</span><span class='line'>    enable_dns_hostnames = true
-</span><span class='line'>    enable_dns_support   = true
-</span><span class='line'>    instance_tenancy     = "default"
-</span><span class='line'>
-</span><span class='line'>    tags {
-</span><span class='line'>        "Name" = "${var.environment_name}-vpc"
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>このように<code>Name Tags</code>でユニークな情報を付与すれば良かった。  <br/>
-このことに気付かず<code>resource</code>にひたすら<code>variable</code>の値を入れようと頑張っていた。</p>
-
-<p>結局、上記のように<code>resource</code>にユニークな情報を入れない仕組みで汎用性は担保できた。<br/>
-これで似たような環境も</p>
-
-<ul>
-<li>vpc.tf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Create Subnet
-</span><span class='line'># - ec2:CreateSubnet
-</span><span class='line'>resource "aws_subnet" "some-subnet-a" {
-</span><span class='line'>    vpc_id            = "${aws_vpc.main-vpc.id}"
-</span><span class='line'>    cidr_block        = "${var.vpc.public_subnet_a}"
-</span><span class='line'>    availability_zone = "${var.availability_zone.a}"
-</span><span class='line'>    tags {
-</span><span class='line'>        Name = "${var.environment_name}-some-subnet-a"
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>variables.tf</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>variable "region" {
-</span><span class='line'>    default = "ap-northeast-1"
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>variable "environment_name" {
-</span><span class='line'>    default = "development"
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>variable "availability_zone" {
-</span><span class='line'>    default = {
-</span><span class='line'>        a = "ap-northeast-1a"
-</span><span class='line'>        c = "ap-northeast-1c"
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>variable "vpc" {
-</span><span class='line'>    default = {
-</span><span class='line'>        cidr_block    = "10.200.0.0/16"
-</span><span class='line'>        some_subnet_a = "10.200.210.0/24"
-</span><span class='line'>        some_subnet_c = "10.200.211.0/24"
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記のように<code>variables.tf</code>などと値を別のファイルに分けておくことで<br/>
-汎用的なテンプレートが作成可能となる。しかし便利だな〜</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -795,233 +588,47 @@ PaaSが<a href="https://www.terraform.io/docs/providers/index.html">色々</a>�
   
 
 
-<time datetime="2016-03-14T11:03:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
-
-<p>ということで、これができるまではひたすらstate毎にslackに通知していたけど<br/>
-failしたらfailしたよって通知するようにした。</p>
-
-<p>流れ的にはこう</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CodeDeploy fail -&gt; AWS SNS -&gt; AWS Lambda -&gt; Slack</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>やり方</h2>
-
-<h3>AWS SNSで受け口をつくる</h3>
-
-<p>CodeDeployがfailした歳に利用するSNSを用意する</p>
-
-<ul>
-<li>NotifyCodeDeployErrorToSlack</li>
-</ul>
-
-
-<p>みたいな感じで。開発環境やステージングなどでslackの通知グループが別れる場合は<br/>
-都度SNSをつくっているんだけど、これもっと良いやり方ないのかな？</p>
-
-<h3>CodeDeployのtriggerに先ほどつくったSNSを設定する</h3>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" alt="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" /></p>
-
-<p>fail以外にもステータスがあるのでそこでhookかけても良いですね。<br/>
-自分のところはstate毎に通知させているので一旦この形です。</p>
-
-<h3>AWS LambdaでSlackへの通知を行う</h3>
-
-<ul>
-<li>NotifyCodeDeployErrorToSlackFunction</li>
-</ul>
-
-
-<p>とか適当な名前でfunctionをつくる</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Ref: https://gist.github.com/vgeshel/1dba698aed9e8b39a464</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Loading function&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kr">const</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="c1">// to get the slack hook url, go into slack admin and create a new &quot;Incoming Webhook&quot; integration</span>
-</span><span class='line'><span class="kr">const</span> <span class="nx">slack_url</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="kr">const</span> <span class="nx">region</span> <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>
-</span><span class='line'><span class="kr">const</span> <span class="nx">codedeploy_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="nx">region</span> <span class="o">+</span> <span class="s1">&#39;.console.aws.amazon.com/codedeploy/home?region=&#39;</span> <span class="o">+</span> <span class="nx">region</span> <span class="o">+</span> <span class="s1">&#39;#/deployments/&#39;</span>
-</span><span class='line'><span class="kr">const</span> <span class="nx">slack_req_opts</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">slack_url</span><span class="p">);</span>
-</span><span class='line'><span class="nx">slack_req_opts</span><span class="p">.</span><span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="nx">slack_req_opts</span><span class="p">.</span><span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">handler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">Records</span> <span class="o">||</span> <span class="p">[]).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">rec</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">rec</span><span class="p">.</span><span class="nx">Sns</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">https</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">slack_req_opts</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">context</span><span class="p">.</span><span class="nx">succeed</span><span class="p">(</span><span class="s1">&#39;posted to slack&#39;</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">context</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="s1">&#39;status code: &#39;</span> <span class="o">+</span> <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>      <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;problem with request: &#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-</span><span class='line'>        <span class="nx">context</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">rec</span><span class="p">.</span><span class="nx">Sns</span><span class="p">.</span><span class="nx">Message</span><span class="p">);</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="s1">&#39;Application: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">applicationName</span> <span class="o">+</span> <span class="s1">&#39; deploymentGroupName: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentGroupName</span> <span class="o">+</span> <span class="s1">&#39; deploymentId: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentId</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">codedeploy_url</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentId</span><span class="p">;</span>
-</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">text</span><span class="o">:</span> <span class="nx">str</span><span class="p">}));</span> <span class="c1">// for testing: , channel: &#39;@vadim&#39;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>slack_url</code>に自前のIncoming Webhookを入れる</p>
-
-<h2>通知される</h2>
-
-<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployError.png" alt="" /></p>
-
-<p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
-ご利用ください。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2016-07-08T12:45:00+09:00" pubdate data-updated="true"></time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
 
 
-<time datetime="2016-02-25T14:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>以上です。(どこかドキュメント落ちてるかな)</p>
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-01-21T17:37:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>これやで</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*</span></code></pre></td></tr></table></div></figure>
-
-
-
+        <a class="basic-alignment left" href="/blog/2016/07/06/terraform-newbie/" title="Previous Post: Terraformを始める上でのresourceの命名規則について">&laquo; Terraformを始める上でのresourceの命名規則について</a>
+      
+      
+    </p>
+  </footer>
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    <a href="/blog/archives">Blog Archives</a>
-  </div>
-</div>
 <aside class="sidebar">
   
     
   
 </aside>
+</article>
+
+
 
     </div>
   </div>
