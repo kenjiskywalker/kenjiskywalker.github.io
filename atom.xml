@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-08T12:53:57+09:00</updated>
+  <updated>2016-07-08T12:56:36+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -41,8 +41,8 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example ~]#
-</span><span class='line'>[root@example ~]#
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]#
+</span><span class='line'>[root@example-host ~]#
 </span><span class='line'>[root@example-host ~]# service td-agent restart
 </span><span class='line'>Restarting td-agent:
 </span><span class='line'>
