@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-08T15:00:51+09:00</updated>
+  <updated>2016-07-08T16:37:02+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -291,7 +291,7 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 </span><span class='line'>td-agent  7779  0.0  0.3 241756 26700 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 </span><span class='line'>td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 </span><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]# kill -CONT 7779
+</span><span class='line'>[root@example-host ~]# kill -CONT 7915
 </span><span class='line'>[root@example-host ~]#
 </span><span class='line'>[root@example-host ~]# ps auxwwwf | grep td-agent
 </span><span class='line'>root      8503  0.0  0.0 110456  2148 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
@@ -310,7 +310,7 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 </pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]#
 </span><span class='line'>[root@example-host ~]# ls -la /tmp/
 </span><span class='line'>total 1048
-</span><span class='line'>-rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7779.log
+</span><span class='line'>-rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7915.log
 </span><span class='line'>[root@example-host ~]#</span></code></pre></td></tr></table></div></figure>
 
 

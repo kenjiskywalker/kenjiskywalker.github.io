@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tech | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-08T15:00:51+09:00</updated>
+  <updated>2016-07-08T16:37:02+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -193,7 +193,7 @@ root      8501  0.0  0.0 110456  2184 pts/0    S+   10:51   0:00                
 td-agent  7779  0.0  0.3 241756 26700 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 [root@example-host ~]#
-[root@example-host ~]# kill -CONT 7779
+[root@example-host ~]# kill -CONT 7915
 [root@example-host ~]#
 [root@example-host ~]# ps auxwwwf | grep td-agent
 root      8503  0.0  0.0 110456  2148 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
@@ -207,7 +207,7 @@ td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-age
 <pre><code>[root@example-host ~]#
 [root@example-host ~]# ls -la /tmp/
 total 1048
--rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7779.log
+-rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7915.log
 [root@example-host ~]#
 </code></pre>
 
