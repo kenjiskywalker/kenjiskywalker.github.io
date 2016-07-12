@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tech | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/tech/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-12T10:36:11+09:00</updated>
+  <updated>2016-07-12T12:05:31+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -161,13 +161,13 @@ exit 1
 
 <h3>愚直に<code>td-agent</code>の再起動を試みてみる</h3>
 
-<pre><code>[root@example-host ~]#
-[root@example-host ~]#
-[root@example-host ~]# service td-agent restart
+<pre><code>[watashi@example-host ~]$ 
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ sudo service td-agent restart
 Restarting td-agent:
 
 Timeout error occurred trying to stop td-agent...                                          [  OK  ]
-[root@example-host ~]#
+[watashi@example-host ~]$ 
 </code></pre>
 
 <p>ダメや</p>
@@ -188,32 +188,29 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 
 <p><a href="https://github.com/frsyuki/sigdump#usage">ドキュメント</a>に書いてあるように<code>CONT</code>のシグナルを送る</p>
 
-<pre><code>[root@example-host ~]# ps auxwwwf | grep td-agent
-root      8501  0.0  0.0 110456  2184 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+<pre><code>[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 td-agent  7779  0.0  0.3 241756 26700 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-[root@example-host ~]#
-[root@example-host ~]# kill -CONT 7915
-[root@example-host ~]#
-[root@example-host ~]# ps auxwwwf | grep td-agent
-root      8503  0.0  0.0 110456  2148 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ sudo kill -CONT 7915
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 td-agent  7779  0.0  0.3 241756 26836 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-[root@example-host ~]#
+[watashi@example-host ~]$
 </code></pre>
 
 <h4>sigdumpができあがっている</h4>
 
-<pre><code>[root@example-host ~]#
-[root@example-host ~]# ls -la /tmp/
+<pre><code>[watashi@example-host ~]$ ls -la /tmp/
 total 1048
 -rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7915.log
-[root@example-host ~]#
+[watashi@example-host ~]$
 </code></pre>
 
 <h4>sigdumpの中身を見てみる</h4>
 
-<pre><code>[root@example-host ~]# view /tmp/sigdump-7915.log
+<pre><code>[watashi@example-host ~]$ sudo view /tmp/sigdump-7915.log
 Sigdump at 2016-07-07 10:52:00 +0900 process 7915 (/usr/sbin/td-agent)
   Thread #&lt;Thread:0x007fce4f19e658&gt; status=run priority=0
       /opt/td-agent/embedded/lib/ruby/gems/2.1.0/gems/sigdump-0.2.3/lib/sigdump.rb:39:in `backtrace'
@@ -329,7 +326,7 @@ Sigdump at 2016-07-07 10:52:00 +0900 process 7915 (/usr/sbin/td-agent)
         59: T_RATIONAL
          9: T_FLOAT
          1: T_COMPLEX
-[root@example-host ~]#
+[watashi@example-host ~]$
 </code></pre>
 
 <h4>よくわからんが読んで見る</h4>

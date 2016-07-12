@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-12T10:36:11+09:00</updated>
+  <updated>2016-07-12T12:05:31+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,115 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/"/>
+    <updated>2016-07-12T11:44:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check</id>
+    <content type="html"><![CDATA[<p>EC2がちょくちょくStatus ChecksがコケてTerminateされていたので<br/>
+CloudWatchで見ているStatus Checkの値の変異を見て<br/>
+SNSに通知をさせている。</p>
+
+<p><code>SNS &lt;-&gt; PagerDuty &lt;-&gt; Slack</code></p>
+
+<h4>参考URL</h4>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">インスタンスのステータスチェック</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/aws-cloudwatch-integration-guide/">AWS CloudWatch Integration Guide:PagerDuty</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/slack-integration-guide/">Slack Integration Guide:PagerDuty</a></li>
+</ul>
+
+
+<p>一番良いのはEC2が立ち上がってきた時に自分自身に下記設定を導入し<br/>
+自分が消える時に設定を削除するのが好ましいが、所々事情があり<br/>
+下記のようなスクリプトを特定のEC2で回している。</p>
+
+<pre><code class="rb">#!/usr/bin/env ruby
+
+region = 'REGION'
+
+# インスタンスID一覧を取得する ( --max-items XXX # インスタンス数次第 )
+instance_ids = `aws --region #{region} ec2 describe-instances \
+                    --max-items XXX \
+                    --filters Name=tag-key,Values=Name \
+                    | jq -r '.Reservations[].Instances[].InstanceId'
+                    `
+
+# CloudWatchでStatusCheckFailed_Checkが設定されているインスタンスID一覧 ( --max-items XXX # インスタンス数次第 )
+checked_instance_ids = `aws --region #{region} cloudwatch describe-alarms \
+                            --max-items XXX \
+                            | jq -r '.MetricAlarms[].AlarmName' \
+                            | grep 'StatusCheckFailed_Check' \
+                            | cut -f 1 -d ' '
+                            `
+
+# 改行で要素を分割
+instance_ids = instance_ids.split("\n")
+checked_instance_ids = checked_instance_ids.split("\n")
+
+# インスタンス一覧にあってCloudWatch側にない監視追加対象のインスタンスID一覧を抽出
+new_instance_ids = instance_ids - checked_instance_ids
+
+# CloudWatch側にあってインスタンス一覧にない削除対象のインスタンスID一覧を抽出
+deleted_instance_ids = checked_instance_ids - instance_ids
+
+# 監視追加対象のインスタンスID一覧が空でなければCloudWatchに追加していく
+unless new_instance_ids.empty?
+  new_instance_ids.each do |instance_id|
+
+    # StageというKeyのタグで本番かそれ以外を分けている
+    stage = `aws --region #{region} ec2 describe-instances \
+                 --instance-ids #{instance_id} \
+                 --query 'Reservations[].Instances[].Tags[?Key==\`Stage\`].Value' \
+                 --output text
+                 `.chomp
+
+    # 本番の場合は通知先が違うのでSNSの向き先を変える
+    if stage == 'production'
+      sns_topic = 'PRODUCTION_SNS_TOPIC'
+    else
+      sns_topic = 'OTHER_SNS_TOPIC'
+    end
+
+    # MAIN: ここで設定を追加する
+    `aws --region #{region} cloudwatch put-metric-alarm \
+         --alarm-name "#{instance_id} StatusCheckFailed_Check" \
+         --metric-name StatusCheckFailed \
+         --namespace AWS/EC2 \
+         --statistic Maximum \
+         --dimensions Name=InstanceId,Value=#{instance_id} \
+         --period 60 \
+         --unit Count \
+         --evaluation-periods 1 \
+         --threshold 0 \
+         --comparison-operator GreaterThanThreshold \
+         --ok-actions #{sns_topic} \
+         --alarm-actions #{sns_topic} \
+         --insufficient-data-actions #{sns_topic}
+         `
+
+    puts "#{instance_id} StatusCheckFailed_Check is created"
+  end
+end
+
+# 削除対象のインスタンスID一覧が空でなければ設定を削除していく
+unless deleted_instance_ids.empty?
+  deleted_instance_ids.each do |instance_id|
+
+    # MAIN: ここで設定を削除する
+    `aws --region #{region} cloudwatch delete-alarms \
+         --alarm-names "#{instance_id} StatusCheckFailed_Check"`
+
+    puts "#{instance_id} StatusCheckFailed_Check is deleted"
+  end
+end
+</code></pre>
+
+<p>こんな感じでやってる。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[特定のインスタンスIDのタグのValueを出力する]]></title>
@@ -167,87 +276,6 @@ loadbalancers.each_line do |lb|
   --comparison-operator GreaterThanOrEqualToThreshold`
 end
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Route53を利用したフェイルオーバーシステムの作成]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/06/06/route53-healthcheck-failover/"/>
-    <updated>2014-06-06T00:04:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/06/06/route53-healthcheck-failover</id>
-    <content type="html"><![CDATA[<p>AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。</p>
-
-<h2>TL;DR</h2>
-
-<p>同一のレコードをPrimaryとSecondaryで作成し<br/>
-Primary、SecondaryそれぞれでHealth Check to Associateを設定する。<br/>
-PrimaryのHealth Checkが失敗した場合、Secondaryに遷移する。<br/>
-SecondaryもダメだったらPrimaryに変わる。<br/>
-両方同じタイミングでダメになったらPrimaryのまま。</p>
-
-<h2>手順</h2>
-
-<h3>Health Checkの設定</h3>
-
-<h5>1. <em>Health Checks</em> にてヘルスチェック対象のホスト・サービスを設定</h5>
-
-<h3>Health Checkを利用するレコードの作成</h3>
-
-<h5>2-1. <em>Hosted Zones</em> にてフェイルオーバーを行いたいDNSを設定</h5>
-
-<h5>2-2. <em>Create Record Set</em> にてレコードの作成(Primary)</h5>
-
-<h5>2-3. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
-
-<h5>2-4. <em>Failover Record Type</em> にて <em>Primary</em> を選択</h5>
-
-<h5>2-5. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
-
-<h5>2-6. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
-
-<h5>2-7. <em>Create Record Set</em> にてレコードの作成(Secondary)</h5>
-
-<h5>2-8. <em>Routing Policy</em> にて <code>Failover</code> を選択</h5>
-
-<h5>2-9. <em>Failover Record Type</em> にて <em>Secondary</em> を選択</h5>
-
-<h5>2-10. <em>Associate with Health Check</em> にて <em>Yes</em> を選択</h5>
-
-<h5>2-11. <em>Health Check to Associate</em> にて 1. で作成したヘルスチェックを選択</h5>
-
-<p>２つの同じレコードを作成し、応答するレコードをそれぞれ<br/>
-Primary, Secondaryと指定することでフェイルオーバーする仕組み。</p>
-
-<blockquote><p>www.example.com:80</p>
-
-<p>  => Primary
-   hoge01.example.com:80 (health check <a href="http://hoge01.example.com">http://hoge01.example.com</a>)</p>
-
-<p>  => Secondary
-   hoge02.example.com:80 (health check <a href="http://hoge02.example.com">http://hoge02.example.com</a>)</p></blockquote>
-
-<p>こんな構成で <em><a href="http://www.example.com_">http://www.example.com_</a> へのアクセスは通常だと<br/>
-</em>hoge01<em> へアクセスが行くようになっていて、 </em>hoge01<em> の<br/>
-レスポンスに異常があった場合に </em>hoge02_ へ行くようになる。</p>
-
-<p>試しに ヘルスチェックを <em>tcp:24224</em> にしても問題なく認識したので<br/>
-fluentdの集約サーバを冗長構成にしておいて</p>
-
-<blockquote><p>log.example.com:24224</p>
-
-<p>  => Primary
-   hoge01.example.com (health check tcp://hoge01.example.com:24224)</p>
-
-<p>  => Secondary
-   hoge02.example.com (health check tcp://hoge02.example.com:24224)</p></blockquote>
-
-<p>通常は <em>hoge01</em> にて集約し、メンテナンスなど<br/>
-行いたい場合に <em>hoge01</em> のfluentdを落としたら、自動的に<br/>
-レコードが切り替わり、 <em>hoge02</em> の方へログが流れていくような構成が組めたりする。<br/>
-<em>hoge01</em> のfluentd を立ち上げるとPrimaryが正常になったことが認識され<br/>
-レコードは元の <em>hoge01</em> へ向き直る。</p>
-
-<p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
 ]]></content>
   </entry>
   

@@ -9,8 +9,9 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="以上です。(どこかドキュメント落ちてるかな)
-">
+  <meta name="description" content="AWS CodeDeploy Adds Push Notification Support ということで、これができるまではひたすらstate毎にslackに通知していたけど
+failしたらfailしたよって通知するようにした。 流れ的にはこう 1
+CodeDeploy fail -&gt; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +63,167 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-14T11:03:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
+
+<p>ということで、これができるまではひたすらstate毎にslackに通知していたけど<br/>
+failしたらfailしたよって通知するようにした。</p>
+
+<p>流れ的にはこう</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CodeDeploy fail -&gt; AWS SNS -&gt; AWS Lambda -&gt; Slack</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>やり方</h2>
+
+<h3>AWS SNSで受け口をつくる</h3>
+
+<p>CodeDeployがfailした歳に利用するSNSを用意する</p>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlack</li>
+</ul>
+
+
+<p>みたいな感じで。開発環境やステージングなどでslackの通知グループが別れる場合は<br/>
+都度SNSをつくっているんだけど、これもっと良いやり方ないのかな？</p>
+
+<h3>CodeDeployのtriggerに先ほどつくったSNSを設定する</h3>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" alt="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" /></p>
+
+<p>fail以外にもステータスがあるのでそこでhookかけても良いですね。<br/>
+自分のところはstate毎に通知させているので一旦この形です。</p>
+
+<h3>AWS LambdaでSlackへの通知を行う</h3>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlackFunction</li>
+</ul>
+
+
+<p>とか適当な名前でfunctionをつくる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Ref: https://gist.github.com/vgeshel/1dba698aed9e8b39a464</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Loading function&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">const</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// to get the slack hook url, go into slack admin and create a new &quot;Incoming Webhook&quot; integration</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">slack_url</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">region</span> <span class="o">=</span> <span class="s1">&#39;ap-northeast-1&#39;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">codedeploy_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="nx">region</span> <span class="o">+</span> <span class="s1">&#39;.console.aws.amazon.com/codedeploy/home?region=&#39;</span> <span class="o">+</span> <span class="nx">region</span> <span class="o">+</span> <span class="s1">&#39;#/deployments/&#39;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">slack_req_opts</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">slack_url</span><span class="p">);</span>
+</span><span class='line'><span class="nx">slack_req_opts</span><span class="p">.</span><span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">slack_req_opts</span><span class="p">.</span><span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">handler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">Records</span> <span class="o">||</span> <span class="p">[]).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">rec</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">rec</span><span class="p">.</span><span class="nx">Sns</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">https</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">slack_req_opts</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">context</span><span class="p">.</span><span class="nx">succeed</span><span class="p">(</span><span class="s1">&#39;posted to slack&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">context</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="s1">&#39;status code: &#39;</span> <span class="o">+</span> <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;problem with request: &#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">context</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">rec</span><span class="p">.</span><span class="nx">Sns</span><span class="p">.</span><span class="nx">Message</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="s1">&#39;Application: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">applicationName</span> <span class="o">+</span> <span class="s1">&#39; deploymentGroupName: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentGroupName</span> <span class="o">+</span> <span class="s1">&#39; deploymentId: &#39;</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentId</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">codedeploy_url</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">deploymentId</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">text</span><span class="o">:</span> <span class="nx">str</span><span class="p">}));</span> <span class="c1">// for testing: , channel: &#39;@vadim&#39;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>slack_url</code>に自前のIncoming Webhookを入れる</p>
+
+<h2>通知される</h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployError.png" alt="" /></p>
+
+<p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
+ご利用ください。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -261,78 +423,6 @@
 <p>神谷くんは我らが湘南ベルマーレに来てくれるのでこれからが楽しみだ。<br/>
 見終わった後はおじさんたちで赤羽の町で飲み歩いた。話題は最初から最後まで最低だったが良い夜だった。<br/>
 ただ、iPhoneはこわれたままなので明日修理屋持って行ってみようと思う。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/20/broken-class/">「学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命」を読んだ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-12-20T15:16:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.amazon.co.jp/%E5%AD%A6%E7%B4%9A%E5%B4%A9%E5%A3%8A%E7%AB%8B%E3%81%A6%E7%9B%B4%E3%81%97%E8%AB%8B%E8%B2%A0%E4%BA%BA-%E5%A4%A7%E4%BA%BA%E3%81%A8%E5%AD%90%E3%81%A9%E3%82%82%E3%81%A7%E5%8F%96%E3%82%8A%E7%B5%84%E3%82%80%E3%80%8C%E8%A8%80%E8%91%89%E3%80%8D%E6%95%99%E8%82%B2%E9%9D%A9%E5%91%BD-%E8%8F%8A%E6%B1%A0-%E7%9C%81%E4%B8%89/dp/4103343613%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4103343613" target="_blank" title="学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命"><img src="http://ecx.images-amazon.com/images/I/51p52cuC7NL.jpg" width="344" height="500" alt="学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命" /></a></p>
-
-<p>ちょうど知り合いのおうちに遊びに行った時に<br/>
-テレビでやっていて、興味が湧いたので読んでみた。</p>
-
-<p>学校に関係するサービスをやっていて、詳しい人から色々な話は聞くが<br/>
-実際に問題を解決している人はどのような方法で対処しているのかを知れてよかった。</p>
-
-<h2>メモ</h2>
-
-<ul>
-<li>ほめ言葉のシャワー</li>
-<li>成長を約束する</li>
-<li>1年後に具体的にどこが成長できたか、成長ノートで確認をする</li>
-<li>安心できる場を与える</li>
-<li>子供ではなく人間を育てる</li>
-<li>対話ノート。年百六十個のテーマについて</li>
-<li>「父性」の欠如 = 「モンスターペアレンツ」</li>
-<li>八対二」で止まらないようにする。「八」の中でスーパーＡをつくる</li>
-<li>子供は褒められたい</li>
-<li>「対話とは、話すことと聞くことの掛け算」</li>
-<li>習慣化しない場合は自己責任で説明する。約束したよね、と</li>
-<li>危ないな、というクラスはだいたい先生の目が下がっている。声が届いていない、教卓にしがみついているなど</li>
-<li>今の時代、一人の大人が「Ｍ（mother＝母性）」「Ｆ（father＝父性）」「Ｃ（child＝無邪気さ）」を持たなくてはならない</li>
-<li>厳しくやった後は、再び「眺める」という方法が有効になる</li>
-<li>怒るとは、「自分中心の感情で相手に接すること」。叱るとは、「相手の存在を認め成長を願って強く意見すること」</li>
-<li>一生懸命だと知恵が出る、中途半端だと愚痴が出る</li>
-<li>全てに主語を入れて責任を持つようにする</li>
-<li>家族でも絶対に譲れないものを３つつくる</li>
-<li>反省ではなく内省ができるように</li>
-<li>つねに全国レベルを意識しろ</li>
-<li>「いいよ、頑張ってるからね。ずっと見守ってるからね、先生は」は効果がある。叱る時にも、「よくなるためのもの」とはっきりと伝える</li>
-<li>現状の変化に対応できなかった先生が心の病で入院しがち</li>
-</ul>
-
-
-<p>色々と子供に求めがちな手法がよく聞こえるが、まずは自分たちから律していきたいものだ。</p>
 </div>
   
   

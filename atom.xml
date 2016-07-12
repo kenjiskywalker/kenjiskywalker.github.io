@@ -4,7 +4,7 @@
   <title><![CDATA[さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-12T10:36:11+09:00</updated>
+  <updated>2016-07-12T12:05:31+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,195 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/"/>
+    <updated>2016-07-12T11:44:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check</id>
+    <content type="html"><![CDATA[<p>EC2がちょくちょくStatus ChecksがコケてTerminateされていたので<br/>
+CloudWatchで見ているStatus Checkの値の変異を見て<br/>
+SNSに通知をさせている。</p>
+
+<p><code>SNS &lt;-&gt; PagerDuty &lt;-&gt; Slack</code></p>
+
+<h4>参考URL</h4>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">インスタンスのステータスチェック</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/aws-cloudwatch-integration-guide/">AWS CloudWatch Integration Guide:PagerDuty</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/slack-integration-guide/">Slack Integration Guide:PagerDuty</a></li>
+</ul>
+
+
+<p>一番良いのはEC2が立ち上がってきた時に自分自身に下記設定を導入し<br/>
+自分が消える時に設定を削除するのが好ましいが、所々事情があり<br/>
+下記のようなスクリプトを特定のEC2で回している。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">region</span> <span class="o">=</span> <span class="s1">&#39;REGION&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># インスタンスID一覧を取得する ( --max-items XXX # インスタンス数次第 )</span>
+</span><span class='line'><span class="n">instance_ids</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
+</span><span class='line'><span class="sb">                    --max-items XXX \</span>
+</span><span class='line'><span class="sb">                    --filters Name=tag-key,Values=Name \</span>
+</span><span class='line'><span class="sb">                    | jq -r &#39;.Reservations[].Instances[].InstanceId&#39;</span>
+</span><span class='line'><span class="sb">                    `</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># CloudWatchでStatusCheckFailed_Checkが設定されているインスタンスID一覧 ( --max-items XXX # インスタンス数次第 )</span>
+</span><span class='line'><span class="n">checked_instance_ids</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch describe-alarms \</span>
+</span><span class='line'><span class="sb">                            --max-items XXX \</span>
+</span><span class='line'><span class="sb">                            | jq -r &#39;.MetricAlarms[].AlarmName&#39; \</span>
+</span><span class='line'><span class="sb">                            | grep &#39;StatusCheckFailed_Check&#39; \</span>
+</span><span class='line'><span class="sb">                            | cut -f 1 -d &#39; &#39;</span>
+</span><span class='line'><span class="sb">                            `</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 改行で要素を分割</span>
+</span><span class='line'><span class="n">instance_ids</span> <span class="o">=</span> <span class="n">instance_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">checked_instance_ids</span> <span class="o">=</span> <span class="n">checked_instance_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># インスタンス一覧にあってCloudWatch側にない監視追加対象のインスタンスID一覧を抽出</span>
+</span><span class='line'><span class="n">new_instance_ids</span> <span class="o">=</span> <span class="n">instance_ids</span> <span class="o">-</span> <span class="n">checked_instance_ids</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># CloudWatch側にあってインスタンス一覧にない削除対象のインスタンスID一覧を抽出</span>
+</span><span class='line'><span class="n">deleted_instance_ids</span> <span class="o">=</span> <span class="n">checked_instance_ids</span> <span class="o">-</span> <span class="n">instance_ids</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 監視追加対象のインスタンスID一覧が空でなければCloudWatchに追加していく</span>
+</span><span class='line'><span class="k">unless</span> <span class="n">new_instance_ids</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>  <span class="n">new_instance_ids</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">instance_id</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># StageというKeyのタグで本番かそれ以外を分けている</span>
+</span><span class='line'>    <span class="n">stage</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
+</span><span class='line'><span class="sb">                 --instance-ids </span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">                 --query &#39;Reservations[].Instances[].Tags[?Key==\`</span><span class="no">Stage</span><span class="p">\</span><span class="sb">`].Value&#39; \</span>
+</span><span class='line'><span class="sb">                 --output text</span>
+</span><span class='line'><span class="sb">                 `</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># 本番の場合は通知先が違うのでSNSの向き先を変える</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">stage</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span>
+</span><span class='line'>      <span class="n">sns_topic</span> <span class="o">=</span> <span class="s1">&#39;PRODUCTION_SNS_TOPIC&#39;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">sns_topic</span> <span class="o">=</span> <span class="s1">&#39;OTHER_SNS_TOPIC&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># MAIN: ここで設定を追加する</span>
+</span><span class='line'>    <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch put-metric-alarm \</span>
+</span><span class='line'><span class="sb">         --alarm-name &quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> StatusCheckFailed_Check&quot; \</span>
+</span><span class='line'><span class="sb">         --metric-name StatusCheckFailed \</span>
+</span><span class='line'><span class="sb">         --namespace AWS/EC2 \</span>
+</span><span class='line'><span class="sb">         --statistic Maximum \</span>
+</span><span class='line'><span class="sb">         --dimensions Name=InstanceId,Value=</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">         --period 60 \</span>
+</span><span class='line'><span class="sb">         --unit Count \</span>
+</span><span class='line'><span class="sb">         --evaluation-periods 1 \</span>
+</span><span class='line'><span class="sb">         --threshold 0 \</span>
+</span><span class='line'><span class="sb">         --comparison-operator GreaterThanThreshold \</span>
+</span><span class='line'><span class="sb">         --ok-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">         --alarm-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"> \</span>
+</span><span class='line'><span class="sb">         --insufficient-data-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"></span>
+</span><span class='line'><span class="sb">         `</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="s2"> StatusCheckFailed_Check is created&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 削除対象のインスタンスID一覧が空でなければ設定を削除していく</span>
+</span><span class='line'><span class="k">unless</span> <span class="n">deleted_instance_ids</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>  <span class="n">deleted_instance_ids</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">instance_id</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># MAIN: ここで設定を削除する</span>
+</span><span class='line'>    <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch delete-alarms \</span>
+</span><span class='line'><span class="sb">         --alarm-names &quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> StatusCheckFailed_Check&quot;`</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="s2"> StatusCheckFailed_Check is deleted&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでやってる。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[特定のインスタンスIDのタグのValueを出力する]]></title>
@@ -268,13 +457,13 @@ AWS SDK for Rubyを利用してもいいし、これぐらいならgoで書い�
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]# service td-agent restart
+</pre></td><td class='code'><pre><code class=''><span class='line'>[watashi@example-host ~]$ 
+</span><span class='line'>[watashi@example-host ~]$ 
+</span><span class='line'>[watashi@example-host ~]$ sudo service td-agent restart
 </span><span class='line'>Restarting td-agent:
 </span><span class='line'>
 </span><span class='line'>Timeout error occurred trying to stop td-agent...                                          [  OK  ]
-</span><span class='line'>[root@example-host ~]#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[watashi@example-host ~]$ </span></code></pre></td></tr></table></div></figure>
 
 
 <p>ダメや</p>
@@ -305,20 +494,16 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]# ps auxwwwf | grep td-agent
-</span><span class='line'>root      8501  0.0  0.0 110456  2184 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+</pre></td><td class='code'><pre><code class=''><span class='line'>[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 </span><span class='line'>td-agent  7779  0.0  0.3 241756 26700 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 </span><span class='line'>td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-</span><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]# kill -CONT 7915
-</span><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]# ps auxwwwf | grep td-agent
-</span><span class='line'>root      8503  0.0  0.0 110456  2148 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+</span><span class='line'>[watashi@example-host ~]$ 
+</span><span class='line'>[watashi@example-host ~]$ sudo kill -CONT 7915
+</span><span class='line'>[watashi@example-host ~]$ 
+</span><span class='line'>[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 </span><span class='line'>td-agent  7779  0.0  0.3 241756 26836 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 </span><span class='line'>td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-</span><span class='line'>[root@example-host ~]#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[watashi@example-host ~]$</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>sigdumpができあがっている</h4>
@@ -327,12 +512,10 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]#
-</span><span class='line'>[root@example-host ~]# ls -la /tmp/
+</pre></td><td class='code'><pre><code class=''><span class='line'>[watashi@example-host ~]$ ls -la /tmp/
 </span><span class='line'>total 1048
 </span><span class='line'>-rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7915.log
-</span><span class='line'>[root@example-host ~]#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[watashi@example-host ~]$</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>sigdumpの中身を見てみる</h4>
@@ -454,7 +637,7 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 <span class='line-number'>115</span>
 <span class='line-number'>116</span>
 <span class='line-number'>117</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@example-host ~]# view /tmp/sigdump-7915.log
+</pre></td><td class='code'><pre><code class=''><span class='line'>[watashi@example-host ~]$ sudo view /tmp/sigdump-7915.log
 </span><span class='line'>Sigdump at 2016-07-07 10:52:00 +0900 process 7915 (/usr/sbin/td-agent)
 </span><span class='line'>  Thread #&lt;Thread:0x007fce4f19e658&gt; status=run priority=0
 </span><span class='line'>      /opt/td-agent/embedded/lib/ruby/gems/2.1.0/gems/sigdump-0.2.3/lib/sigdump.rb:39:in `backtrace'
@@ -570,7 +753,7 @@ fluentdには<a href="https://github.com/frsyuki/sigdump">sigdump</a>が入っ�
 </span><span class='line'>        59: T_RATIONAL
 </span><span class='line'>         9: T_FLOAT
 </span><span class='line'>         1: T_COMPLEX
-</span><span class='line'>[root@example-host ~]#</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>[watashi@example-host ~]$</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>よくわからんが読んで見る</h4>
@@ -1703,18 +1886,6 @@ ruboty自体はRaspiの上にsupervisorで動かしている。</p>
 <li><a href="http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f">Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[組織が鈍化したり硬直化していると無駄に仮想敵をつくってワイワイやりたがる]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2015/07/30/virtual-enemy/"/>
-    <updated>2015-07-30T12:06:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2015/07/30/virtual-enemy</id>
-    <content type="html"><![CDATA[<p>のではないかと思った。<br/>
-生きるのに必死だったらどうでもいいことに時間使ってる暇なんて一瞬もないはずなので。</p>
-
-<p>気を引き締めて時間を使っていこう</p>
 ]]></content>
   </entry>
   
