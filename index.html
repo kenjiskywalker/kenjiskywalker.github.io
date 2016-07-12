@@ -9,7 +9,11 @@
   <meta name="author" content="kenjiskywalker">
 
   
-  <meta name="description" content="件の通り @kenjiskywalker そんな仕組みあるの？&mdash; そのっつ (Naotoshi Seo) (@sonots) July 8, 2016 @kenjiskywalker クレクレ&mdash; そのっつ (Naotoshi Seo) (@sonots) July 8, &hellip;">
+  <meta name="description" content="queryオプションとかよー使わんわということで個人的メモ Nameタグを出力したければこう 1
+2
+3
+4
+$ aws ec2 describe-instances \ --instance-ids i-XXXXXXXX \ --query 'Reservations[].Instances &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -61,6 +65,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-12T10:31:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3><code>query</code>オプションとかよー使わんわということで個人的メモ</h3>
+
+<p><code>Name</code>タグを出力したければこう</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ aws ec2 describe-instances \
+</span><span class='line'>          --instance-ids i-XXXXXXXX \
+</span><span class='line'>          --query 'Reservations[].Instances[].Tags[?Key==`Name`].Value' \
+</span><span class='line'>          --output text</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1159,42 +1211,6 @@ failしたらfailしたよって通知するようにした。</p>
 
 <p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
 ご利用ください。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-25T14:18:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>以上です。(どこかドキュメント落ちてるかな)</p>
 </div>
   
   

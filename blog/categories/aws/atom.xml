@@ -4,7 +4,7 @@
   <title><![CDATA[Category: aws | さよならインターネット]]></title>
   <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.kenjiskywalker.org/"/>
-  <updated>2016-07-08T16:37:02+09:00</updated>
+  <updated>2016-07-12T10:36:11+09:00</updated>
   <id>http://blog.kenjiskywalker.org/</id>
   <author>
     <name><![CDATA[kenjiskywalker]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[特定のインスタンスIDのタグのValueを出力する]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/"/>
+    <updated>2016-07-12T10:31:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances</id>
+    <content type="html"><![CDATA[<h3><code>query</code>オプションとかよー使わんわということで個人的メモ</h3>
+
+<p><code>Name</code>タグを出力したければこう</p>
+
+<pre><code>$ aws ec2 describe-instances \
+          --instance-ids i-XXXXXXXX \
+          --query 'Reservations[].Instances[].Tags[?Key==`Name`].Value' \
+          --output text
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CodeDeployのfailをSlackに通知して原因までたどりやすくする]]></title>
@@ -231,84 +248,6 @@ fluentdの集約サーバを冗長構成にしておいて</p>
 レコードは元の <em>hoge01</em> へ向き直る。</p>
 
 <p>SPOFをなるべくなくしていきたいので、この機能は役立ちそうだ。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする]]></title>
-    <link href="http://blog.kenjiskywalker.org/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk/"/>
-    <updated>2014-05-12T18:13:00+09:00</updated>
-    <id>http://blog.kenjiskywalker.org/blog/2014/05/12/autoscaling-ami-attach-ephemeral-disk</id>
-    <content type="html"><![CDATA[<p>AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。<br/>
-存在しない場合は無視されるので、下記のように4本など<br/>
-事前に指定しておくのが良いかと思います。</p>
-
-<ul>
-<li>create-launch-configuration</li>
-</ul>
-
-
-<pre><code>$ aws autoscaling --region REGION create-launch-configuration --launch-configuration-name AUTOSCALINGLAUNGCONFIG \
-                  --image-id AMI \
-                  --instance-type m1.small \
-                  --key-name KEYNAME \
-                  --security-groups sg-00000000 sg-00000001 \
-                  --block-device-mappings '[ {"DeviceName":"/dev/sdb","VirtualName":"ephemeral0"}, \
-                                             {"DeviceName":"/dev/sdc","VirtualName":"ephemeral1"}, \
-                                             {"DeviceName":"/dev/sdd","VirtualName":"ephemeral2"}, \
-                                             {"DeviceName":"/dev/sde","VirtualName":"ephemeral3"} \
-                                           ]'
-</code></pre>
-
-<ul>
-<li>aws autoscaling &ndash;region REGION describe-launch-configurations</li>
-</ul>
-
-
-<pre><code>{
-    "LaunchConfigurations": [
-        {
-            "UserData": null,
-            "EbsOptimized": false,
-            "LaunchConfigurationARN": "arn:aws:ARN:REGION:NUM:launchConfiguration:NUM:launchConfigurationName/AUTOSCALINGLAUNGCONFIG",
-            "InstanceMonitoring": {
-                "Enabled": true
-            },
-            "ImageId": "AMI",
-            "CreatedTime": "2014-01-01T01:00:00.000Z",
-            "BlockDeviceMappings": [
-                {
-                    "DeviceName": "/dev/sdd",
-                    "VirtualName": "ephemeral2"
-                },
-                {
-                    "DeviceName": "/dev/sdb",
-                    "VirtualName": "ephemeral0"
-                },
-                {
-                    "DeviceName": "/dev/sde",
-                    "VirtualName": "ephemeral3"
-                },
-                {
-                    "DeviceName": "/dev/sdc",
-                    "VirtualName": "ephemeral1"
-                }
-            ],
-            "KeyName": "KEYNAME",
-            "SecurityGroups": [
-                "sg-00000000",
-                "sg-00000001"
-            ],
-            "LaunchConfigurationName": "AUTOSCALINGLAUNGCONFIG",
-            "KernelId": null,
-            "RamdiskId": null,
-            "InstanceType": "m1.small"
-        }
-    ]
-}
-</code></pre>
-
-<p>突然Ephemeral DiskがAttachされない状態で起動するようになっててハマりました。</p>
 ]]></content>
   </entry>
   
