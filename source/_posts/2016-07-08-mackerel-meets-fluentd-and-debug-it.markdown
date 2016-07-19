@@ -22,13 +22,13 @@ categories: tech
 ### 愚直に`td-agent`の再起動を試みてみる
 
 ```
-[root@example-host ~]#
-[root@example-host ~]#
-[root@example-host ~]# service td-agent restart
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ sudo service td-agent restart
 Restarting td-agent:
 
 Timeout error occurred trying to stop td-agent...                                          [  OK  ]
-[root@example-host ~]#
+[watashi@example-host ~]$ 
 ```
 
 ダメや
@@ -47,34 +47,31 @@ fluentdには[sigdump](https://github.com/frsyuki/sigdump)が入っているか�
 [ドキュメント](https://github.com/frsyuki/sigdump#usage)に書いてあるように`CONT`のシグナルを送る
 
 ```
-[root@example-host ~]# ps auxwwwf | grep td-agent
-root      8501  0.0  0.0 110456  2184 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 td-agent  7779  0.0  0.3 241756 26700 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-[root@example-host ~]#
-[root@example-host ~]# kill -CONT 7779
-[root@example-host ~]#
-[root@example-host ~]# ps auxwwwf | grep td-agent
-root      8503  0.0  0.0 110456  2148 pts/0    S+   10:51   0:00                          \_ grep --color=auto td-agent
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ sudo kill -CONT 7915
+[watashi@example-host ~]$ 
+[watashi@example-host ~]$ ps auxwwwf | grep td-agent
 td-agent  7779  0.0  0.3 241756 26836 ?        Sl   May27   0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
 td-agent  7915  0.3  3.7 838976 288956 ?       Sl   May27 225:44  \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid
-[root@example-host ~]#
+[watashi@example-host ~]$
 ```
 
 #### sigdumpができあがっている
 
 ```
-[root@example-host ~]#
-[root@example-host ~]# ls -la /tmp/
+[watashi@example-host ~]$ ls -la /tmp/
 total 1048
--rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7779.log
-[root@example-host ~]#
+-rw-rw-rw-  1 td-agent td-agent    5937 Jul  7 10:51 sigdump-7915.log
+[watashi@example-host ~]$
 ```
 
 #### sigdumpの中身を見てみる
 
 ```
-[root@example-host ~]# view /tmp/sigdump-7915.log
+[watashi@example-host ~]$ sudo view /tmp/sigdump-7915.log
 Sigdump at 2016-07-07 10:52:00 +0900 process 7915 (/usr/sbin/td-agent)
   Thread #<Thread:0x007fce4f19e658> status=run priority=0
       /opt/td-agent/embedded/lib/ruby/gems/2.1.0/gems/sigdump-0.2.3/lib/sigdump.rb:39:in `backtrace'
@@ -190,7 +187,7 @@ Sigdump at 2016-07-07 10:52:00 +0900 process 7915 (/usr/sbin/td-agent)
         59: T_RATIONAL
          9: T_FLOAT
          1: T_COMPLEX
-[root@example-host ~]#
+[watashi@example-host ~]$
 ```
 
 
