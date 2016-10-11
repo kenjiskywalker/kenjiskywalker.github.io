@@ -2,10 +2,10 @@
 layout: post
 title: "CodeDeployのfailをSlackに通知して原因までたどりやすくする"
 published: true
-date: 2016-03-14 11:03
+date: "2016-03-14T11:03:00+09:00"
 comments: true
-tags: slack CodeDeploy
-categories: aws
+
+
 ---
 
 [AWS CodeDeploy Adds Push Notification Support](https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/)  

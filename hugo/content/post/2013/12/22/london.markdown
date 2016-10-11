@@ -2,10 +2,10 @@
 layout: post
 title: "「ロンドン起業日記」を読んだ"
 published: true
-date: 2013-12-22 16:21
+date: "2013-12-22T16:21:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 <div class="amazlet-box" style="margin-bottom:0px;"><div class="amazlet-image" style="float:left;margin:0px 12px 1px 0px;"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank"><img src="http://tatsu-zine.com/images/books/205/cover_s.jpg" alt="ロンドン起業日記　ヨーロッパで絶賛、奮闘中！" style="border: none;" /></a></div><div class="amazlet-info" style="line-height:120%;margin-bottom:10px"><div class="amazlet-name" style="margin-bottom:10px;line-height:120%"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">ロンドン起業日記　ヨーロッパで絶賛、奮闘中！【電子書籍】</a></div><div class="amazlet-detail">井上真<br />達人出版会<br />発行日: 2013-12-09<br />対応フォーマット: PDF, EPUB<br /></div><div class="amazlet-sub-info" style="float:left;"><div class="amazlet-link" style="margin-top:5px"><a href="http://tatsu-zine.com/books/a-london-startup-diary" name="amazletlink" target="_blank">詳細を見る</a></div></div></div><div class="amazlet-footer" style="clear:left"></div></div>

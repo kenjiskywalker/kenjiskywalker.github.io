@@ -2,10 +2,10 @@
 layout: post
 title: "「私本太平記」読んだ"
 published: true
-date: 2015-01-04 12:21
+date: "2015-01-04T12:21:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 吉川英治さんの本が無料で読めるありがたい時代なので[私本太平](http://www.amazon.co.jp/dp/B00G3QMEZY)記読んだ。  

@@ -2,10 +2,10 @@
 layout: post
 title: "serverspecをJenkins氏で回す場合について"
 published: true
-date: 2013-06-30 02:47
+date: "2013-06-30T02:47:00+09:00"
 comments: true
-tags: serverspec jenkins
-categories: memo
+
+
 keywords: serverspec jenkins
 ---
 

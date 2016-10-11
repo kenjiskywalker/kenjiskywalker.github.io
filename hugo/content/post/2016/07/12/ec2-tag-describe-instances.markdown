@@ -2,10 +2,10 @@
 layout: post
 title: "特定のインスタンスIDのタグのValueを出力する"
 published: true
-date: 2016-07-12 10:31
+date: "2016-07-12T10:31:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 ### `query`オプションとかよー使わんわということで個人的メモ

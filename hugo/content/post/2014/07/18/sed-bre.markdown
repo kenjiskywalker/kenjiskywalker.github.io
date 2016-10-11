@@ -2,10 +2,10 @@
 layout: post
 title: "GNUのsedとBSDのsed"
 published: true
-date: 2014-07-18 10:57
+date: "2014-07-18T10:57:00+09:00"
 comments: true
-tags: sed
-categories: sed
+
+
 ---
 
 OSXでsedコマンドを実行した際に、正規表現が上手く動作しなかった。

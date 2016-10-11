@@ -2,10 +2,10 @@
 layout: post
 title: "大変便利なMySQL::Sandboxのインストールメモ(GTID有効編)"
 published: true
-date: 2015-06-28 00:07
+date: "2015-06-28T00:07:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 以前MySQLの師匠のyoku0825さんに教えてもらったMySQL::Sandboxが  

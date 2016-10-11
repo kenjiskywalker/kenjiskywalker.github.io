@@ -2,10 +2,10 @@
 layout: post
 title: "Chefのruby_blockを利用してファイル更新時に条件によってログを出力する"
 published: true
-date: 2014-03-28 01:59
+date: "2014-03-28T01:59:00+09:00"
 comments: true
-tags: chef
-categories: chef
+
+
 ---
 
 Chefには冪等性という特徴がありますが、実際の運用では  

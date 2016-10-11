@@ -2,10 +2,10 @@
 layout: post
 title: "「ワーク・シフト 孤独と貧困から自由になる働き方の未来図<2025>」を読んだ"
 published: true
-date: 2013-11-29 04:04
+date: "2013-11-29T04:04:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 何故これを借りたのか全く覚えてなくて、  

@@ -2,10 +2,10 @@
 layout: post
 title: "Fluentd Casual Talks #3 でChefの話をしてきました #fluentdcasual"
 published: true
-date: 2013-12-14 01:46
+date: "2013-12-14T01:46:00+09:00"
 comments: true
-tags: fluentd
-categories: fluentd
+
+
 ---
 
 ## Fluentd Casual Talks #3 で話してきました

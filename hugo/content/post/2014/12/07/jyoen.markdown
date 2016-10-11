@@ -2,10 +2,10 @@
 layout: post
 title: "俺の子連れおすすめスポット - 新宿御苑"
 published: true
-date: 2014-12-07 01:49
+date: "2014-12-07T01:49:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [俺の子連れおすすめスポット Advent Calendar 2014](http://www.adventar.org/calendars/681)

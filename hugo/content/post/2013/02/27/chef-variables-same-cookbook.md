@@ -2,10 +2,10 @@
 layout: post
 title: "Chefのtemplateにrecipeからデータを渡すvariablesについて"
 published: true
-date: 2013-02-27 01:08
+date: "2013-02-27T01:08:00+09:00"
 comments: true
-tags: chef
-categories: chef
+
+
 ---
 
 Chefで、同じcookbookを利用して  

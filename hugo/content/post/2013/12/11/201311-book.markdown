@@ -2,10 +2,10 @@
 layout: post
 title: "2013/11読んだ本"
 published: true
-date: 2013-12-11 01:20
+date: "2013-12-11T01:20:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 <div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank"><img src="http://www.oreilly.co.jp/books/images/picture_small978-4-87311-642-6.gif" width="113" height="145" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.oreilly.co.jp/books/9784873116426/" target="_blank">イーサネットスイッチ</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : </div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em">O'Reilly Japan</div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2013-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/11/9784873116426" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>

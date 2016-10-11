@@ -2,10 +2,10 @@
 layout: post
 title: "hubot-atというhubot pluginをつくった"
 published: true
-date: 2014-09-04 14:22
+date: "2014-09-04T14:22:00+09:00"
 comments: true
-tags: hubot
-categories: hubot
+
+
 ---
 
 Slackを使い始めたので昔つくった[unazu_kun](http://kenjiskywalker.hatenablog.com/entry/20121010/1349878137)の機能を  

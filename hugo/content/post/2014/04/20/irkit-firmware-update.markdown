@@ -2,10 +2,10 @@
 layout: post
 title: "IRKitのファームウェアをアップデートしてWi-Fiに繋がるようになった"
 published: true
-date: 2014-04-20 00:05
+date: "2014-04-20T00:05:00+09:00"
 comments: true
-tags: irkit
-categories: irkit 
+
+
 ---
 
 IRKitの初期ロットを利用していたので、モールス信号で  

@@ -2,10 +2,10 @@
 layout: post
 title: "pecoを導入してzshのhistoryに使うようにした"
 published: true
-date: 2014-06-12 16:48
+date: "2014-06-12T16:48:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ## TL;DR

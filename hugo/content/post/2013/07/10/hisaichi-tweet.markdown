@@ -2,10 +2,10 @@
 layout: post
 title: "earthquake.gemプラグイン３つ"
 published: true
-date: 2013-07-10 00:07
+date: "2013-07-10T00:07:00+09:00"
 comments: true
-tags: earthquake
-categories: earthquake
+
+
 ---
 
 [Twitterで言いたいけど、言えないようなツイートを楽に言えるようにした。 - パルカワ２](http://hisaichi5518.hatenablog.jp/entry/2013/07/09/111503)  

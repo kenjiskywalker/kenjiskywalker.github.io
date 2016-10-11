@@ -2,10 +2,10 @@
 layout: post
 title: "IRCでお願いしたら分散図つくってくれるscatter_kunつくった"
 published: true
-date: 2013-10-14 15:51
+date: "2013-10-14T15:51:00+09:00"
 comments: true
-tags: scatter_kun perl
-categories: scatter_kun
+
+
 ---
 
 ## [https://github.com/kenjiskywalker/Scatter_Kun](https://github.com/kenjiskywalker/Scatter_Kun)  

@@ -2,10 +2,10 @@
 layout: post
 title: "Consulでnodeの増減時に特定のスクリプトを実行させる"
 published: true
-date: 2014-09-09 22:21
+date: "2014-09-09T22:21:00+09:00"
 comments: true
-tags: consul
-categories: consul
+
+
 ---
 
 

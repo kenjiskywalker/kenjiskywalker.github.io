@@ -2,10 +2,10 @@
 layout: post
 title: "メモリの相性"
 published: true
-date: 2013-08-21 21:06
+date: "2013-08-21T21:06:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
   
 メモリの相性とか都市伝説だと思っていたけど  

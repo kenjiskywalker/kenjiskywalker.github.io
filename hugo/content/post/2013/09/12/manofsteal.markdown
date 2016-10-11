@@ -2,10 +2,10 @@
 layout: post
 title: "「マン・オブ・スティール」見た"
 published: true
-date: 2013-09-12 09:21
+date: "2013-09-12T09:21:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 クリストファー・ノーラン関わってるなら  

@@ -2,10 +2,10 @@
 layout: post
 title: "SMTPが何故嫌いか"
 published: true
-date: 2014-02-05 18:04
+date: "2014-02-05T18:04:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 雑談です。

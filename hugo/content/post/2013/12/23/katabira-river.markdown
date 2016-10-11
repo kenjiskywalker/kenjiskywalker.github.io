@@ -2,10 +2,10 @@
 layout: post
 title: "本日の帷子川情報です"
 published: true
-date: 2013-12-23 12:50
+date: "2013-12-23T12:50:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 この記事は [MySQL Casual Advent Calendar 2013](http://www.zusaar.com/event/1847003) の 23 日目です。  

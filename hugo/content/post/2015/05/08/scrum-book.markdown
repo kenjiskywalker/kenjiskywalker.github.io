@@ -2,10 +2,10 @@
 layout: post
 title: "「スクラム実践入門」を読んだ"
 published: true
-date: 2015-05-08 00:22
+date: "2015-05-08T00:22:00+09:00"
 comments: true
-tags: book scrum
-categories: book
+
+
 ---
 
 <a href="http://www.amazon.co.jp/%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%A0%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-%E6%88%90%E6%9E%9C%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB%E3%81%AA%E9%96%8B%E7%99%BA%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9-WEB-PRESS-plus/dp/4774172367%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4774172367" target="_blank" title="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)"><img src="http://ecx.images-amazon.com/images/I/51ABflXRwZL.jpg" width="352" height="500" alt="スクラム実践入門 ── 成果を生み出すアジャイルな開発プロセス (WEB+DB PRESS plus)" /></a>

@@ -2,10 +2,10 @@
 layout: post
 title: "YAPC::Asia 2015で冗長化に失敗した話をしてきました #yapcasia"
 published: true
-date: 2015-08-22 12:59
+date: "2015-08-22T12:59:00+09:00"
 comments: true
-tags: yapc
-categories: yapc
+
+
 ---
 
 ![](https://dl.dropboxusercontent.com/u/5390179/moris-mirakui.png)

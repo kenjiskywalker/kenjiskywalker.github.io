@@ -2,10 +2,10 @@
 layout: post
 title: "「終戦のエンペラー」みた"
 published: true
-date: 2013-08-18 19:26
+date: "2013-08-18T19:26:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 

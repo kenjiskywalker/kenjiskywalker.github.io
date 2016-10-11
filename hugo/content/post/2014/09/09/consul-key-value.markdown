@@ -2,10 +2,10 @@
 layout: post
 title: "Consulでkey/valueを叩く"
 published: true
-date: 2014-09-09 23:09
+date: "2014-09-09T23:09:00+09:00"
 comments: true
-tags: consul
-categories: consul
+
+
 ---
 
 ## TL;DR

@@ -2,12 +2,12 @@
 layout: post
 title: "Redis Sentinelを試す"
 published: true
-date: 2013-01-15 19:42
+date: "2013-01-15T19:42:00+09:00"
 comments: true
-tags: redis
-categories: redis
+
+
 keywords: Redis,Sentinel,Redis Sentinel
-description: Redis Sentinelを試す
+
 ---
 
 某社では[RedisをKeepalivedでフェイルオーバーする構成案 / 酒日記 はてな支店](http://d.hatena.ne.jp/sfujiwara/20120802/1343880266)  

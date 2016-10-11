@@ -2,10 +2,10 @@
 layout: post
 title: "pvmoveを利用して物理ディスクのデータを別の物理ディスクへオンラインで移設する"
 published: true
-date: 2014-01-11 13:31
+date: "2014-01-11T13:31:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 AWSとLVMを利用することによって、オンラインで  

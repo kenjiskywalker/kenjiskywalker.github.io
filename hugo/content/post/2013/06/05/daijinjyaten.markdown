@@ -2,10 +2,10 @@
 layout: post
 title: "大神社展行ってきた"
 published: true
-date: 2013-06-05 23:57
+date: "2013-06-05T23:57:00+09:00"
 comments: true
-tags: blog
-categories: blog 
+
+
 ---
 
 ![https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg](https://irs3.4sqi.net/img/general/680x680/314438_fmD0bexhswerJhwD2fxJSWC_dpkjLIvyAPRxHZ04P7g.jpg)

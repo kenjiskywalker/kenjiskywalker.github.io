@@ -2,10 +2,10 @@
 layout: post
 title: "shellscriptでmailコマンドを利用してGmailにメールを送るとnonameという添付ファイルが添付される問題"
 published: true
-date: 2014-06-04 02:56
+date: "2014-06-04T02:56:00+09:00"
 comments: true
-tags: code
-categories: howto
+
+
 ---
 
 ```

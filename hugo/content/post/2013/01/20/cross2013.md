@@ -2,10 +2,10 @@
 layout: post
 title: "おしまい姉妹について"
 published: true
-date: 2013-01-20 13:14
+date: "2013-01-20T13:14:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [エンジニアサポートCROSS 2013](http://www.cross-party.com/)  

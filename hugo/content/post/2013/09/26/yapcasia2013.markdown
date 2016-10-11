@@ -2,10 +2,10 @@
 layout: post
 title: "YAPC::Asia Tokyo 2013に遊びに行ってきました"
 published: true
-date: 2013-09-26 23:26
+date: "2013-09-26T23:26:00+09:00"
 comments: true
-tags: blog yapcasia
-categories: blog
+
+
 ---
 
 ## [http://yapcasia.org/2013/](http://yapcasia.org/2013/)

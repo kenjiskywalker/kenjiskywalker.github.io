@@ -2,10 +2,10 @@
 layout: post
 title: "ZNCでLimeChatをIRCクライアントにしてiPhoneだけBuffer効かせる設定とim.kayacの設定"
 published: true
-date: 2013-03-20 00:36
+date: "2013-03-20T00:36:00+09:00"
 comments: true
-tags: znc
-categories: znc
+
+
 keywords: znc limecaht iphone mac
 ---
 

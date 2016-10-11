@@ -2,10 +2,10 @@
 layout: post
 title: "Chefで公開したくないJSONデータを暗号化するためにDataBagsを利用してみた記録"
 published: true
-date: 2013-05-20 18:44
+date: "2013-05-20T18:44:00+09:00"
 comments: true
-tags: chef databags
-categories: chef
+
+
 keywords: chef,暗号化,data_bag
 ---
 

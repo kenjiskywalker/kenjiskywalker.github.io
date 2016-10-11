@@ -2,10 +2,10 @@
 layout: post
 title: "YAPC::Asia 2015 で冗長化に失敗した話を話します"
 published: true
-date: 2015-08-16 23:24
+date: "2015-08-16T23:24:00+09:00"
 comments: true
-tags: yapc
-categories: yapc
+
+
 ---
 
 今年もYAPCで発表させて頂くことになりました。  

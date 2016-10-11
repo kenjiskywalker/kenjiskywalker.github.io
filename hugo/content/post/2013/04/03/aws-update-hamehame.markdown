@@ -2,10 +2,10 @@
 layout: post
 title: "EC2のバージョン上げる時にreleasever=latestになってないとバージョン上がらなかった"
 published: false
-date: 2013-04-03 12:12
+date: "2013-04-03T12:12:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 入れないとアップグレードできなかった

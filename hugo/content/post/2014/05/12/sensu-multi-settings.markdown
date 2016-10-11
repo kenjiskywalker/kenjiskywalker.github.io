@@ -2,10 +2,10 @@
 layout: post
 title: "Sensuで一つのJSONファイルに複数の設定を記述する"
 published: true
-date: 2014-05-12 16:40
+date: "2014-05-12T16:40:00+09:00"
 comments: true
-tags: sensu
-categories: sensu
+
+
 ---
 
 deep_mergeなのでこう書けます。

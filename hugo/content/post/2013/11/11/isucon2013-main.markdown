@@ -2,10 +2,10 @@
 layout: post
 title: "#isucon 2013 参加してきました"
 published: true
-date: 2013-11-11 10:02
+date: "2013-11-11T10:02:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 運営のみなさまおつかれさまでした。今回もとても楽しかったです。  

@@ -2,10 +2,10 @@
 layout: post
 title: "腹痛"
 published: true
-date: 2013-01-09 20:49
+date: "2013-01-09T20:49:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 

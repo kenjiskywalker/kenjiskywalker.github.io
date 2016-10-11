@@ -2,10 +2,10 @@
 layout: post
 title: "式年遷宮Infrastracture"
 published: true
-date: 2013-08-11 15:19
+date: "2013-08-11T15:19:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [Immutable Infrastracture について / apatheia.info](http://apatheia.info/blog/2013/08/10/immutable-infrastructure/)  

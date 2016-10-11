@@ -2,10 +2,10 @@
 layout: post
 title: "curlでcurl: (51) SSL: certificate verification failed (result: 5)が出る時の対処法"
 published: true
-date: 2015-08-05 18:24
+date: "2015-08-05T18:24:00+09:00"
 comments: true
-tags: ssl
-categories: curl
+
+
 ---
 
 > OS X Yosemite 10.10.4

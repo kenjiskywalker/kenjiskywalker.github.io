@@ -2,10 +2,10 @@
 layout: post
 title: "AWS::EC2のルートパーティションをリサイズする"
 published: true
-date: 2013-02-06 21:24
+date: "2013-02-06T21:24:00+09:00"
 comments: true
-tags: aws howto
-categories: 
+
+
 ---
 
 基本的にルートパーティションはEBSで8GB決め打ちだったので  

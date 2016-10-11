@@ -2,10 +2,10 @@
 layout: post
 title: "fluentdを利用してsshログインを通知する"
 published: true
-date: 2014-12-12 22:53
+date: "2014-12-12T22:53:00+09:00"
 comments: true
-tags: fluentd
-categories: fluentd
+
+
 ---
 
 sshを利用していると招かれざる客の来訪が多い。  

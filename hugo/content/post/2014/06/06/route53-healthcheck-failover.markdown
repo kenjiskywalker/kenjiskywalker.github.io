@@ -2,10 +2,10 @@
 layout: post
 title: "Route53を利用したフェイルオーバーシステムの作成"
 published: true
-date: 2014-06-06 00:04
+date: "2014-06-06T00:04:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 AWSのRoute53サービスを利用し、冗長構成のあるシステムをつくる。

@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのリザーブドインスタンスについて理解していなかったので理解した"
 published: true
-date: 2013-06-18 15:21
+date: "2013-06-18T15:21:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 ## [Amazon EC2 リザーブドインスタンス](http://aws.amazon.com/jp/ec2/reserved-instances/)

@@ -2,10 +2,10 @@
 layout: post
 title: "お盆とは"
 published: true
-date: 2013-08-13 23:19
+date: "2013-08-13T23:19:00+09:00"
 comments: true
-tags: history
-categories: history
+
+
 ---
 
 ## [お盆](http://ja.wikipedia.org/wiki/%E3%81%8A%E7%9B%86)

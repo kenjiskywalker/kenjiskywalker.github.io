@@ -2,10 +2,10 @@
 layout: post
 title: "「velocity」を読んだ"
 published: true
-date: 2015-12-20 14:26
+date: "2015-12-20T14:26:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 <a href="http://www.amazon.co.jp/%E3%83%99%E3%83%AD%E3%82%B7%E3%83%86%E3%82%A3%E6%80%9D%E8%80%83-%E6%9C%80%E9%AB%98%E3%81%AE%E6%88%90%E6%9E%9C%E3%82%92%E4%B8%8A%E3%81%92%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E3%82%AF%E3%83%AA%E3%82%A8%E3%82%A4%E3%83%86%E3%82%A3%E3%83%96%E8%A1%93-%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%BA%E3%83%BB%E3%82%A2%E3%83%BC%E3%83%A1%E3%83%83%E3%83%89/dp/4756242898%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4756242898" target="_blank" title="ベロシティ思考-最高の成果を上げるためのクリエイティブ術-"><img src="http://ecx.images-amazon.com/images/I/31y4L6-%2BngL.jpg" width="342" height="500" alt="ベロシティ思考-最高の成果を上げるためのクリエイティブ術-" /></a>

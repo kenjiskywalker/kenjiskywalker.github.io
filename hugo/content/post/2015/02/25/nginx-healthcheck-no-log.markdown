@@ -2,10 +2,10 @@
 layout: post
 title: "nginxで特定のURIだけログに出力しない"
 published: true
-date: 2015-02-25 16:04
+date: "2015-02-25T16:04:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 nginxでヘルスチェックなど設定している時に特定のURIだけログに出したくない場合の設定

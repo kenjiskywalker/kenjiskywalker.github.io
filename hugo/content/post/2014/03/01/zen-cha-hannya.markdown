@@ -2,10 +2,10 @@
 layout: post
 title: "禅、写経、茶の湯"
 published: true
-date: 2014-03-01 17:01
+date: "2014-03-01T17:01:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 テレビでお坊さんが、写経をすることで別世界へ行くことができる。  

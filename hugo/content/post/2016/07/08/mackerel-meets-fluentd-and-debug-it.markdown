@@ -2,10 +2,10 @@
 layout: post
 title: "問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話"
 published: true
-date: 2016-07-08 12:45
+date: "2016-07-08T12:45:00+09:00"
 comments: true
-tags: mackerel fluentd
-categories: tech
+
+
 ---
 みんなのネットワーク環境が安定しているのか..  
 我々の世界線にノイズが混在してしまっているのか...  

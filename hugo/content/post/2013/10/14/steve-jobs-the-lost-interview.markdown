@@ -2,10 +2,10 @@
 layout: post
 title: "「スティーブ・ジョブズ 1995～失われたインタビュー～ 」見た"
 published: true
-date: 2013-10-14 15:22
+date: "2013-10-14T15:22:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 ## [「スティーブ・ジョブズ 1995～失われたインタビュー～ 」](http://www.stevejobs1995.com/)  

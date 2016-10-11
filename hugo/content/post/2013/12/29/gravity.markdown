@@ -2,10 +2,10 @@
 layout: post
 title: "「ゼロ・グラビティ」をみた"
 published: true
-date: 2013-12-29 03:25
+date: "2013-12-29T03:25:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 [http://wwws.warnerbros.co.jp/gravity/](http://wwws.warnerbros.co.jp/gravity/)  

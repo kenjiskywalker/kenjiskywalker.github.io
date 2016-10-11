@@ -2,10 +2,10 @@
 layout: post
 title: "tweets.zipを読みこませるSQLを書いた時のメモ"
 published: true
-date: 2013-04-08 01:19
+date: "2013-04-08T01:19:00+09:00"
 comments: true
-tags: sql
-categories: sql
+
+
 ---
 
 [MySQL Casual Talks vol.4](http://atnd.org/events/38091)で話してみて  

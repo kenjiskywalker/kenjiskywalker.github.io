@@ -2,10 +2,10 @@
 layout: post
 title: "#yapcasia 2014 に発表者として参加してきたこと"
 published: true
-date: 2014-08-31 00:37
+date: "2014-08-31T00:37:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 YAPC::Asia 2014に参加してきました。  

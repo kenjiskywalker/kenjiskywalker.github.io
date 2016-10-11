@@ -2,10 +2,10 @@
 layout: post
 title: "もうやんカレーお持ち帰りという解脱の境地"
 published: true
-date: 2015-12-08 17:48
+date: "2015-12-08T17:48:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 この記事は[カレー Advent Calendar 2015](http://www.adventar.org/calendars/725)の9日目の記事です。  

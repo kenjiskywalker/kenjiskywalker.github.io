@@ -2,10 +2,10 @@
 layout: post
 title: "Monitoring Casual Talk in Kyoto 行ってきた #monitoringcasual"
 published: true
-date: 2013-12-01 18:53
+date: "2013-12-01T18:53:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [Monitoring Casual Talk in Kyoto](http://www.zusaar.com/event/1377006)へ参加してきました。  

@@ -2,10 +2,10 @@
 layout: post
 title: "音楽"
 published: true
-date: 2013-05-22 00:26
+date: "2013-05-22T00:26:00+09:00"
 comments: true
-tags: music
-categories: music
+
+
 ---
 
 ## [Flats / HVL](https://bleep.com/release/43946-hvl-flats)

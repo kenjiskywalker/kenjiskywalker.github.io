@@ -2,10 +2,10 @@
 layout: post
 title: "EC2のインスタンスが立ち上がってきた時にEphemeral Diskを束ねてRAID0にするスクリプト"
 published: true
-date: 2014-02-24 18:15
+date: "2014-02-24T18:15:00+09:00"
 comments: true
-tags: aws script
-categories: aws
+
+
 ---
 
 Ephemeral Diskが8本ある場合は条件を増やせば良い。  

@@ -2,10 +2,10 @@
 layout: post
 title: "AWS::Provisioned IOPSなRDSをVPC内につくろうとしたら"
 published: true
-date: 2013-02-15 13:21
+date: "2013-02-15T13:21:00+09:00"
 comments: true
-tags: aws rds
-categories: aws rds
+
+
 ---
 
 ![RDS Error Capture](https://dl.dropbox.com/u/5390179/cb9cb8c8599fe3da49aa78be3c700b31.png)  

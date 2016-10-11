@@ -2,10 +2,10 @@
 layout: post
 title: "Sensuの監視の設定"
 published: true
-date: 2014-05-03 02:59
+date: "2014-05-03T02:59:00+09:00"
 comments: true
-tags: sensu
-categories: sensu
+
+
 ---
 
 [Sensu導入と初期設定について](http://blog.kenjiskywalker.org/blog/2014/05/02/newbie-sensu/)の続きのエントリーになります。

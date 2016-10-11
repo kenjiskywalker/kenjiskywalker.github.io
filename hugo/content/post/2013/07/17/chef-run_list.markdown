@@ -2,10 +2,10 @@
 layout: post
 title: "chefの中身読んで、外部からrun_listを利用する"
 published: true
-date: 2013-07-17 00:29
+date: "2013-07-17T00:29:00+09:00"
 comments: true
-tags: chef howto 
-categories: chef
+
+
 ---
 
 run_listを渡してるところを探した。  

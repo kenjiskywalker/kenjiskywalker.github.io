@@ -2,10 +2,10 @@
 layout: post
 title: "flunetd、forward先がダメだった時にforward元である程度ログを担保したい"
 published: true
-date: 2014-04-01 13:18
+date: "2014-04-01T13:18:00+09:00"
 comments: true
-tags: fluentd
-categories: fluentd
+
+
 ---
 
 fluentdのbufferとforwardについて調べたのでメモ。

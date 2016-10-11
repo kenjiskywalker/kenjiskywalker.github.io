@@ -2,10 +2,10 @@
 layout: post
 title: "Terraformを始める上でのresourceの命名規則について"
 published: true
-date: 2016-07-06 09:52
+date: "2016-07-06T09:52:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ## Terraformとは

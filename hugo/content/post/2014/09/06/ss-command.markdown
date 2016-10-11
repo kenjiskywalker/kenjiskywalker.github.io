@@ -2,10 +2,10 @@
 layout: post
 title: "ssコマンドの使えそうなもののメモ"
 published: true
-date: 2014-09-06 23:11
+date: "2014-09-06T23:11:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 `$ss -lt`と`$ss -ltp`は使える。  

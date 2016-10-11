@@ -2,10 +2,10 @@
 layout: post
 title: "さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした"
 published: true
-date: 2013-06-29 20:49
+date: "2013-06-29T20:49:00+09:00"
 comments: true
-tags: jenkins
-categories: jenkins
+
+
 ---
 
 Jenkins氏、存在は知ってるけど自分で使ったことなかったので  

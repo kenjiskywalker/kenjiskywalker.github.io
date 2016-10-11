@@ -2,10 +2,10 @@
 layout: post
 title: "ビンディングペダルにした"
 published: true
-date: 2013-09-18 23:20
+date: "2013-09-18T23:20:00+09:00"
 comments: true
-tags: bike
-categories: bike
+
+
 ---
 
 ### [SPECIARIZED ALLEZ COMPACT 2010](http://www.specialized.com/us/en/bikes/archive/2010/allez/allezelitecompact)  

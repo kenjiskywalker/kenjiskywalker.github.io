@@ -2,10 +2,10 @@
 layout: post
 title: "「UNIXという考え方」を読んだ"
 published: true
-date: 2013-09-13 00:02
+date: "2013-09-13T00:02:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 <a href="http://www.amazon.co.jp/gp/product/4274064069/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=4274064069&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=4274064069&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=4274064069" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />

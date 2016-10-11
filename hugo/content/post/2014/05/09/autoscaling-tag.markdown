@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのAutoScalingGroupにタグを付けて起動されるEC2インスタンスにもタグが自動的に付与される"
 published: true
-date: 2014-05-09 18:00
+date: "2014-05-09T18:00:00+09:00"
 comments: true
-tags: aws autoscaling
-categories: aws
+
+
 ---
 
 [【AWS発表】オートスケールされたEC2インスタンスにタグ付け可能に - Amazon Web Services ブログ](http://aws.typepad.com/aws_japan/2014/05/tag-your-auto-scaled-ec2-instances.html)

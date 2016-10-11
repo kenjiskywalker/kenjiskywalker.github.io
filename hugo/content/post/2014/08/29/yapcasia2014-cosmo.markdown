@@ -2,10 +2,10 @@
 layout: post
 title: "#yapcasia 2014 でシステムとの時間の旅の話をしてきました"
 published: true
-date: 2014-08-29 12:38
+date: "2014-08-29T12:38:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ## [The world is not complete ](https://speakerdeck.com/kenjiskywalker/yapcasia2014)  

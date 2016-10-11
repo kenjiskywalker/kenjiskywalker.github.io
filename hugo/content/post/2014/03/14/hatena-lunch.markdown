@@ -2,10 +2,10 @@
 layout: post
 title: "はてなの東京オフィスに美味しいランチをたべさせてもらいに行ってきた"
 published: true
-date: 2014-03-14 00:41
+date: "2014-03-14T00:41:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 ![http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png](http://i.gyazo.com/336367bb2a59faf168c19be50f73550f.png)

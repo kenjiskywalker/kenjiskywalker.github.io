@@ -2,10 +2,10 @@
 layout: post
 title: "メルマガ、サイトにログインしないと配信停止できないの"
 published: true
-date: 2013-11-20 23:15
+date: "2013-11-20T23:15:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [Stop doing this crap on your startups website](http://harknesslabs.com/post/66570723467/stop-doing-this-crap-on-your-startups-website)

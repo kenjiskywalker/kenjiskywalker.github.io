@@ -2,10 +2,10 @@
 layout: post
 title: "「利休にたずねよ」を見てきた"
 published: true
-date: 2013-12-10 10:08
+date: "2013-12-10T10:08:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 [http://www.rikyu-movie.jp/](http://www.rikyu-movie.jp/)  

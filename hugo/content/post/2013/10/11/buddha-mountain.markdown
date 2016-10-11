@@ -2,10 +2,10 @@
 layout: post
 title: "「ブッダ・マウンテン 希望と祈りの旅」みてきた"
 published: true
-date: 2013-10-11 00:17
+date: "2013-10-11T00:17:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 [「ブッダ・マウンテン 希望と祈りの旅」](http://www.buddha-mountain.com/)  

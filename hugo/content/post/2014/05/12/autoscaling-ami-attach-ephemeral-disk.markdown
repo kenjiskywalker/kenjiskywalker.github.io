@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのAutoScalingで起動するインスタンスにEhemeral Diskをattachする"
 published: true
-date: 2014-05-12 18:13
+date: "2014-05-12T18:13:00+09:00"
 comments: true
-tags: aws autoscaling
-categories: aws
+
+
 ---
 
 AutoScalignのLaunch ConfigurationでEphemeral DiskをAttachすることが可能です。  

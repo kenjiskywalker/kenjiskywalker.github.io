@@ -2,10 +2,10 @@
 layout: post
 title: "Vimで日本語の切り替えで毎回っっっっっっってなる対策"
 published: true
-date: 2013-10-11 14:24
+date: "2013-10-11T14:24:00+09:00"
 comments: true
-tags: vim
-categories: vim
+
+
 ---
 
 `.gvimrc`に  

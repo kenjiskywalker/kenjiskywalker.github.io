@@ -2,10 +2,10 @@
 layout: post
 title: "「Think Simple」を読んだ。おすすめです"
 published: true
-date: 2013-11-16 12:13
+date: "2013-11-16T12:13:00+09:00"
 comments: true
-tags: book
-categories: book 
+
+
 ---
 
 

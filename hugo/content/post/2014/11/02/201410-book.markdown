@@ -2,10 +2,10 @@
 layout: post
 title: "2014/10読んだ本"
 published: true
-date: 2014-11-02 01:59
+date: "2014-11-02T01:59:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 太平記、いよいよ尊氏がのし上がってきた。  

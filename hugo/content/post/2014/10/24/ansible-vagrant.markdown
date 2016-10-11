@@ -2,10 +2,10 @@
 layout: post
 title: "Ansibleを利用してRailsが動くVagrantfileを作成する"
 published: true
-date: 2014-10-24 05:56
+date: "2014-10-24T05:56:00+09:00"
 comments: true
-tags: ansible vagrant rails
-categories: ansible
+
+
 ---
 
 ![http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106](http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106)

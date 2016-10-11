@@ -2,10 +2,10 @@
 layout: post
 title: "ConsulのDNSラウンドロビンの検証"
 published: true
-date: 2014-06-06 01:13
+date: "2014-06-06T01:13:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 [Consul - hashicorp](http://www.hashicorp.com/blog/consul.html) を利用しDNS Failoverを検証した

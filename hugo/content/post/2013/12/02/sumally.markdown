@@ -2,10 +2,10 @@
 layout: post
 title: "Sumallyに入りました"
 published: true
-date: 2013-12-02 22:50
+date: "2013-12-02T22:50:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 人数の少ないスタートアップに参加して、  

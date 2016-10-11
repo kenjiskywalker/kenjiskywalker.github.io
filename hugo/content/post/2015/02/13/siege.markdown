@@ -2,10 +2,10 @@
 layout: post
 title: "負荷テストが気軽に行えるsiegeでちょっとハマった"
 published: true
-date: 2015-02-13 18:06
+date: "2015-02-13T18:06:00+09:00"
 comments: true
-tags: siege
-categories: memo
+
+
 ---
 
 > siege: version 3.0.9

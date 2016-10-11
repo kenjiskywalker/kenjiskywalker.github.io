@@ -2,10 +2,10 @@
 layout: post
 title: "起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い"
 published: true
-date: 2015-02-07 17:41
+date: "2015-02-07T17:41:00+09:00"
 comments: true
-tags: resolv redhat
-categories: memo
+
+
 ---
 
 > みんなこういうのはどういう対応しているんだろう
@@ -45,7 +45,7 @@ runlevel 3のものを確認したければ`/etc/rc3.d/`とか見ればわかる
 # create by kenjiskywalker
 #
 # chkconfig: 2345 49 49
-# description: resolv-update
+# 
 
 lock_file="/var/lock/subsys/resolv-update"
 redis_port="6379"

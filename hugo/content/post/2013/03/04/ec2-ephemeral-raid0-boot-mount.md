@@ -2,10 +2,10 @@
 layout: post
 title: "EC2でEphemeral DiskをRAID0で構築した状態でブートする"
 published: true
-date: 2013-03-04 21:26
+date: "2013-03-04T21:26:00+09:00"
 comments: true
-tags: aws ec2
-categories: aws ec2
+
+
 ---
 
 

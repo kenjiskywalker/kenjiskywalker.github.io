@@ -2,10 +2,10 @@
 layout: post
 title: "「学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命」を読んだ"
 published: true
-date: 2015-12-20 15:16
+date: "2015-12-20T15:16:00+09:00"
 comments: true
-tags: book
-categories: book 
+
+
 ---
 
 <a href="http://www.amazon.co.jp/%E5%AD%A6%E7%B4%9A%E5%B4%A9%E5%A3%8A%E7%AB%8B%E3%81%A6%E7%9B%B4%E3%81%97%E8%AB%8B%E8%B2%A0%E4%BA%BA-%E5%A4%A7%E4%BA%BA%E3%81%A8%E5%AD%90%E3%81%A9%E3%82%82%E3%81%A7%E5%8F%96%E3%82%8A%E7%B5%84%E3%82%80%E3%80%8C%E8%A8%80%E8%91%89%E3%80%8D%E6%95%99%E8%82%B2%E9%9D%A9%E5%91%BD-%E8%8F%8A%E6%B1%A0-%E7%9C%81%E4%B8%89/dp/4103343613%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D4103343613" target="_blank" title="学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命"><img src="http://ecx.images-amazon.com/images/I/51p52cuC7NL.jpg" width="344" height="500" alt="学級崩壊立て直し請負人: 大人と子どもで取り組む「言葉」教育革命" /></a>

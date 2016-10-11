@@ -2,10 +2,10 @@
 layout: post
 title: "GitHub Yokohama Drinkupに遊びに行ってきた"
 published: true
-date: 2013-08-22 23:17
+date: "2013-08-22T23:17:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 ## [GitHub Yokohama Drinkup](https://github.com/blog/1599-cedec-yokohama-drinkup)

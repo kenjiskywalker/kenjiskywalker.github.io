@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのCloudWatchで取得できるBillingの情報を毎日Slackに通知させて費用を常に把握する"
 published: true
-date: 2015-04-20 19:03
+date: "2015-04-20T19:03:00+09:00"
 comments: true
-tags: aws chatops
-categories: chatops
+
+
 ---
 
 > DevOpsManの様子

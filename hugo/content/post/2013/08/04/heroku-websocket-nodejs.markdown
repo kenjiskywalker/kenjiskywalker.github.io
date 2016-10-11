@@ -2,10 +2,10 @@
 layout: post
 title: "HerokuでWebsocket使ったnode.jsのアプリ"
 published: false
-date: 2013-08-04 23:15
+date: "2013-08-04T23:15:00+09:00"
 comments: true
-tags: howto
-categories: howto
+
+
 ---
 
 https://devcenter.heroku.com/articles/nodejs#deploy-your-application-to-heroku

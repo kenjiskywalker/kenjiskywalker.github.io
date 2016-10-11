@@ -2,10 +2,10 @@
 layout: post
 title: "fluentdでCloudWatchのELBのメトリクスをZABBIXに渡す"
 published: true
-date: 2013-03-21 17:05
+date: "2013-03-21T17:05:00+09:00"
 comments: true
-tags: aws zabbix
-categories: 
+
+
 keywords: CloudWatch fluend ELB ZABBIX
 ---
 

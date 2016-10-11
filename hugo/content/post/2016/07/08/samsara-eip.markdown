@@ -2,10 +2,10 @@
 layout: post
 title: "特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト"
 published: true
-date: 2016-07-08 13:32
+date: "2016-07-08T13:32:00+09:00"
 comments: true
-tags: aws 
-categories: tech
+
+
 ---
 
 件の通り

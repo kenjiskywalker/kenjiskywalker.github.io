@@ -2,10 +2,10 @@
 layout: post
 title: "はじめてのOSコードリーディング ――UNIX V6で学ぶカーネルのしくみを電子書籍で買ったのですが"
 published: true
-date: 2013-01-17 10:16
+date: "2013-01-17T10:16:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 [はじめてのOSコードリーディング　――UNIX V6で学ぶカーネルのしくみ](http://gihyo.jp/book/2013/978-4-7741-5464-0)

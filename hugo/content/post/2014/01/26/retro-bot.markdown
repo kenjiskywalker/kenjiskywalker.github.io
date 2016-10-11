@@ -2,10 +2,10 @@
 layout: post
 title: "retrobot"
 published: true
-date: 2014-01-26 03:00
+date: "2014-01-26T03:00:00+09:00"
 comments: true
-tags: twitter
-categories: twitter
+
+
 ---
 
 mirakuiさんの「[1年前の自分と暮らす - 昼メシ物語](http://blog.mirakui.com/entry/2014/01/25/174428) 」  

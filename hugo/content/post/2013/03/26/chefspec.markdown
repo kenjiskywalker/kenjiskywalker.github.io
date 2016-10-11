@@ -2,10 +2,10 @@
 layout: post
 title: "chefspecを利用したcookbookの動作テスト"
 published: true
-date: 2013-03-26 16:34
+date: "2013-03-26T16:34:00+09:00"
 comments: true
-tags: chef
-categories: chef chefspec
+
+
 keywords: chef chefspec
 ---
 

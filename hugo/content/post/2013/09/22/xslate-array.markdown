@@ -2,10 +2,10 @@
 layout: post
 title: "Text::Xslateで配列"
 published: true
-date: 2013-09-22 13:30
+date: "2013-09-22T13:30:00+09:00"
 comments: true
-tags: perl howto
-categories: perl
+
+
 ---
 
 配列の要素数と配列の中身を渡したかっただけだったのに  

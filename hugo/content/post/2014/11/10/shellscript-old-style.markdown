@@ -2,10 +2,10 @@
 layout: post
 title: "シェルスクリプトで外部コマンドを利用する場合の注意点"
 published: true
-date: 2014-11-10 15:37
+date: "2014-11-10T15:37:00+09:00"
 comments: true
-tags: shellscript
-categories: shellscript
+
+
 ---
 
 ## TL;DR

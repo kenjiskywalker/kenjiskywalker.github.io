@@ -2,10 +2,10 @@
 layout: post
 title: "ZABBIXでアラートメールを受け取るためにする設定メモ"
 published: true
-date: 2013-03-20 01:53
+date: "2013-03-20T01:53:00+09:00"
 comments: true
-tags: zabbix
-categories: zabbix
+
+
 ---
 
 新しくグループとかつくる時に  

@@ -2,10 +2,10 @@
 layout: post
 title: "Chefのnode[:hoge]をどうにかしたい"
 published: true
-date: 2013-12-04 14:26
+date: "2013-12-04T14:26:00+09:00"
 comments: true
-tags: chef
-categories: chef
+
+
 ---
 
 2013年オワコンの代表格として名指しされているChefですが  

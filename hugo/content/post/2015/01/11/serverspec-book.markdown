@@ -2,10 +2,10 @@
 layout: post
 title: "「Serverspec」本を読んだ"
 published: true
-date: 2015-01-11 23:44
+date: "2015-01-11T23:44:00+09:00"
 comments: true
-tags: book
-categories: book 
+
+
 ---
 
 執筆者のmizzyさんからご恵贈頂きました！ありがとうございます！

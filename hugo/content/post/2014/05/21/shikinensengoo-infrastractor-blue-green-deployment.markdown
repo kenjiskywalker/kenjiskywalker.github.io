@@ -2,10 +2,10 @@
 layout: post
 title: "式年遷宮インフラストラクチャについて"
 published: true
-date: 2014-05-21 01:53
+date: "2014-05-21T01:53:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 

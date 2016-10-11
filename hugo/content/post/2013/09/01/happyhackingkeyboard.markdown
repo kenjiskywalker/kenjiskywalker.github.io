@@ -2,10 +2,10 @@
 layout: post
 title: "やり残しハッカソン#2 行って HappyHackingKeyboard買った"
 published: true
-date: 2013-09-01 16:32
+date: "2013-09-01T16:32:00+09:00"
 comments: true
-tags: blog
-categories: blog 
+
+
 ---
 
 やり残しハッカソンがあったので鎌倉に行ってきた。  

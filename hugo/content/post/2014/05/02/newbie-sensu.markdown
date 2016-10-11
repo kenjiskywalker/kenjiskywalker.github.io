@@ -2,10 +2,10 @@
 layout: post
 title: "Sensu導入と初期設定について"
 published: true
-date: 2014-05-02 14:48
+date: "2014-05-02T14:48:00+09:00"
 comments: true
-tags: sensu
-categories: sensu
+
+
 ---
 
 > Chef: 11.8.0  

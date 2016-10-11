@@ -2,10 +2,10 @@
 layout: post
 title: "Instance Store-BackedのAMIをつくる"
 published: true
-date: 2014-03-18 23:04
+date: "2014-03-18T23:04:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 [Creating an Instance Store-Backed Linux AMI](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html)

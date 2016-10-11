@@ -2,10 +2,10 @@
 layout: post
 title: "AWS CLIでスポットインスタンスリクエストを送る"
 published: true
-date: 2014-01-07 20:39
+date: "2014-01-07T20:39:00+09:00"
 comments: true
-tags: aws
-categories: aws 
+
+
 ---
 
 日本語の情報があまりなかったので共有しておきます。  

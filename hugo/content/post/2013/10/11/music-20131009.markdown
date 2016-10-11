@@ -2,10 +2,10 @@
 layout: post
 title: "音楽"
 published: true
-date: 2013-10-11 00:27
+date: "2013-10-11T00:27:00+09:00"
 comments: true
-tags: music
-categories: music
+
+
 ---
 
 ## [Ambivalence Avenue / Bibio](https://bleep.com/release/19779-bibio-ambivalence-avenue)

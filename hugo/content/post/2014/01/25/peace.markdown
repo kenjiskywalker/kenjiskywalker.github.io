@@ -2,10 +2,10 @@
 layout: post
 title: "境界線と争い"
 published: true
-date: 2014-01-25 01:14
+date: "2014-01-25T01:14:00+09:00"
 comments: true
-tags: blog
-categories: blog 
+
+
 ---
 
 昨日、二郎インスパイア系と言われているラーメン家に行った。  

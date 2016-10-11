@@ -2,10 +2,10 @@
 layout: post
 title: "ZNCでlingr-ircに接続する設定"
 published: true
-date: 2013-03-21 00:25
+date: "2013-03-21T00:25:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 [ゆるふわなかんじで perl の話題をするためのチャットルームをつくってみた - tokuhirom's blog.](http://blog.64p.org/entry/2013/03/13/195515)  

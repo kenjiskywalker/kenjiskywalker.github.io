@@ -2,10 +2,10 @@
 layout: post
 title: "LVM入門"
 published: true
-date: 2014-01-11 11:39
+date: "2014-01-11T11:39:00+09:00"
 comments: true
-tags: lvm
-categories: lvm
+
+
 ---
 
 LVMについては、きちんと学習したことがなかったので  

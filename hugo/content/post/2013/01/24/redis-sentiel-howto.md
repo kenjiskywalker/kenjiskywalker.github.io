@@ -2,12 +2,12 @@
 layout: post
 title: "Redis Sentinelを動かしてみた"
 published: true
-date: 2013-01-24 16:13
+date: "2013-01-24T16:13:00+09:00"
 comments: true
-tags: redis
-categories: howto redis
+
+
 keywords: Redis, Redis Sentinel
-description: Redis Sentinelを動かしてみた
+
 ---
 
 以前、[Redis Sentinelを試す](http://blog.kenjiskywalker.org/blog/2013/01/15/redis-sentinel/)というエントリーを書きましたが  

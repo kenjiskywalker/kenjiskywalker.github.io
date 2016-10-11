@@ -2,10 +2,10 @@
 layout: post
 title: "Happy Hacking Keyboardがコーヒーを飲んだら"
 published: true
-date: 2013-11-16 14:35
+date: "2013-11-16T14:35:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 <blockquote class="twitter-tweet"><p>HHKの恐怖体験です <a href="http://t.co/JAjpk5mFob">pic.twitter.com/JAjpk5mFob</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/401584902602100736">November 16, 2013</a></blockquote>

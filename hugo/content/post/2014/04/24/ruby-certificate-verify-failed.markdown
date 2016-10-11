@@ -2,10 +2,10 @@
 layout: post
 title: "Rubyでconnect': SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed (OpenSSL::SSL::SSLError)\nが出た時の対応方法"
 published: true
-date: 2014-04-24 23:00
+date: "2014-04-24T23:00:00+09:00"
 comments: true
-tags: ruby openssl
-categories: ruby
+
+
 ---
 
 SensuでSSL使うプラグインでエラーが出ていた。  

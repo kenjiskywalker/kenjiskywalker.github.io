@@ -2,10 +2,10 @@
 layout: post
 title: "対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々"
 published: true
-date: 2014-03-27 03:00
+date: "2014-03-27T03:00:00+09:00"
 comments: true
-tags: shell
-categories: shell
+
+
 ---
 
 bashの奥は深い。

@@ -2,10 +2,10 @@
 layout: post
 title: "pecoを利用してAWSのインスタンスを取得する"
 published: true
-date: 2014-06-18 12:19
+date: "2014-06-18T12:19:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ## [peco](https://github.com/lestrrat/peco) を利用してAWSのEC2に簡単ログイン  

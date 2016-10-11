@@ -2,10 +2,10 @@
 layout: post
 title: "「お母さんの「敏感期」―モンテッソーリ教育は子を育てる、親を育てる」を読んだ"
 published: true
-date: 2015-10-30 06:59
+date: "2015-10-30T06:59:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 最近自分で考えて誰かに伝えることが疎かになってきているので  

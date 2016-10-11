@@ -2,10 +2,10 @@
 layout: post
 title: "Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp"
 published: true
-date: 2013-01-07 19:26
+date: "2013-01-07T19:26:00+09:00"
 comments: true
-tags: zabbix ruby
-categories: zabbix ruby
+
+
 ---
 
 こんな感じでイケました。

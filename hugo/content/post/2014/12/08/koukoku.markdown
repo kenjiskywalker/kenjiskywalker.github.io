@@ -2,10 +2,10 @@
 layout: post
 title: "不快な広告と不快ではない広告"
 published: true
-date: 2014-12-08 21:17
+date: "2014-12-08T21:17:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 ## 雑記

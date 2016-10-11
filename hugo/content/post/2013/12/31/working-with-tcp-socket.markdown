@@ -2,10 +2,10 @@
 layout: post
 title: "「Working With TCP Sockets」を読んだ"
 published: true
-date: 2013-12-31 06:34
+date: "2013-12-31T06:34:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 <div class="booklog_html"><table><tr><td class="booklog_html_image"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank"><img src="http://ecx.images-amazon.com/images/I/51uNC60Jm4L._SL160_.jpg" width="160" height="124" style="border:0;border-radius:0;" /></a></td><td class="booklog_html_info" style="padding-left:20px;"><div class="booklog_html_title" style="margin-bottom:10px;font-size:14px;font-weight:bold;"><a href="http://www.amazon.co.jp/Working-With-Sockets-Jesse-Storimer-ebook/dp/B00BPYT6PK%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00BPYT6PK" target="_blank">Working With TCP Sockets</a></div><div style="margin-bottom:10px;"><div class="booklog_html_author" style="margin-bottom:15px;font-size:12px;;line-height:1.2em">著者 : <a href="http://booklog.jp/author/Jesse+Storimer" target="_blank">Jesse Storimer</a></div><div class="booklog_html_manufacturer" style="margin-bottom:5px;font-size:12px;;line-height:1.2em"></div><div class="booklog_html_release" style="font-size:12px;;line-height:1.2em">発売日 : 2012-10-24</div></div><div class="booklog_html_link_amazon"><a href="http://booklog.jp/item/1/B00BPYT6PK" style="font-size:12px;" target="_blank">ブクログでレビューを見る»</a></div></td></tr></table></div>  

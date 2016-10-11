@@ -2,10 +2,10 @@
 layout: post
 title: "「世界一わかりやすい会計の本」がわかりやすかった"
 published: true
-date: 2013-03-31 03:00
+date: "2013-03-31T03:00:00+09:00"
 comments: true
-tags: blog book
-categories: blog
+
+
 ---
 
 大人になったら会計のかの字ぐらいわかってないと  

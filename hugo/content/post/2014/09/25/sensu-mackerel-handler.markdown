@@ -2,10 +2,10 @@
 layout: post
 title: "sensuのmackerel用のmetrics handlerをつくった #mackerelio"
 published: true
-date: 2014-09-25 14:38
+date: "2014-09-25T14:38:00+09:00"
 comments: true
-tags: sensu mackerel
-categories: sensu
+
+
 ---
 
 [Mackerel Meetup #2 Tokyo](http://mackerelio.connpass.com/event/8458/)に参加してきました。  

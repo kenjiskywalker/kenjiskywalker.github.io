@@ -2,10 +2,10 @@
 layout: post
 title: "Ansible Vaultで暗号化されたファイルをCircleCIで利用する"
 published: true
-date: 2014-11-17 14:08
+date: "2014-11-17T14:08:00+09:00"
 comments: true
-tags: ansible circleci
-categories: ansible
+
+
 ---
 
 ## TL;DR

@@ -2,10 +2,10 @@
 layout: post
 title: "「飢餓と戦争の戦国を行く」を読んだ"
 published: true
-date: 2013-07-18 22:03
+date: "2013-07-18T22:03:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 

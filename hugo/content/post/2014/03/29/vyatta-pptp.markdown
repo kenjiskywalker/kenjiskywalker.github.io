@@ -2,10 +2,10 @@
 layout: post
 title: "VyattaでVPN(PPTP)の設定"
 published: true
-date: 2014-03-29 18:01
+date: "2014-03-29T18:01:00+09:00"
 comments: true
-tags: vyatta vpn
-categories: vyatta vpn
+
+
 ---
 
 iOS用にPPTPで接続できるようにしたら便利だったので  

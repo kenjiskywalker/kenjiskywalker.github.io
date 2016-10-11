@@ -2,10 +2,10 @@
 layout: post
 title: "シンデレラのようにブラピになる方法"
 published: true
-date: 2013-11-13 23:28
+date: "2013-11-13T23:28:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 - TwitterのDevelopersサイトで必要な権限を取得(これは色んなところに載っているから省略)

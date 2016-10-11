@@ -2,10 +2,10 @@
 layout: post
 title: "Zabbix v2.0.4 + nginx v1.0.15 installed"
 published: true
-date: 2013-01-03 15:38
+date: "2013-01-03T15:38:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 nginxでZabbix2.0.4をインストールしたのでメモ。

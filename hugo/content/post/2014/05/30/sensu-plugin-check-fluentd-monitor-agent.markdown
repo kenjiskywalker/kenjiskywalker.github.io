@@ -2,10 +2,10 @@
 layout: post
 title: "Created check-fluentd-monitor-agent of sensu-plugin"
 published: true
-date: 2014-05-30 19:08
+date: "2014-05-30T19:08:00+09:00"
 comments: true
-tags: sensu fluentd
-categories: sensu
+
+
 ---
 
 Colleagues said to me that I want to monitoring fluentd's state,  

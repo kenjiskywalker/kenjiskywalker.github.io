@@ -2,10 +2,10 @@
 layout: post
 title: "RailsのARで取ってきたオブジェクトにアクセスする"
 published: true
-date: 2015-08-08 20:57
+date: "2015-08-08T20:57:00+09:00"
 comments: true
-tags: rails
-categories: rails
+
+
 ---
 
 考えたら当たり前なんだけど

@@ -2,10 +2,10 @@
 layout: post
 title: "testing #chef cookbook by #serverspec #devops"
 published: true
-date: 2013-07-13 13:04
+date: "2013-07-13T13:04:00+09:00"
 comments: true
-tags: serverspec chef test
-categories: serverspec
+
+
 keywords: serverspec chef cookbook test
 ---
 

@@ -2,10 +2,10 @@
 layout: post
 title: "OS Xでfigを利用してDockerのコンテナを操作する"
 published: true
-date: 2014-10-25 21:38
+date: "2014-10-25T21:38:00+09:00"
 comments: true
-tags: docker fig
-categories: docker
+
+
 ---
 
 > Docker v1.3  

@@ -2,10 +2,10 @@
 layout: post
 title: "Redis Sentinelが動いていたらslaveof no oneしない"
 published: true
-date: 2013-03-20 02:36
+date: "2013-03-20T02:36:00+09:00"
 comments: true
-tags: redis-sentinel redis
-categories: redis-sentinel
+
+
 ---
 
 > 色々とあれだったのでシンプルにキメうちにしました  

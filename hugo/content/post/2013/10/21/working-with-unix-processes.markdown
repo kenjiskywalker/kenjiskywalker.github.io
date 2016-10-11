@@ -2,10 +2,10 @@
 layout: post
 title: "「なるほどUnixプロセス ― Rubyで学ぶUnixの基礎」を読んだ"
 published: true
-date: 2013-10-21 14:43
+date: "2013-10-21T14:43:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 サラサラ〜っと読んで放置していた  

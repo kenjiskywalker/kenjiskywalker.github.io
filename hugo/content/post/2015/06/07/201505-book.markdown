@@ -2,10 +2,10 @@
 layout: post
 title: "2015/04読んだ本"
 published: true
-date: 2015-06-07 02:34
+date: "2015-06-07T02:34:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 風雲児たちがついに最新刊まで追い付いた(booklogには登録してない)。  

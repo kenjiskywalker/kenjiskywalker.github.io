@@ -2,10 +2,10 @@
 layout: post
 title: "「齋藤孝の速読塾」と「超高速勉強法」を読んだ"
 published: true
-date: 2015-01-03 10:37
+date: "2015-01-03T10:37:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 おじさんなので時間がない。時間がないので  

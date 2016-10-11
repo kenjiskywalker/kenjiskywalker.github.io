@@ -2,10 +2,10 @@
 layout: post
 title: "MySQLのスレーブサーバを別サーバに移設する時に注意すること"
 published: true
-date: 2013-08-12 19:20
+date: "2013-08-12T19:20:00+09:00"
 comments: true
-tags: mysql, howto
-categories: mysql
+
+
 ---
 
 移設元のスレーブサーバのMySQLが停止できる場合  

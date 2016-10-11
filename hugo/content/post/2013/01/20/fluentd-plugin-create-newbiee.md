@@ -2,10 +2,10 @@
 layout: post
 title: "fluentdのプラグインを書く練習をする為にsecureログをparseしてZabbixで値が取得できるようにしてみた(作成編)"
 published: true
-date: 2013-01-20 17:03
+date: "2013-01-20T17:03:00+09:00"
 comments: true
-tags: fluentd howto
-categories: fluentd howto
+
+
 ---
 
 [https://github.com/kenjiskywalker/fluent-plugin-securelog-parser](https://github.com/kenjiskywalker/fluent-plugin-securelog-parser)

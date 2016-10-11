@@ -2,10 +2,10 @@
 layout: post
 title: "Zabbix::Senriganをつくりました"
 published: true
-date: 2013-10-17 23:14
+date: "2013-10-17T23:14:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 千里眼、どんなメリットがあるのか見えないとのことなので  

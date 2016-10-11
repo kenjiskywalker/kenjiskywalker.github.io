@@ -2,10 +2,10 @@
 layout: post
 title: "CodeDeployでApplicationStopでどうしようもなくなったら"
 published: true
-date: 2016-01-21 17:37
+date: "2016-01-21T17:37:00+09:00"
 comments: true
-tags: aws codedeploy
-categories: aws
+
+
 ---
 
 これやで

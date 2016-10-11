@@ -2,10 +2,10 @@
 layout: post
 title: "AWS::EC2をVPCにアサインして、EIP用のNetwork Interfaceを追加して外部と接続できるようにする"
 published: true
-date: 2013-02-06 21:30
+date: "2013-02-06T21:30:00+09:00"
 comments: true
-tags: aws vpc howto
-categories: 
+
+
 ---
 
 AWSでEC2のインスタンスをVPCにアサインして  

@@ -2,10 +2,10 @@
 layout: post
 title: "GitHubで最近更新されていないプロジェクトを簡単に見分けるChrome Extentionつくった"
 published: true
-date: 2014-06-09 00:57
+date: "2014-06-09T00:57:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ### [GitHub](https://github.com/kenjiskywalker/github_actrnuf)  

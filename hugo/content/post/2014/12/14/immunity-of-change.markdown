@@ -2,10 +2,10 @@
 layout: post
 title: "「なぜ人と組織は変われないのか」を読んだ"
 published: true
-date: 2014-12-14 13:27
+date: "2014-12-14T13:27:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 「なぜ人と組織は変われないのか ― ハーバード流 自己変革の理論と実践」を読んだ。  

@@ -2,10 +2,10 @@
 layout: post
 title: "imayaro-bot"
 published: true
-date: 2013-09-19 15:55
+date: "2013-09-19T15:55:00+09:00"
 comments: true
-tags: ruby
-categories: bot
+
+
 ---
 
 [げんきだしてbot / すぎゃーんメモ](http://d.hatena.ne.jp/sugyan/20130207/1360168005)

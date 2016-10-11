@@ -2,10 +2,10 @@
 layout: post
 title: "#qpstudyと仏教とわたし"
 published: true
-date: 2013-01-26 23:24
+date: "2013-01-26T23:24:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 本エントリーはビール駆動記述によって書かれているため  

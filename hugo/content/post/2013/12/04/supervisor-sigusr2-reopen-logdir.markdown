@@ -2,10 +2,10 @@
 layout: post
 title: "supervisorでログのディレクトリをSIGUSR2を使って開き直す"
 published: true
-date: 2013-12-04 20:04
+date: "2013-12-04T20:04:00+09:00"
 comments: true
-tags: supervisor
-categories: supervisor
+
+
 ---
 
 - supervisorをインストール

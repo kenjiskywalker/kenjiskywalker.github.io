@@ -2,10 +2,10 @@
 layout: post
 title: "ウナギ"
 published: true
-date: 2013-01-05 11:39
+date: "2013-01-05T11:39:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 淡水魚と海水魚と川と海の境目について考えていた。  

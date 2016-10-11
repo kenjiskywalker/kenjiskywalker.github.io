@@ -2,10 +2,10 @@
 layout: post
 title: "便利キーボード情報です"
 published: true
-date: 2013-08-18 19:41
+date: "2013-08-18T19:41:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 外出時、iPad miniとかで対応する必要がある場合

@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのVPCでAuto Scalingを試した記録"
 published: true
-date: 2013-08-14 17:41
+date: "2013-08-14T17:41:00+09:00"
 comments: true
-tags: howto aws
-categories: howto
+
+
 ---
 
 # [Auto Scaling](http://aws.amazon.com/jp/autoscaling/)  

@@ -2,10 +2,10 @@
 layout: post
 title: "Zabbixで5分間閾値以下だったらアラート"
 published: true
-date: 2013-01-07 10:53
+date: "2013-01-07T10:53:00+09:00"
 comments: true
-tags: zabbix
-categories: zabbix
+
+
 ---
 
 ```

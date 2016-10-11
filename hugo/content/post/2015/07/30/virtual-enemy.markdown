@@ -2,10 +2,10 @@
 layout: post
 title: "組織が鈍化したり硬直化していると無駄に仮想敵をつくってワイワイやりたがる"
 published: true
-date: 2015-07-30 12:06
+date: "2015-07-30T12:06:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 のではないかと思った。  

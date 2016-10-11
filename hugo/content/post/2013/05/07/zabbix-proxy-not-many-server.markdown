@@ -2,10 +2,10 @@
 layout: post
 title: "zabbix-proxyに複数のServerを設定することはできない"
 published: true
-date: 2013-05-07 17:50
+date: "2013-05-07T17:50:00+09:00"
 comments: true
-tags: zabbix
-categories: zabbix
+
+
 ---
 
 忘れそうだから書いておく。  

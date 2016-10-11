@@ -2,10 +2,10 @@
 layout: post
 title: "nginxでメンテナンスページ用意する技"
 published: true
-date: 2015-03-12 12:22
+date: "2015-03-12T12:22:00+09:00"
 comments: true
-tags: nginx
-categories: 
+
+
 ---
 
 ## LT;DR

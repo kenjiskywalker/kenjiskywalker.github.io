@@ -2,10 +2,10 @@
 layout: post
 title: "EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる"
 published: true
-date: 2016-07-12 11:44
+date: "2016-07-12T11:44:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 EC2がちょくちょくStatus ChecksがコケてTerminateされていたので  

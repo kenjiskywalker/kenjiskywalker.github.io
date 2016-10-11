@@ -2,10 +2,10 @@
 layout: post
 title: "「アジャイル開発とスクラム」をよんだ"
 published: true
-date: 2013-12-29 03:32
+date: "2013-12-29T03:32:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 @hsbtさんから頂戴した本書、大変よかったです。  

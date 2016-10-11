@@ -2,10 +2,10 @@
 layout: post
 title: "Ubuntu 13.10でOMRONのUPS BY35Sを使う"
 published: true
-date: 2014-02-02 11:53
+date: "2014-02-02T11:53:00+09:00"
 comments: true
-tags: howto
-categories: howto
+
+
 keywords: omron ubuntu nut 
 ---
 

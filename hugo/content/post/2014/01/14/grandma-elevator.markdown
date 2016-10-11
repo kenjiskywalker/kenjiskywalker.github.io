@@ -2,10 +2,10 @@
 layout: post
 title: "おばあちゃんたちとエレベーター"
 published: true
-date: 2014-01-14 23:10
+date: "2014-01-14T23:10:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 この前、駅のエレベーターの前でおばあちゃん２人組が笑いながらここよここ〜  

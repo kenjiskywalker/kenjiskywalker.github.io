@@ -2,10 +2,10 @@
 layout: post
 title: "#monitoringcasual vol3 に参加してきました"
 published: true
-date: 2013-03-09 15:44
+date: "2013-03-09T15:44:00+09:00"
 comments: true
-tags: blog fluentd
-categories: monicasi
+
+
 keywords: fluent-plugin-cloudwatch-lite, fluent-plugin-rds-slowlog, monitoringcasual
 ---
 

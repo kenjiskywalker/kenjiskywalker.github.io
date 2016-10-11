@@ -2,10 +2,10 @@
 layout: post
 title: "Sensu Casual Talks #1 に行ってきた #sensucasual"
 published: true
-date: 2014-09-17 23:13
+date: "2014-09-17T23:13:00+09:00"
 comments: true
-tags: sensu
-categories: sensu
+
+
 ---
 
 [Sensu Casual Talks #1](http://www.zusaar.com/event/7607003)にいってきた。  

@@ -2,10 +2,10 @@
 layout: post
 title: "AlfredのUTC時間を調べるworkflowをつくった"
 published: true
-date: 2014-06-22 03:11
+date: "2014-06-22T03:11:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ## [alfred-get-utc-workflow](https://github.com/kenjiskywalker/alfred-get-utc-workflow)

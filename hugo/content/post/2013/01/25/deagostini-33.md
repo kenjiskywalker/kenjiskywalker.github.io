@@ -2,10 +2,10 @@
 layout: post
 title: "ディアゴスティーニ社から「週間 蓮華王院本堂(三十三間堂)」が創刊されたら"
 published: true
-date: 2013-01-25 14:17
+date: "2013-01-25T14:17:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 毎号、木造千手観音立像が1体付属。  

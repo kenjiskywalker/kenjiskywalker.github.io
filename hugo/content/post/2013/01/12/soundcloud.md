@@ -2,10 +2,10 @@
 layout: post
 title: "鍼とお灸と黒歴史とSoundCloud"
 published: true
-date: 2013-01-12 19:44
+date: "2013-01-12T19:44:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 誰しも中2力全開だった時があると思う。  

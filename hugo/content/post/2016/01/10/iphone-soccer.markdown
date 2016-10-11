@@ -2,10 +2,10 @@
 layout: post
 title: "iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った"
 published: true
-date: 2016-01-10 00:11
+date: "2016-01-10T00:11:00+09:00"
 comments: true
-tags: blog soccer
-categories: 
+
+
 ---
 
 iPhone水没した。人生で二度目だ。トイレで諸所の動作をする時はスマホいじくるのやめよう。  

@@ -2,10 +2,10 @@
 layout: post
 title: "Immutable Infrastructure Conference #1 に参加してきた #immutableinfra"
 published: true
-date: 2014-03-26 00:54
+date: "2014-03-26T00:54:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 とてもおもしろかったです。ありがとうございました！  

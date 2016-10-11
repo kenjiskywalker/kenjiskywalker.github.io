@@ -2,10 +2,10 @@
 layout: post
 title: "Ansibleはcheck modeだとshellやcommandは実行されない"
 published: true
-date: 2015-01-08 11:46
+date: "2015-01-08T11:46:00+09:00"
 comments: true
-tags: ansible
-categories: ansible
+
+
 ---
 
 最近は深刻なjinja2とAnsible疲れです。

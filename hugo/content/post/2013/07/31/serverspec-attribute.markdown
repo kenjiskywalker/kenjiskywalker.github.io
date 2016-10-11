@@ -2,10 +2,10 @@
 layout: post
 title: "serverspecでchefのjsonを読み込む"
 published: true
-date: 2013-07-31 09:48
+date: "2013-07-31T09:48:00+09:00"
 comments: true
-tags: servespec chef
-categories: howto
+
+
 ---
 
 > 2013/12/25 update  

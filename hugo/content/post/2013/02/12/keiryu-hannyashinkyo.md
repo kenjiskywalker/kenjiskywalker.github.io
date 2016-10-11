@@ -2,10 +2,10 @@
 layout: post
 title: "すぐに般若心経を唱えられるGoogle Chromeの拡張作った。"
 published: true
-date: 2013-02-12 21:15
+date: "2013-02-12T21:15:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 生きていればつらいことがある。

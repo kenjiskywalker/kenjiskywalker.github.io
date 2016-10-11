@@ -2,10 +2,10 @@
 layout: post
 title: "IFTTTを使ってReadabilityでFavったエントリーをはてブする"
 published: true
-date: 2013-07-10 22:10
+date: "2013-07-10T22:10:00+09:00"
 comments: true
-tags: howto
-categories: howto
+
+
 keywords: ifttt はてなブックマーク Readability 連携
 ---
 

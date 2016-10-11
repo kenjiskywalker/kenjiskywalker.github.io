@@ -2,10 +2,10 @@
 layout: post
 title: "#isucon 4の予選に出た"
 published: true
-date: 2014-10-06 13:46
+date: "2014-10-06T13:46:00+09:00"
 comments: true
-tags: isucon
-categories: isucon
+
+
 ---
 
 ISUCON4に参加してきました。

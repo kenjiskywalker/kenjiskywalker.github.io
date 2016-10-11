@@ -2,10 +2,10 @@
 layout: post
 title: "コーヒーの器具いろいろ"
 published: true
-date: 2015-03-15 12:27
+date: "2015-03-15T12:27:00+09:00"
 comments: true
-tags: coffee
-categories: cofee
+
+
 ---
 
 ### 参考

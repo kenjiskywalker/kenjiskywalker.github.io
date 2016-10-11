@@ -2,10 +2,10 @@
 layout: post
 title: "「7つの習慣」を読んだ"
 published: true
-date: 2013-04-27 20:31
+date: "2013-04-27T20:31:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 keywords: 7つの習慣
 ---
 

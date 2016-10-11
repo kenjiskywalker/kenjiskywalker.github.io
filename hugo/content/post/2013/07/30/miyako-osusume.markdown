@@ -2,10 +2,10 @@
 layout: post
 title: "2013年 宮古島で最高の夏情報"
 published: true
-date: 2013-07-30 23:13
+date: "2013-07-30T23:13:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 最近宮古島行ってきたのでおすすめ情報載せますね。

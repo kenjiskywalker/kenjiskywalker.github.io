@@ -2,10 +2,10 @@
 layout: post
 title: "本番環境でのserverspecの運用方法"
 published: true
-date: 2013-09-20 02:18
+date: "2013-09-20T02:18:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 

@@ -2,10 +2,10 @@
 layout: post
 title: "fluent-plugin-cloudwatch 1.2.4 release"
 published: true
-date: 2013-09-25 23:06
+date: "2013-09-25T23:06:00+09:00"
 comments: true
-tags: fluentd howto
-categories: fluentd
+
+
 ---
 
 ### [https://rubygems.org/gems/fluent-plugin-cloudwatch](https://rubygems.org/gems/fluent-plugin-cloudwatch)  

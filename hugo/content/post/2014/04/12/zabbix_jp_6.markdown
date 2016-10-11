@@ -2,10 +2,10 @@
 layout: post
 title: "第6回 ZABBIX-JP勉強会で発表してきた #zabbix_jp"
 published: true
-date: 2014-04-12 16:54
+date: "2014-04-12T16:54:00+09:00"
 comments: true
-tags: zabbix
-categories: zabbix
+
+
 ---
 
 @ike_daiさん、登壇できる機会を頂きありがとうございました。  

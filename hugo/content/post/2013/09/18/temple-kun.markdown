@@ -2,10 +2,10 @@
 layout: post
 title: "golang on GAE で軽いものを取り敢えずつくる"
 published: true
-date: 2013-09-18 22:16
+date: "2013-09-18T22:16:00+09:00"
 comments: true
-tags: golang
-categories: golang
+
+
 ---
 
 ## [http://temple-kun.appspot.com/](http://temple-kun.appspot.com/)

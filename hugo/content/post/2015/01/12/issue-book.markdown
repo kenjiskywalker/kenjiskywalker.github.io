@@ -2,10 +2,10 @@
 layout: post
 title: "「イシューからはじめよ」を読んだ"
 published: true
-date: 2015-01-12 01:49
+date: "2015-01-12T01:49:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 <a href="http://www.amazon.co.jp/%E3%82%A4%E3%82%B7%E3%83%A5%E3%83%BC%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%88-%E2%80%95-%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E3%81%AE%E3%80%8C%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E6%9C%AC%E8%B3%AA%E3%80%8D-%E5%AE%89%E5%AE%85%E5%92%8C%E4%BA%BA-ebook/dp/B00MTL340G%3FSubscriptionId%3D0AVSM5SVKRWTFMG7ZR82%26tag%3D13nightcrows-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00MTL340G" target="_blank" title="イシューからはじめよ ― 知的生産の「シンプルな本質」"><img src="http://ecx.images-amazon.com/images/I/51-lWx66ITL.jpg" width="317" height="500" alt="イシューからはじめよ ― 知的生産の「シンプルな本質」" /></a>  

@@ -2,10 +2,10 @@
 layout: post
 title: "/var/lock/subsys/について"
 published: true
-date: 2014-02-24 17:49
+date: "2014-02-24T17:49:00+09:00"
 comments: true
-tags: linux
-categories: linux
+
+
 ---
 
 init.dスクリプトの中に`/var/lock/subsys/`という文字列を見たことはあったが  
@@ -150,7 +150,7 @@ stop()
 # hoge-script
 #
 # chkconfig: 2345 20 01
-# description: hoge-script shell
+# 
 
 
 lock_file="/var/lock/subsys/hoge-script"

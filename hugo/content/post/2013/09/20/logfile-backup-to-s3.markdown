@@ -2,10 +2,10 @@
 layout: post
 title: "ログファイルをS3にバックアップする"
 published: true
-date: 2013-09-20 00:44
+date: "2013-09-20T00:44:00+09:00"
 comments: true
-tags: aws
-categories: aws
+
+
 ---
 
 デイリーのログファイルをS3へバックアップしたいという事案はよくあると思います。  

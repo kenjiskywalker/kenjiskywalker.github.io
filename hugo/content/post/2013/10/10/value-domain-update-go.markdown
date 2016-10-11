@@ -2,10 +2,10 @@
 layout: post
 title: "Goでvalue domainのアップデートスクリプトかいた"
 published: true
-date: 2013-10-10 15:28
+date: "2013-10-10T15:28:00+09:00"
 comments: true
-tags: golang howto
-categories: golang
+
+
 ---
 書き方あってるのか微妙なのでGoに明るい方のご指摘をお待ちしております。  
   

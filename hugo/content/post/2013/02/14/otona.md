@@ -2,10 +2,10 @@
 layout: post
 title: "大人"
 published: true
-date: 2013-02-14 21:24
+date: "2013-02-14T21:24:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
   

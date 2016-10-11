@@ -2,10 +2,10 @@
 layout: post
 title: "PerlCasual #5に参加してLTしてきた #perlcasual"
 published: true
-date: 2013-03-30 01:57
+date: "2013-03-30T01:57:00+09:00"
 comments: true
-tags: perl
-categories: perl
+
+
 keywords: perlcasual
 ---
 

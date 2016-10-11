@@ -2,10 +2,10 @@
 layout: post
 title: "アリとキリギリス"
 published: true
-date: 2014-03-16 16:33
+date: "2014-03-16T16:33:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 たくさんのすごい話と、すごいことをしているすごい人たちと話す機会があって  

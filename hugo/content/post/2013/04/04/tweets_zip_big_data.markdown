@@ -2,10 +2,10 @@
 layout: post
 title: "tweets.zipをMySQLに突っ込んでSQLを学ぶ(導入編)"
 published: true
-date: 2013-04-04 23:59
+date: "2013-04-04T23:59:00+09:00"
 comments: true
-tags: SQL tweets_zip
-categories: SQL tweets_zip
+
+
 ---
 
 Twitterの過去ログが落とせるようになったので  

@@ -2,10 +2,10 @@
 layout: post
 title: "Chiba.pm #2に参加してきた #chibapm"
 published: true
-date: 2013-03-30 10:03
+date: "2013-03-30T10:03:00+09:00"
 comments: true
-tags: perl
-categories: perl
+
+
 ---
 
 ## 地方pmに行ってみたかった  

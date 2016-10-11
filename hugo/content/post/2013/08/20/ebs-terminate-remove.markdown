@@ -2,10 +2,10 @@
 layout: post
 title: "EC2をTerminateした時にEBSも削除してほしい"
 published: true
-date: 2013-08-20 19:35
+date: "2013-08-20T19:35:00+09:00"
 comments: true
-tags: aws howto
-categories: aws
+
+
 ---
 
 <blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> DeleteOnTerminationをTrueにすると、Instance がTerminationしたときに一緒に消え去ってくれますよー</p>&mdash; con_mame (@con_mame) <a href="https://twitter.com/con_mame/statuses/369439049037017089">August 19, 2013</a></blockquote>

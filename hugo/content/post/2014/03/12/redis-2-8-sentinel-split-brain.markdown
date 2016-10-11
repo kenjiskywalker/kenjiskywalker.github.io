@@ -2,10 +2,10 @@
 layout: post
 title: "Redisの2.8.2からsplit brainの対策がされているようです"
 published: true
-date: 2014-03-12 01:46
+date: "2014-03-12T01:46:00+09:00"
 comments: true
-tags: redis
-categories: redis
+
+
 ---
 
 2.8.2 [FIX] Sentinel better desynchronization to avoid split-brain elections

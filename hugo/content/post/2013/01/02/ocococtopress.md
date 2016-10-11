@@ -2,10 +2,10 @@
 layout: post
 title: "さくらVPSでOctopress"
 published: true
-date: 2013-01-02 19:34
+date: "2013-01-02T19:34:00+09:00"
 comments: true
-tags: octopress
-categories: memo
+
+
 ---
 
 新年あけましておめでとうございます。  

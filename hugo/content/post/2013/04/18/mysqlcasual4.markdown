@@ -2,10 +2,10 @@
 layout: post
 title: "#mysqlcasual vol.4 でカジュアルに発表してきました"
 published: true
-date: 2013-04-18 00:47
+date: "2013-04-18T00:47:00+09:00"
 comments: true
-tags: mysqlcasual
-categories: mysqlcasual
+
+
 keywords: mysqlcasual
 ---
 

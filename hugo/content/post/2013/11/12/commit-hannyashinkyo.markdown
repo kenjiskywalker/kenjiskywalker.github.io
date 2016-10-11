@@ -2,10 +2,10 @@
 layout: post
 title: "コミットしたら般若心経が流れるgit hookをつくった。"
 published: true
-date: 2013-11-12 22:15
+date: "2013-11-12T22:15:00+09:00"
 comments: true
-tags: blog
-categories: blog 
+
+
 ---
 
 告白されたいと思って、 

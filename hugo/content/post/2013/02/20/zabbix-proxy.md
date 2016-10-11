@@ -2,10 +2,10 @@
 layout: post
 title: "ZABBIX PROXY ver.1.8の設定メモ"
 published: true
-date: 2013-02-20 00:25
+date: "2013-02-20T00:25:00+09:00"
 comments: true
-tags: howto zabbix
-categories: howto zabbix
+
+
 ---
 
 OctopressでGsitすごいカジュアルに載せられるけど  

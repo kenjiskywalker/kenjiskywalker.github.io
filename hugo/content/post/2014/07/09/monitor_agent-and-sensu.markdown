@@ -2,10 +2,10 @@
 layout: post
 title: "Monitoring monitor_agent by Sensu"
 published: true
-date: 2014-07-09 19:39
+date: "2014-07-09T19:39:00+09:00"
 comments: true
-tags: sensu fluentd
-categories: sensu
+
+
 ---
 
 ## TL;DR

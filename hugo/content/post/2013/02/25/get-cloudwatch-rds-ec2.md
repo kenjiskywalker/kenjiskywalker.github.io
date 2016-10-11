@@ -2,10 +2,10 @@
 layout: post
 title: "RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト"
 published: true
-date: 2013-02-25 01:10
+date: "2013-02-25T01:10:00+09:00"
 comments: true
-tags: aws cloudwatch rds
-categories: aws cloudwatch rds
+
+
 ---
 
 CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。  

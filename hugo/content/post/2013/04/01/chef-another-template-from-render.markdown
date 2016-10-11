@@ -2,10 +2,10 @@
 layout: post
 title: "Chef 11からtemplateの中でtemplateを呼び出せるようになっていた"
 published: true
-date: 2013-04-01 18:20
+date: "2013-04-01T18:20:00+09:00"
 comments: true
-tags: chef
-categories: chef
+
+
 ---
 
 [Opscode Chef 11 Release / OpsCode blog](http://www.opscode.com/blog/2013/02/04/chef-11-released/)

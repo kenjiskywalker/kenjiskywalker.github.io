@@ -2,10 +2,10 @@
 layout: post
 title: "2016年を質の高いものにするために集中力を高められそうな本をいくつか読んだ"
 published: true
-date: 2015-12-20 12:14
+date: "2015-12-20T12:14:00+09:00"
 comments: true
-tags: book
-categories: blog
+
+
 ---
 
 もうすぐ今年も終わるということで  

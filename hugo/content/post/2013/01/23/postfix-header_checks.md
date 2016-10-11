@@ -2,10 +2,10 @@
 layout: post
 title: "Postfixのheader_checksでの否定の条件について"
 published: true
-date: 2013-01-23 20:52
+date: "2013-01-23T20:52:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 [header_checks - Postfix built-in content inspection](http://www.postfix.org/header_checks.5.html)  

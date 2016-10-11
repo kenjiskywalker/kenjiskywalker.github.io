@@ -2,10 +2,10 @@
 layout: post
 title: "#isucon 2013 予選1日目に参加しました"
 published: true
-date: 2013-10-07 09:55
+date: "2013-10-07T09:55:00+09:00"
 comments: true
-tags: isucon
-categories: isucon
+
+
 ---
 
 [isucon 2013](http://isucon.net/)の1日目に参加しました。  

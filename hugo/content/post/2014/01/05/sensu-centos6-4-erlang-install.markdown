@@ -2,10 +2,10 @@
 layout: post
 title: "CentOS 6.5でChefからSensuをインストールしようとするとRabbitMQでコケる回避策"
 published: true
-date: 2014-01-05 18:33
+date: "2014-01-05T18:33:00+09:00"
 comments: true
-tags: chef, sensu
-categories: sensu
+
+
 ---
 
 > date       : 2014/01/05  

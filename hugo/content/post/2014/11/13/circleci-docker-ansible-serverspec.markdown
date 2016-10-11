@@ -2,10 +2,10 @@
 layout: post
 title: "CircleCIでDockerコンテナに対してansibleを実行しserverspecでテストをする"
 published: true
-date: 2014-11-13 21:11
+date: "2014-11-13T21:11:00+09:00"
 comments: true
-tags: circleci docker ansible wercker
-categories: circleci
+
+
 ---
 
 ### 参考

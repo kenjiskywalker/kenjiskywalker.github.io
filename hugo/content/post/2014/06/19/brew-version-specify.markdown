@@ -2,10 +2,10 @@
 layout: post
 title: "homebrewでバージョンを固定してインストールしたい"
 published: true
-date: 2014-06-19 18:11
+date: "2014-06-19T18:11:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 homebrewがバージョン指定してインストールできないので  

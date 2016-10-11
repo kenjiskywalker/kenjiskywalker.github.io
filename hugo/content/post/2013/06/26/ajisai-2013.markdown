@@ -2,10 +2,10 @@
 layout: post
 title: "2013 / あじさい / 鎌倉"
 published: true
-date: 2013-06-26 00:47
+date: "2013-06-26T00:47:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 ### あかっぽいあじさい

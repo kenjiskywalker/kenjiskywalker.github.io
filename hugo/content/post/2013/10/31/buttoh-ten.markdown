@@ -2,10 +2,10 @@
 layout: post
 title: "「興福寺仏頭展」と「京都なんとか展」に行ってきた"
 published: true
-date: 2013-10-31 19:54
+date: "2013-10-31T19:54:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 仏像の頭と  

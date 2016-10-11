@@ -2,10 +2,10 @@
 layout: post
 title: "capistrano3を利用してRails4をdeployしunicornを使う"
 published: true
-date: 2014-12-02 23:30
+date: "2014-12-02T23:30:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 > Rails v4.1.2  

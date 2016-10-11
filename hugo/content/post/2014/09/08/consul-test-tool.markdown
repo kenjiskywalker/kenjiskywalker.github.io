@@ -2,10 +2,10 @@
 layout: post
 title: "Consul Clusterを手元に構築する簡単なスクリプトかいた"
 published: true
-date: 2014-09-08 21:01
+date: "2014-09-08T21:01:00+09:00"
 comments: true
-tags: consul
-categories: consul
+
+
 ---
 
 

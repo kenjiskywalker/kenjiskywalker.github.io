@@ -2,10 +2,10 @@
 layout: post
 title: "2015/03読んだ本"
 published: true
-date: 2015-04-05 16:22
+date: "2015-04-05T16:22:00+09:00"
 comments: true
-tags: book
-categories: book
+
+
 ---
 
 WEB+DB PRESS Vol.85 の菅原さんの記事が面白かった.  

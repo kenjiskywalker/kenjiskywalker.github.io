@@ -2,10 +2,10 @@
 layout: post
 title: "誕生日とウィッシュリスト"
 published: true
-date: 2013-10-06 00:44
+date: "2013-10-06T00:44:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 ![https://dl.dropboxusercontent.com/u/5390179/birthday.jpg](https://dl.dropboxusercontent.com/u/5390179/birthday.jpg)

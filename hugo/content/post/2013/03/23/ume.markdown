@@ -2,10 +2,10 @@
 layout: post
 title: "梅"
 published: true
-date: 2013-03-23 12:13
+date: "2013-03-23T12:13:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 2013年の梅。

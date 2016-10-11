@@ -2,10 +2,10 @@
 layout: post
 title: "自宅ルータをVyattaにして快適になった"
 published: true
-date: 2013-09-10 23:39
+date: "2013-09-10T23:39:00+09:00"
 comments: true
-tags: vyatta network
-categories: howto
+
+
 ---
 
 市販のルータ兼無線アクセスポイント君が  

@@ -2,10 +2,10 @@
 layout: post
 title: "AWSのAutoScalingで立ち上がってきたVPC内のEC2インスタンスに強制的にEIPを付与する"
 published: true
-date: 2013-08-27 23:50
+date: "2013-08-27T23:50:00+09:00"
 comments: true
-tags: aws
-categories: howto
+
+
 ---
 
 ## 前提条件  

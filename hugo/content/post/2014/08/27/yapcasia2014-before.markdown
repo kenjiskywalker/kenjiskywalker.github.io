@@ -2,10 +2,10 @@
 layout: post
 title: "YAPC::Asia 2014 で時間旅行をしながらサービスの成長を体験し、人間とシステムの在り方について話します"
 published: true
-date: 2014-08-27 12:35
+date: "2014-08-27T12:35:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 [完成されたシステムなどない。完成された人間もいない。あるのは成長し続ける未完成なシステムと、それを支える未完成な人間だけだ / YAPC::Asia 2014](http://yapcasia.org/2014/talk/show/4c7651e8-ed53-11e3-9faf-6ba36aeab6a4)  

@@ -2,10 +2,10 @@
 layout: post
 title: "plenvとperl-buildを走らせるchefのcookbookを書いた"
 published: true
-date: 2013-08-31 03:03
+date: "2013-08-31T03:03:00+09:00"
 comments: true
-tags: chef
-categories: chef
+
+
 ---
 
 perl-buildまでやるやつ書いた。

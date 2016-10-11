@@ -2,10 +2,10 @@
 layout: post
 title: "超初級！Fluentdのプラグインを書きたくなった時の下地づくり"
 published: true
-date: 2013-01-05 00:52
+date: "2013-01-05T00:52:00+09:00"
 comments: true
-tags: fluentd howto
-categories: fluentd howto
+
+
 ---
 
 fluentdをまともに動かしたことないけど  

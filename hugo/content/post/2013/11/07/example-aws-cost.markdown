@@ -2,10 +2,10 @@
 layout: post
 title: "AWS費用試算例"
 published: true
-date: 2013-11-07 14:16
+date: "2013-11-07T14:16:00+09:00"
 comments: true
-tags: blog
-categories: blog
+
+
 ---
 
 実在するかどうかはわかりませんがこのような構成があった場合に  

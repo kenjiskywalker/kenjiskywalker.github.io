@@ -2,10 +2,10 @@
 layout: post
 title: "夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした"
 published: true
-date: 2015-08-02 01:08
+date: "2015-08-02T01:08:00+09:00"
 comments: true
-tags: bot
-categories: bot
+
+
 ---
 
 Ruboty、nodeの書き方思い出さなくても良いし  

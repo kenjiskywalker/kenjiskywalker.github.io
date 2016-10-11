@@ -2,10 +2,10 @@
 layout: post
 title: "書評「Chef活用ガイド」と「Chef実践入門」について"
 published: true
-date: 2014-05-22 01:08
+date: "2014-05-22T01:08:00+09:00"
 comments: true
-tags: 
-categories: 
+
+
 ---
 
 ![https://dl.dropboxusercontent.com/u/5390179/chef-books.jpg](https://dl.dropboxusercontent.com/u/5390179/chef-books.jpg)

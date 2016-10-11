@@ -2,10 +2,10 @@
 layout: post
 title: "パシフィック・リム観た"
 published: true
-date: 2013-08-31 11:54
+date: "2013-08-31T11:54:00+09:00"
 comments: true
-tags: movie
-categories: movie
+
+
 ---
 
 AV無理っていうアダルトビデオのシリーズものの題名に似てるとおもった。
