@@ -1,6 +1,16 @@
-baseurl = "http://replace-this-with-your-hugo-site.com/"
-languageCode = "en-us"
-title = "My New Hugo Site"
+baseurl = "http://blog.kenjiskywalker.org"
+title = "さよならインターネット"
+languageCode = "ja-jp"
+[params]
+    bio = "さよならインターネット"
+    name = "kenjiskywalker"
+    description = "さよならインターネット"
+    twitter = "kenjiskywalker"
 
-[permalinks]
-    post = "/:year/:month/:day/:filename/"
+[social]
+    twitter  = "https://www.twitter.com/kenjiskywalker"
+    github   = "https://www.github.com/kenjiskywalker"
+
+#    [params.analytics]
+#        googleid = "UA-37377904-1"
+
