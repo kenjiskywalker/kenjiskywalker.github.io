@@ -6,11 +6,13 @@ languageCode = "ja-jp"
     name = "kenjiskywalker"
     description = "さよならインターネット"
     twitter = "kenjiskywalker"
+[permalinks]
+    post = "/blog/:year/:month/:day/:title/"
 
 [social]
     twitter  = "https://www.twitter.com/kenjiskywalker"
     github   = "https://www.github.com/kenjiskywalker"
 
-#    [params.analytics]
-#        googleid = "UA-37377904-1"
+# [params]
+#   googleid = "UA-37377904-1"
 
