@@ -1,4 +1,4 @@
-baseurl = "http://blog.kenjiskywalker.org"
+baseurl = "http://blog.kenjiskywalker.org/"
 title = "さよならインターネット"
 languageCode = "ja-jp"
 staticdir = "static"
