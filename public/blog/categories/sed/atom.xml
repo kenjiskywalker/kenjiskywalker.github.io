@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sed | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/sed/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GNUのsedとBSDのsed]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/07/18/sed-bre/"/>
+    <updated>2014-07-18T10:57:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/07/18/sed-bre</id>
+    <content type="html"><![CDATA[<p>OSXでsedコマンドを実行した際に、正規表現が上手く動作しなかった。</p>
+
+<h2>TL;DR</h2>
+
+<p>BSD sedがイケてないのではなく、<br/>
+GNU sedが独自で拡張正規表現を実装していただけっぽい。</p>
+
+<ul>
+<li>OSX</li>
+</ul>
+
+
+<pre><code>['-']%
+['-']% echo "hogeee" | sed -e 's/e\+//'
+hogeee
+['-']%
+['-']% sed --version
+sed: illegal option -- -
+usage: sed script [-Ealn] [-i extension] [file ...]
+       sed [-Ealn] [-i extension] [-e script] ... [-f script_file] ... [file ...]
+['x']% 
+</code></pre>
+
+<ul>
+<li>Linux</li>
+</ul>
+
+
+<pre><code>['-']#
+['-']# echo "hogeee" | sed -e 's/e\+//'
+hog
+['-']#
+['-']#
+['-']# sed --version
+GNU sed version 4.2.1
+Copyright (C) 2009 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
+to the extent permitted by law.
+
+GNU sed home page: &lt;http://www.gnu.org/software/sed/&gt;.
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;.
+E-mail bug reports to: &lt;bug-gnu-utils@gnu.org&gt;.
+Be sure to include the word ``sed'' somewhere in the ``Subject:'' field.
+['-']#
+</code></pre>
+
+<h3>Reference</h3>
+
+<p><a href="http://www.gnu.org/software/sed/manual/html_node/Regular-Expressions.html#Regular-Expressions">3.3 Overview of Regular Expression Syntax - GNU sed Programs</a><br/>
+<a href="http://www.regular-expressions.info/posix.html">POSIX Basic Regular Expressions - Regular-Expressions.info</a></p>
+
+<p>そもそもPOSIXで定義されている基本的な正規表現(<em>Basic Regular Expressions</em>)に<br/>
+<code>+</code>やら<code>?</code>やら<code>|</code>はなくて(<em>Extended Reuglar Exression</em>)<br/>
+GNU sedはそれを独自で使えるようにしている(<em>GNU extension</em>)。<br/>
+BSD sedは拡張はしていないから使えない。<br/>
+使うなら<code>-E</code>のオプションを利用する。って感じなのかな。</p>
+
+<h2>追記</h2>
+
+<p>そういえばBSDのsedで上書きしようとする場合は</p>
+
+<pre><code>$ sed -i '' -e 's/foo/bar/' FILENAME
+</code></pre>
+
+<p>みたいに<code>-i ''</code>でファイル名に空文字与えないと<br/>
+ファイルに上書きされないのもハマった記憶ある。</p>
+]]></content>
+  </entry>
+  
+</feed>

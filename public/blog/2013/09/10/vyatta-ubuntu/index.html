@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>自宅ルータをVyattaにして快適になった - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="自宅ルータをVyattaにして快適になった 市販のルータ兼無線アクセスポイント君が
+2日に1回再起動しないとAirPlayできなくなってしまったので
+この際自宅のネットワーク環境を一新すべく
+Vyattaを導入した。その際のメモ。 参考URL 自宅ルータをVyattaに移行しました - IT &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">自宅ルータをVyattaにして快適になった</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>市販のルータ兼無線アクセスポイント君が<br/>
+2日に1回再起動しないとAirPlayできなくなってしまったので<br/>
+この際自宅のネットワーク環境を一新すべく<br/>
+Vyattaを導入した。その際のメモ。</p>
+
+<h4>参考URL</h4>
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/mikeda/20120331/1333172105">自宅ルータをVyattaに移行しました - IT 東京 楽しいと思うこと</a></li>
+<li><a href="http://www.vyatta.com//sites/vyatta.com/files/pdfs/Vyatta_QuickStart_R6.1_v02_1.pdf">Vyatta_QuickStart_R6.1_v02_1.pdf</a></li>
+</ul>
+
+
+<h2>環境</h2>
+
+<ul>
+<li>Ubuntu: 12.04.3 LTS (KVM HOST)</li>
+<li>Vyatta: VC6.6R1</li>
+</ul>
+
+
+<h2>ネットワーク</h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/Network_diagram.png" alt="https://dl.dropboxusercontent.com/u/5390179/Network_diagram.png" /></p>
+
+<h2>買ったもの</h2>
+
+<p>追加NIC用に「Intel Gigabit CT Desktop Adapter EXPI9301CT」<br/>
+<a href="http://www.amazon.co.jp/gp/product/B001CXWWBE/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B001CXWWBE&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B001CXWWBE&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B001CXWWBE" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<hr />
+
+<p>無線LAN用に「PLANEX FFP-PKA04D」<br/>
+<a href="http://www.amazon.co.jp/gp/product/B005GHZ1GU/ref=as_li_ss_il?ie=UTF8&camp=247&creative=7399&creativeASIN=B005GHZ1GU&linkCode=as2&tag=13nightcrows-22"><img border="0" src="http://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005GHZ1GU&Format=_SL110_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=13nightcrows-22" ></a><img src="http://ir-jp.amazon-adsystem.com/e/ir?t=13nightcrows-22&l=as2&o=9&a=B005GHZ1GU" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></p>
+
+<hr />
+
+<p>スイッチは前職で頂いた8ポートのスイッチングハブを利用</p>
+
+<h1>構築</h1>
+
+<h3>ブリッジのインタフェースを２つつくる</h3>
+
+<ul>
+<li>eth0 Internal</li>
+<li>eth1 External</li>
+</ul>
+
+
+<h3>/etc/network/interfaces</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auto lo
+</span><span class='line'>iface lo inet loopback
+</span><span class='line'>
+</span><span class='line'>iface eth0 inet manual
+</span><span class='line'>iface eth1 inet manual
+</span><span class='line'>
+</span><span class='line'>auto br0
+</span><span class='line'>iface br0 inet static
+</span><span class='line'>        address 192.168.0.3
+</span><span class='line'>        network 192.168.0.0
+</span><span class='line'>        netmask 255.255.255.0
+</span><span class='line'>        broadcast 192.168.0.255
+</span><span class='line'>        gateway 192.168.0.1
+</span><span class='line'>        bridge_ports eth0
+</span><span class='line'>        bridge_stp off
+</span><span class='line'>        bridge_fd 0
+</span><span class='line'>        bridge_maxwait 0
+</span><span class='line'>        dns-nameservers 192.168.0.1
+</span><span class='line'>
+</span><span class='line'>auto br1
+</span><span class='line'>iface br1 inet static
+</span><span class='line'>        address 0.0.0.0
+</span><span class='line'>        bridge_ports eth1
+</span><span class='line'>        bridge_stp off
+</span><span class='line'>        bridge_fd 0
+</span><span class='line'>        bridge_maxwait 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>気が付いたらvnetがアサインされていた。
+ここらへんまだ理解していない。</p>
+
+<h3>brctl show</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bridge name     bridge id               STP enabled     interfaces
+</span><span class='line'>br0             8000.20cf30ea8178       no              eth0
+</span><span class='line'>br0             8000.XXXXXXXXXXXX       no              eth0
+</span><span class='line'>                                                        vnet0
+</span><span class='line'>                                                        vnet1
+</span><span class='line'>                                                        vnet2
+</span><span class='line'>br1             8000.XXXXXXXXXXXX       no              eth1
+</span><span class='line'>                                                        vnet3
+</span><span class='line'>lxcbr0          8000.000000000000       no</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>VyattaのISOファイルを落としてくる</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -O http://www.vyatta.com/downloads/vc6.6/vyatta-livecd_VC6.6R1_amd64.iso</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Vyatta用のディスクイメージを作成する</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ qemu-img create -f raw /var/lib/libvirt/images/vyatta01-2G.img 2G</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>KVMでインストールする</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ virt-install  --connect qemu:///system  \
+</span><span class='line'>--name vyatta01 \
+</span><span class='line'>--ram 512  \
+</span><span class='line'>--vcpus=1  \
+</span><span class='line'>--disk path=/var/lib/libvirt/images/vyatta01-2G.img \
+</span><span class='line'>--nographics  \
+</span><span class='line'>--network=bridge:br0 --network=bridge:br1 \
+</span><span class='line'>--cdrom=/tmp/vyatta-livecd_VC6.6R1_amd64.iso</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install Default setting</p>
+
+<ul>
+<li>login: vyatta</li>
+<li>Password: vyatta</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>$ virsh console Vyatta01
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>boot:
+</span><span class='line'>
+</span><span class='line'>Welcome to Vyatta - vyatta ttyS0
+</span><span class='line'>
+</span><span class='line'>vyatta login: vyatta
+</span><span class='line'>Password:
+</span><span class='line'>Linux vyatta 3.3.8-1-amd64-vyatta #1 SMP Wed Mar 13 10:35:28 PDT 2013 x86_64
+</span><span class='line'>Welcome to Vyatta.
+</span><span class='line'>This system is open-source software. The exact distribution terms for
+</span><span class='line'>each module comprising the full system are described in the individual
+</span><span class='line'>files in /usr/share/doc/*/copyright.
+</span><span class='line'>
+</span><span class='line'>vyatta@vyatta:~$ install image
+</span><span class='line'>Welcome to the Vyatta install program.  This script
+</span><span class='line'>will walk you through the process of installing the
+</span><span class='line'>Vyatta image to a local hard drive.
+</span><span class='line'>Would you like to continue? (Yes/No) [Yes]:
+</span><span class='line'>Probing drives: OK
+</span><span class='line'>Looking for pre-existing RAID groups...none found.
+</span><span class='line'>The Vyatta image will require a minimum 1000MB root.
+</span><span class='line'>Would you like me to try to partition a drive automatically
+</span><span class='line'>or would you rather partition it manually with parted?  If
+</span><span class='line'>you have already setup your partitions, you may skip this step
+</span><span class='line'>
+</span><span class='line'>Partition (Auto/Parted/Skip) [Auto]:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>のようにインストールがはじまります。<br/>
+基本的にチュートリアルに乗って行けば問題ないかと。</p>
+
+<p>新しいパスワードを設定して、再起動</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>This will destroy all data on /dev/sda.
+</span><span class='line'>Continue? (Yes/No) [No]: yes
+</span><span class='line'>
+</span><span class='line'>Enter password for administrator account
+</span><span class='line'>Enter vyatta password:
+</span><span class='line'>Retype vyatta password:</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vyatta@vyatta:~$ reboot now</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>vyattaの設定</h2>
+
+<p>Vyattaは他のネットワーク機器と同じように<br/>
+<code>set</code>, <code>show</code>, <code>delete</code> で全て行うことができる。</p>
+
+<ul>
+<li>setで値を設定し</li>
+<li>showで確認</li>
+<li>間違っていればdeleteで削除</li>
+<li>テストを行い、問題がなければcommit</li>
+<li>永続的に設定を保持するためにsave</li>
+</ul>
+
+
+<p>という一連のサイクルで設定を行う。</p>
+
+<h3>Vyattaの内部IPを設定</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 address 192.168.0.1/24</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>SSHの許可</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set service ssh listen-address 192.168.0.1</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ISPと接続</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set interfaces ethernet eth0 pppoe 0 user-id XXXXX@YYY.ZZZ
+</span><span class='line'># set interfaces ethernet eth0 pppoe 0 password XXXXX
+</span><span class='line'># set interfaces ethernet eth0 pppoe 0 default-route auto
+</span><span class='line'># commit
+</span><span class='line'># save</span></code></pre></td></tr></table></div></figure>
+
+
+<p>この時点で外部との接続が可能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ping 8.8.8.8 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>などで pppoe0 => internet の疎通確認を行う</p>
+
+<h3>マスカレードの設定</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set nat source rule 1 source address 192.168.0.0/24
+</span><span class='line'># set nat source rule 1 outbound-interface pppoe0
+</span><span class='line'># set nat source rule 1 translation address masquerade</span></code></pre></td></tr></table></div></figure>
+
+
+<p>試しにクライアントPCを</p>
+
+<ul>
+<li>IP: 192.168.0.100</li>
+<li>NETWORK: 255.255.255.0/24</li>
+<li>GATEWAY: 192.168.0.1</li>
+</ul>
+
+
+<p>と設定して、外部に疎通ができるか確認する。疎通ができればまずはOK。</p>
+
+<h3>SSHを許可する</h3>
+
+<p><code>ssh 192.168.0.1 -l vyatta</code> などとしてSSHで接続してみる</p>
+
+<h3>DHCPを振る</h3>
+
+<p>DHCPで192.168.0.200から192.168.0.250までの<br/>
+IPアドレスを割り振るように設定。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 start 192.168.0.200 stop 192.168.0.250
+</span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 default-router 192.168.0.1
+</span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER
+</span><span class='line'># set service dhcp-server shared-network-name vyatta subnet 192.168.0.0/24 dns-server NTT DNS SERVER</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここでハマったのが、PLANEXでもDHCPを振っていたせいで<br/>
+DHCPでIPを付与されたクライアントPCのGATEWAYが<br/>
+PLANEXを見に行ってしまっていていた。</p>
+
+<p>PLANEXの方のDHCP機能を無効化することで解決。<br/>
+しかし今度はPLANEXの方の管理画面に入れなくなってて放置してる。</p>
+
+<h3>Vyatta 6.6で画像が表示されない</h3>
+
+<p><a href="http://speed47.com/adiary/adiary.cgi/0145">Vyatta 6.6 画像が表示されない。 / 題名のないBlog（ｒｙ</a></p>
+
+<p>画像が永遠に読み込めない不具合があるので下記設定を導入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set policy route PPPOE-IN rule 10 destination address 0.0.0.0/0
+</span><span class='line'>set policy route PPPOE-IN rule 10 protocol tcp
+</span><span class='line'>set policy route PPPOE-IN rule 10 tcp flags 'SYN,!ACK,!FIN,!RST'
+</span><span class='line'>set policy route PPPOE-IN rule 10 set tcp-mss 1360
+</span><span class='line'>
+</span><span class='line'>set interfaces ethernet eth0 policy route PPPOE-IN</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ポートフォワーディング</h3>
+
+<p>外部からアクセスできるようにフォワードする</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1000 inbound-interface pppoe0
+</span><span class='line'>set nat destination rule 1000 destination port 22
+</span><span class='line'>set nat destination rule 1000 protocol tcp
+</span><span class='line'>set nat destination rule 1000 translation port 22
+</span><span class='line'>set nat destination rule 1000 translation address 192.168.0.11</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set nat destination rule 1001 inbound-interface pppoe0
+</span><span class='line'>set nat destination rule 1001 destination port 60000-61000
+</span><span class='line'>set nat destination rule 1001 protocol tcp_udp
+</span><span class='line'>set nat destination rule 1001 translation port 60000-61000
+</span><span class='line'>set nat destination rule 1001 translation address 192.168.0.12</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じでつらつらと設定していく</p>
+
+<h3>まとめ</h3>
+
+<p>ISPと接続してIPマスカレードができてDHCPが振れて<br/>
+ポートフォワーディングができるVyatta最高です。</p>
+
+<p>設定変更する度に回線切れて60秒待つとかいう苦行もなくなったし<br/>
+AirPlay毎日できて最高です。</p>
+
+<p>興味があれば、まずquick startのPDFだけでも見てみるといいかもです。<br/>
+@mikedaさんも書かれていますが、上記設定をするだけなら簡単にできます。</p>
+
+<p>よかったらお試しください。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T23:39:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/howto/'>howto</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/09/10/vyatta-ubuntu/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/01/happyhackingkeyboard/" title="Previous Post: やり残しハッカソン#2 行って HappyHackingKeyboard買った">&laquo; やり残しハッカソン#2 行って HappyHackingKeyboard買った</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/09/12/manofsteal/" title="Next Post: 「マン・オブ・スティール」見た">「マン・オブ・スティール」見た &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
