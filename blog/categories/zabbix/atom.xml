@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: zabbix | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/zabbix/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[第6回 ZABBIX-JP勉強会で発表してきた #zabbix_jp]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/04/12/zabbix_jp_6/"/>
+    <updated>2014-04-12T16:54:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/04/12/zabbix_jp_6</id>
+    <content type="html"><![CDATA[<p>@ike_daiさん、登壇できる機会を頂きありがとうございました。</p>
+
+<h2>発表資料</h2>
+
+<script async class="speakerdeck-embed" data-id="275e46e0a43b013120041af8c79ec55f" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+<h2>参考URL</h2>
+
+<h4>ZABBIXでメトリクス監視の話</h4>
+
+<iframe src="http://www.slideshare.net/slideshow/embed_code/13345536" width="597" height="486" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+
+
+<p> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/kenjiskywalkerslide/zabbix-13345536" title="ZABBIXでメトリクス監視の話" target="_blank">ZABBIXでメトリクス監視の話</a> </strong> from <strong><a href="http://www.slideshare.net/kenjiskywalkerslide" target="_blank">kenjiskywalkerslide</a></strong> </div></p>
+
+<h3>Zabbixでメトリクス監視する - kenjiskywalker&rsquo;s diary</h3>
+
+<p><a href="http://kenjiskywalker.hatenablog.com/entry/20120510/1336623133">http://kenjiskywalker.hatenablog.com/entry/20120510/1336623133</a></p>
+
+<h3>Zabbix::Senriganをつくりました - さよならインターネット</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2013/10/17/senrigan/">http://blog.kenjiskywalker.org/blog/2013/10/17/senrigan/</a></p>
+
+<h3>Zabbix::Senriganをつくった話をします</h3>
+
+<p><a href="https://gist.github.com/kenjiskywalker/7703670">https://gist.github.com/kenjiskywalker/7703670</a></p>
+
+<p>結構プルダウン地獄に対する共感があってみんなそうなのか〜って思いました。<br/>
+しかし2.4ですべて解決しそうなのでいよいよ最強になりそうですね。</p>
+
+<p>zenbutsuさんのSerfの話は今インフラ周りで流行っているイミュータブルやら<br/>
+ディスポーザブルやらの監視においても優位に働くのではないでしょうか。</p>
+
+<blockquote class="twitter-tweet" lang="en"><p>ZABBIX、やはり超古代兵器だ&#8230; <a href="https://twitter.com/search?q=%23zabbix_jp&amp;src=hash">#zabbix_jp</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/statuses/454897033132777472">April 12, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>2014年もメトリクス＋アラートの最高システムは<br/>
+ZABBIXで決まりっぽいですね。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[zabbix-proxyに複数のServerを設定することはできない]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/05/07/zabbix-proxy-not-many-server/"/>
+    <updated>2013-05-07T17:50:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/05/07/zabbix-proxy-not-many-server</id>
+    <content type="html"><![CDATA[<p>忘れそうだから書いておく。</p>
+
+<ul>
+<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_agentd">3.2.3 Zabbixエージェント (UNIX、スタンドアロンデーモン)</a></li>
+<li><a href="https://www.zabbix.com/documentation/jp/1.8/manual/processes/zabbix_proxy">3.2.2 Zabbixプロキシ</a></li>
+</ul>
+
+
+<blockquote><p>ZabbixサーバのIPアドレス(またはホスト名)をカンマ区切りで指定します。</p></blockquote>
+
+<p>っていう文言の有無で確認すればよかった。<br/>
+けど、書いてないのは「わざわざ言わせんな恥ずかしい・・・///」<br/>
+みたいな感じにも受け取れるけど、取り敢えず送れない。</p>
+
+<p>2時間ぐらいあーだこーだしてた。最終的にngrepして<br/>
+パケットの送受信されていないこと確認して終わった。ngrep便利だ。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ZABBIXでアラートメールを受け取るためにする設定メモ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/03/20/zabbix-action-setting/"/>
+    <updated>2013-03-20T01:53:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/03/20/zabbix-action-setting</id>
+    <content type="html"><![CDATA[<p>新しくグループとかつくる時に<br/>
+アラートメールの送り先の設定項目多くて毎回忘れるのでメモ</p>
+
+<ol>
+<li>ユーザつくる</li>
+<li>ユーザのメディアにアラート通知先登録する</li>
+<li>ユーザグループつくる</li>
+<li>ユーザグループにユーザ入れる</li>
+<li>ホストつくる</li>
+<li>ホストグループつくる</li>
+<li>ホストグループにホスト入れる</li>
+<li>アクションのコンディションのホストグループにホストグループを指定</li>
+<li>アクションのオペレーションにユーザグループを指定</li>
+</ol>
+
+
+<p>で、大丈夫のはず。</p>
+
+<p>コピーとかでやるとコンディションとか通知先とか変え忘れるので<br/>
+新規でちゃんとつくった方が確実だしなんか通知こねー！とかなるので<br/>
+ちゃんと確認しないといけない。</p>
+
+<p>ZABBIX、設定箇所多いから敷居が高い印象ありますね。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ZABBIX PROXY ver.1.8の設定メモ]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/02/20/zabbix-proxy/"/>
+    <updated>2013-02-20T00:25:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/02/20/zabbix-proxy</id>
+    <content type="html"><![CDATA[<p>OctopressでGsitすごいカジュアルに載せられるけど<br/>
+ギッハブのとあるリポジトリのドキュメントをカジュアルに載せられないものか。</p>
+
+<p><a href="https://github.com/kenjiskywalker/memo/blob/master/software/ZABBIX/zabbix-proxy.md">ZABBIX PROXYのメモ</a></p>
+
+<p>普通にproxyインストールするまではよかったんだけど<br/>
+その後にproxy先のZABBIXで設定するのしらなくてずっと</p>
+
+<p><code>Sending list of active checks to [IP ADDORESS] failed: host [n01] not found</code></p>
+
+<p>ZABBIXのオフィシャルのドキュメントがあったら<br/>
+本当にそういうドキュメント探すセンスがないっぽい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Faradayを利用してRubyでZabbix APIを叩く #zabbix_jp]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api/"/>
+    <updated>2013-01-07T19:26:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/01/07/faraday-ruby-zabbix-api</id>
+    <content type="html"><![CDATA[<p>こんな感じでイケました。</p>
+
+<p><div><script src='https://gist.github.com/4473915.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>参考：<br/>
+ - <a href="https://gist.github.com/2775321">Ruby の HTTP クライアントライブラリ Faraday が便利そう / mitukiii gist</a><br/>
+ - <a href="http://d.hatena.ne.jp/ike-dai/20110418/1303129550">Zabbix APIを使って値を取ってみる / ike-daiの日記</a></p>
+
+<p>アクセストークンは、ike-daiさんのブログを参考に<code>curl</code>コマンドで取得し、<br/>
+取得したアクセストークンを<code>auth</code>に入れています。</p>
+]]></content>
+  </entry>
+  
+</feed>

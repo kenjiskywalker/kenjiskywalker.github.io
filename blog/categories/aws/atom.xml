@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: aws | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/"/>
+    <updated>2016-07-12T11:44:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check</id>
+    <content type="html"><![CDATA[<p>EC2がちょくちょくStatus ChecksがコケてTerminateされていたので<br/>
+CloudWatchで見ているStatus Checkの値の変異を見て<br/>
+SNSに通知をさせている。</p>
+
+<p><code>SNS &lt;-&gt; PagerDuty &lt;-&gt; Slack</code></p>
+
+<h4>参考URL</h4>
+
+<ul>
+<li><a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">インスタンスのステータスチェック</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/aws-cloudwatch-integration-guide/">AWS CloudWatch Integration Guide:PagerDuty</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/slack-integration-guide/">Slack Integration Guide:PagerDuty</a></li>
+</ul>
+
+
+<p>一番良いのはEC2が立ち上がってきた時に自分自身に下記設定を導入し<br/>
+自分が消える時に設定を削除するのが好ましいが、所々事情があり<br/>
+下記のようなスクリプトを特定のEC2で回している。</p>
+
+<pre><code class="rb">#!/usr/bin/env ruby
+
+region = 'REGION'
+
+# インスタンスID一覧を取得する ( --max-items XXX # インスタンス数次第 )
+instance_ids = `aws --region #{region} ec2 describe-instances \
+                    --max-items XXX \
+                    --filters Name=tag-key,Values=Name \
+                    | jq -r '.Reservations[].Instances[].InstanceId'
+                    `
+
+# CloudWatchでStatusCheckFailed_Checkが設定されているインスタンスID一覧 ( --max-items XXX # インスタンス数次第 )
+checked_instance_ids = `aws --region #{region} cloudwatch describe-alarms \
+                            --max-items XXX \
+                            | jq -r '.MetricAlarms[].AlarmName' \
+                            | grep 'StatusCheckFailed_Check' \
+                            | cut -f 1 -d ' '
+                            `
+
+# 改行で要素を分割
+instance_ids = instance_ids.split("\n")
+checked_instance_ids = checked_instance_ids.split("\n")
+
+# インスタンス一覧にあってCloudWatch側にない監視追加対象のインスタンスID一覧を抽出
+new_instance_ids = instance_ids - checked_instance_ids
+
+# CloudWatch側にあってインスタンス一覧にない削除対象のインスタンスID一覧を抽出
+deleted_instance_ids = checked_instance_ids - instance_ids
+
+# 監視追加対象のインスタンスID一覧が空でなければCloudWatchに追加していく
+unless new_instance_ids.empty?
+  new_instance_ids.each do |instance_id|
+
+    # StageというKeyのタグで本番かそれ以外を分けている
+    stage = `aws --region #{region} ec2 describe-instances \
+                 --instance-ids #{instance_id} \
+                 --query 'Reservations[].Instances[].Tags[?Key==\`Stage\`].Value' \
+                 --output text
+                 `.chomp
+
+    # 本番の場合は通知先が違うのでSNSの向き先を変える
+    if stage == 'production'
+      sns_topic = 'PRODUCTION_SNS_TOPIC'
+    else
+      sns_topic = 'OTHER_SNS_TOPIC'
+    end
+
+    # MAIN: ここで設定を追加する
+    `aws --region #{region} cloudwatch put-metric-alarm \
+         --alarm-name "#{instance_id} StatusCheckFailed_Check" \
+         --metric-name StatusCheckFailed \
+         --namespace AWS/EC2 \
+         --statistic Maximum \
+         --dimensions Name=InstanceId,Value=#{instance_id} \
+         --period 60 \
+         --unit Count \
+         --evaluation-periods 1 \
+         --threshold 0 \
+         --comparison-operator GreaterThanThreshold \
+         --ok-actions #{sns_topic} \
+         --alarm-actions #{sns_topic} \
+         --insufficient-data-actions #{sns_topic}
+         `
+
+    puts "#{instance_id} StatusCheckFailed_Check is created"
+  end
+end
+
+# 削除対象のインスタンスID一覧が空でなければ設定を削除していく
+unless deleted_instance_ids.empty?
+  deleted_instance_ids.each do |instance_id|
+
+    # MAIN: ここで設定を削除する
+    `aws --region #{region} cloudwatch delete-alarms \
+         --alarm-names "#{instance_id} StatusCheckFailed_Check"`
+
+    puts "#{instance_id} StatusCheckFailed_Check is deleted"
+  end
+end
+</code></pre>
+
+<p>こんな感じでやってる。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[特定のインスタンスIDのタグのValueを出力する]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/"/>
+    <updated>2016-07-12T10:31:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances</id>
+    <content type="html"><![CDATA[<h3><code>query</code>オプションとかよー使わんわということで個人的メモ</h3>
+
+<p><code>Name</code>タグを出力したければこう</p>
+
+<pre><code>$ aws ec2 describe-instances \
+          --instance-ids i-XXXXXXXX \
+          --query 'Reservations[].Instances[].Tags[?Key==`Name`].Value' \
+          --output text
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CodeDeployのfailをSlackに通知して原因までたどりやすくする]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/"/>
+    <updated>2016-03-14T11:03:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack</id>
+    <content type="html"><![CDATA[<p><a href="https://aws.amazon.com/jp/about-aws/whats-new/2016/02/aws-codedeploy-adds-push-notification-support/">AWS CodeDeploy Adds Push Notification Support</a></p>
+
+<p>ということで、これができるまではひたすらstate毎にslackに通知していたけど<br/>
+failしたらfailしたよって通知するようにした。</p>
+
+<p>流れ的にはこう</p>
+
+<pre><code>CodeDeploy fail -&gt; AWS SNS -&gt; AWS Lambda -&gt; Slack
+</code></pre>
+
+<h2>やり方</h2>
+
+<h3>AWS SNSで受け口をつくる</h3>
+
+<p>CodeDeployがfailした歳に利用するSNSを用意する</p>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlack</li>
+</ul>
+
+
+<p>みたいな感じで。開発環境やステージングなどでslackの通知グループが別れる場合は<br/>
+都度SNSをつくっているんだけど、これもっと良いやり方ないのかな？</p>
+
+<h3>CodeDeployのtriggerに先ほどつくったSNSを設定する</h3>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" alt="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployTrigger.png" /></p>
+
+<p>fail以外にもステータスがあるのでそこでhookかけても良いですね。<br/>
+自分のところはstate毎に通知させているので一旦この形です。</p>
+
+<h3>AWS LambdaでSlackへの通知を行う</h3>
+
+<ul>
+<li>NotifyCodeDeployErrorToSlackFunction</li>
+</ul>
+
+
+<p>とか適当な名前でfunctionをつくる</p>
+
+<pre><code class="js">// Ref: https://gist.github.com/vgeshel/1dba698aed9e8b39a464
+console.log('Loading function');
+
+const https = require('https');
+const url = require('url');
+// to get the slack hook url, go into slack admin and create a new "Incoming Webhook" integration
+const slack_url = '';
+const region = 'ap-northeast-1'
+const codedeploy_url = 'https://' + region + '.console.aws.amazon.com/codedeploy/home?region=' + region + '#/deployments/'
+const slack_req_opts = url.parse(slack_url);
+slack_req_opts.method = 'POST';
+slack_req_opts.headers = {'Content-Type': 'application/json'};
+
+exports.handler = function(event, context) {
+  (event.Records || []).forEach(function (rec) {
+    if (rec.Sns) {
+      var req = https.request(slack_req_opts, function (res) {
+        if (res.statusCode === 200) {
+          context.succeed('posted to slack');
+        } else {
+          context.fail('status code: ' + res.statusCode);
+        }
+      });
+
+      req.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+        context.fail(e.message);
+      });
+
+      var message = JSON.parse(rec.Sns.Message);
+      var str = '*' + 'Application: ' + message.applicationName + ' deploymentGroupName: ' + message.deploymentGroupName + ' deploymentId: ' + message.deploymentId + '*' + ' ' + codedeploy_url + message.deploymentId;
+      req.write(JSON.stringify({text: str})); // for testing: , channel: '@vadim'
+
+      req.end();
+    }
+  });
+};
+</code></pre>
+
+<p><code>slack_url</code>に自前のIncoming Webhookを入れる</p>
+
+<h2>通知される</h2>
+
+<p><img src="https://dl.dropboxusercontent.com/u/5390179/capture-CodeDeployError.png" alt="" /></p>
+
+<p>ご覧のとおりFail時に通知され、かつURLをクリックしたらCodeDeployのエラー画面にとべて便利なので<br/>
+ご利用ください。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CodeDeployでApplicationStopでどうしようもなくなったら]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/"/>
+    <updated>2016-01-21T17:37:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed</id>
+    <content type="html"><![CDATA[<p>これやで</p>
+
+<pre><code>$ rm -rf  /opt/codedeploy-agent/deployment-root/deployment-instructions/*
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/"/>
+    <updated>2016-01-19T11:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb</id>
+    <content type="html"><![CDATA[<h2>自分用メモ</h2>
+
+<pre><code class="rb">#!/usr/bin/env ruby
+
+loadbalancers = `aws elb describe-load-balancers | jq '.[][]["LoadBalancerName"]' -r `
+alert_sns = "SNS"
+
+loadbalancers.each_line do |lb|
+  lb.chomp!
+  p lb
+`aws cloudwatch put-metric-alarm --alarm-name "#{lb} UnHealthyHostCountUp" --alarm-description "#{lb} ELB UnHealthyHostCountUp" \
+  --actions-enabled \
+  --ok-actions #{alert_sns} \
+  --alarm-actions #{alert_sns} \
+  --insufficient-data-actions #{alert_sns} \
+  --metric-name "UnHealthyHostCount" \
+  --namespace AWS/ELB \
+  --statistic Maximum\
+  --dimensions Name=LoadBalancerName,Value=#{lb} \
+  --period 60 \
+  --evaluation-periods 5 \
+  --threshold 1 \
+  --comparison-operator GreaterThanOrEqualToThreshold`
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

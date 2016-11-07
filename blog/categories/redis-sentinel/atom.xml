@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: redis-sentinel | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/redis-sentinel/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Redis Sentinelが動いていたらslaveof no oneしない]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/03/20/redis-sentinel-slaveof/"/>
+    <updated>2013-03-20T02:36:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/03/20/redis-sentinel-slaveof</id>
+    <content type="html"><![CDATA[<blockquote><p>色々とあれだったのでシンプルにキメうちにしました<br/>
+thanks: @sawanoboly<br/>
+update: 2013/03/22</p></blockquote>
+
+<h4>環境</h4>
+
+<blockquote><p>Redis version 2.6.7</p></blockquote>
+
+<p>Redis Sentinelは
+ <strong>Monitoring</strong> 、 <strong>Notification</strong>  、<strong>Automatic failover</strong><br/>
+の3つの機能があって、主に自動フェイルオーバ目的で利用する機会が多いと思うのですが<br/>
+その際に、手動で<code>slaveof no one</code>を打っちゃうことで予期しない状態になるので</p>
+
+<p><code>slaveof no one</code>打つならRedis Sentinelを止めてからにしましょう。</p>
+
+<hr />
+
+<p><del>事前情報</del></p>
+
+<p><del>こんな感じでredis-sentinel.confが設定されているとします</del></p>
+
+<p><del> 構成: Master:1 &lt;=> Slave:1  </del></p>
+
+<pre><code>sentinel monitor check_one 192.168.2.100 6379 2
+sentinel down-after-milliseconds check_one 5000
+sentinel failover-timeout check_one 50000
+sentinel can-failover check_one yes
+sentinel parallel-syncs check_one 1
+
+daemonize yes
+pidfile /var/run/redis-sentinel.pid
+loglevel notice
+logfile /var/log/redis-sentinel.log
+port 26379
+</code></pre>
+
+<p><del> Redis Sentinelが動いているのに「slaveof no one」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんが</del><br/>
+<del>レプリケーションの状況理解できなくなってしまいますね。</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del></p>
+
+<p><del>Redis Sentinelが動いているのに「slaveof host port」をかます</del></p>
+
+<p><del>こわいですねー、Redis Sentinelさんは</del><br/>
+<del>そんなの無視して正しい状況に持って行こうとしますから</del><br/>
+<del>やるならRedis Sentinelは落としてやるべきですね。</del><br/>
+<del>永続的に設定を変更するなら、Redis Sentinelさんを落として</del><br/>
+<del>設定を期待している内容にして起動し直すのが良いです</del>ね。</p>
+
+<p><del>## 対策？  </del><br/>
+<del>などなど、Redis Sentinelさんが動いている状態での</del><br/>
+<del>手動レプリケーション設定変更を行うと、色々と予期しないことが起こるので</del><br/>
+<del>- Redis Sentinelが動いてる時に<em>slaveofなんとか</em>は発行しない</del><br/>
+<del>- レプリケーションの設定を変えるならデータのバックアップをとっておく</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinelは落としてから行う</del><br/>
+<del>- レプリケーションの状態を変えるならRedis Sentinel側の設定を変えて落としてから行う</del><br/>
+<del>など対策というか、ハウツーがあるかと思うのですが</del><br/>
+<del>こういうオペミスっぽいのを未然に防ぐにはどうしたらいいですかねー</del><br/>
+<del>って話をしてました。</del><br/>
+<del>みなさんどうやってRedis使ってるんでしょう</del><br/>
+<del></del></p>
+]]></content>
+  </entry>
+  
+</feed>

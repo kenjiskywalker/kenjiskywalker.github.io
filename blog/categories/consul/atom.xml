@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: consul | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/consul/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Consulでkey/valueを叩く]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/09/consul-key-value/"/>
+    <updated>2014-09-09T23:09:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/09/consul-key-value</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Consulでkey/valueを叩く</p>
+
+<pre><code>['-']% curl -X PUT -d 'bar' http://127.0.0.1:8500/v1/kv/foo
+true
+['-']%
+['-']%
+['-']% curl -s http://127.0.0.1:8500/v1/kv/foo | jq .
+[
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
+]
+['-']%
+['-']% curl -s http://127.0.0.2:8500/v1/kv/foo | jq .
+[
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
+]
+['-']%
+['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+true
+['-']%
+['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+[
+  {
+    "CreateIndex": 540,
+    "ModifyIndex": 540,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": "YmFyYmFy"
+  }
+]
+['-']%
+['-']%
+</code></pre>
+
+<h3>delete</h3>
+
+<pre><code>['-']%
+['-']% curl -X DELETE -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+['-']%
+['-']%
+['-']% curl -s http://127.0.0.1:8500/v1/kv/foofoo | jq .
+['-']%
+['-']%
+['-']% curl -X PUT -d 'barbar' http://127.0.0.2:8500/v1/kv/foofoo
+true%                                                                                                  ['-']%
+['-']%
+['-']%
+</code></pre>
+
+<h3>再帰もいける</h3>
+
+<pre><code>['-']% curl -s 'http://127.0.0.1:8500/v1/kv/?recurse' | jq .
+[
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 555,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": "YmFyYmFy"
+  },
+  {
+    "CreateIndex": 538,
+    "ModifyIndex": 538,
+    "LockIndex": 0,
+    "Key": "foo",
+    "Flags": 0,
+    "Value": "YmFy"
+  }
+]
+['-']%
+</code></pre>
+
+<h3>flags</h3>
+
+<pre><code>['-']%
+['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+[
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 559,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 0,
+    "Value": null
+  }
+]
+['-']%
+['-']% curl -X PUT 'barbar' -s 'http://127.0.0.1:8500/v1/kv/foofoo?flags=1' | jq .
+true
+['-']%
+['-']% curl -s http://127.0.0.2:8500/v1/kv/foofoo | jq .
+[
+  {
+    "CreateIndex": 555,
+    "ModifyIndex": 560,
+    "LockIndex": 0,
+    "Key": "foofoo",
+    "Flags": 1,
+    "Value": null
+  }
+]
+['-']%
+</code></pre>
+
+<h3>階層化とdecode</h3>
+
+<blockquote><p>BSD の base64 コマンドだと<br/>
+-dがdebugで-Dがdecodeだった</p></blockquote>
+
+<pre><code>['-']% curl -X PUT -d 'bazbazbaz' -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz'
+true
+['x']%
+['x']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[]'
+{
+  "CreateIndex": 565,
+  "ModifyIndex": 568,
+  "LockIndex": 0,
+  "Key": "foo/bar/baz",
+  "Flags": 0,
+  "Value": "YmF6YmF6YmF6"
+}
+['-']%
+['-']%
+['-']% curl -s 'http://127.0.0.1:8500/v1/kv/foo/bar/baz' | jq '.[].Value' -r | base64 -D
+bazbazbaz
+['-']%
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Consulでnodeの増減時に特定のスクリプトを実行させる]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/09/consul-event-handle-watches/"/>
+    <updated>2014-09-09T22:21:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/09/consul-event-handle-watches</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>ConsulでSerfのEvent Handlerのようなものを試したメモ</p>
+
+<h2>main</h2>
+
+<p>Consulの<a href="https://www.hashicorp.com/blog/consul-0-4.html">0.4</a>から<code>Watches</code>という機能が追加されて<br/>
+Serfのevent handlerのようなことができるようになった。</p>
+
+<p>昨日つくった<a href="https://github.com/kenjiskywalker/consul-test">consul-test</a>に</p>
+
+<ul>
+<li>node01/config.json</li>
+</ul>
+
+
+<pre><code>{
+  "node_name": "node01",
+  "data_dir": "./node01/",
+  "bind_addr": "127.0.0.1",
+  "client_addr": "127.0.0.1",
+  "ui_dir": "./dist/",
+  "watches": [
+    {
+      "type": "nodes",
+      "handler": "./node01/hosts_update.rb"
+    }
+  ]
+}
+</code></pre>
+
+<p>watchesの設定を追加してみた。</p>
+
+<p><code>hosts_update.rb</code>でやっていることはシンプルで<br/>
+nodesに変化があった場合に、標準入力でnodesの情報を取得し、<br/>
+同ディレクトリに<code>_hosts</code>ファイルを生成して、<br/>
+nodeの名前とそのAddressを<br/>
+hostsファイルに似せて出力するようにしている。</p>
+
+<blockquote><p>Consulには<code>SERF_EVENT</code>のような<br/>
+管理しているnodeの変化の状態をSTDINで受け取る方法はないのだろうか</p></blockquote>
+
+<h2>雑談</h2>
+
+<p>このような簡単なスクリプトはGoで書いてもいいかもしれないけど<br/>
+バイナリだけ置いてあるような状態の時に<br/>
+<em>作成者を全面的に信用する</em>みたいな部活っぽい対応になりそう。<br/>
+簡易スクリプトをGoで書いたらバイナリとそのソースファイルを<br/>
+同ディレクトリに置いておくとかが良いんだろうか。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Consul Clusterを手元に構築する簡単なスクリプトかいた]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/09/08/consul-test-tool/"/>
+    <updated>2014-09-08T21:01:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/09/08/consul-test-tool</id>
+    <content type="html"><![CDATA[<h2><a href="https://github.com/kenjiskywalker/consul-test">https://github.com/kenjiskywalker/consul-test</a></h2>
+
+<p>READMEのとおりですが</p>
+
+<pre><code>Node    Address         Status  Type    Build  Protocol
+node01  127.0.0.1:8301  alive   server  0.4.0  2
+node02  127.0.0.2:8301  alive   server  0.4.0  2
+node03  127.0.0.3:8301  alive   server  0.4.0  2
+node04  127.0.0.4:8301  alive   client  0.4.0  2
+</code></pre>
+
+<p>上記構成のConsul Clusterを<br/>
+OS X上に簡単に作成できるスクリプトをつくりましたので<br/>
+よかったらご利用ください。</p>
+
+<h3>あわせてよみたい</h3>
+
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/06/06/consul-dns-round-robin/">ConsulのDNSラウンドロビンの検証</a></p>
+]]></content>
+  </entry>
+  
+</feed>

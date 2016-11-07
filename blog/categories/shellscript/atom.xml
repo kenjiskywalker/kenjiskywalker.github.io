@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: shellscript | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/shellscript/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[シェルスクリプトで外部コマンドを利用する場合の注意点]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/11/10/shellscript-old-style/"/>
+    <updated>2014-11-10T15:37:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/11/10/shellscript-old-style</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>シェルスクリプトでbackquoteを見つけたら<br/>
+オールドスタイルおじさんを探し、矯正させよう</p>
+
+<blockquote><p>GNU Bash-2.05 manual</p></blockquote>
+
+<pre><code>       When the old-style backquote form of substitution is used, backslash retains its  lit-  
+       eral  meaning except when followed by $, `, or \.  The first backquote not preceded by  
+       a backslash terminates the command substitution.  When using the $(command) form,  all  
+       characters between the parentheses make up the command; none are treated specially.
+</code></pre>
+
+<pre><code class="bash">#!/bin/bash
+
+#!/bin/bash
+
+a=`echo '\'`
+echo ${a} # \
+
+b=`echo "\\"`
+echo ${b} # unexpected EOF while looking for matching `"'
+
+c=$(echo '\')
+echo ${c} # \
+
+d=$(echo "\\")
+echo ${d} # \
+</code></pre>
+
+<h2>参考</h2>
+
+<p><a href="http://hyperpolyglot.org/unix-shells#cmd-subst-note">http://hyperpolyglot.org/unix-shells#cmd-subst-note</a></p>
+
+<h2>追記</h2>
+
+<blockquote class="twitter-tweet" lang="en"><p>csh系では動かないのでは？というご意見を頂いておりますが、csh系を利用されている方は基本的に強い意思を持って取り組まれているかと存じますので、わざわざ説明することはないと判断しております</p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/531709951777857536">November 10, 2014</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+]]></content>
+  </entry>
+  
+</feed>

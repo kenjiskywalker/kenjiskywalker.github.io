@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>負荷テストが気軽に行えるsiegeでちょっとハマった - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="負荷テストが気軽に行えるsiegeでちょっとハマった siege: version 3.0.9 TL;DR httpsのリクエストの際にうんともすんともいわなくて、lddで見たら
+opensslのライブラリ読み込んでなかった。 Siege Siege Home
+Siege でお手軽 Web &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/02/13/siege/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">負荷テストが気軽に行えるsiegeでちょっとハマった</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-13T18:06:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>siege: version 3.0.9</p></blockquote>
+
+<h2>TL;DR</h2>
+
+<p>httpsのリクエストの際にうんともすんともいわなくて、lddで見たら<br/>
+opensslのライブラリ読み込んでなかった。</p>
+
+<h2>Siege</h2>
+
+<ul>
+<li><a href="http://www.joedog.org/siege-home/">Siege Home</a></li>
+<li><a href="http://qiita.com/inokappa/items/84f42dbd718a8070bd1d">Siege でお手軽 Web 負荷テスト - Qiita</a></li>
+</ul>
+
+
+<p>詳しくは上記URLを参照してください。</p>
+
+<p>kappa大先生の記事を見て、これいいやん！ってなって導入した。<br/>
+負荷テストをかけるサーバも今ではAWSのスポットインスタンスを利用すれば<br/>
+c3.4xlargeも$0.5/hで借りれて最高だ。</p>
+
+<h2>インストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># gccが必要なのでインストール
+</span><span class='line'>$ yum install gcc
+</span><span class='line'>
+</span><span class='line'>$ wget http://download.joedog.org/siege/siege-3.0.9.tar.gz
+</span><span class='line'>$ tar xzf siege-3.0.9.tar.gz
+</span><span class='line'>$ cd siege-3.0.9
+</span><span class='line'>$ ./configure
+</span><span class='line'>$ make -j 16
+</span><span class='line'>$ make install</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>HTTPSにつながらない?</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 2S http://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.69 secs:    5121 bytes ==&gt; GET  /
+</span><span class='line'>HTTP/1.1 200   0.68 secs:    5123 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   1.00 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.01
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.01
+</span><span class='line'>Shortest transaction:           0.01
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>では応答したのに</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1-t 2S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      0 hits
+</span><span class='line'>Availability:                   0.00 %
+</span><span class='line'>Elapsed time:                   4.68 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.00 secs
+</span><span class='line'>Transaction rate:               0.00 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.00
+</span><span class='line'>Successful transactions:           0
+</span><span class='line'>Failed transactions:               3
+</span><span class='line'>Longest transaction:            0.00
+</span><span class='line'>Shortest transaction:           0.00
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>などとFailedになってしまった。<br/>
+最初、cookieで認証しているのでcookieの渡し方が悪かったのかと思ったが<br/>
+ふとライブラリちゃんと読み込んでいるのか気になったので確認してみた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff0a7fe000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fe27e031000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fe27dc8c000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007fe27e253000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おや&hellip; <br/>
+ということで<code>yum install openssl-devel</code>をしてから再度インストールしなおす。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ldd /usr/local/bin/siege
+</span><span class='line'>        linux-vdso.so.1 =&gt;  (0x00007fff3a561000)
+</span><span class='line'>        libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007f77766e2000)
+</span><span class='line'>        libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007f77764de000)
+</span><span class='line'>        libssl.so.10 =&gt; /usr/lib64/libssl.so.10 (0x00007f7776270000)
+</span><span class='line'>        libcrypto.so.10 =&gt; /lib64/libcrypto.so.10 (0x00007f7775e8c000)
+</span><span class='line'>        libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f7775ae7000)
+</span><span class='line'>        /lib64/ld-linux-x86-64.so.2 (0x00007f7776904000)
+</span><span class='line'>        libgssapi_krb5.so.2 =&gt; /lib64/libgssapi_krb5.so.2 (0x00007f77758a3000)
+</span><span class='line'>        libkrb5.so.3 =&gt; /lib64/libkrb5.so.3 (0x00007f77755be000)
+</span><span class='line'>        libcom_err.so.2 =&gt; /usr/lib64/libcom_err.so.2 (0x00007f77753bb000)
+</span><span class='line'>        libk5crypto.so.3 =&gt; /lib64/libk5crypto.so.3 (0x00007f777518f000)
+</span><span class='line'>        libz.so.1 =&gt; /lib64/libz.so.1 (0x00007f7774f79000)
+</span><span class='line'>        libkrb5support.so.0 =&gt; /lib64/libkrb5support.so.0 (0x00007f7774d6e000)
+</span><span class='line'>        libkeyutils.so.1 =&gt; /lib64/libkeyutils.so.1 (0x00007f7774b6a000)
+</span><span class='line'>        libresolv.so.2 =&gt; /lib64/libresolv.so.2 (0x00007f7774953000)
+</span><span class='line'>        libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007f777473d000)
+</span><span class='line'>        libselinux.so.1 =&gt; /usr/lib64/libselinux.so.1 (0x00007f777451b000)
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>おお、色々読み込んでいる</p>
+
+<h2>改めて確認</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/
+</span><span class='line'>** SIEGE 3.0.9
+</span><span class='line'>** Preparing 1 concurrent users for battle.
+</span><span class='line'>The server is now under siege...
+</span><span class='line'>HTTP/1.1 200   0.78 secs:    5119 bytes ==&gt; GET  /
+</span><span class='line'>
+</span><span class='line'>Lifting the server siege...      done.
+</span><span class='line'>
+</span><span class='line'>Transactions:                      1 hits
+</span><span class='line'>Availability:                 100.00 %
+</span><span class='line'>Elapsed time:                   2.89 secs
+</span><span class='line'>Data transferred:               0.00 MB
+</span><span class='line'>Response time:                  0.78 secs
+</span><span class='line'>Transaction rate:               0.35 trans/sec
+</span><span class='line'>Throughput:                     0.00 MB/sec
+</span><span class='line'>Concurrency:                    0.27
+</span><span class='line'>Successful transactions:           1
+</span><span class='line'>Failed transactions:               0
+</span><span class='line'>Longest transaction:            0.78
+</span><span class='line'>Shortest transaction:           0.78
+</span><span class='line'>
+</span><span class='line'>FILE: /root/siege.log
+</span><span class='line'>You can disable this annoying message by editing
+</span><span class='line'>the .siegerc file in your home directory; change
+</span><span class='line'>the directive 'show-logfile' to false.
+</span><span class='line'>$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>無事レスポンスを取得することができた。</p>
+
+<h3>cookieの渡し方</h3>
+
+<p><code>--header="Cookie: k=v; k=v;"</code>みたいな渡し方でいけた。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ siege -c 1 -t 3S https://example.com/ --header="Cookie: key_one=value_one; domain=.example.com; path=/; expires=Fri, 13 Feb 2015 16:41:26 -0000; key_two=value_two; path=/;"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こちらからは以上です。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-13T18:06:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/memo/'>memo</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/02/13/siege/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/02/13/siege/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/02/13/siege/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/02/07/update-resolv-conf/" title="Previous Post: 起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い">&laquo; 起動時にresolv.confが何者かに上書きされた時に更に上書きをする戦い</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/02/16/disk-no-uuid/" title="Next Post: /etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド">/etc/fstabにディスクのUUIDを指定する時にUUIDを調べるコマンド &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

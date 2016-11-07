@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jenkins | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/jenkins/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[さくらVPSでJenkinsたちあげたくてVPN繋いでdnsmasqで名前解決できるようにした]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/06/29/jenkins-dnsmasq-chef/"/>
+    <updated>2013-06-29T20:49:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/06/29/jenkins-dnsmasq-chef</id>
+    <content type="html"><![CDATA[<p>Jenkins氏、存在は知ってるけど自分で使ったことなかったので<br/>
+取り敢えずインストールしてみた。</p>
+
+<p>さくらVPSだとグローバル経由でアクセスすることになって<br/>
+誰でも見れちゃうので悲しい感じになる。<br/>
+ということでVPNを貼って内部で接続しに行く。</p>
+
+<pre><code>+--------+             +-----+
+| sakura | --- vpn --- | MBA |
++--------+             +-----+
+[10.9.0.1]             [10.9.0.6]
+</code></pre>
+
+<p>VPNの貼り方とはか<a href="http://d.hatena.ne.jp/kenjiskywalker/20120702/1341226191">ここ</a>を見て貰いたい。</p>
+
+<h3>Jenkins氏</h3>
+
+<ul>
+<li>/etc/sysconfig/jenkins</li>
+</ul>
+
+
+<pre><code>JENKINS_ARGS="--httpPort=${JENKINS_PORT} --ajp13Port=${JENKINS_AJP_PORT} --httpListenAddress=127.0.0.1"
+</code></pre>
+
+<p>として、自分自身のアクセスだけ許可</p>
+
+<h3>nginx氏</h3>
+
+<ul>
+<li>/etc/nginx/conf.d/hoge.conf</li>
+</ul>
+
+
+<pre><code>server {
+    listen 80;
+    server_name jenkins.kenjiskywalker.org;
+    root /home/skywalker/www;
+
+    location /{
+        proxy_pass http://localhost:8080;
+        allow 10.9.0.0/16;
+        deny all;
+    }
+}
+</code></pre>
+
+<p>で、<code>jenkins.kenjiskywalker.org</code>でアクセスを受け付けるようにする。</p>
+
+<p>MBAにdnsmasqを入れて<code>/usr/local/etc/</code>にPATH通しておいて</p>
+
+<ul>
+<li>/usr/local/etc/dnsmasq.conf
+<code>
+address=/jenkins.kenjiskywalker.org/10.9.0.1
+</code>
+<code>
+$ sudo /usr/local/sbin/dnsmasq
+</code></li>
+</ul>
+
+
+<p>とかで起動させて、コントロールパネルの方で、DNSサーバを<br/>
+<code>127.0.0.1</code>を最初に見に行かせるようにすれば名前解決できるようになる。<br/>
+<code>homebrew.mxcl.dnsmasq.plist</code>があるので、それ使って継続的にdnsmasq上げると良さそう。</p>
+
+<p>さて、さくらのVPS、メモリ1Gしかなくて心配だけど試してみよう。</p>
+]]></content>
+  </entry>
+  
+</feed>

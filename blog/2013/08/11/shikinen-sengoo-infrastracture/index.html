@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>式年遷宮Infrastracture - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="式年遷宮Infrastracture Immutable Infrastracture について / apatheia.info
+こちらのエントリーを読んでふと思いついたので書きました。 式年遷宮 / 伊勢神宮 今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、
+このシステム、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">式年遷宮Infrastracture</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://apatheia.info/blog/2013/08/10/immutable-infrastructure/">Immutable Infrastracture について / apatheia.info</a><br/>
+こちらのエントリーを読んでふと思いついたので書きました。</p>
+
+<p><a href="http://www.isejingu.or.jp/shikinensengu/">式年遷宮 / 伊勢神宮</a></p>
+
+<p>今年、伊勢神宮は20年に一度の式年遷宮の年なのだが、<br/>
+このシステム、今のインターネットのインフラストラクチャの<br/>
+モデルとして結構参考になるのではないだろうか。</p>
+
+<p>さすがに20年間無停止で動いているサーバは<br/>
+その存在自体が重要文化財になってしまうが、例えば、１つのシステムを<br/>
+ロードバランサ、スイッチ、サーバ、ミドルウェア、ログ集約サーバなど<br/>
+完全に冗長化しておき、１週間毎に冗長化されたシステム、A、Bをそれぞれ入れ替える。</p>
+
+<p>このアーキテクチャを採用した場合、<br/>
+アプリケーションの大規模な改修が発生した場合にも<br/>
+スタンバイ側となっているインフラストラクチャ側で<br/>
+スナップショットのようなものを取得しておき、テストを行い、<br/>
+スナップショット時に戻れば、実サービスと同じ環境でテストが行える。</p>
+
+<p>アクティブ側となっているインフラストラクチャのハードに<br/>
+何かしらの問題が発生した場合、スタンバイ側のインフラストラクチャへ<br/>
+切り替えることにより、対障害性能を向上することが可能になる。</p>
+
+<p>また、アクティブスタンバイ化されたシステムは、なかなかどうして<br/>
+テスト時と同じ結果になってくれず、サービスダウンした際に<br/>
+フェイルオーバーしないことがよくある。</p>
+
+<p>しかし、この式年遷宮インフラストラクチャを採用すれば<br/>
+定期的に切り替えが発生するので、切り替え時にエラーが発生した場合にも<br/>
+発見が早くなり、結果的にシステムそのもののテストという側面を持ち、<br/>
+障害発生時に高確率でフェイルオーバーが成功するのではないだろうか。</p>
+
+<p>問題となるのは、切り替えそのものの正確性の確保、一つのシステムを冗長化するコスト、<br/>
+切り替え前、切り替え前後の監視対象の切り替え、切り替え時のログの欠落をなくす工夫、<br/>
+切り替え時にサービスに影響を及ぼさない工夫など、実現する為には様々な困難はある。</p>
+
+<p>とはいえ、機械を利用し利便性を向上してきた我々は<br/>
+やはりその機械を運用するというそのものについても利便性を求め<br/>
+職人の技、秘伝のタレなど閉鎖的な情報に頼ること無く、また、運用担当者が<br/>
+毎日深い眠りに就けるよう、日々楽をする為の努力をしていきたいものであります。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T15:19:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blog/'>blog</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/08/11/shikinen-sengoo-infrastracture/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/03/art-of-readable-code/" title="Previous Post: リーダブルコード読んだ">&laquo; リーダブルコード読んだ</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/12/mv-mysql-slave-server/" title="Next Post: MySQLのスレーブサーバを別サーバに移設する時に注意すること">MySQLのスレーブサーバを別サーバに移設する時に注意すること &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
