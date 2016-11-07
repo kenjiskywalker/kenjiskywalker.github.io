@@ -7,4 +7,7 @@
 <script src="{{ $.Site.BaseURL }}{{ . }}"></script>
 {{ end }}
 
-{{ template "_internal/google_analytics.html" . }}
+
+{{ with .Site.Params.analytics.googleid }}
+  {{ partial "google_analytics.html" . }}
+{{ end }}
