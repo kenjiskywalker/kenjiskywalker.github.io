@@ -1,387 +1,295 @@
+    <!DOCTYPE html>
+<html lang="ja-jp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="kenjiskywalker">
+		<meta name="description" content="さよならインターネット">
+		<meta name="generator" content="Hugo 0.16" />
+		<title>EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる &middot; さよならインターネット</title>
+		<link rel="shortcut icon" href="http://blog.kenjiskywalker.orgimages/favicon.ico">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/style.css">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/highlight.css">
+		
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる - さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
+		
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/monosocialiconsfont.css">
+		
 
-  
-  <meta name="description" content="EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる EC2がちょくちょくStatus ChecksがコケてTerminateされていたので
-CloudWatchで見ているStatus Checkの値の変異を見て
-SNSに通知をさせている。 SNS &hellip;">
-  
+		
+	</head>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="main-navigation">
-  <li><a href="/">Goodbye The Internet.</a></li>
-</ul>
-
+    <body>
+       <nav class="main-nav">
+	
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる</h1>
-    
-    
-      <p class="meta">
-        
 
 
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる</h1>
+                    <h2 class="headline">
+                    July 12, 2016 
+                    <br>
+                    
+                    </h2>
+                </header>
+                <section id="post-body">
+                    
 
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-12T11:44:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>EC2がちょくちょくStatus ChecksがコケてTerminateされていたので<br/>
-CloudWatchで見ているStatus Checkの値の変異を見て<br/>
+<p>EC2がちょくちょくStatus ChecksがコケてTerminateされていたので<br />
+CloudWatchで見ているStatus Checkの値の変異を見て<br />
 SNSに通知をさせている。</p>
 
 <p><code>SNS &lt;-&gt; PagerDuty &lt;-&gt; Slack</code></p>
 
-<h4>参考URL</h4>
+<h4 id="参考url">参考URL</h4>
 
 <ul>
 <li><a href="http://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">インスタンスのステータスチェック</a></li>
 <li><a href="https://www.pagerduty.com/docs/guides/aws-cloudwatch-integration-guide/">AWS CloudWatch Integration Guide:PagerDuty</a></li>
-<li><a href="https://www.pagerduty.com/docs/guides/slack-integration-guide/">Slack Integration Guide:PagerDuty</a></li>
+<li><a href="https://www.pagerduty.com/docs/guides/slack-integration-guide/">Slack Integration Guide:PagerDuty</a>
+
+<br /></li>
 </ul>
 
-
-<p>一番良いのはEC2が立ち上がってきた時に自分自身に下記設定を導入し<br/>
-自分が消える時に設定を削除するのが好ましいが、所々事情があり<br/>
+<p>一番良いのはEC2が立ち上がってきた時に自分自身に下記設定を導入し<br />
+自分が消える時に設定を削除するのが好ましいが、所々事情があり<br />
 下記のようなスクリプトを特定のEC2で回している。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-</pre></td><td class='code'><pre><code class='rb'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">region</span> <span class="o">=</span> <span class="s1">&#39;REGION&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># インスタンスID一覧を取得する ( --max-items XXX # インスタンス数次第 )</span>
-</span><span class='line'><span class="n">instance_ids</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
-</span><span class='line'><span class="sb">                    --max-items XXX \</span>
-</span><span class='line'><span class="sb">                    --filters Name=tag-key,Values=Name \</span>
-</span><span class='line'><span class="sb">                    | jq -r &#39;.Reservations[].Instances[].InstanceId&#39;</span>
-</span><span class='line'><span class="sb">                    `</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># CloudWatchでStatusCheckFailed_Checkが設定されているインスタンスID一覧 ( --max-items XXX # インスタンス数次第 )</span>
-</span><span class='line'><span class="n">checked_instance_ids</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch describe-alarms \</span>
-</span><span class='line'><span class="sb">                            --max-items XXX \</span>
-</span><span class='line'><span class="sb">                            | jq -r &#39;.MetricAlarms[].AlarmName&#39; \</span>
-</span><span class='line'><span class="sb">                            | grep &#39;StatusCheckFailed_Check&#39; \</span>
-</span><span class='line'><span class="sb">                            | cut -f 1 -d &#39; &#39;</span>
-</span><span class='line'><span class="sb">                            `</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 改行で要素を分割</span>
-</span><span class='line'><span class="n">instance_ids</span> <span class="o">=</span> <span class="n">instance_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">checked_instance_ids</span> <span class="o">=</span> <span class="n">checked_instance_ids</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># インスタンス一覧にあってCloudWatch側にない監視追加対象のインスタンスID一覧を抽出</span>
-</span><span class='line'><span class="n">new_instance_ids</span> <span class="o">=</span> <span class="n">instance_ids</span> <span class="o">-</span> <span class="n">checked_instance_ids</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># CloudWatch側にあってインスタンス一覧にない削除対象のインスタンスID一覧を抽出</span>
-</span><span class='line'><span class="n">deleted_instance_ids</span> <span class="o">=</span> <span class="n">checked_instance_ids</span> <span class="o">-</span> <span class="n">instance_ids</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 監視追加対象のインスタンスID一覧が空でなければCloudWatchに追加していく</span>
-</span><span class='line'><span class="k">unless</span> <span class="n">new_instance_ids</span><span class="o">.</span><span class="n">empty?</span>
-</span><span class='line'>  <span class="n">new_instance_ids</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">instance_id</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># StageというKeyのタグで本番かそれ以外を分けている</span>
-</span><span class='line'>    <span class="n">stage</span> <span class="o">=</span> <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> ec2 describe-instances \</span>
-</span><span class='line'><span class="sb">                 --instance-ids </span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">                 --query &#39;Reservations[].Instances[].Tags[?Key==\`</span><span class="no">Stage</span><span class="p">\</span><span class="sb">`].Value&#39; \</span>
-</span><span class='line'><span class="sb">                 --output text</span>
-</span><span class='line'><span class="sb">                 `</span><span class="o">.</span><span class="n">chomp</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># 本番の場合は通知先が違うのでSNSの向き先を変える</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">stage</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span>
-</span><span class='line'>      <span class="n">sns_topic</span> <span class="o">=</span> <span class="s1">&#39;PRODUCTION_SNS_TOPIC&#39;</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">sns_topic</span> <span class="o">=</span> <span class="s1">&#39;OTHER_SNS_TOPIC&#39;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># MAIN: ここで設定を追加する</span>
-</span><span class='line'>    <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch put-metric-alarm \</span>
-</span><span class='line'><span class="sb">         --alarm-name &quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> StatusCheckFailed_Check&quot; \</span>
-</span><span class='line'><span class="sb">         --metric-name StatusCheckFailed \</span>
-</span><span class='line'><span class="sb">         --namespace AWS/EC2 \</span>
-</span><span class='line'><span class="sb">         --statistic Maximum \</span>
-</span><span class='line'><span class="sb">         --dimensions Name=InstanceId,Value=</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">         --period 60 \</span>
-</span><span class='line'><span class="sb">         --unit Count \</span>
-</span><span class='line'><span class="sb">         --evaluation-periods 1 \</span>
-</span><span class='line'><span class="sb">         --threshold 0 \</span>
-</span><span class='line'><span class="sb">         --comparison-operator GreaterThanThreshold \</span>
-</span><span class='line'><span class="sb">         --ok-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">         --alarm-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"> \</span>
-</span><span class='line'><span class="sb">         --insufficient-data-actions </span><span class="si">#{</span><span class="n">sns_topic</span><span class="si">}</span><span class="sb"></span>
-</span><span class='line'><span class="sb">         `</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="s2"> StatusCheckFailed_Check is created&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 削除対象のインスタンスID一覧が空でなければ設定を削除していく</span>
-</span><span class='line'><span class="k">unless</span> <span class="n">deleted_instance_ids</span><span class="o">.</span><span class="n">empty?</span>
-</span><span class='line'>  <span class="n">deleted_instance_ids</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">instance_id</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># MAIN: ここで設定を削除する</span>
-</span><span class='line'>    <span class="sb">`aws --region </span><span class="si">#{</span><span class="n">region</span><span class="si">}</span><span class="sb"> cloudwatch delete-alarms \</span>
-</span><span class='line'><span class="sb">         --alarm-names &quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="sb"> StatusCheckFailed_Check&quot;`</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">instance_id</span><span class="si">}</span><span class="s2"> StatusCheckFailed_Check is deleted&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<pre><code class="language-rb">#!/usr/bin/env ruby
 
+region = 'REGION'
+
+# インスタンスID一覧を取得する ( --max-items XXX # インスタンス数次第 )
+instance_ids = `aws --region #{region} ec2 describe-instances \
+                    --max-items XXX \
+                    --filters Name=tag-key,Values=Name \
+                    | jq -r '.Reservations[].Instances[].InstanceId'
+                    `
+
+# CloudWatchでStatusCheckFailed_Checkが設定されているインスタンスID一覧 ( --max-items XXX # インスタンス数次第 )
+checked_instance_ids = `aws --region #{region} cloudwatch describe-alarms \
+                            --max-items XXX \
+                            | jq -r '.MetricAlarms[].AlarmName' \
+                            | grep 'StatusCheckFailed_Check' \
+                            | cut -f 1 -d ' '
+                            `
+
+# 改行で要素を分割
+instance_ids = instance_ids.split(&quot;\n&quot;)
+checked_instance_ids = checked_instance_ids.split(&quot;\n&quot;)
+
+# インスタンス一覧にあってCloudWatch側にない監視追加対象のインスタンスID一覧を抽出
+new_instance_ids = instance_ids - checked_instance_ids
+
+# CloudWatch側にあってインスタンス一覧にない削除対象のインスタンスID一覧を抽出
+deleted_instance_ids = checked_instance_ids - instance_ids
+
+# 監視追加対象のインスタンスID一覧が空でなければCloudWatchに追加していく
+unless new_instance_ids.empty?
+  new_instance_ids.each do |instance_id|
+
+    # StageというKeyのタグで本番かそれ以外を分けている
+    stage = `aws --region #{region} ec2 describe-instances \
+                 --instance-ids #{instance_id} \
+                 --query 'Reservations[].Instances[].Tags[?Key==\`Stage\`].Value' \
+                 --output text
+                 `.chomp
+
+    # 本番の場合は通知先が違うのでSNSの向き先を変える
+    if stage == 'production'
+      sns_topic = 'PRODUCTION_SNS_TOPIC'
+    else
+      sns_topic = 'OTHER_SNS_TOPIC'
+    end
+
+    # MAIN: ここで設定を追加する
+    `aws --region #{region} cloudwatch put-metric-alarm \
+         --alarm-name &quot;#{instance_id} StatusCheckFailed_Check&quot; \
+         --metric-name StatusCheckFailed \
+         --namespace AWS/EC2 \
+         --statistic Maximum \
+         --dimensions Name=InstanceId,Value=#{instance_id} \
+         --period 60 \
+         --unit Count \
+         --evaluation-periods 1 \
+         --threshold 0 \
+         --comparison-operator GreaterThanThreshold \
+         --ok-actions #{sns_topic} \
+         --alarm-actions #{sns_topic} \
+         --insufficient-data-actions #{sns_topic}
+         `
+
+    puts &quot;#{instance_id} StatusCheckFailed_Check is created&quot;
+  end
+end
+
+# 削除対象のインスタンスID一覧が空でなければ設定を削除していく
+unless deleted_instance_ids.empty?
+  deleted_instance_ids.each do |instance_id|
+
+    # MAIN: ここで設定を削除する
+    `aws --region #{region} cloudwatch delete-alarms \
+         --alarm-names &quot;#{instance_id} StatusCheckFailed_Check&quot;`
+
+    puts &quot;#{instance_id} StatusCheckFailed_Check is deleted&quot;
+  end
+end
+</code></pre>
 
 <p>こんな感じでやってる。</p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                <a href="https://twitter.com/kenjiskywalker">
+                        <img class="avatar" src="http://blog.kenjiskywalker.orgimages/avatar.png">
+                        <div>
+                            <span class="dark">kenjiskywalker</span>
+                            <span></span>
+                        </div>
+                    </a>
+                <section id="sharing">
+                    <a class="twitter" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.kenjiskywalker.org%2fblog%2f2016%2f07%2f12%2fec2-status-fail-check%2f - EC2%e3%81%aeStatus%20Check%e3%81%ae%e5%a4%89%e7%95%b0%e3%82%92SNS%e3%82%92%e9%80%9a%e3%81%97%e3%81%a6PagerDuty%e3%81%8b%e3%82%89Slack%e3%81%b8%e9%80%9a%e7%9f%a5%e3%81%95%e3%81%9b%e3%82%8b by @kenjiskywalker"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について<aside class="dates">Jul 6</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする<aside class="dates">Mar 14</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう<aside class="dates">Feb 25</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら<aside class="dates">Jan 21</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん<aside class="dates">Jan 19</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った<aside class="dates">Jan 10</aside></a>
+        </li>
+        
+   
+</ul>
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://www.github.com/kenjiskywalker">
+        github
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/kenjiskywalker">
+        twitterbird
+    </a>
+    
+
+
 </div>
 
-
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-12T11:44:00+09:00" pubdate data-updated="true"></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/aws/'>aws</a>
-  
-</span>
-
-
+    
+    <p class="small">
+    
+        © Copyright 2016 kenjiskywalker
+    
     </p>
-    
-      <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2016/07/12/ec2-tag-describe-instances/" title="Previous Post: 特定のインスタンスIDのタグのValueを出力する">&laquo; 特定のインスタンスIDのタグのValueを出力する</a>
-      
-      
-    </p>
-  </footer>
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-</article>
-
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
+        </section>
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/main.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37377904-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 
 
-
-
-</body>
+    </body>
 </html>

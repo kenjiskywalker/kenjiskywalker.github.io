@@ -1,277 +1,247 @@
+    <!DOCTYPE html>
+<html lang="ja-jp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="kenjiskywalker">
+		<meta name="description" content="さよならインターネット">
+		<meta name="generator" content="Hugo 0.16" />
+		<title>Chefのtemplateにrecipeからデータを渡すvariablesについて &middot; さよならインターネット</title>
+		<link rel="shortcut icon" href="http://blog.kenjiskywalker.orgimages/favicon.ico">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/style.css">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/highlight.css">
+		
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Chefのtemplateにrecipeからデータを渡すvariablesについて - さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
+		
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/monosocialiconsfont.css">
+		
 
-  
-  <meta name="description" content="Chefのtemplateにrecipeからデータを渡すvariablesについて Chefで、同じcookbookを利用して
-異なった値を入れてよしなにファイルをつくりたかったメモ。 @fujiwaraさん++ 検証環境
-Chef v11.4.0 Chefにて、同じcookbookを使い、 &hellip;">
-  
+		
+	</head>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/02/27/chef-variables-same-cookbook/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="main-navigation">
-  <li><a href="/">Goodbye The Internet.</a></li>
-</ul>
-
+    <body>
+       <nav class="main-nav">
+	
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Chefのtemplateにrecipeからデータを渡すvariablesについて</h1>
-    
-    
-      <p class="meta">
-        
 
 
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>Chefのtemplateにrecipeからデータを渡すvariablesについて</h1>
+                    <h2 class="headline">
+                    February 27, 2013 
+                    <br>
+                    
+                    </h2>
+                </header>
+                <section id="post-body">
+                    
 
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>Chefで、同じcookbookを利用して<br/>
+<p>Chefで、同じcookbookを利用して<br />
 異なった値を入れてよしなにファイルをつくりたかったメモ。</p>
 
 <p>@fujiwaraさん++</p>
 
-<blockquote><p>検証環境<br/>
-Chef v11.4.0</p></blockquote>
+<blockquote>
+<p>検証環境<br />
+Chef v11.4.0</p>
+</blockquote>
 
-<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br/>
+<p>Chefにて、同じcookbookを使い、異なった複数の値を与えて<br />
 結果を異なったファイルに出力する場合は、<strong>variables</strong>を利用する。</p>
 
-<p>当初、この課題に対する解決方法として、<br/>
-複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br/>
-実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br/>
-複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br/>
+<p>当初、この課題に対する解決方法として、<br />
+複数の <em>role</em> を作成し、その <em>role</em> 内で異なった値をJSONに入れることにより<br />
+実現できると思い込んでいたのだが、run_listでは複数のrecipeとして理解されず、<br />
+複数のroleで同じcookbookを利用した場合には後者のみが採用され、<br />
 最初に読み込まれた <em>role</em> は認識されなかった。</p>
 
-<h2>variablesを利用したレシピをみていこう</h2>
+<h2 id="variablesを利用したレシピをみていこう">variablesを利用したレシピをみていこう</h2>
 
-<p>JSONには <strong>ports</strong> というkeyに対して、&#8221;6379&#8221;と&#8221;6380&#8221;という複数のvalueをもたせる</p>
+<p>JSONには <strong>ports</strong> というkeyに対して、&rdquo;6379&rdquo;と&rdquo;6380&rdquo;という複数のvalueをもたせる</p>
 
-<div><script src='https://gist.github.com/5039419.js?file=redis.json'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<p>{% gist 5039419 redis.json %}</p>
 
-
-<p>recipe内で<br/>
-<code>ports.each do |port|</code>と分解して実行するように記述する<br/>
+<p>recipe内で<br />
+<code>ports.each do |port|</code>と分解して実行するように記述する<br />
 また、わかりづらいのだが</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>variables({  
-</span><span class='line'>  :port =&gt; port  
-</span><span class='line'>})  </span></code></pre></td></tr></table></div></figure>
+<pre><code>    variables({  
+      :port =&gt; port  
+    })  
+</code></pre>
 
-
-<p></p>
-
-<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br/>
+<p>このように <em>port</em> 、この場合でいえば &ldquo;6379&rdquo; 、 &ldquo;6380&rdquo; の値を<br />
 <strong>@port</strong> に代入している。</p>
 
-<div><script src='https://gist.github.com/5039419.js?file=recipe-default-recipe.rb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
+<p>{% gist 5039419 recipe-default-recipe.rb %}</p>
 
 <p>template内で、代入された <strong>@port</strong> を利用する</p>
 
-<div><script src='https://gist.github.com/5039419.js?file=template-default-redis.conf.erb'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
+<p>{% gist 5039419 template-default-redis.conf.erb %}</p>
 
 <p>上記内容の結果、出力ファイルとして</p>
 
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6379.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<p>{% gist 5039419 etc-redis-6379.conf %}</p>
 
+<p>{% gist 5039419 etc-redis-6380.conf %}</p>
 
-
-
-<div><script src='https://gist.github.com/5039419.js?file=etc-redis-6380.conf'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>期待した通り、複数のvalueを受け取り<br/>
+<p>期待した通り、複数のvalueを受け取り<br />
 それぞれ異なったファイルに出力されることが確認できた。</p>
 
-<p>もう少しエレガントな方法があるように思うので<br/>
+<p>もう少しエレガントな方法があるように思うので<br />
 他の方法などがあれば、是非是非コメントを頂きたい。</p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                <a href="https://twitter.com/kenjiskywalker">
+                        <img class="avatar" src="http://blog.kenjiskywalker.orgimages/avatar.png">
+                        <div>
+                            <span class="dark">kenjiskywalker</span>
+                            <span></span>
+                        </div>
+                    </a>
+                <section id="sharing">
+                    <a class="twitter" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.kenjiskywalker.org%2fblog%2f2013%2f02%2f27%2fchef-variables-same-cookbook%2f - Chef%e3%81%aetemplate%e3%81%abrecipe%e3%81%8b%e3%82%89%e3%83%87%e3%83%bc%e3%82%bf%e3%82%92%e6%b8%a1%e3%81%99variables%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6 by @kenjiskywalker"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について<aside class="dates">Jul 6</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする<aside class="dates">Mar 14</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう<aside class="dates">Feb 25</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら<aside class="dates">Jan 21</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん<aside class="dates">Jan 19</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った<aside class="dates">Jan 10</aside></a>
+        </li>
+        
+   
+</ul>
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://www.github.com/kenjiskywalker">
+        github
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/kenjiskywalker">
+        twitterbird
+    </a>
+    
+
+
 </div>
 
-
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-27T01:08:00+09:00" pubdate data-updated="true"></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/chef/'>chef</a>
-  
-</span>
-
-
+    
+    <p class="small">
+    
+        © Copyright 2016 kenjiskywalker
+    
     </p>
-    
-      <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/02/27/chef-variables-same-cookbook/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/02/27/chef-variables-same-cookbook/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/02/27/chef-variables-same-cookbook/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/02/25/music-20130225/" title="Previous Post: 週末買った音楽">&laquo; 週末買った音楽</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/03/04/ec2-ephemeral-raid0-boot-mount/" title="Next Post: EC2でEphemeral DiskをRAID0で構築した状態でブートする">EC2でEphemeral DiskをRAID0で構築した状態でブートする &raquo;</a>
-      
-    </p>
-  </footer>
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-</article>
-
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
+        </section>
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/main.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37377904-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 
 
-
-
-</body>
+    </body>
 </html>

@@ -1,203 +1,131 @@
+    <!DOCTYPE html>
+<html lang="ja-jp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="kenjiskywalker">
+		<meta name="description" content="さよならインターネット">
+		<meta name="generator" content="Hugo 0.16" />
+		<title>Sensuの監視の設定 &middot; さよならインターネット</title>
+		<link rel="shortcut icon" href="http://blog.kenjiskywalker.orgimages/favicon.ico">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/style.css">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/highlight.css">
+		
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Sensuの監視の設定 - さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
+		
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/monosocialiconsfont.css">
+		
 
-  
-  <meta name="description" content="Sensuの監視の設定 Sensu導入と初期設定についての続きのエントリーになります。 pluginの書き方 http://sensuapp.org/docs/0.12/checks
-http://sensuapp.org/docs/0.12/adding_a_check &hellip;">
-  
+		
+	</head>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2014/05/03/sensu-monitoring-setting/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="main-navigation">
-  <li><a href="/">Goodbye The Internet.</a></li>
-</ul>
-
+    <body>
+       <nav class="main-nav">
+	
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Sensuの監視の設定</h1>
-    
-    
-      <p class="meta">
-        
 
 
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>Sensuの監視の設定</h1>
+                    <h2 class="headline">
+                    May 3, 2014 
+                    <br>
+                    
+                    </h2>
+                </header>
+                <section id="post-body">
+                    
 
+<p><a href="http://blog.kenjiskywalker.org/blog/2014/05/02/newbie-sensu/">Sensu導入と初期設定について</a>の続きのエントリーになります。</p>
 
+<h3 id="pluginの書き方">pluginの書き方</h3>
 
-
-
-
-  
-
-
-<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p><a href="http://blog.kenjiskywalker.org/blog/2014/05/02/newbie-sensu/">Sensu導入と初期設定について</a>の続きのエントリーになります。</p>
-
-<h3>pluginの書き方</h3>
-
-<p><a href="http://sensuapp.org/docs/0.12/checks">http://sensuapp.org/docs/0.12/checks</a><br/>
+<p><a href="http://sensuapp.org/docs/0.12/checks">http://sensuapp.org/docs/0.12/checks</a><br />
 <a href="http://sensuapp.org/docs/0.12/adding_a_check">http://sensuapp.org/docs/0.12/adding_a_check</a></p>
 
 <p>上記ドキュメントを参考にして頂くとわかる通り</p>
 
 <ul>
-<li>status code が<code>0</code>であれば<code>OK</code></li>
+<li>status code が<code>0</code>であれば<code>OK</code><br /></li>
 <li>status code が<code>1</code>であれば<code>WARNING</code></li>
 <li>status code が<code>2</code>であれば<code>CRITICAL</code></li>
 <li>status code が<code>3</code>であれば<code>UNKNOWN</code></li>
 </ul>
 
-
 <p>という方法で監視を行います。</p>
 
-<p>コミュニティプラグインを確認すると、そのほとんどが<br/>
+<p>コミュニティプラグインを確認すると、そのほとんどが<br />
 <code>require 'sensu-plugin/check/cli'</code>を呼び出していることがわかります。</p>
 
-<h3><a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></h3>
+<h3 id="https-github-com-sensu-sensu-plugin-https-github-com-sensu-sensu-plugin"><a href="https://github.com/sensu/sensu-plugin">https://github.com/sensu/sensu-plugin</a></h3>
 
-<p>check用のメソッド、metrics用のメソッドを<br/>
-それぞれ利用することが可能になります。<br/>
-まだ私はpluginを書いたことがないので、また書く機会があれば<br/>
+<p>check用のメソッド、metrics用のメソッドを<br />
+それぞれ利用することが可能になります。<br />
+まだ私はpluginを書いたことがないので、また書く機会があれば<br />
 その時に改めて詳細を書きたいと思います。</p>
 
-<h3>気を付けなければならないこと</h3>
+<h3 id="気を付けなければならないこと">気を付けなければならないこと</h3>
 
-<p>導入以前は、Sensuはアラートとメトリクスのデータを<br/>
-同じデータを利用して監視を行うことができると考えていたのですが<br/>
+<p>導入以前は、Sensuはアラートとメトリクスのデータを<br />
+同じデータを利用して監視を行うことができると考えていたのですが<br />
 これは誤りで、</p>
 
 <ul>
 <li>checkはcheck用のプラグイン</li>
-<li>metricsはmetircs用のプラグイン</li>
+<li>metricsはmetircs用のプラグイン
+<br /></li>
 </ul>
-
 
 <p>と分かれています。なかなかZABBIXのように万能にはいかないようです。</p>
 
-<h2>checks</h2>
+<h2 id="checks">checks</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "check_cpu": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-cpu.rb -w 90 -c 100",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "occurrences": 5,
-</span><span class='line'>      "subscribers": ["all"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    }
-</span><span class='line'>  },
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "check_cpu_nervous": {
-</span><span class='line'>      "command": "/etc/sensu/plugins/check-cpu.rb -w 10 -c 30",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "subscribers": ["admin"],
-</span><span class='line'>      "handlers": ["hipchat", "mailer"]
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>{
+  &quot;checks&quot;: {
+    &quot;check_cpu&quot;: {
+      &quot;command&quot;: &quot;/etc/sensu/plugins/check-cpu.rb -w 90 -c 100&quot;,
+      &quot;interval&quot;: 60,
+      &quot;occurrences&quot;: 5,
+      &quot;subscribers&quot;: [&quot;all&quot;],
+      &quot;handlers&quot;: [&quot;hipchat&quot;, &quot;mailer&quot;]
+    }
+  },
+  &quot;checks&quot;: {
+    &quot;check_cpu_nervous&quot;: {
+      &quot;command&quot;: &quot;/etc/sensu/plugins/check-cpu.rb -w 10 -c 30&quot;,
+      &quot;interval&quot;: 60,
+      &quot;subscribers&quot;: [&quot;admin&quot;],
+      &quot;handlers&quot;: [&quot;hipchat&quot;, &quot;mailer&quot;]
+    }
+  }
+}
+</code></pre>
 
 <ul>
 <li>&ldquo;check_cpu&rdquo;, &ldquo;check_cpu_nervous&rdquo;</li>
 </ul>
 
-
-<p>設定内容の名前です。<br/>
-Sensuは設定内容のjsonがdeep_mergeされるので、ここはユニークな値にしてください。<br/>
-よくあるミスとして、利用するプラグインは同じで<br/>
-上記のように設定内容が微妙に違うという場合、元のファイルをコピーし<br/>
-名前を変更するのを忘れて上書きされてしまい<br/>
+<p>設定内容の名前です。<br />
+Sensuは設定内容のjsonがdeep_mergeされるので、ここはユニークな値にしてください。<br />
+よくあるミスとして、利用するプラグインは同じで<br />
+上記のように設定内容が微妙に違うという場合、元のファイルをコピーし<br />
+名前を変更するのを忘れて上書きされてしまい<br />
 設定ファイルを作成したのに上手く認識されない。ということがよくあります。</p>
 
 <ul>
 <li>&ldquo;commnand&rdquo;</li>
 </ul>
 
-
-<p>実行するコマンドです。status codeとSTDOUT,STDERRのどちらかが返ってくれば、<br/>
-Rubyでなくとも、シェルスクリプトやGo、pythonなど何を利用しても問題ありません。<br/>
+<p>実行するコマンドです。status codeとSTDOUT,STDERRのどちらかが返ってくれば、<br />
+Rubyでなくとも、シェルスクリプトやGo、pythonなど何を利用しても問題ありません。<br />
 nagios pluginと設定を合わせている為、nagiosのpluginを利用することが可能です。</p>
 
 <ul>
 <li>&ldquo;interval&rdquo;</li>
 </ul>
-
 
 <p>コマンドを実行する間隔です。</p>
 
@@ -205,146 +133,99 @@ nagios pluginと設定を合わせている為、nagiosのpluginを利用する�
 <li>&ldquo;occurrences&rdquo;</li>
 </ul>
 
-
-<p>監視通知の閾値です。例えば<code>occurrences</code>が<code>3</code>に設定されていた場合<br/>
-<em>3回継続してアラートの条件を満たした場合にアラート通知する。</em><br/>
-という条件になります。デフォルトは<code>1</code>で、1回でも<br/>
+<p>監視通知の閾値です。例えば<code>occurrences</code>が<code>3</code>に設定されていた場合<br />
+<em>3回継続してアラートの条件を満たした場合にアラート通知する。</em><br />
+という条件になります。デフォルトは<code>1</code>で、1回でも<br />
 アラートの条件を満たしたら通知が行われます。</p>
 
 <ul>
 <li>&ldquo;subscribers&rdquo;</li>
 </ul>
 
-
-<p>ここでホストとアラートの紐付けを行います。<br/>
-client側で設定されている<code>subscriptions</code>を見て<br/>
-<code>subscribers</code>と同じであれば、その監視を行う条件を満たし<br/>
+<p>ここでホストとアラートの紐付けを行います。<br />
+client側で設定されている<code>subscriptions</code>を見て<br />
+<code>subscribers</code>と同じであれば、その監視を行う条件を満たし<br />
 監視コマンドが実行されるようになります。</p>
 
 <ul>
 <li>&ldquo;handlers&rdquo;</li>
 </ul>
 
-
-<p>アラートの条件を満たしていた場合の通知先の設定です。<br/>
-上記設定例でいうと、HipChatとmailを利用します。<br/>
+<p>アラートの条件を満たしていた場合の通知先の設定です。<br />
+上記設定例でいうと、HipChatとmailを利用します。<br />
 通知先の設定内容はSensu server側にて行います。</p>
 
 <ul>
 <li>/etc/sensu/conf.d/handlers/hipchat.json</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "handlers": {
-</span><span class='line'>    "hipchat": {
-</span><span class='line'>      "type": "pipe",
-</span><span class='line'>      "command": "/etc/sensu/handlers/hipchat.rb"
-</span><span class='line'>    }
-</span><span class='line'>  },
-</span><span class='line'>  "hipchat": {
-</span><span class='line'>    "apikey": "APIKEY",
-</span><span class='line'>    "apiversion": "v1",
-</span><span class='line'>    "room": "ROOM_NAME",
-</span><span class='line'>    "from": "FROM_NAME"
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>{
+  &quot;handlers&quot;: {
+    &quot;hipchat&quot;: {
+      &quot;type&quot;: &quot;pipe&quot;,
+      &quot;command&quot;: &quot;/etc/sensu/handlers/hipchat.rb&quot;
+    }
+  },
+  &quot;hipchat&quot;: {
+    &quot;apikey&quot;: &quot;APIKEY&quot;,
+    &quot;apiversion&quot;: &quot;v1&quot;,
+    &quot;room&quot;: &quot;ROOM_NAME&quot;,
+    &quot;from&quot;: &quot;FROM_NAME&quot;
+  }
+}
+</code></pre>
 
 <ul>
 <li>/etc/sensu/conf.d/handlers/mailer.json</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "handlers": {
-</span><span class='line'>    "mailer": {
-</span><span class='line'>      "type": "pipe",
-</span><span class='line'>      "command": "/etc/sensu/handlers/mailer.rb"
-</span><span class='line'>    }
-</span><span class='line'>  },
-</span><span class='line'>  "mailer": {
-</span><span class='line'>    "mail_from": "sensu@example.com",
-</span><span class='line'>    "mail_to": "alert@example.com",
-</span><span class='line'>    "smtp_address": "192.0.2.100",
-</span><span class='line'>    "smtp_port": "25",
-</span><span class='line'>    "smtp_domain": "example.com"
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>{
+  &quot;handlers&quot;: {
+    &quot;mailer&quot;: {
+      &quot;type&quot;: &quot;pipe&quot;,
+      &quot;command&quot;: &quot;/etc/sensu/handlers/mailer.rb&quot;
+    }
+  },
+  &quot;mailer&quot;: {
+    &quot;mail_from&quot;: &quot;sensu@example.com&quot;,
+    &quot;mail_to&quot;: &quot;alert@example.com&quot;,
+    &quot;smtp_address&quot;: &quot;192.0.2.100&quot;,
+    &quot;smtp_port&quot;: &quot;25&quot;,
+    &quot;smtp_domain&quot;: &quot;example.com&quot;
+  }
+}
+</code></pre>
 
 <p>上記のような設定を行います。</p>
 
-<h2>metircs</h2>
+<h2 id="metircs">metircs</h2>
 
-<p>checkとの違いは<code>"type": "metric"</code>の有無の違いのみ。<br/>
-<code>"type": "metric"</code>が存在すると<em>handle_event</em>メソッドを実行します。</p>
+<p>checkとの違いは<code>&quot;type&quot;: &quot;metric&quot;</code>の有無の違いのみ。<br />
+<code>&quot;type&quot;: &quot;metric&quot;</code>が存在すると_handle_event_メソッドを実行します。</p>
 
 <ul>
 <li>/etc/sensu/conf.d/metrics/metrics-cpu.json</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "checks": {
-</span><span class='line'>    "metrics_cpu_pcnt-usage": {
-</span><span class='line'>      "type": "metric",
-</span><span class='line'>      "command": "/etc/sensu/plugins/cpu-pcnt-usage-metrics.rb --scheme stats.:::name:::.cpu",
-</span><span class='line'>      "interval": 60,
-</span><span class='line'>      "subscribers": [ "all" ],
-</span><span class='line'>      "handlers": ["graphite"]
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>{
+  &quot;checks&quot;: {
+    &quot;metrics_cpu_pcnt-usage&quot;: {
+      &quot;type&quot;: &quot;metric&quot;,
+      &quot;command&quot;: &quot;/etc/sensu/plugins/cpu-pcnt-usage-metrics.rb --scheme stats.:::name:::.cpu&quot;,
+      &quot;interval&quot;: 60,
+      &quot;subscribers&quot;: [ &quot;all&quot; ],
+      &quot;handlers&quot;: [&quot;graphite&quot;]
+    }
+  }
+}
+</code></pre>
 
 <ul>
 <li>&ldquo;command&rdquo;</li>
 </ul>
 
-
-<p>基本的にmetircs系のプラグインはschemeの設定が可能になっている。<br/>
-これは大変便利で、上記設定例でいうと<br/>
+<p>基本的にmetircs系のプラグインはschemeの設定が可能になっている。<br />
+これは大変便利で、上記設定例でいうと<br />
 <code>stats.hostname.cpu.cpu_pcnt.*</code>のように
 スキーマを定義することが可能になります。</p>
 
@@ -352,74 +233,53 @@ client側で設定されている<code>subscriptions</code>を見て<br/>
 <li>/etc/sensu/conf.d/handlers/graphite.json</li>
 </ul>
 
+<pre><code>{
+  &quot;handlers&quot;: {
+    &quot;graphite&quot;: {
+      &quot;type&quot;: &quot;tcp&quot;,
+      &quot;socket&quot;: {
+        &quot;host&quot;: &quot;127.0.0.1&quot;,
+        &quot;port&quot;: 2003
+      },
+      &quot;mutator&quot;: &quot;only_check_output&quot;
+    }
+  }
+}
+</code></pre>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "handlers": {
-</span><span class='line'>    "graphite": {
-</span><span class='line'>      "type": "tcp",
-</span><span class='line'>      "socket": {
-</span><span class='line'>        "host": "127.0.0.1",
-</span><span class='line'>        "port": 2003
-</span><span class='line'>      },
-</span><span class='line'>      "mutator": "only_check_output"
-</span><span class='line'>    }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上記graphiteの設定は、<em>pipe</em>、<em>tcp</em>や<em>udp</em>などを利用し<br/>
+<p>上記graphiteの設定は、_pipe_、_tcp_や_udp_などを利用し<br />
 handlerへ渡すことが可能なので、それを利用した設定内容になります。</p>
 
 <ul>
 <li>&ldquo;mutator&rdquo;: &ldquo;only_check_output&rdquo;</li>
 </ul>
 
-
-<p><code>only_check_output.rb</code>を見る限り、<br/>
+<p><code>only_check_output.rb</code>を見る限り、<br />
 <code>check</code>の結果を<code>0</code>で返す(checkを行わない)オプションのようです。</p>
 
-<h2>client</h2>
+<h2 id="client">client</h2>
 
 <ul>
 <li>/etc/sensu/conf.d/client.json</li>
 </ul>
 
+<blockquote>
+<p>_/etc/sensu/conf.d/_ディレクトリ配下であれば<br />
+clientの設定のファイル名に決まりはありません。</p>
+</blockquote>
 
-<blockquote><p><em>/etc/sensu/conf.d/</em>ディレクトリ配下であれば<br/>
-clientの設定のファイル名に決まりはありません。</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>  "client": {
-</span><span class='line'>    "name": "client_name",
-</span><span class='line'>    "address": "192.0.2.10",
-</span><span class='line'>    "subscriptions": ["all", "admin", "foo"]
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>{
+  &quot;client&quot;: {
+    &quot;name&quot;: &quot;client_name&quot;,
+    &quot;address&quot;: &quot;192.0.2.10&quot;,
+    &quot;subscriptions&quot;: [&quot;all&quot;, &quot;admin&quot;, &quot;foo&quot;]
+  }
+}
+</code></pre>
 
 <ul>
 <li>&ldquo;name&rdquo;</li>
 </ul>
-
 
 <p>Sensu clientの名前です。</p>
 
@@ -427,137 +287,170 @@ clientの設定のファイル名に決まりはありません。</p></blockquo
 <li>&ldquo;address&rdquo;</li>
 </ul>
 
-
-<p>Sensu clientのアドレスです。<br/>
-IPアドレスでもDNS名でも何でも良いです。誤っていたからといって<br/>
+<p>Sensu clientのアドレスです。<br />
+IPアドレスでもDNS名でも何でも良いです。誤っていたからといって<br />
 Sensu serverと接続できなくなるということはありません。</p>
 
 <ul>
 <li>&ldquo;subscriptions&rdquo;</li>
 </ul>
 
-
-<p>Sensu server側で行ったcheck、metricsに対する関連付けです。<br/>
+<p>Sensu server側で行ったcheck、metricsに対する関連付けです。<br />
 関連付けされる対象は<code>subscribers</code>です。</p>
 
-<h2>五月雨式ではありますが</h2>
+<h2 id="五月雨式ではありますが">五月雨式ではありますが</h2>
 
-<p>監視をする上での細かい設定内容の解説でした。<br/>
+<p>監視をする上での細かい設定内容の解説でした。<br />
 ドキュメントを読み進める上でのお役に立てれば幸いです。</p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                <a href="https://twitter.com/kenjiskywalker">
+                        <img class="avatar" src="http://blog.kenjiskywalker.orgimages/avatar.png">
+                        <div>
+                            <span class="dark">kenjiskywalker</span>
+                            <span></span>
+                        </div>
+                    </a>
+                <section id="sharing">
+                    <a class="twitter" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.kenjiskywalker.org%2fblog%2f2014%2f05%2f03%2fsensu-monitoring-setting%2f - Sensu%e3%81%ae%e7%9b%a3%e8%a6%96%e3%81%ae%e8%a8%ad%e5%ae%9a by @kenjiskywalker"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について<aside class="dates">Jul 6</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする<aside class="dates">Mar 14</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう<aside class="dates">Feb 25</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら<aside class="dates">Jan 21</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん<aside class="dates">Jan 19</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った<aside class="dates">Jan 10</aside></a>
+        </li>
+        
+   
+</ul>
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://www.github.com/kenjiskywalker">
+        github
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/kenjiskywalker">
+        twitterbird
+    </a>
+    
+
+
 </div>
 
-
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-03T02:59:00+09:00" pubdate data-updated="true"></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/sensu/'>sensu</a>
-  
-</span>
-
-
+    
+    <p class="small">
+    
+        © Copyright 2016 kenjiskywalker
+    
     </p>
-    
-      <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2014/05/03/sensu-monitoring-setting/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2014/05/03/sensu-monitoring-setting/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2014/05/03/sensu-monitoring-setting/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/05/02/newbie-sensu/" title="Previous Post: Sensu導入と初期設定について">&laquo; Sensu導入と初期設定について</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/05/04/201404-book/" title="Next Post: 2014/04読んだ本">2014/04読んだ本 &raquo;</a>
-      
-    </p>
-  </footer>
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-</article>
-
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
+        </section>
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/main.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37377904-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 
 
-
-
-</body>
+    </body>
 </html>

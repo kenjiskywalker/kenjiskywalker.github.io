@@ -1,245 +1,133 @@
+    <!DOCTYPE html>
+<html lang="ja-jp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="kenjiskywalker">
+		<meta name="description" content="さよならインターネット">
+		<meta name="generator" content="Hugo 0.16" />
+		<title>Ansibleを利用してRailsが動くVagrantfileを作成する &middot; さよならインターネット</title>
+		<link rel="shortcut icon" href="http://blog.kenjiskywalker.orgimages/favicon.ico">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/style.css">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/highlight.css">
+		
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Ansibleを利用してRailsが動くVagrantfileを作成する - さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
+		
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/monosocialiconsfont.css">
+		
 
-  
-  <meta name="description" content="Ansibleを利用してRailsが動くVagrantfileを作成する TL;DR Ansibleを利用したからって複雑な処理がシンプルになるわけではない 1st 対象のサーバに何か設定をする必要はないので
-このように少量のコードでやりたいことが実現できる。 1
-2
-3
-4
-5
-6
-7
-8
-9 &hellip;">
-  
+		
+	</head>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="main-navigation">
-  <li><a href="/">Goodbye The Internet.</a></li>
-</ul>
-
+    <body>
+       <nav class="main-nav">
+	
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Ansibleを利用してRailsが動くVagrantfileを作成する</h1>
-    
-    
-      <p class="meta">
-        
 
 
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>Ansibleを利用してRailsが動くVagrantfileを作成する</h1>
+                    <h2 class="headline">
+                    October 24, 2014 
+                    <br>
+                    
+                    </h2>
+                </header>
+                <section id="post-body">
+                    
 
+<p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
 
-
-
-
-
-  
-
-
-<time datetime="2014-10-24T05:56:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p><img src="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" alt="http://cdn2.hubspot.net/hub/330046/file-769078190-png/Official_Logos/ansible_wordlogo_whiteonblack_small.png?t=1414090782106" /></p>
-
-<h2>TL;DR</h2>
+<h2 id="tl-dr">TL;DR</h2>
 
 <p>Ansibleを利用したからって複雑な処理がシンプルになるわけではない</p>
 
-<h3>1st</h3>
+<h3 id="1st">1st</h3>
 
-<p>対象のサーバに何か設定をする必要はないので<br/>
+<p>対象のサーバに何か設定をする必要はないので<br />
 このように少量のコードでやりたいことが実現できる。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']%
-</span><span class='line'>['-']% cat hosts
-</span><span class='line'>ansible.example.com
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible -m ping -i hosts ansible.example.com
-</span><span class='line'>ansible.example.com | success &gt;&gt; {
-</span><span class='line'>    "changed": false,
-</span><span class='line'>    "ping": "pong"
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% cat playbook.yml
-</span><span class='line'>- hosts: all
-</span><span class='line'>
-</span><span class='line'>  tasks:
-</span><span class='line'>  - name: Install dstat
-</span><span class='line'>    yum: name=dstat
-</span><span class='line'>['-']%
-</span><span class='line'>['-']%
-</span><span class='line'>['-']% ansible-playbook -i hosts playbook.yml
-</span><span class='line'>
-</span><span class='line'>PLAY [all] ********************************************************************
-</span><span class='line'>
-</span><span class='line'>GATHERING FACTS ***************************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>TASK: [Install dstat] *********************************************************
-</span><span class='line'>ok: [ansible.example.com]
-</span><span class='line'>
-</span><span class='line'>PLAY RECAP ********************************************************************
-</span><span class='line'>ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0
-</span><span class='line'>
-</span><span class='line'>['-']%</span></code></pre></td></tr></table></div></figure>
+<pre><code>['-']%
+['-']% cat hosts
+ansible.example.com
+['-']%
+['-']% ansible -m ping -i hosts ansible.example.com
+ansible.example.com | success &gt;&gt; {
+    &quot;changed&quot;: false,
+    &quot;ping&quot;: &quot;pong&quot;
+}
 
+['-']%
+['-']% cat playbook.yml
+- hosts: all
 
-<p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br/>
+  tasks:
+  - name: Install dstat
+    yum: name=dstat
+['-']%
+['-']%
+['-']% ansible-playbook -i hosts playbook.yml
+
+PLAY [all] ********************************************************************
+
+GATHERING FACTS ***************************************************************
+ok: [ansible.example.com]
+
+TASK: [Install dstat] *********************************************************
+ok: [ansible.example.com]
+
+PLAY RECAP ********************************************************************
+ansible.example.com            : ok=2    changed=0    unreachable=0    failed=0
+
+['-']%
+</code></pre>
+
+<p>Inventoryファイル(上記でいうとhostsファイル)の動的更新<br />
 各社独自で工夫してるんだろうな&hellip;</p>
 
-<h2>Role</h2>
+<h2 id="role">Role</h2>
 
-<p>1.2から使える機能とのこと、詳しくは<br/>
-<a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements</a>を読んでもらいたい.<br/>
-Chefを利用している人は馴染みがあるというか<br/>
+<p>1.2から使える機能とのこと、詳しくは<br />
+<a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements</a>を読んでもらいたい.<br />
+Chefを利用している人は馴染みがあるというか<br />
 そういう構成なのか、とすんなりと理解できると思う.</p>
 
-<p>Chefでいうcookbookの構成に近いというか<br/>
-Chefを意識したつくりになっている気がする.<br/>
+<p>Chefでいうcookbookの構成に近いというか<br />
+Chefを意識したつくりになっている気がする.<br />
 ある程度の規模になったらRoleを利用しないとつらいと思う.</p>
 
-<h2>Railsの環境をAsibleで用意してみる</h2>
+<h2 id="railsの環境をasibleで用意してみる">Railsの環境をAsibleで用意してみる</h2>
 
 <p><a href="https://github.com/kenjiskywalker/ansible">https://github.com/kenjiskywalker/ansible</a></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['-']% tree .
-</span><span class='line'>.
-</span><span class='line'>├── dev.yml
-</span><span class='line'>└── roles
-</span><span class='line'>    ├── mysql
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    ├── rails
-</span><span class='line'>    │   └── tasks
-</span><span class='line'>    │       └── main.yml
-</span><span class='line'>    └── ruby
-</span><span class='line'>        ├── files
-</span><span class='line'>        ├── handlers
-</span><span class='line'>        ├── tasks
-</span><span class='line'>        │   ├── main.yml
-</span><span class='line'>        │   ├── rbenv.yml
-</span><span class='line'>        │   ├── ruby-build.yml
-</span><span class='line'>        │   └── ruby-install.yml
-</span><span class='line'>        └── templates
-</span><span class='line'>            └── rbenv.sh.j2
-</span><span class='line'>
-</span><span class='line'>10 directories, 8 files</span></code></pre></td></tr></table></div></figure>
+<pre><code>['-']% tree .
+.
+├── dev.yml
+└── roles
+    ├── mysql
+    │   └── tasks
+    │       └── main.yml
+    ├── rails
+    │   └── tasks
+    │       └── main.yml
+    └── ruby
+        ├── files
+        ├── handlers
+        ├── tasks
+        │   ├── main.yml
+        │   ├── rbenv.yml
+        │   ├── ruby-build.yml
+        │   └── ruby-install.yml
+        └── templates
+            └── rbenv.sh.j2
 
+10 directories, 8 files
+</code></pre>
 
-<h3>軽く書いてみて気がついたこと</h3>
+<h3 id="軽く書いてみて気がついたこと">軽く書いてみて気がついたこと</h3>
 
 <ul>
 <li><code>command</code>がコマンドだけで<code>shell</code>がパイプも使えるとか気が付かなくてハマった</li>
@@ -247,83 +135,54 @@ Chefを意識したつくりになっている気がする.<br/>
 <li><code>register</code>の概念が面白かった</li>
 </ul>
 
+<pre><code>- name: check Rails installed
+  shell: rails -v | cut -f 2 -d ' '
+  register: rails_installed
+  ignore_errors: yes
+  tags:
+    - ruby
+    - ruby:install
+    - install
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- name: check Rails installed
-</span><span class='line'>  shell: rails -v | cut -f 2 -d ' '
-</span><span class='line'>  register: rails_installed
-</span><span class='line'>  ignore_errors: yes
-</span><span class='line'>  tags:
-</span><span class='line'>    - ruby
-</span><span class='line'>    - ruby:install
-</span><span class='line'>    - install
-</span><span class='line'>
-</span><span class='line'>- name: gem install rails -v 
-</span><span class='line'>  command: gem install rails -v 
-</span><span class='line'>  when: rails_installed.stdout != rails_version
-</span><span class='line'>  tags:
-</span><span class='line'>    - rails
-</span><span class='line'>    - install</span></code></pre></td></tr></table></div></figure>
+- name: gem install rails -v {{ rails_version }}
+  command: gem install rails -v {{ rails_version }}
+  when: rails_installed.stdout != rails_version
+  tags:
+    - rails
+    - install
+</code></pre>
 
-
-<p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br/>
-<code>rails_installed</code>という変数に格納し、その変数を利用して<br/>
+<p>のように書くと、<code>rails -v | cut -f 2 -d ' '</code>のコマンドの実行結果を<br />
+<code>rails_installed</code>という変数に格納し、その変数を利用して<br />
 条件分岐などを行うことができる.</p>
 
-<h3>Vagrantfile</h3>
+<h3 id="vagrantfile">Vagrantfile</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
-</span><span class='line'>
-</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-</span><span class='line'>  config.vm.box = "centos65"
-</span><span class='line'>  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
-</span><span class='line'>  config.vm.define :"dev" do |dev|
-</span><span class='line'>    dev.vm.network :private_network, ip: '192.168.77.11'
-</span><span class='line'>  end
-</span><span class='line'>  config.vm.provision "ansible" do |ansible|
-</span><span class='line'>    ansible.playbook = "./ansible/dev.yml"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+<pre><code>VAGRANTFILE_API_VERSION = &quot;2&quot;
 
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = &quot;centos65&quot;
+  config.vm.box_url = &quot;https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box&quot;
+  config.vm.define :&quot;dev&quot; do |dev|
+    dev.vm.network :private_network, ip: '192.168.77.11'
+  end
+  config.vm.provision &quot;ansible&quot; do |ansible|
+    ansible.playbook = &quot;./ansible/dev.yml&quot;
+  end
+end
+</code></pre>
 
-<p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br/>
-READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br/>
+<p>このようにVagrantのprovisonerにansibleを利用することが可能です。<br />
+READMEに書いてあるように、<code>vagrant up</code>を発行するとdev.ymlを利用した<br />
 ansibleが実行されます.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant provision</span></code></pre></td></tr></table></div></figure>
+<pre><code>$ vagrant provision
+</code></pre>
 
-
-<p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br/>
+<p>とコマンドを発行することで、実行中のVagrantのインスタンスに対して<br />
 プロビジョニングすることが可能です。</p>
 
-<h3>Chefの闇はAnsibleで光を得るのか</h3>
+<h3 id="chefの闇はansibleで光を得るのか">Chefの闇はAnsibleで光を得るのか</h3>
 
 <ul>
 <li>構成や管理方法が複雑であれば何を使ってもあまり変わらない</li>
@@ -331,137 +190,169 @@ ansibleが実行されます.</p>
 <li>上から下に実行されるだけ(ruby_blockとか使わなくていい)のは良い</li>
 </ul>
 
-
-<h3>個人的感想</h3>
+<h3 id="個人的感想">個人的感想</h3>
 
 <ul>
 <li>Ansible縛りでなければ<a href="https://github.com/ryotarai/itamae">Itamae</a>試したかった</li>
 <li>まだちょっとしかさわってないので知見があればシェアさせて頂きます</li>
 </ul>
 
-
-<h2>参考</h2>
+<h2 id="参考">参考</h2>
 
 <ul>
-<li><a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements - Ansible</a></li>
-<li><a href="http://docs.ansible.com/playbooks_best_practices.html">Best Practices - Ansible</a></li>
-<li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a></li>
+<li><a href="http://docs.ansible.com/playbooks_roles.html">Playbook Roles and Include Statements - Ansible</a><br /></li>
+<li><a href="http://docs.ansible.com/playbooks_best_practices.html">Best Practices - Ansible</a><br /></li>
+<li><a href="http://tdoc.info/blog/2013/04/20/ansible.html">ansibleを使ってみる - そこはかとなく書くよん。</a><br /></li>
 </ul>
 
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                <a href="https://twitter.com/kenjiskywalker">
+                        <img class="avatar" src="http://blog.kenjiskywalker.orgimages/avatar.png">
+                        <div>
+                            <span class="dark">kenjiskywalker</span>
+                            <span></span>
+                        </div>
+                    </a>
+                <section id="sharing">
+                    <a class="twitter" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.kenjiskywalker.org%2fblog%2f2014%2f10%2f24%2fansible-vagrant%2f - Ansible%e3%82%92%e5%88%a9%e7%94%a8%e3%81%97%e3%81%a6Rails%e3%81%8c%e5%8b%95%e3%81%8fVagrantfile%e3%82%92%e4%bd%9c%e6%88%90%e3%81%99%e3%82%8b by @kenjiskywalker"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について<aside class="dates">Jul 6</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする<aside class="dates">Mar 14</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう<aside class="dates">Feb 25</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら<aside class="dates">Jan 21</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん<aside class="dates">Jan 19</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った<aside class="dates">Jan 10</aside></a>
+        </li>
+        
+   
+</ul>
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://www.github.com/kenjiskywalker">
+        github
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/kenjiskywalker">
+        twitterbird
+    </a>
+    
+
+
 </div>
 
-
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-24T05:56:00+09:00" pubdate data-updated="true"></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/ansible/'>ansible</a>
-  
-</span>
-
-
+    
+    <p class="small">
+    
+        © Copyright 2016 kenjiskywalker
+    
     </p>
-    
-      <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2014/10/24/ansible-vagrant/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/10/06/isucon4/" title="Previous Post: #isucon 4の予選に出た">&laquo; #isucon 4の予選に出た</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/10/25/osx-fig-docker-access-container/" title="Next Post: OS Xでfigを利用してDockerのコンテナを操作する">OS Xでfigを利用してDockerのコンテナを操作する &raquo;</a>
-      
-    </p>
-  </footer>
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-</article>
-
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
+        </section>
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/main.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37377904-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 
 
-
-
-</body>
+    </body>
 </html>
