@@ -10,7 +10,7 @@ languageCode = "ja-jp"
          googleid = "UA-37377904-1"
 
 [permalinks]
-    post = "/blog/:year/:month/:day/:title/"
+    post = "/blog/:year/:month/:day/:filename/"
 
 [social]
     twitter  = "https://www.twitter.com/kenjiskywalker"
