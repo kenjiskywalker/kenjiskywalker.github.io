@@ -1,284 +1,253 @@
+    <!DOCTYPE html>
+<html lang="ja-jp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="kenjiskywalker">
+		<meta name="description" content="さよならインターネット">
+		<meta name="generator" content="Hugo 0.16" />
+		<title>pecoを利用してAWSのインスタンスを取得する &middot; さよならインターネット</title>
+		<link rel="shortcut icon" href="http://blog.kenjiskywalker.orgimages/favicon.ico">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/style.css">
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/highlight.css">
+		
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>pecoを利用してAWSのインスタンスを取得する - さよならインターネット</title>
-  <meta name="author" content="kenjiskywalker">
+		
+		<link rel="stylesheet" href="http://blog.kenjiskywalker.orgcss/monosocialiconsfont.css">
+		
 
-  
-  <meta name="description" content="pecoを利用してAWSのインスタンスを取得する peco を利用してAWSのEC2に簡単ログイン zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。 TL;DR zsh使っててaws-cli使っていてshellscriptを利用できるなら
-aws- &hellip;">
-  
+		
+	</head>
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2014/06/18/peco-get-aws-instance-list/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-37377904-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">さよならインターネット</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="main-navigation">
-  <li><a href="/">Goodbye The Internet.</a></li>
-</ul>
-
+    <body>
+       <nav class="main-nav">
+	
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">pecoを利用してAWSのインスタンスを取得する</h1>
-    
-    
-      <p class="meta">
-        
 
 
+        <section id="wrapper">
+            <article class="post">
+                <header>
+                    <h1>pecoを利用してAWSのインスタンスを取得する</h1>
+                    <h2 class="headline">
+                    June 18, 2014 
+                    <br>
+                    
+                    </h2>
+                </header>
+                <section id="post-body">
+                    
 
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-18T12:19:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><h2><a href="https://github.com/lestrrat/peco">peco</a> を利用してAWSのEC2に簡単ログイン</h2>
+<h2 id="peco-https-github-com-lestrrat-peco-を利用してawsのec2に簡単ログイン"><a href="https://github.com/lestrrat/peco">peco</a> を利用してAWSのEC2に簡単ログイン</h2>
 
 <p>zsh、全然調べてなくて30分ぐらいで適当に書いたヤツです。</p>
 
-<h3>TL;DR</h3>
+<h3 id="tl-dr">TL;DR</h3>
 
-<p>zsh使っててaws-cli使っていてshellscriptを利用できるなら<br/>
+<p>zsh使っててaws-cli使っていてshellscriptを利用できるなら<br />
 aws-cliを利用してnameとpublic dnsを紐付けてpecoで絞り込むだけのもの</p>
 
-<h3>設定</h3>
+<h3 id="設定">設定</h3>
 
 <ul>
 <li>shellscriptを起きます(get-ec2-list.sh)</li>
 </ul>
 
+<pre><code>#!/bin/bash
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>
-</span><span class='line'>instances=$(aws ec2 describe-instances \
-</span><span class='line'>    --filters 'Name=instance-state-name,Values=running' \
-</span><span class='line'>    --query 'Reservations[].Instances[?PublicDnsName!=`null`].[Tags[*][?Key==`Name`].Value[],PublicDnsName]' \
-</span><span class='line'>    --output text)
-</span><span class='line'>
-</span><span class='line'>for item in ${instances[@]}; do
-</span><span class='line'>    if [[ `echo $item | grep 'compute.amazonaws.com'` ]]; then
-</span><span class='line'>        printf "$item\n"
-</span><span class='line'>    else
-</span><span class='line'>        printf "$item "
-</span><span class='line'>    fi
-</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+instances=$(aws ec2 describe-instances \
+    --filters 'Name=instance-state-name,Values=running' \
+    --query 'Reservations[].Instances[?PublicDnsName!=`null`].[Tags[*][?Key==`Name`].Value[],PublicDnsName]' \
+    --output text)
 
+for item in ${instances[@]}; do
+    if [[ `echo $item | grep 'compute.amazonaws.com'` ]]; then
+        printf &quot;$item\n&quot;
+    else
+        printf &quot;$item &quot;
+    fi
+done
+</code></pre>
 
 <ul>
 <li>zshの設定にこんな感じのものを書きます(zshrc)</li>
 </ul>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function get_ec2_list() {
-</span><span class='line'>    local get_list
-</span><span class='line'>    get_list="/home/hoge/get-ec2-list.sh"
-</span><span class='line'>    BUFFER=$(eval $get_list | peco  | awk '{print $2}')
-</span><span class='line'>    CURSOR=$#BUFFER
-</span><span class='line'>    zle clear-screen
-</span><span class='line'>}
-</span><span class='line'>zle -N get_ec2_list
-</span><span class='line'>bindkey '^v' get_ec2_list</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>function get_ec2_list() {
+    local get_list
+    get_list=&quot;/home/hoge/get-ec2-list.sh&quot;
+    BUFFER=$(eval $get_list | peco  | awk '{print $2}')
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N get_ec2_list
+bindkey '^v' get_ec2_list
+</code></pre>
 
 <p>こんな感じのものをつくると</p>
 
-<blockquote><p>QUERY><br/>
-web  ec2-192-0-2-1.region.compute.amazonaws.com<br/>
-db   ec2-192-0-2-2.region.compute.amazonaws.com<br/>
-app1 ec2-192-0-2-3.region.compute.amazonaws.com<br/>
-app2 ec2-192-0-2-4.region.compute.amazonaws.com</p></blockquote>
+<blockquote>
+<p>QUERY&gt;<br />
+web  ec2-192-0-2-1.region.compute.amazonaws.com<br />
+db   ec2-192-0-2-2.region.compute.amazonaws.com<br />
+app1 ec2-192-0-2-3.region.compute.amazonaws.com<br />
+app2 ec2-192-0-2-4.region.compute.amazonaws.com</p>
+</blockquote>
 
-<p>こんな感じでEC2のNameを利用してPublic DNSを絞り込める。<br/>
-awkを利用して、選択したら<br/>
-Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br/>
+<p>こんな感じでEC2のNameを利用してPublic DNSを絞り込める。<br />
+awkを利用して、選択したら<br />
+Public Name(ec2-192-0-2-1.region.compute.amazonaws.com の方)だけが選択される。<br />
 便利。便利だけど落書きレベルなのでGoで完結できるようにした方が良い。</p>
+
+                </section>
+            </article>
+            <footer id="post-meta" class="clearfix">
+                <a href="https://twitter.com/kenjiskywalker">
+                        <img class="avatar" src="http://blog.kenjiskywalker.orgimages/avatar.png">
+                        <div>
+                            <span class="dark">kenjiskywalker</span>
+                            <span></span>
+                        </div>
+                    </a>
+                <section id="sharing">
+                    <a class="twitter" href="https://twitter.com/intent/tweet?text=http%3a%2f%2fblog.kenjiskywalker.org%2fblog%2f2014%2f06%2f18%2fpeco-get-aws-instance-list%2f - peco%e3%82%92%e5%88%a9%e7%94%a8%e3%81%97%e3%81%a6AWS%e3%81%ae%e3%82%a4%e3%83%b3%e3%82%b9%e3%82%bf%e3%83%b3%e3%82%b9%e3%82%92%e5%8f%96%e5%be%97%e3%81%99%e3%82%8b by @kenjiskywalker"><span class="icon-twitter"> Tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+                </section>
+            </footer>
+
+            
+
+            <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+    
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-status-fail-check/">EC2のStatus Checkの変異をSNSを通してPagerDutyからSlackへ通知させる<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/12/ec2-tag-describe-instances/">特定のインスタンスIDのタグのValueを出力する<aside class="dates">Jul 12</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/samsara-eip/">特定のRoleのEIPが付与されているEC2がTerminateされた時に新しく起動したEC2に浮いたEIPを付与させるスクリプト<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/08/mackerel-meets-fluentd-and-debug-it/">問題があったのでfluentdでsigdumpを使いstactraceしてmackerel-client-rubyにPRした話<aside class="dates">Jul 8</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/07/06/terraform-newbie/">Terraformを始める上でのresourceの命名規則について<aside class="dates">Jul 6</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/03/14/infrom-codedeploy-error-to-slack/">CodeDeployのfailをSlackに通知して原因までたどりやすくする<aside class="dates">Mar 14</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/02/25/slack-api-channel-to-group/">SlackのAPIでchannel.listやchannel.infoで取れない時はgroup.listやgroup.infoで取ろう<aside class="dates">Feb 25</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/21/codedeploy-applicationstop-failed/">CodeDeployでApplicationStopでどうしようもなくなったら<aside class="dates">Jan 21</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/19/awscli-put-metric-alarm-to-elb/">awscliでput-metric-alarmでELBのUnHealthyHostCountUpをモニタリングして増えたりしたらアラートとばすくん<aside class="dates">Jan 19</aside></a>
+        </li>
+        
+   
+    
+        
+        <li>
+            <a href="http://blog.kenjiskywalker.org/blog/2016/01/10/iphone-soccer/">iPhone水没した。高校サッカー準決勝見に行った。赤羽に飲みに行った<aside class="dates">Jan 10</aside></a>
+        </li>
+        
+   
+</ul>
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://www.github.com/kenjiskywalker">
+        github
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/kenjiskywalker">
+        twitterbird
+    </a>
+    
+
+
 </div>
 
-
-  <br>
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- kenjiskywalker -->
-<ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-          data-ad-client="ca-pub-3577646751378924"
-             data-ad-slot="9302814317"></ins>
-         <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-         </script>
-   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-18T12:19:00+09:00" pubdate data-updated="true"></time>
-      
-
-
+    
+    <p class="small">
+    
+        © Copyright 2016 kenjiskywalker
+    
     </p>
-    
-      <div class="sharing">
-  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2014/06/18/peco-get-aws-instance-list/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2014/06/18/peco-get-aws-instance-list/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2014/06/18/peco-get-aws-instance-list/" >Tweet</a>
-  
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/06/12/peco/" title="Previous Post: pecoを導入してzshのhistoryに使うようにした">&laquo; pecoを導入してzshのhistoryに使うようにした</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/06/19/brew-version-specify/" title="Next Post: homebrewでバージョンを固定してインストールしたい">homebrewでバージョンを固定してインストールしたい &raquo;</a>
-      
-    </p>
-  </footer>
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-</article>
-
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - kenjiskywalker -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
+        </section>
 
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/main.js"></script>
+<script src="http://blog.kenjiskywalker.orgjs/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37377904-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 
 
-
-
-</body>
+    </body>
 </html>
