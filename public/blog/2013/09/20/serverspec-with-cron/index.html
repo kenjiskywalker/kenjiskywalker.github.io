@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>本番環境でのserverspecの運用方法 - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="本番環境でのserverspecの運用方法 ミドルウェアの管理はchefを使用している
+サーバへのデプロイはcapistranoを使用している 上記2点が当てはまる場合、serverspecの使い方として Testing #chef Cookbook by #serverspec #devops &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/09/20/serverspec-with-cron/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">本番環境でのserverspecの運用方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-20T02:18:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul>
+<li>ミドルウェアの管理はchefを使用している</li>
+<li>サーバへのデプロイはcapistranoを使用している</li>
+</ul>
+
+
+<p>上記2点が当てはまる場合、serverspecの使い方として</p>
+
+<ul>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/13/serverspec-chef-cookbook/">Testing #chef Cookbook by #serverspec #devops / さよならインターネット</a></li>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/07/31/serverspec-attribute/">serverspecでchefのjsonを読み込む / さよならインターネット</a></li>
+<li><a href="http://blog.kenjiskywalker.org/blog/2013/06/30/serverspec-jenkins/">serverspecをJenkins氏で回す場合について / さよならインターネット</a></li>
+</ul>
+
+
+<p>上記エントリーを参考にして頂ければchef + serverspecである程度の<br/>
+インフラストラクチャの構築とテストが行えるかと思います。</p>
+
+<p>また、こちらのエントリーのように、chefのrecipeからserverspecのテスト自体を<br/>
+生成してしまうという素晴らしいアイデアもあります。最高ですね。</p>
+
+<h4><a href="http://tily.hatenablog.com/entry/2013/07/21/150404">Chef のレシピから serverspec のテストを自動生成する chef-serverspec-handler という gem を作ってみた</a></h4>
+
+<p>で、結局使えるのはわかったのですが、どのように運用すべきか<br/>
+というところは各所で試行錯誤中かと思います。<br/>
+一例として、基礎的な内容ではありますが、現在試している内容を<br/>
+記載してみようと思います。</p>
+
+<h2>前提条件</h2>
+
+<blockquote><p>capistranoを実行するサーバは、対象の全サーバのrootアカウントに<br/>
+鍵認証でノーパスワードでログインが可能である</p></blockquote>
+
+<h2>chefをcapistranoでdeploy時にテスト</h2>
+
+<p>capistranoの設定にserverspecの項目を増やすことで<br/>
+chef-soloなどが実行された後に、serverspecが実行されます。<br/>
+これは台数が多いと時間が結構かかるので良し悪しがあるかと思います。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  desc "run serverspec"
+</span><span class='line'>  task :run_serverspec do
+</span><span class='line'>    `cd /root/chef/ ; rake`
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>cronで定時実行</h2>
+
+<p><code>/etc/cron.d/serverspec</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0 */1 * * * root cd /root/chef/ ; rake 1&gt; /dev/null</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正常終了であればログを破棄、エラーが出力された際には<br/>
+メールにて通知するようにします。</p>
+
+<h2>とても簡単なことですが</h2>
+
+<p>取り敢えずの導入としては、上記２つの方法を実践しています。<br/>
+新しくミドルウェアを追加した際にテストがコケたりするので<br/>
+なかなか面白いです。</p>
+
+<p>serverspecでどのような監視をしているかなど話し合うの面白そうですよね。</p>
+
+<p>以上、ご参考になれば幸いです。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-20T02:18:00+09:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/09/20/serverspec-with-cron/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/09/20/serverspec-with-cron/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/09/20/serverspec-with-cron/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/20/logfile-backup-to-s3/" title="Previous Post: ログファイルをS3にバックアップする">&laquo; ログファイルをS3にバックアップする</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/09/22/xslate-array/" title="Next Post: Text::Xslateで配列">Text::Xslateで配列 &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

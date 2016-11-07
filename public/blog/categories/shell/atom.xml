@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: shell | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/shell/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[対象のディレクトリの拡張子一覧を取得する方法と便利コマンド少々]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2014/03/27/get-extension-list/"/>
+    <updated>2014-03-27T03:00:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2014/03/27/get-extension-list</id>
+    <content type="html"><![CDATA[<p>bashの奥は深い。</p>
+
+<ul>
+<li>ext-list.sh</li>
+</ul>
+
+
+<pre><code>#!/bin/bash
+
+dir=`pwd`
+list=`find ${dir} -type f -perm 755`
+
+# not = !
+# list=`find ${dir} -type f ! -perm 755`
+
+for file in $list
+do
+    filename=`basename $file`
+    ext=${filename##*.}
+    ext_list=("${ext_list[@]}" ${ext})
+done
+
+echo ${ext_list[@]} | tr ' ' '\n' | sort | uniq -c | sort -n
+</code></pre>
+
+<p>などというスクリプトを作成しておいて<br/>
+確認したいディレクトリでそのスクリプトを叩けば取得できます。</p>
+
+<p><strong>/usr/local/Cellar</strong>で実行したら</p>
+
+<pre><code>['-']% sh /tmp/ext-list.sh | tail -n10
+   5 1
+   5 6
+   6 0
+   7 py
+  10 test
+  11 sh
+  16 pl
+  27 result
+  62 so
+ 116 la
+['-']% 
+</code></pre>
+
+<p>こんな感じの結果になりました。</p>
+
+<h3>便利コマンド</h3>
+
+<ul>
+<li>basename</li>
+</ul>
+
+
+<pre><code>['-']% basename /usr/local/bin/zsh
+zsh
+['-']%
+</code></pre>
+
+<ul>
+<li>dirname</li>
+</ul>
+
+
+<pre><code>['-']% dirname /usr/local/bin/zsh
+/usr/local/bin
+['-']%
+</code></pre>
+
+<ul>
+<li>シャープ</li>
+</ul>
+
+
+<pre><code>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+['-']%
+['-']% echo ${hoge##*.}
+so
+['-']% echo ${hoge#*.}
+0.2/lib/zsh/zutil.so
+['-']%
+</code></pre>
+
+<ul>
+<li>パーセント</li>
+</ul>
+
+
+<pre><code>['-']% hoge=/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil.so
+['-']%
+['-']% echo ${hoge%%.*}
+/usr/local/Cellar/zsh/5
+['-']%
+['-']% echo ${hoge%.*}
+/usr/local/Cellar/zsh/5.0.2/lib/zsh/zutil
+['-']%
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

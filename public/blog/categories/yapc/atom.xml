@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: yapc | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/yapc/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[YAPC::Asia 2015で冗長化に失敗した話をしてきました #yapcasia]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/22/yapcasia2015/"/>
+    <updated>2015-08-22T12:59:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/22/yapcasia2015</id>
+    <content type="html"><![CDATA[<p><img src="https://dl.dropboxusercontent.com/u/5390179/moris-mirakui.png" alt="" /></p>
+
+<blockquote><p>発表用資料の1ページ</p></blockquote>
+
+<h2><a href="http://yapcasia.org/2015/talk/show/f2816038-10ec-11e5-89bf-d7f07d574c3a">我々はどのように冗長化を失敗したのか / YAPC::Asia TOKYO 2015</a></h2>
+
+<p>この発表をしてきました。</p>
+
+<p>前日の<a href="http://hitode909.hatenablog.com/entry/2015/08/21/165932">hitode909さんの発表</a>や、<a href="https://speakerdeck.com/fujiwara3/consultozi-zuo-osswohuo-yong-sita100tai-gui-mo-falsewebsabisuyun-yong">fujiwaraさんの発表</a>を見て、</p>
+
+<p>ああ、自分はなんて見づらいスライドをつくってしまったんだ。という反省をして<br/>
+154枚もあるし、後ろの人が見づらいだろうなと感じたので<br/>
+(そもそもそれぐらい人が聞きに来てくれればだけど&hellip;)<br/>
+先にスライドを公開しておいて、そちらを参照してもらうようにしました。</p>
+
+<blockquote class="twitter-tweet" lang="ja"><p lang="ja" dir="ltr">11:10からの話のスライド、見づらいものつくってしまって、後ろの席の人は見づらいと思うので先にスライドアップロードしています。見づらい場合はこちらを見て下さい🙏 <a href="https://t.co/jwYtO03jU1">https://t.co/jwYtO03jU1</a> <a href="https://twitter.com/hashtag/yapcasiaD?src=hash">#yapcasiaD</a></p>&mdash; kenjiskywalker (@kenjiskywalker) <a href="https://twitter.com/kenjiskywalker/status/634905926533644288">2015, 8月 22</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>この方法は良かった印象がある。<br/>
+で、スライドはこちらになります</p>
+
+<div style="width: 65%">
+<script async class="speakerdeck-embed" data-id="cde37ad797ab49dd92584770e9798d9a" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>  
+</div>
+
+
+
+
+<blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p lang="ja" dir="ltr">Nice try / SpeakerDeckでかい問題は <a href="http://t.co/MKonnBdKsX">http://t.co/MKonnBdKsX</a> で解決ですよ / “YAPC::Asia 2015で冗長化に失敗した話をしてきました <a href="https://twitter.com/hashtag/yapcasia?src=hash">#yapcasia</a> - さよならインター…” <a href="http://t.co/l3F9su5RCE">http://t.co/l3F9su5RCE</a></p>&mdash; Uchio KONDO (@udzura) <a href="https://twitter.com/udzura/status/635644624120340481">August 24, 2015</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote><p>うづらさんありがとうございます！</p></blockquote>
+
+<p>何回か発表の練習したんですが、何回やっても時間過ぎなくて、<br/>
+本当かな〜って思ったんだけど緊張しながら話すとやっぱり色々うまく行かなくて<br/>
+ちょくちょく時間を気にして早く話しちゃったところとか、上手く話せないところとかあって<br/>
+ちゃんと伝えたかったことが上手く伝えられたか不安になったけど<br/>
+去年よりかはまともにできたっぽくて、共感してもらえたところも結構あったようで発表できて良かった。<br/>
+とてもたくさんの人が聞きに来てくれて嬉しかったです。聞きに来てくれてありがとうございました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[YAPC::Asia 2015 で冗長化に失敗した話を話します]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/"/>
+    <updated>2015-08-16T23:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk</id>
+    <content type="html"><![CDATA[<p>今年もYAPCで発表させて頂くことになりました。<br/>
+投票してくれた方、ありがとうございます。</p>
+
+<h2><a href="http://yapcasia.org/2015/talk/show/f2816038-10ec-11e5-89bf-d7f07d574c3a">我々はどのように冗長化を失敗したのか / YAPC::Asia 2015</a></h2>
+
+<p>追記にも記載しましたが、</p>
+
+<pre><code>挑戦したこと
+冗長化について
+Redis + Redis Sentinel
+Consul
+MySQL + mysqlfailover
+consul-template
+hostsの順番
+クラウドという名の混乱
+対応
+冗長化の終わり、そして
+</code></pre>
+
+<p>という内容になりそうです。色々なソフトウェアを利用し、ある思想を持って冗長化にチャレンジしたが<br/>
+アマチュアのような見積り、構成の甘さや、インフラではなくプロジェクト全体の問題などを含め<br/>
+改めて実体験として経験したこと、改めて大切だと理解したことなどをお話しできればと考えています。</p>
+
+<p>Webサービスを運用しているけど、インフラ担当なんていない、<br/>
+サーバ管理はよーわからんが新しいことにチャレンジしてみたい！けれど失敗はしたくない、<br/>
+など、インターネットにいるようなすごい人達ではなくてもチャレンジすることができるが<br/>
+こういう失敗はしないようにね、という反面教師のお話を聞きに来て頂ければと思います。</p>
+
+<p>当日はどうぞよろしくお願いいたします。</p>
+]]></content>
+  </entry>
+  
+</feed>

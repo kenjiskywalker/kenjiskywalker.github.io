@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。 こんな感じで適当に叩いたら良い感じに取ってきてくれます。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">RDSの負荷状況を知りたかったのでCludWatchのAPIを叩くために書いた簡単なRubyスクリプト</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T01:10:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>CloudWatchのAPI、プログラミング初心者にとって鬼門っぽい。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_rds.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>こんな感じで適当に叩いたら良い感じに取ってきてくれます。<br/>
+デフォルトの<em>metirc_name</em>パターンはコメントアウトに書いてます。</p>
+
+<p>start_timeとかperiodいじると返ってくるデータパターンが変わってくるので<br/>
+色々遊んでみてください。</p>
+
+<p>ついでにEC2のデータもとってくれるようなの書いてみたんですが<br/>
+デフォルトで手に入るメトリクス少ないので<br/>
+CloudWatchでデータ取るなら自分でメトリクスつくらないとダメですね。</p>
+
+<div><script src='https://gist.github.com/5024321.js?file=get_cloudwatch_ec2.rb'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Enjoy CloudWatch API!</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-25T01:10:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/cloudwatch/'>cloudwatch</a>, <a class='category' href='/blog/categories/rds/'>rds</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/02/25/get-cloudwatch-rds-ec2/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/20/zabbix-proxy/" title="Previous Post: ZABBIX PROXY ver.1.8の設定メモ">&laquo; ZABBIX PROXY ver.1.8の設定メモ</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/02/25/music-20130225/" title="Next Post: 週末買った音楽">週末買った音楽 &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

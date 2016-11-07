@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vimで日本語の切り替えで毎回っっっっっっってなる対策]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/10/11/vim-de-multi_byte_ime/"/>
+    <updated>2013-10-11T14:24:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/10/11/vim-de-multi_byte_ime</id>
+    <content type="html"><![CDATA[<p><code>.gvimrc</code>に</p>
+
+<pre><code>if has('multi_byte_ime') || has('xim') 
+  highlight Cursor guifg=NONE guibg=White
+  highlight CursorIM guifg=NONE guibg=DarkRed
+endif
+</code></pre>
+
+<p>って書いたら</p>
+
+<p><img src="http://gifzo.net/hfBHJNAZR0.gif" alt="http://gifzo.net/hfBHJNAZR0.gif" /></p>
+
+<p>こんな風に全角の時に赤色になるから<br/>
+ノーマルモードで全角で入力しちゃってうわああああ！！！<br/>
+っていうことなくなるのでおすすめです。</p>
+
+<p>MacVimだと<code>multi_byte_ime</code>使えなくて<br/>
+<a href="https://code.google.com/p/macvim-kaoriya/">macvim-kaoriya</a>だと使えました。<br/>
+マコピーに教えてもらいました。ライフチェインジング！</p>
+]]></content>
+  </entry>
+  
+</feed>

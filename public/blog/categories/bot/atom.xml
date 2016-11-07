@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bot | さよならインターネット]]></title>
+  <link href="http://blog.kenjiskywalker.org/blog/categories/bot/atom.xml" rel="self"/>
+  <link href="http://blog.kenjiskywalker.org/"/>
+  <updated>2016-07-12T12:05:31+09:00</updated>
+  <id>http://blog.kenjiskywalker.org/</id>
+  <author>
+    <name><![CDATA[kenjiskywalker]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[夏が暑いのでIRKitとRobotyとSlackを使って帰る前にエアコンをつけるようにした]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack/"/>
+    <updated>2015-08-02T01:08:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2015/08/02/irkit-ruboty-slack</id>
+    <content type="html"><![CDATA[<p>Ruboty、nodeの書き方思い出さなくても良いし<br/>
+何よりRubyのエコシステムに乗っかれるのが最高だ。<br/>
+ruboty自体はRaspiの上にsupervisorで動かしている。</p>
+
+<p>子供もまだちっさいのでこれで少しは便利になったかな</p>
+
+<p><img src="http://i.gyazo.com/e2d4fa1dfbf708d1fc08315ed4ef059e.png" alt="" /></p>
+
+<ul>
+<li><a href="http://getirkit.com/">IRKit</a></li>
+<li><a href="http://www.amazon.co.jp/gp/product/B00T356SFO/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=B00T356SFO&amp;linkCode=as2&amp;tag=13nightcrows-22">Raspi2</a></li>
+<li><a href="https://github.com/r7kamura/ruboty">ruboty</a></li>
+<li><a href="https://github.com/rosylilly/ruboty-slack_rtm">ruboty-slack_rtm</a></li>
+<li><a href="http://qiita.com/tbpgr/items/e3c6544e6bd9533bc71f">Ruboty | Ruboty Plugin を RubyGems に公開せずに利用する #ruboty</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[imayaro-bot]]></title>
+    <link href="http://blog.kenjiskywalker.org/blog/2013/09/19/imayaro-bot/"/>
+    <updated>2013-09-19T15:55:00+09:00</updated>
+    <id>http://blog.kenjiskywalker.org/blog/2013/09/19/imayaro-bot</id>
+    <content type="html"><![CDATA[<p><a href="http://d.hatena.ne.jp/sugyan/20130207/1360168005">げんきだしてbot / すぎゃーんメモ</a></p>
+
+<p>類似品つくらせてもらいました。</p>
+
+<blockquote class="twitter-tweet"><p><a href="https://twitter.com/kenjiskywalker">@kenjiskywalker</a> いますぐやりましょう！</p>&mdash; imayaro_bot (@imayaro_bot) <a href="https://twitter.com/imayaro_bot/statuses/380513922539081728">September 19, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<ul>
+<li><a href="https://github.com/kenjiskywalker/imayaro-bot">https://github.com/kenjiskywalker/imayaro-bot</a></li>
+<li><a href="https://twitter.com/imayaro_bot">https://twitter.com/imayaro_bot</a></li>
+</ul>
+
+
+<p>やりたいことを今やろう！って気概になると思います。</p>
+]]></content>
+  </entry>
+  
+</feed>

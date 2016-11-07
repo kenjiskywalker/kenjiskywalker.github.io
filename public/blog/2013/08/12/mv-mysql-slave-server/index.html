@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MySQLのスレーブサーバを別サーバに移設する時に注意すること - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="MySQLのスレーブサーバを別サーバに移設する時に注意すること 移設元のスレーブサーバのMySQLが停止できる場合
+移設先のスレーブサーバで CREATE DATABASEして
+master.infoからreplユーザ作成して
+dumpファイルをバックアップサーバから持ってきて〜 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MySQLのスレーブサーバを別サーバに移設する時に注意すること</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-12T19:20:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>移設元のスレーブサーバのMySQLが停止できる場合<br/>
+移設先のスレーブサーバで</p>
+
+<ul>
+<li>CREATE DATABASEして</li>
+<li>master.infoからreplユーザ作成して</li>
+<li>dumpファイルをバックアップサーバから持ってきて〜</li>
+</ul>
+
+
+<p>などの作業を行わなくても<code>SLAVE STOP</code>し<br/>
+MySQLを落とし変更が走らない状態にして<br/>
+MySQLのディレクトリを移設先に<code>rsync</code>で渡した方が手間も処理速度も遥かに速い。<br/>
+ただし、移設先でMySQLを起動して<code>SLAVE START</code>をすると</p>
+
+<blockquote><p>Could not find target log during relay log initialization rellay.log</p></blockquote>
+
+<p>このようにrelay_logが見つからないよ。というエラーが発生する。</p>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.1/en/slave-logs-relaylog.html">16.2.2.1. The Slave Relay Log / MySQL 5.1 Reference Manual </a></p>
+
+<p>上記のようにホスト名が変わった場合にrelay_logのindexを修正する必要がある。<br/>
+これでレプリケーションが再開できるはずだ。</p>
+
+<p>オペレーションの手間も少なく効率的なので、移設元のスレーブサーバの<br/>
+MySQLが一時的に停止可能であれば、<code>rsync</code>でデータを持っていくのが<br/>
+効率的ではないでしょうか。</p>
+
+<p>移設先のサーバの利用可能なメモリ容量により<br/>
+<code>innodb_buffer_pool_size</code>などのチューニングが必要になるので<br/>
+設定ファイルなどは注意したい。</p>
+
+<p>また、スレーブサーバの増設などの場合は、<code>server-id</code>の変更漏れにも<br/>
+気を付けたい。取り敢えず移設でも<code>server-id</code>変えておくのが吉だ。</p>
+
+<p>毎回同じようなハマり方をする自分の為への戒めも兼ねた戒メモ</p>
+
+<h2>追記(2013/08/13)</h2>
+
+<blockquote class="twitter-tweet"><p>relay_logとか暗黙のデフォルトでホスト名が使われるところは明示的に指定しておいたほうがハマりにくいですよ / “MySQLのスレーブサーバを別サーバに移設する時に注意すること - さよならインターネット” <a href="http://t.co/IVPKvyxXWi">http://t.co/IVPKvyxXWi</a></p>&mdash; Ryuta Kamizono (@kamipo) <a href="https://twitter.com/kamipo/statuses/366906226359009280">August 12, 2013</a></blockquote>
+
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>kamipoさんのこちらの<a href="https://github.com/kamipo/etcfiles/blob/master/etc/my.cnf#L57">my.cnf</a>が参考になる。<br/>
+kamipoさん、ありがとうございます。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-12T19:20:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mysql/'>mysql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2013/08/12/mv-mysql-slave-server/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/11/shikinen-sengoo-infrastracture/" title="Previous Post: 式年遷宮Infrastracture">&laquo; 式年遷宮Infrastracture</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/13/obon/" title="Next Post: お盆とは">お盆とは &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

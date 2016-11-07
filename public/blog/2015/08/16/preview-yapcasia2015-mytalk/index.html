@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>YAPC::Asia 2015 で冗長化に失敗した話を話します - さよならインターネット</title>
+  <meta name="author" content="kenjiskywalker">
+
+  
+  <meta name="description" content="YAPC::Asia 2015 で冗長化に失敗した話を話します 今年もYAPCで発表させて頂くことになりました。
+投票してくれた方、ありがとうございます。 我々はどのように冗長化を失敗したのか / YAPC::Asia 2015 追記にも記載しましたが、 1
+2
+3
+4
+5
+6
+7
+8
+9
+10 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="さよならインターネット" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37377904-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">さよならインターネット</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="main-navigation">
+  <li><a href="/">Goodbye The Internet.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">YAPC::Asia 2015 で冗長化に失敗した話を話します</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-16T23:24:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今年もYAPCで発表させて頂くことになりました。<br/>
+投票してくれた方、ありがとうございます。</p>
+
+<h2><a href="http://yapcasia.org/2015/talk/show/f2816038-10ec-11e5-89bf-d7f07d574c3a">我々はどのように冗長化を失敗したのか / YAPC::Asia 2015</a></h2>
+
+<p>追記にも記載しましたが、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>挑戦したこと
+</span><span class='line'>冗長化について
+</span><span class='line'>Redis + Redis Sentinel
+</span><span class='line'>Consul
+</span><span class='line'>MySQL + mysqlfailover
+</span><span class='line'>consul-template
+</span><span class='line'>hostsの順番
+</span><span class='line'>クラウドという名の混乱
+</span><span class='line'>対応
+</span><span class='line'>冗長化の終わり、そして</span></code></pre></td></tr></table></div></figure>
+
+
+<p>という内容になりそうです。色々なソフトウェアを利用し、ある思想を持って冗長化にチャレンジしたが<br/>
+アマチュアのような見積り、構成の甘さや、インフラではなくプロジェクト全体の問題などを含め<br/>
+改めて実体験として経験したこと、改めて大切だと理解したことなどをお話しできればと考えています。</p>
+
+<p>Webサービスを運用しているけど、インフラ担当なんていない、<br/>
+サーバ管理はよーわからんが新しいことにチャレンジしてみたい！けれど失敗はしたくない、<br/>
+など、インターネットにいるようなすごい人達ではなくてもチャレンジすることができるが<br/>
+こういう失敗はしないようにね、という反面教師のお話を聞きに来て頂ければと思います。</p>
+
+<p>当日はどうぞよろしくお願いいたします。</p>
+</div>
+
+
+  <br>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- kenjiskywalker -->
+<ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+          data-ad-client="ca-pub-3577646751378924"
+             data-ad-slot="9302814317"></ins>
+         <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+         </script>
+   <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kenjiskywalker</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-16T23:24:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/yapc/'>yapc</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <a href="http://b.hatena.ne.jp/entry/http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/" data-via="kenjiskywalker" data-counturl="http://blog.kenjiskywalker.org/blog/2015/08/16/preview-yapcasia2015-mytalk/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/08/access-element-in-rails-controller-object/" title="Previous Post: RailsのARで取ってきたオブジェクトにアクセスする">&laquo; RailsのARで取ってきたオブジェクトにアクセスする</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/22/yapcasia2015/" title="Next Post: YAPC::Asia 2015で冗長化に失敗した話をしてきました #yapcasia">YAPC::Asia 2015で冗長化に失敗した話をしてきました #yapcasia &raquo;</a>
+      
+    </p>
+  </footer>
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+</article>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - kenjiskywalker -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
